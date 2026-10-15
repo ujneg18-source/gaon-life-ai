@@ -73,6 +73,7 @@ class Settings(BaseSettings):
         "medical_record": "진료기록 사본",
         "other": "다른 유형에 속하지 않는 문서",
     }
+    KCD_DEMO_CODES: dict[str, str] = {"C18.7": "구불결장의 악성 신생물"}
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False
     POLL_INTERVAL_SEC: float = Field(default=2, gt=0)

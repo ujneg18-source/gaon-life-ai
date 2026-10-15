@@ -13,7 +13,7 @@ from sqlmodel import Session, SQLModel, delete, select
 
 from app.config import Settings, get_settings
 from app.db import build_engine, create_tables
-from app.models import Claim, CrossCheckRule, RequiredDocRule, ReviewSettings, Role, User
+from app.models import Claim, CrossCheckRule, KcdCode, RequiredDocRule, ReviewSettings, Role, User
 
 
 def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) -> dict[str, int]:
@@ -27,7 +27,14 @@ def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) ->
             # FK의 자식부터 삭제한다. DB 파일·원본 문서·사용자의 .env는 삭제하지 않는다.
             for table in reversed(SQLModel.metadata.sorted_tables):
                 session.exec(delete(table))
-        elif session.exec(select(User)).first() or session.exec(select(Claim)).first():
+        # 기존 데모 DB도 새 참조 표를 받을 수 있게 초기화 여부와 별개로 보충한다.
+        for code, name in settings.KCD_DEMO_CODES.items():
+            if session.get(KcdCode, code) is None:
+                session.add(KcdCode(code=code, name=name))
+        if not reset and (
+            session.exec(select(User)).first() or session.exec(select(Claim)).first()
+        ):
+            session.commit()
             return {"users": 0, "claims": 0}
         reviewer = User(
             email=settings.DEMO_REVIEWER_EMAIL, name=settings.DEMO_REVIEWER_NAME, role=Role.REVIEWER

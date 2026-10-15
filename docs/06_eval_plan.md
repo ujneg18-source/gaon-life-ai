@@ -55,4 +55,6 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 
 | T-08 | HTTP 모킹, v1 옵션, 캐시·오프라인·동시 중복, 재시도·타임아웃·예산·키 반사 제거 | 전체 15개 통과; 실제 API 호출 0 | `cd backend && .venv/bin/python -m pytest tests/test_upstage_client.py -q` | 2026-10-15 |
 
+| T-09 | 스키마 타입·중첩 제약, 정규화, 형식·원문·신뢰도, 좌표, 실손24 null confidence | 전체 19개 통과 | `cd backend && .venv/bin/python -m pytest tests/test_normalize.py -q` | 2026-10-15 |
+
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

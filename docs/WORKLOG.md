@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-09 · 서류별 스키마·정규화·원문 및 좌표 검증
+- 관련 요구사항: FR-10, FR-11
+- 한 일: Pydantic 모델과 Extract 전용 변환, 날짜·KCD·금액 정규화, 원문 대조·모델 신뢰도·format 검증, word 좌표 우선과 Parse 대체, C18.7 참조 명칭을 구현했다.
+- 바뀐 파일: backend/app/schemas/documents.py, to_upstage.py, services/normalize.py, config.py, backend/scripts/seed.py, backend/tests/test_normalize.py, .env.example
+- 확인 방법: pytest 전체 19개 통과; ruff 통과. 실제 API 호출 0페이지.
+- 남은 문제 · 질문: 없음
+
 ## 2026-10-15 · T-08 · 기능별 v1 호출·중복 방지 캐시·페이지 예산
 - 관련 요구사항: FR-08, FR-09, NFR-02, NFR-08
 - 한 일: httpx 기반 Classify/Parse/Extract와 confidence+word location 옵션을 구현했다. 성공·실패 응답을 파일 해시와 요청 서명으로 캐시하고 프로세스 간 잠금으로 중복 전송을 방지한다. 30페이지 보수적 예약 장부·캐시 전용 모드·제한 재시도·모호한 응답 유실 차단을 추가했다. 기본 pytest는 실제 HTTP를 금지하고 live 마커를 제외한다.
