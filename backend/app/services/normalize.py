@@ -15,18 +15,33 @@ from app.models import ExtractedField, FieldMethod, KcdCode
 from app.schemas.documents import DOCUMENT_SCHEMAS, CommonDoc
 
 
-def completion_values(response: dict) -> tuple[dict, dict]:
-    """기본 값과 additional_values를 분리한다. location이 없어도 값 자체를 버리지 않는다."""
-    message = response["choices"][0]["message"]
-    values = json.loads(message.get("content") or "{}")
+def additional_values(message: dict) -> dict:
+    """Extract는 JSON 문자열, Classify는 객체 arguments가 실측돼 두 형식을 명시적으로 받는다."""
     extras = {}
     for call in message.get("tool_calls") or []:
         function = call.get("function", {})
         if function.get("name") == "additional_values":
-            extras.update(json.loads(function["arguments"]))
+            value = function.get("arguments", {})
+            if isinstance(value, str):
+                value = json.loads(value)
+            if not isinstance(value, dict):
+                raise TypeError("additional_values는 객체여야 합니다.")
+            extras.update(value)
+    return extras
+
+
+def completion_values(response: dict) -> tuple[dict, dict]:
+    """잘린 JSON·여러 건 응답은 단일 문서 값으로 오인하지 않는다."""
+    if len(response["choices"]) != 1:
+        raise ValueError("단일 문서 응답이 필요합니다.")
+    choice = response["choices"][0]
+    if choice.get("finish_reason") not in {None, "stop"}:
+        raise ValueError("추출 응답이 완료되지 않았습니다.")
+    message = choice["message"]
+    values = json.loads(message.get("content") or "{}")
     if not isinstance(values, dict):
         raise TypeError("Extract content는 객체여야 합니다.")
-    return values, extras
+    return values, additional_values(message)
 
 
 def flatten(data: Any, prefix: str = "") -> dict[str, Any]:
@@ -142,6 +157,8 @@ def valid_box(points: Any) -> list[dict[str, float]] | None:
     ):
         if not all(0 <= p["x"] <= 1 and 0 <= p["y"] <= 1 for p in points):
             return None
+        if len(points) == 4:
+            return points  # 단일 word의 기울어진 꼭짓점은 축 정렬 사각형으로 바꾸지 않는다.
         xs, ys = [p["x"] for p in points], [p["y"] for p in points]
         return [
             {"x": min(xs), "y": min(ys)},
@@ -164,10 +181,18 @@ def extra_location(extra: dict) -> tuple[int, list | None]:
     if box:
         return max(int(page or 1), 1), box
     if isinstance(words, list):
-        points = [
-            p for word in words if isinstance(word, dict) for p in word.get("coordinates", [])
-        ]
-        box = valid_box(points)
+
+        def word_points(node):
+            if isinstance(node, list):
+                return [p for item in node for p in word_points(item)]
+            if isinstance(node, dict):
+                if "x" in node and "y" in node:
+                    return [node]
+                return word_points(node.get("coordinates", []))
+            return []
+
+        # 실측 word_coordinates는 [[꼭짓점 4개], ...]이다. 여러 word는 합친 영역을 쓴다.
+        box = valid_box(word_points(words))
     return max(int(page or 1), 1), box or valid_box(loc.get("coordinates"))
 
 
@@ -221,7 +246,19 @@ def normalize_document(
         queries = {canonical(v) for v in (raw_value, value) if v is not None and str(v) != ""}
         if isinstance(value, bool):
             queries = {"급여" if value else "비급여"}
-        matches = [(el, text) for el, text in elements if any(q and q in text for q in queries)]
+        if key.endswith("diagnosis_code"):
+            # C18이 C18.7의 부분 문자열이라는 이유만으로 원문에 있다고 판단하지 않는다.
+            matches = [
+                (el, text)
+                for el, text in elements
+                if canonical(value)
+                in {
+                    canonical(code)
+                    for code in re.findall(r"[A-Z]\d{2}(?:\.\d{1,2})?", element_text(el).upper())
+                }
+            ]
+        else:
+            matches = [(el, text) for el, text in elements if any(q and q in text for q in queries)]
         found = is_data or bool(matches)
         page, box = extra_location(extra)
         if box is None and matches:

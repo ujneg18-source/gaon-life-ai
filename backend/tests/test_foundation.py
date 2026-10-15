@@ -18,6 +18,7 @@ def test_health_and_tables(tmp_path):
         tables = set(inspect(client.app.state.engine).get_table_names())
         assert tables == {
             "users",
+            "process_jobs",
             "claims",
             "documents",
             "fields",

@@ -1,12 +1,14 @@
 """실손24의 전자 문서를 모의 연결한다. 실제 외부 수신·개인정보 조회는 하지 않는다."""
 
 import json
+from pathlib import Path
 
 from fastapi import HTTPException
 from sqlmodel import Session, select
 
 from app.config import Settings
 from app.models import ActorType, AuditLog, Claim, Document, DocumentSource
+from app.services.upstage import file_pages
 
 
 def attach_silson24(
@@ -23,7 +25,14 @@ def attach_silson24(
     existing = session.exec(select(Document).where(Document.claim_id == claim.id)).all()
     paths = {doc.file_path: doc for doc in existing}
     new = [(path, data) for path, data in payloads if str(path) not in paths]
-    if len(existing) + len(new) > settings.MAX_FILES_PER_CLAIM:
+    current_pages = sum(
+        file_pages(Path(doc.file_path)) if doc.source == DocumentSource.IMAGE else 1
+        for doc in existing
+    )
+    if (
+        len(existing) + len(new) > settings.MAX_FILES_PER_CLAIM
+        or current_pages + len(new) > settings.MAX_FILES_PER_CLAIM
+    ):
         raise HTTPException(422, "청구의 최대 첨부 문서 수를 초과합니다.")
     for path, data in new:
         doc = Document(

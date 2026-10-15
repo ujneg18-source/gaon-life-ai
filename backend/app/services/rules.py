@@ -187,6 +187,7 @@ def evaluate_claim(
                     hints
                     and any(word in text for word in hints["result"])
                     and any(word in specimen for word in hints["specimen"])
+                    and not any(word in text for word in config.KCD_PATHOLOGY_NEGATIVE)
                 )
                 if not compatible:
                     # 임상적 의미 전체를 이해한다고 주장하지 않는다. 제한된 시연용 참조어 대조다.

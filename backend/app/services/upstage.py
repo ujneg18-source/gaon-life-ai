@@ -241,7 +241,7 @@ class UpstageClient:
                 try:
                     payload = response.json()
                 except ValueError:
-                    payload = {"invalid_json": True}
+                    payload = {"invalid_json": True, "body": response.text}
                 # 응답에 자격 증명이 반사되더라도 캐시 파일에 남기지 않는다.
                 payload = json.loads(json.dumps(payload).replace(key, "[REDACTED]"))
                 envelope = {
@@ -254,11 +254,13 @@ class UpstageClient:
                 atomic_json(
                     root / f"{operation}-{request_hash}-attempt-{attempt}.response.json", envelope
                 )
-                pending.unlink(missing_ok=True)
                 if response.status_code == 429 and attempt < self.settings.UPSTAGE_MAX_RETRIES:
+                    pending.unlink(missing_ok=True)
                     time.sleep(self.settings.UPSTAGE_RETRY_DELAY_SEC)
                     continue
                 atomic_json(cache, envelope)
+                # 성공 캐시가 원자적으로 완성된 뒤에만 pending을 지운다. 중간 종료도 재전송하지 않는다.
+                pending.unlink(missing_ok=True)
                 if response.status_code != 200:
                     raise UpstageError(f"upstage_http_{response.status_code}")
                 if not isinstance(payload, dict) or payload.get("invalid_json"):

@@ -19,3 +19,6 @@ data/qdrant/
 data/cache/
 playwright-report/
 test-results/
+
+data/uploads/
+data/locks/

@@ -40,7 +40,7 @@ Upstage Document AI 결과를 입력으로 받아, 청구 한 건 단위로
 - 백엔드: Python 3.13 (uv로 설치 · 가상환경 backend/.venv), FastAPI, Pydantic v2, pydantic-settings, LangGraph, SQLite(SQLModel)
 - 벡터 DB: Qdrant (개발 · 데모는 로컬 모드, 서버 불필요)
 - 프론트: Next.js (design/gaon-ai.html이 화면 명세)
-- 외부: Upstage Agents API(Studio 워크플로), Document Parse, Information Extract, Solar Chat, Solar Embedding
+- 외부: Upstage 기능별 v1 API 직접 호출(Classify → Parse → Information Extract), Solar Chat, Solar Embedding. Studio 에이전트 v2는 서류 처리 엔진에서 사용하지 않는다.
 
 ## 설정 규칙
 - 모든 상수 · 경로 · 모델명 · 임계값은 `backend/app/config.py` 한 곳에서 관리한다 (하드코딩 금지).
@@ -65,7 +65,7 @@ uv sync --locked
 
 # 백엔드 검증
 .venv/bin/python -m pytest
-.venv/bin/ruff check app tests scripts/seed.py
+.venv/bin/ruff check app tests scripts/seed.py scripts/validate_engine.py
 
 # 프론트 설치·개발 (프로젝트 루트의 별도 터미널)
 cd frontend
@@ -83,3 +83,21 @@ npm run start
 접속: `http://127.0.0.1:3000` / 백엔드 상태: `http://127.0.0.1:8000/health`.
 기본 설정으로 API 키 없이 기반 화면을 실행할 수 있다. 새 프론트 환경변수는 `frontend/.env.example`을 참고한다.
 객체·세션·프론트 구조의 설명은 `docs/implementation_objects.md`에 있다.
+
+
+## 서류 엔진 검증 명령 (T-07~T-11)
+
+`backend/`에서 실행한다. 일반 pytest는 실제 HTTP를 막고 live 테스트를 제외한다.
+
+```bash
+# 이미 저장한 실측 응답으로만 재평가 (추가 호출·과금 없음)
+.venv/bin/python -m scripts.validate_engine --cached
+
+# 다른 사진판을 명시적으로 실제 검증할 때만 실행 (과금 가능)
+.venv/bin/python -m scripts.validate_engine --input-dir ../data/samples/kim_yujeong/photo
+
+# 실제 API 테스트는 별도 선택할 때만 실행 (과금 가능, 성공 캐시는 우선 재사용)
+.venv/bin/python -m pytest -m live tests/test_live_engine.py -q
+```
+
+이번 묶음의 API 입력 페이지 예약 합계는 12/30이다. `data/cache/_budget.json`과 `.pending`은 중복 과금 방지 상태이므로 임의로 지우지 않는다. 결과는 `data/evaluations/<입력폴더>/<내용지문>/`에 보관한다.

@@ -13,6 +13,7 @@ from app.config import Settings, get_settings
 from app.db import build_engine, create_tables
 from app.routers import auth, claims
 from app.routers import settings as settings_router
+from app.services.pipeline import recover_interrupted
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -24,6 +25,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         engine = build_engine(config.DB_URL)
         create_tables(engine)
         app.state.engine = engine
+        recover_interrupted(engine)
         yield
         engine.dispose()
 

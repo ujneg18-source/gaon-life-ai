@@ -108,3 +108,61 @@ def test_tool_call_extras_and_items():
     result = normalize_document("other", values, extras, {}, 1)
     assert result.fields[0].extract_conf == "high"
     assert result.fields[0].review_reasons == ["not_in_source"]
+
+
+def test_observed_nested_word_boxes_and_classify_arguments():
+    from app.services.normalize import additional_values, extra_location
+    from app.services.pipeline import classified_type
+
+    words = [
+        [{"x": 0.7, "y": 0.2}, {"x": 0.8, "y": 0.19}, {"x": 0.81, "y": 0.3}, {"x": 0.71, "y": 0.31}]
+    ]
+    assert extra_location({"page": 1, "word_coordinates": words}) == (1, words[0])
+    multi = words + [BOX]
+    page, box = extra_location({"page": 1, "word_coordinates": multi})
+    assert page == 1 and min(p["x"] for p in box) == 0.1 and max(p["x"] for p in box) == 0.81
+    response = {
+        "choices": [
+            {
+                "message": {
+                    "content": "diagnosis",
+                    "tool_calls": [
+                        {
+                            "function": {
+                                "name": "additional_values",
+                                "arguments": {
+                                    "document_type": {
+                                        "_value": "diagnosis",
+                                        "confidence_score": 0.99,
+                                        "confidence": "high",
+                                    }
+                                },
+                            }
+                        }
+                    ],
+                }
+            }
+        ]
+    }
+    assert classified_type(response) == ("diagnosis", 0.99)
+    assert (
+        additional_values(response["choices"][0]["message"])["document_type"]["confidence"]
+        == "high"
+    )
+    result = normalize_document("other", {"patient_name": "가상"}, {}, {"elements": []}, 1)
+    assert result.fields[0].source_found is False
+
+
+def test_code_source_requires_whole_code_not_prefix():
+    values = {
+        "patient_name": "가상",
+        "diagnosis_code": "C18",
+        "diagnosis_name": "가상 병명",
+        "diagnosis_date": "2026-09-18",
+    }
+    parsed = {
+        "elements": [{"page": 1, "content": {"html": "가상 C18.7 2026.09.18"}, "coordinates": BOX}]
+    }
+    result = normalize_document("diagnosis", values, {}, parsed, 1)
+    field = next(f for f in result.fields if f.key == "diagnosis_code")
+    assert not field.source_found and "not_in_source" in field.review_reasons

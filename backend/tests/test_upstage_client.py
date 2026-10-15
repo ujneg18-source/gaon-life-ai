@@ -119,3 +119,34 @@ def test_errors_are_cached_and_secret_redacted(setup):
             client.parse(path)
         assert client.requests_made == 1
     assert all(key not in p.read_text() for p in config.CACHE_PATH.rglob("*.json"))
+
+
+def test_interruption_between_response_and_cache_never_resends(setup, monkeypatch):
+    import app.services.upstage as module
+
+    config, path = setup
+    original = module.atomic_json
+
+    def interrupted(target, data):
+        if (
+            target.name.endswith(".json")
+            and "-attempt-" not in target.name
+            and target.parent.name != "cache"
+        ):
+            raise OSError("simulate disk failure before cache commit")
+        return original(target, data)
+
+    calls = []
+
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(200, json={"ok": True})
+
+    with UpstageClient(config, transport=httpx.MockTransport(handle)) as client:
+        monkeypatch.setattr(module, "atomic_json", interrupted)
+        with pytest.raises(OSError):
+            client.parse(path)
+        monkeypatch.setattr(module, "atomic_json", original)
+        with pytest.raises(UpstageError, match="ambiguous_previous_request"):
+            client.parse(path)
+    assert len(calls) == 1

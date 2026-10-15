@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-11 · 업로드·백그라운드 파이프라인·실제 검증
+- 관련 요구사항: FR-06, FR-12, NFR-02, NFR-05, NFR-08
+- 한 일: 이미지/PDF 업로드·실손24 연결·비동기 process·영속 상태 조회·이력 API를 연결했다. 파일/페이지/용량/역할/이중 실행 검증, 서버 재시작 실패 복구, 문서별 실패 보존을 구현했다. 입력 폴더 인자와 폴더/내용 지문별 평가 스크립트, 기본 제외 live 테스트를 추가했다. 실제 v1 호출은 앱 4장에 한 번만 수행하고, 실측 파서 보완은 캐시 전용으로 재생했다. 프론트는 변경하지 않았고 API 가이드는 11절만 갱신했다.
+- 바뀐 파일: backend/app/services/pipeline.py, uploads.py, upstage.py, silson24.py, normalize.py, rules.py, routers/claims.py, models.py, config.py, main.py; backend/tests/*; scripts/validate_engine.py; pyproject.toml·uv.lock; .env.example·.gitignore·AGENTS.md; docs/upstage_api_guide.md(11절), implementation_objects.md, decisions.md, deliverables/T07-T11_실제검증.md; data/evaluations/png/*
+- 확인 방법: pytest 31개 통과(live 1개 기본 제외), ruff check/format 및 git diff --check 통과. 실제 요청 12회×1페이지, 모두 200, 예약 12/30·재시도 0, 62.04초. 이미지 분류 4/4, 앱 항목 37/39(94.87%), 실손24 77/77, 기대 핵심 이슈 3/3. 캐시 재평가 신규 요청 0. 로컬 서버 /health 200·비로그인 status 401·로그인 status 200 확인.
+- 남은 문제 · 질문: C18.7→C18(high)·병리 한글 설명 추가로 정답 2개 불일치. 추가 CV-03 1건·약제비 covered low 4건, 직인 low 없음. 사진판·T-16 약관 대조·CV-06은 제외. 기존 TestClient deprecation warning 1건.
+
 ## 2026-10-15 · T-10 · 청구 단위 필수서류·교차검증·라우팅
 - 관련 요구사항: FR-13, FR-14, FR-16, FR-17
 - 한 일: 필수 서류 조건·CV-01~05·high/low 및 원문·형식 라우팅을 구현했다. 모든 관련 문서 쌍을 대조하고 cross_check 이유를 필드에 남긴다. 동일 이슈 재생성을 방지하고 엔진은 정답을 읽지 않는다. 누락은 supplement, 나머지 문제는 needs_review, 문제가 없을 때만 auto_pass로 보낸다.

@@ -591,7 +591,61 @@ pages = loader.load()          # 또는 lazy_load()
 | Document Parse | 200, 요소 36개(header 2 · paragraph 31 · heading1 1 · table 2), 좌표 있음, 1페이지 과금 |
 | Information Extract (결제 수단 등록 전) | 403 `api_key_is_not_allowed` (크레딧 부족) |
 | Information Extract (등록 후) | 200, `{"diagnosis_code":"C18.7","diagnosis_date":"2026-09-18"}`, 기본 옵션에선 신뢰도 · 좌표 없음 |
-| Extract + confidence + location(word) | [미확인] 2차 실행 예정 |
+| Extract + confidence + location(word) | [실측] 앱 서류 4장 모두 200. `additional_values`의 JSON 문자열에 필드별 `_value`, `confidence`, `page`, `word_coordinates`가 함께 반환됨. 아래 추가 기록 참고 |
+
+### T-07~T-11 실제 엔진 검증 (2026-10-15)
+- 입력: 김유정 가상 앱 PNG 4장(01 진단서·02 병리 결과지·03 입퇴원확인서·07 약제비 영수증), 실손24 3종은 모의 JSON으로 연결. 기능별 v1을 직접 호출했다. 실제 호출은 한 번만 수행하고 후속 파서 검증은 캐시 전용으로 재생했다.
+- 실제 요청: Classify 4회 + Parse 4회 + Extract 4회 = 단일 페이지 요청 12회, 실패·재시도 없음. 30페이지 예약 상한 내에서 12페이지 예약. Parse의 `usage.pages` 합계는 4이며 Classify/Extract의 usage는 토큰 단위로 반환되어 이 기록으로 금액을 추정하지 않는다.
+- 첫 실제 실행 62.04초. 앱 정답 항목 37/39(94.87%), 실손24 항목 77/77(100%). 문자열 공백·문장부호 정리 후 비교했으며 이번 결과는 strict 비교도 같은 37/39다. 정답에 정의된 필드만 분모에 넣었다.
+- 기대 핵심 이슈 3/3: CV-04 수술확인서 누락, CV-01 진단일 역전, CV-02 입원 9일/8일 불일치. 추가로 CV-03 부합 확인 필요와 약제비 covered 4개 low가 발생했다. T-16 보상 제외 가능성은 제외했다.
+- 고신뢰 오독 사례: 진단서 `C18.7` → `C18`, confidence=`high` (Parse도 같은 위치를 C18로 읽음). 직인 저신뢰 이슈는 발생하지 않았다. C18은 제한된 CV-03 참조에 없어 추가 확인으로 남는다. 정답으로 추출값을 덮어쓰지 않았다.
+- 병리 결과는 `Adenocarcinoma, moderately differentiated` 뒤에 `(중등도 분화 선암)`을 덧붙여 정답 문자열과 달랐다. 의미가 유사하더라도 항목 일치로 간주하지 않았다.
+
+#### confidence + location 동시 응답 [실측]
+- `choices[0].message.content`는 기본 값의 JSON 문자열이다.
+- Extract의 `tool_calls[].function.name == "additional_values"`이고 `function.arguments`는 JSON 문자열이다. 이를 파싱하면 필드명별 객체를 얻는다.
+- 필드 객체: `_value`, `confidence`(`high`/`low`), `page`(1부터), `word_coordinates`.
+- `word_coordinates`는 **단어 다각형의 배열**, 즉 `[[{x,y} 4개], ...]`이다. 입력 JSON Schema의 "배열 안 배열 금지"는 추출 스키마 제약이며 이 메타데이터 반환 구조와는 별개다. 단일 word는 원래 꼭짓점을 보존하고 여러 word는 합친 영역을 쓴다.
+- 배열 표는 `items: [{drug_name: {...}, days: {...}, ...}, ...]`로 셀별 메타데이터가 있다.
+- 위치를 찾지 못한 약제비 `covered`는 `_value: true/false`, `confidence: "low"`, `page: -1`, `word_coordinates: []`였다. 이 경우 모델 좌표가 있는 척하지 않고 Parse 대체 또는 좌표 없음으로 처리한다.
+- 아래는 진단서 응답의 실제 가상 데이터 발췌다.
+
+```json
+{
+  "diagnosis_code": {
+    "_value": "C18",
+    "confidence": "high",
+    "page": 1,
+    "word_coordinates": [
+      [
+        {
+          "x": 0.2937,
+          "y": 0.3345
+        },
+        {
+          "x": 0.3392,
+          "y": 0.3344
+        },
+        {
+          "x": 0.3394,
+          "y": 0.3503
+        },
+        {
+          "x": 0.2938,
+          "y": 0.3506
+        }
+      ]
+    ]
+  }
+}
+```
+
+#### Classify 응답 [실측]
+- `message.content`는 `diagnosis` 같은 따옴표 없는 유형 코드 문자열이었다.
+- 별도 `additional_values` 호출의 `arguments`는 Extract와 달리 **JSON 객체**였다. 예: `{"document_type":{"_value":"diagnosis","confidence_score":0.99,"confidence":"high"}}`.
+- 파서는 JSON 문자열/객체 두 형식을 구분해 처리하며 분류 점수는 이 `confidence_score`에서만 저장한다.
+
+검증 결과: `data/evaluations/png/03a73b455024/`. 첫 유료 실행은 `live_report.json`·`live_comparisons.json`, 최종 캐시 재생 결과는 `report.json`·`comparisons.json`이다. 캐시 원본·예산 장부·검증 DB는 Git 제외 `data/cache/`에 보관한다.
 
 ### 자주 하는 실수
 1. 문서 예제를 복사하다 **실제 키를 공유** → 공유 전 `api_key=` 줄 삭제

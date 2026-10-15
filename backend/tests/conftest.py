@@ -14,6 +14,7 @@ def client(tmp_path):
         _env_file=None,
         DB_URL=f"sqlite:///{tmp_path / 'test.db'}",
         DATA_PATH=tmp_path,
+        UPLOAD_PATH=tmp_path / "uploads",
         CACHE_PATH=tmp_path / "cache",
     )
     with TestClient(create_app(settings)) as client:

@@ -28,6 +28,17 @@ class Settings(BaseSettings):
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
     MOCK_SILSON24_PATH: Path = PROJECT_ROOT / "data/mock_silson24"
+    UPLOAD_PATH: Path = PROJECT_ROOT / "data/uploads"
+    SAMPLE_PATH: Path = PROJECT_ROOT / "data/samples/kim_yujeong"
+    VALIDATION_OUTPUT_PATH: Path = PROJECT_ROOT / "data/evaluations"
+    UPLOAD_MAX_BYTES: int = Field(default=20 * 1024 * 1024, gt=0)
+    UPLOAD_EXTENSIONS: tuple[str, ...] = (".png", ".jpg", ".jpeg", ".pdf")
+    KCD_PATHOLOGY_NEGATIVE: tuple[str, ...] = (
+        "benign",
+        "양성",
+        "no evidence of malignancy",
+        "no evidence of adenocarcinoma",
+    )
     CACHE_PATH: Path = PROJECT_ROOT / "data/cache"
     UPSTAGE_CLASSIFY_MODEL: str = "document-classify"
     UPSTAGE_PARSE_MODEL: str = "document-parse"

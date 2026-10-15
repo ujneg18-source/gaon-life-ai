@@ -12,6 +12,7 @@ dependencies = [
     "httpx>=0.28,<1",
     "pillow>=11,<14",
     "pypdf>=6,<8",
+    "python-multipart>=0.0.20,<1",
 ]
 
 [dependency-groups]

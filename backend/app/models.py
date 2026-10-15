@@ -8,7 +8,7 @@ from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any
 
-from sqlalchemy import JSON, Column
+from sqlalchemy import JSON, Column, Index, text
 from sqlmodel import Field, SQLModel
 
 
@@ -259,3 +259,27 @@ class DrugCatalog(SQLModel, table=True):
     name: str = Field(primary_key=True)
     category: str
     is_mock: bool = True
+
+
+class ProcessJob(SQLModel, table=True):
+    """백그라운드 처리 상태를 DB에 보존한다. 프로세스 재시작도 완료로 오인하지 않는다."""
+
+    __tablename__ = "process_jobs"
+    __table_args__ = (
+        Index(
+            "uq_active_claim_job",
+            "claim_id",
+            unique=True,
+            sqlite_where=text("state IN ('queued', 'running')"),
+        ),
+    )
+    id: str = Field(primary_key=True)
+    claim_id: str = Field(foreign_key="claims.id", index=True)
+    actor_id: int = Field(foreign_key="users.id")
+    state: str = "queued"
+    stage: str = "classify"
+    progress: int = Field(default=0, ge=0, le=100)
+    errors: list[dict[str, Any]] = Field(default_factory=list, sa_column=Column(JSON))
+    result: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
