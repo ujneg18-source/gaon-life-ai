@@ -1,0 +1,17 @@
+[project]
+name = "gaon-backend"
+version = "0.1.0"
+description = "가온생명 가상 청구 검토 PoC"
+requires-python = ">=3.13,<3.14"
+dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.34,<1", "sqlmodel>=0.0.24,<0.1", "pydantic-settings>=2.8,<3", "itsdangerous>=2.2,<3"]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.11,<1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
