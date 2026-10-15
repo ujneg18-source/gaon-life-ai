@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-02b · 고객·계약 테이블과 시드 확장
+- 관련 요구사항: FR-07, FR-14
+- 한 일: 고객·계약 FK, 가상 고객 10명·청구 13건·동명이인·복수 청구·기간 밖·미가입 특약 사례를 추가했다. 기존 청구와 자식 문서를 보존하는 SQLite 트랜잭션 마이그레이션, CV-06·가입 특약 대조를 구현하고 데이터 설계를 갱신했다.
+- 바뀐 파일: backend/app/models.py, db.py, migrations.py, services/rules.py, backend/scripts/seed.py, data/seed/demo.json, backend/tests/test_contracts.py, test_seed.py, test_foundation.py, docs/03_data_design.md
+- 확인 방법: pytest 35개 통과. 이전 claims/자식 documents를 유지하며 FK 전환·시드·동명이인·계약기간·특약 대조 확인.
+- 남은 문제 · 질문: 없음
+
 ## 2026-10-15 · A · 원문 대조 정밀화·약제비 구분 판단
 - 관련 요구사항: FR-10, FR-14, FR-16
 - 한 일: 부분 코드와 청구 내 독립 Parse 근거의 세분류 차이를 표시하고 high여도 확인 필요로 보낸다. 약제비 구분은 유일한 품명 행의 Parse 표 근거로 판정하며 모델 low 원본은 보존한다.

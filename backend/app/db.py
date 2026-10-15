@@ -32,6 +32,17 @@ def create_tables(engine: Engine) -> None:
     from app import models  # noqa: F401 — SQLModel 메타데이터 등록 목적의 import
 
     SQLModel.metadata.create_all(engine)
+    from app.migrations import migrate_contracts
+
+    migrate_contracts(engine)
+    if engine.dialect.name == "sqlite":
+        from sqlalchemy import inspect, text
+
+        columns = {col["name"] for col in inspect(engine).get_columns("claims")}
+        with engine.begin() as connection:
+            for name in ("reported_start", "reported_end"):
+                if name not in columns:
+                    connection.execute(text(f"ALTER TABLE claims ADD COLUMN {name} DATE"))
 
 
 def get_session(request: Request) -> Generator[Session]:

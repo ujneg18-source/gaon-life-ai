@@ -17,6 +17,7 @@ from app.models import (
     Issue,
     IssueKind,
     IssueStatus,
+    Policy,
     RequiredDocRule,
     ReviewSettings,
 )
@@ -52,6 +53,7 @@ def evaluate_claim(
     config: Settings,
     *,
     is_proxy: bool = False,
+    policy: Policy | None = None,
 ) -> ReviewResult:
     """현재 청구와 제출 데이터만 사용한다. 정답·기대 이슈 파일은 실행 로직에서 읽지 않는다."""
     issues: list[Issue] = []
@@ -238,6 +240,56 @@ def evaluate_claim(
                     [doc],
                     ["patient_name"],
                 )
+    if policy is not None:
+        missing_riders = set(claim.claim_types) - set(policy.riders)
+        if missing_riders:
+            issue(
+                IssueKind.MISMATCH,
+                "POLICY-RIDER",
+                "미가입 특약 확인 필요",
+                ", ".join(sorted(missing_riders)),
+                [],
+                [],
+            )
+        if (
+            "CV-06" in enabled
+            and not any(d.values.get("period_start") or d.values.get("admit_date") for d in docs)
+            and claim.reported_start
+            and claim.reported_end
+            and (
+                claim.reported_start < policy.coverage_start
+                or claim.reported_end > policy.coverage_end
+            )
+        ):
+            issue(
+                IssueKind.MISMATCH,
+                "CV-06",
+                "보장 기간 밖 진료 확인 필요",
+                f"접수 진료 {claim.reported_start}~{claim.reported_end} · 보장 {policy.coverage_start}~{policy.coverage_end}",
+                [],
+                [],
+            )
+        if "CV-06" in enabled:
+            for doc in docs:
+                start = doc.values.get("period_start", doc.values.get("admit_date"))
+                end = doc.values.get("period_end", doc.values.get("discharge_date", start))
+                if start and end:
+                    try:
+                        outside = (
+                            date.fromisoformat(start) < policy.coverage_start
+                            or date.fromisoformat(end) > policy.coverage_end
+                        )
+                    except (TypeError, ValueError):
+                        outside = False
+                    if outside:
+                        issue(
+                            IssueKind.MISMATCH,
+                            "CV-06",
+                            "보장 기간 밖 진료 확인 필요",
+                            f"진료 {start}~{end} · 보장 {policy.coverage_start}~{policy.coverage_end}",
+                            [doc],
+                            ["period_start", "period_end", "admit_date", "discharge_date"],
+                        )
     status = ClaimStatus.AUTO_PASS
     if any(i.kind == IssueKind.MISSING for i in issues):
         status = ClaimStatus.SUPPLEMENT
@@ -276,6 +328,7 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         list(session.exec(select(CrossCheckRule)).all()),
         settings,
         config,
+        policy=session.get(Policy, claim.policy_no),
     )
     existing = list(session.exec(select(Issue).where(Issue.claim_id == claim.id)).all())
 

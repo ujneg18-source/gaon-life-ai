@@ -11,6 +11,8 @@
 ## 1. 테이블 구조 (ERD 요약)
 
 ```
+customers ─< policies ─< claims
+customers ──────────────< claims
 users ─┬─< claims ─┬─< documents ──< fields
        │           ├─< issues
        │           ├─< supplement_requests
@@ -27,14 +29,35 @@ settings (1행) · required_doc_rules · cross_check_rules · kcd_codes · drug_
 | name | str | 표시 이름 |
 | role | enum | `reviewer` · `admin` |
 
+### customers
+| 컬럼 | 타입 | 설명 |
+|---|---|---|
+| id | str PK | 가상 고객 식별자 DEMO-C001. 이름으로 식별하지 않음 |
+| name | str | 가상 이름, 동명이인 허용 |
+| birth_date | date | 가상 생년월일 |
+| contact | str | 000 시작의 명백한 가상 연락처 |
+| is_mock | bool | 데모 데이터 표시 |
+
+### policies
+| 컬럼 | 타입 | 설명 |
+|---|---|---|
+| policy_no | str PK | 증권번호 |
+| customer_id | FK customers.id | 계약 고객 |
+| product_name | str | 가상 상품명 |
+| riders | JSON list | 가입 특약 코드 목록 |
+| coverage_start / coverage_end | date | 보장 시작·종료일, 양 끝 날짜 포함 |
+| is_mock | bool | 가상 계약 표시 |
+
 ### claims
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | str PK | 청구번호 `GA-YYMM-NNNN` |
-| customer_name | str | 가상 고객 이름 |
-| policy_no | str | 증권번호 `L-YYYY-NNNNNN` |
+| customer_id | FK customers.id | 고객 참조. 기존 DB 전환 중에만 null 허용 |
+| customer_name | str | 접수 당시 가상 고객명 스냅샷 |
+| policy_no | FK policies.policy_no | 증권번호 `L-YYYY-NNNNNN` |
 | claim_types | json list | `cancer_diagnosis` · `hospitalization` · `surgery` · `medical_expense` 등 |
 | received_at | datetime | 접수 일시 |
+| reported_start / reported_end | date 또는 null | 앱 접수 진료 기간. 문서 기간이 아직 없을 때 CV-06의 선언된 입력으로 사용 |
 | channel | json list | `app` · `silson24` |
 | status | enum | `processing` · `auto_pass` · `needs_review` · `supplement` · `to_payment_review` |
 | assignee_id | int FK users | 배정 담당자 |
@@ -243,3 +266,12 @@ class DiagnosisDoc(BaseModel):
 | 제출 (7) | 앱: 진단서, 조직검사 결과지, 입퇴원확인서, 약제비 영수증 / 실손24: 진료비 영수증, 세부내역서, 처방전 |
 | 필요 (8) | 위 7종 + 수술확인서 (CV-04로 추가) |
 | 심어 둔 문제 | CV-01 진단일 역전, CV-02 입원 1일 차이, CV-04 수술확인서 누락, 질병코드 직인 겹침(저신뢰), 약제비 영수증 영양제 1건(약관 대조) |
+
+
+## 고객·계약 시드 및 CV-06 구현 (T-02b)
+- 고객 10명·계약 10개·청구 13건. 김서연 동명이인은 서로 다른 ID·생년월일로 구분한다. 복수 청구 고객이 있다.
+- 김유정 기존 청구의 이름·증권번호·문서·이슈·진행 단계는 보존하며 고객·계약 FK만 연결한다.
+- GA-2610-0438은 접수 진료기간 2026-09-22~09-30, 보장 시작 2026-10-01로 CV-06 확인 필요를 만든다. 문서가 있으면 문서의 실제 period_start/end 또는 admit/discharge를 우선 대조한다.
+- GA-2610-0433은 수술비 청구에 surgery 특약이 없어 POLICY-RIDER 확인 필요를 만든다. 지급 거절을 자동 결정하지 않는다.
+- CV-06은 진료 시작이 보장 시작 전이거나 종료가 보장 종료 후일 때 mismatch를 남긴다. 동일 시작·종료일은 범위 안이다. 형식 오류는 별도 format 규칙에 맡긴다.
+- SQLite 기존 claims는 트랜잭션 안에서 FK를 추가해 재구성하며 자식 문서·이력 ID를 보존하고 foreign_key_check를 수행한다. 기본 시드는 증분이며 --demo에서만 초기화한다.

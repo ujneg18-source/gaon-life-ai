@@ -4,7 +4,7 @@ Claim은 처리 단위, Document는 원본, ExtractedField는 AI 값과 사람�
 Issue는 담당자 확인 과제다. 규칙 테이블은 정의를 저장하며 services/rules.py가 실행한다.
 """
 
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from enum import StrEnum
 from typing import Any
 
@@ -120,13 +120,40 @@ class User(SQLModel, table=True):
     role: Role
 
 
+class Customer(SQLModel, table=True):
+    """동명이인은 별도 고객 ID로 구분한다. 시드는 명시적으로 가상 정보만 저장한다."""
+
+    __tablename__ = "customers"
+    id: str = Field(primary_key=True)
+    name: str = Field(index=True)
+    birth_date: date
+    contact: str
+    is_mock: bool = True
+
+
+class Policy(SQLModel, table=True):
+    """고객과 보장 기간·가입 특약을 연결한다. 코드의 적합성 검사는 지급 결정이 아니다."""
+
+    __tablename__ = "policies"
+    policy_no: str = Field(primary_key=True)
+    customer_id: str = Field(foreign_key="customers.id", index=True)
+    product_name: str
+    riders: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))
+    coverage_start: date
+    coverage_end: date
+    is_mock: bool = True
+
+
 class Claim(SQLModel, table=True):
     """여러 문서와 보장 종류를 묶는 청구 단위. auto_pass는 지급 승인이 아니다."""
 
     __tablename__ = "claims"
     id: str = Field(primary_key=True)
     customer_name: str
-    policy_no: str
+    reported_start: date | None = None
+    reported_end: date | None = None
+    policy_no: str = Field(foreign_key="policies.policy_no")
+    customer_id: str | None = Field(default=None, foreign_key="customers.id", index=True)
     claim_types: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))
     received_at: datetime = Field(default_factory=utc_now)
     channel: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))

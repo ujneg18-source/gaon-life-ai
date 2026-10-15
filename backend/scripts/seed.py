@@ -6,14 +6,24 @@
 
 import argparse
 import json
-from datetime import datetime
+from datetime import date, datetime
 
 from sqlalchemy import Engine
 from sqlmodel import Session, SQLModel, delete, select
 
 from app.config import Settings, get_settings
 from app.db import build_engine, create_tables
-from app.models import Claim, CrossCheckRule, KcdCode, RequiredDocRule, ReviewSettings, Role, User
+from app.models import (
+    Claim,
+    CrossCheckRule,
+    Customer,
+    KcdCode,
+    Policy,
+    RequiredDocRule,
+    ReviewSettings,
+    Role,
+    User,
+)
 
 
 def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) -> dict[str, int]:
@@ -31,33 +41,82 @@ def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) ->
         for code, name in settings.KCD_DEMO_CODES.items():
             if session.get(KcdCode, code) is None:
                 session.add(KcdCode(code=code, name=name))
-        if not reset and (
-            session.exec(select(User)).first() or session.exec(select(Claim)).first()
-        ):
-            session.commit()
-            return {"users": 0, "claims": 0}
-        reviewer = User(
-            email=settings.DEMO_REVIEWER_EMAIL, name=settings.DEMO_REVIEWER_NAME, role=Role.REVIEWER
-        )
-        admin = User(
-            email=settings.DEMO_ADMIN_EMAIL, name=settings.DEMO_ADMIN_NAME, role=Role.ADMIN
-        )
-        session.add_all([reviewer, admin])
-        session.flush()  # DB가 부여한 담당자 ID를 참조해 고정 PK를 가정하지 않는다.
+        users = []
+        for email, name, role in [
+            (settings.DEMO_REVIEWER_EMAIL, settings.DEMO_REVIEWER_NAME, Role.REVIEWER),
+            (settings.DEMO_ADMIN_EMAIL, settings.DEMO_ADMIN_NAME, Role.ADMIN),
+        ]:
+            user = session.exec(select(User).where(User.email == email)).first()
+            if user is None:
+                user = User(email=email, name=name, role=role)
+                session.add(user)
+                session.flush()
+                users.append(user)
+        reviewer = session.exec(
+            select(User).where(User.email == settings.DEMO_REVIEWER_EMAIL)
+        ).one()
+        for item in fixture["customers"]:
+            if session.get(Customer, item["id"]) is None:
+                session.add(
+                    Customer(**{**item, "birth_date": date.fromisoformat(item["birth_date"])})
+                )
+        session.flush()
+        for item in fixture["policies"]:
+            policy = session.get(Policy, item["policy_no"])
+            values = {
+                **item,
+                "coverage_start": date.fromisoformat(item["coverage_start"]),
+                "coverage_end": date.fromisoformat(item["coverage_end"]),
+            }
+            if policy is None:
+                session.add(Policy(**values))
+            elif policy.product_name == "가상 기존 계약":
+                for key, value in values.items():
+                    setattr(policy, key, value)
+                session.add(policy)
+        session.flush()
+        added = 0
         for item in fixture["claims"]:
+            item = dict(item)
+            for key in ("reported_start", "reported_end"):
+                if item.get(key):
+                    item[key] = date.fromisoformat(item[key])
             received_at = datetime.fromisoformat(item.pop("received_iso"))
-            session.add(Claim(**item, received_at=received_at, assignee_id=reviewer.id))
-        session.add(
-            ReviewSettings(
-                review_on_low_conf=settings.REVIEW_ON_LOW_CONF,
-                review_on_not_in_source=settings.REVIEW_ON_NOT_IN_SOURCE,
-                auto_pass_threshold=settings.AUTO_PASS_THRESHOLD,
+            claim = session.get(Claim, item["id"])
+            if claim is None:
+                session.add(Claim(**item, received_at=received_at, assignee_id=reviewer.id))
+                added += 1
+            elif claim.customer_id is None or claim.customer_id.startswith("legacy-"):
+                # 기존 청구의 문서·이슈·진행 단계·고객명은 보존하고 참조만 연결한다.
+                claim.customer_id = item["customer_id"]
+                session.add(claim)
+        if session.get(ReviewSettings, 1) is None:
+            session.add(
+                ReviewSettings(
+                    review_on_low_conf=settings.REVIEW_ON_LOW_CONF,
+                    review_on_not_in_source=settings.REVIEW_ON_NOT_IN_SOURCE,
+                    auto_pass_threshold=settings.AUTO_PASS_THRESHOLD,
+                )
             )
-        )
-        session.add_all(RequiredDocRule(**rule) for rule in fixture["required_rules"])
-        session.add_all(CrossCheckRule(**rule) for rule in fixture["cross_rules"])
+        for rule in fixture["required_rules"]:
+            if session.get(RequiredDocRule, rule["id"]) is None:
+                session.add(RequiredDocRule(**rule))
+        for rule in fixture["cross_rules"]:
+            if session.get(CrossCheckRule, rule["id"]) is None:
+                session.add(CrossCheckRule(**rule))
+        session.flush()
+        for customer in session.exec(
+            select(Customer).where(Customer.id.startswith("legacy-"))
+        ).all():
+            if (
+                not session.exec(select(Claim).where(Claim.customer_id == customer.id)).first()
+                and not session.exec(
+                    select(Policy).where(Policy.customer_id == customer.id)
+                ).first()
+            ):
+                session.delete(customer)
         session.commit()
-    return {"users": 2, "claims": len(fixture["claims"])}
+    return {"users": len(users), "claims": added}
 
 
 def main() -> None:
