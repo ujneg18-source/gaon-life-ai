@@ -1,0 +1,272 @@
+{
+  "is_mock": true,
+  "description": "가온생명 가상 시연 픽스처. 실제 고객·계약·심사 결과가 아님.",
+  "claims": [
+    {
+      "id": "GA-2610-0482",
+      "customer_name": "김유정",
+      "policy_no": "L-2026-000001",
+      "claim_types": [
+        "cancer_diagnosis",
+        "hospitalization",
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-15T09:12:00+09:00",
+      "channel": [
+        "app",
+        "silson24"
+      ],
+      "status": "needs_review",
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0477",
+      "customer_name": "이가온",
+      "policy_no": "L-2026-000002",
+      "claim_types": [
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-15T08:40:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "status": "auto_pass",
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0471",
+      "customer_name": "박가람",
+      "policy_no": "L-2026-000003",
+      "claim_types": [
+        "surgery",
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-14T17:05:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "status": "supplement",
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0466",
+      "customer_name": "최새봄",
+      "policy_no": "L-2026-000004",
+      "claim_types": [
+        "hospitalization"
+      ],
+      "received_iso": "2026-10-14T15:22:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "status": "needs_review",
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0459",
+      "customer_name": "정다온",
+      "policy_no": "L-2026-000005",
+      "claim_types": [
+        "outpatient",
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-14T11:48:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "status": "auto_pass",
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0452",
+      "customer_name": "한누리",
+      "policy_no": "L-2026-000006",
+      "claim_types": [
+        "disability"
+      ],
+      "received_iso": "2026-10-13T16:30:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "status": "to_payment_review",
+      "step": 0
+    }
+  ],
+  "required_rules": [
+    {
+      "id": "REQ-cancer_diagnosis",
+      "claim_type": "cancer_diagnosis",
+      "doc_types": [
+        "diagnosis",
+        "pathology"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-hospitalization",
+      "claim_type": "hospitalization",
+      "doc_types": [
+        "admission"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-surgery",
+      "claim_type": "surgery",
+      "doc_types": [
+        "surgery_cert"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-medical_expense",
+      "claim_type": "medical_expense",
+      "doc_types": [
+        "medical_receipt",
+        "medical_detail"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-outpatient",
+      "claim_type": "outpatient",
+      "doc_types": [
+        "outpatient"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-disability",
+      "claim_type": "disability",
+      "doc_types": [
+        "disability"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-death",
+      "claim_type": "death",
+      "doc_types": [
+        "death_cert",
+        "family_cert",
+        "basic_cert"
+      ],
+      "conditions": {}
+    },
+    {
+      "id": "REQ-common",
+      "claim_type": "common",
+      "doc_types": [
+        "claim_form",
+        "id_copy"
+      ],
+      "conditions": {
+        "waived_for_channels": [
+          "app"
+        ]
+      }
+    },
+    {
+      "id": "REQ-pharmacy",
+      "claim_type": "medical_expense",
+      "doc_types": [
+        "pharmacy_receipt",
+        "prescription"
+      ],
+      "conditions": {
+        "has_pharmacy_claim": true
+      }
+    },
+    {
+      "id": "REQ-proxy",
+      "claim_type": "common",
+      "doc_types": [
+        "poa",
+        "seal_cert"
+      ],
+      "conditions": {
+        "is_proxy": true
+      }
+    }
+  ],
+  "cross_rules": [
+    {
+      "id": "CV-01",
+      "description": "진단일과 병리 보고일의 선후 관계 확인",
+      "doc_types": [
+        "diagnosis",
+        "pathology"
+      ],
+      "field_keys": [
+        "diagnosis_date",
+        "report_date"
+      ],
+      "issue_kind": "mismatch",
+      "enabled": true
+    },
+    {
+      "id": "CV-02",
+      "description": "서류 간 입원 일수 비교",
+      "doc_types": [
+        "admission",
+        "medical_detail"
+      ],
+      "field_keys": [
+        "stay_days",
+        "inpatient_days"
+      ],
+      "issue_kind": "mismatch",
+      "enabled": true
+    },
+    {
+      "id": "CV-03",
+      "description": "질병코드와 병리 진단 부합 확인",
+      "doc_types": [
+        "diagnosis",
+        "pathology"
+      ],
+      "field_keys": [
+        "diagnosis_code",
+        "pathology_result"
+      ],
+      "issue_kind": "mismatch",
+      "enabled": true
+    },
+    {
+      "id": "CV-04",
+      "description": "수술 행위에 따른 수술확인서 확인",
+      "doc_types": [
+        "medical_detail",
+        "surgery_cert"
+      ],
+      "field_keys": [
+        "items"
+      ],
+      "issue_kind": "missing",
+      "enabled": true
+    },
+    {
+      "id": "CV-05",
+      "description": "환자 이름 일치 확인",
+      "doc_types": [],
+      "field_keys": [
+        "patient_name"
+      ],
+      "issue_kind": "mismatch",
+      "enabled": true
+    },
+    {
+      "id": "CV-06",
+      "description": "진료 기간과 증권 보장 기간 확인",
+      "doc_types": [
+        "medical_detail"
+      ],
+      "field_keys": [
+        "period_start",
+        "period_end"
+      ],
+      "issue_kind": "mismatch",
+      "enabled": true
+    }
+  ]
+}

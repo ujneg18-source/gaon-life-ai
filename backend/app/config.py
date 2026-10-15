@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     SOLAR_EMBED_PASSAGE_MODEL: str = "solar-embedding-2-passage"
     DB_URL: str = f"sqlite:///{PROJECT_ROOT / 'data/gaon.db'}"
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
+    DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False
