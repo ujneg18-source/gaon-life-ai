@@ -19,3 +19,17 @@ def client(tmp_path):
     with TestClient(create_app(settings)) as client:
         seed_database(client.app.state.engine, settings)
         yield client
+
+
+@pytest.fixture(autouse=True)
+def block_real_http(request, monkeypatch):
+    """자동 테스트에서 캐시를 놓쳐도 실제 과금 호출로 이어지지 않도록 전송 계층을 막는다."""
+    if request.node.get_closest_marker("live"):
+        return
+    import httpx
+
+    def denied(*args, **kwargs):
+        raise AssertionError("실제 HTTP 금지: MockTransport를 사용하거나 -m live로 분리하세요.")
+
+    monkeypatch.setattr(httpx.HTTPTransport, "handle_request", denied)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", denied)

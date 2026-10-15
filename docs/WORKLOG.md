@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-08 · 기능별 v1 호출·중복 방지 캐시·페이지 예산
+- 관련 요구사항: FR-08, FR-09, NFR-02, NFR-08
+- 한 일: httpx 기반 Classify/Parse/Extract와 confidence+word location 옵션을 구현했다. 성공·실패 응답을 파일 해시와 요청 서명으로 캐시하고 프로세스 간 잠금으로 중복 전송을 방지한다. 30페이지 보수적 예약 장부·캐시 전용 모드·제한 재시도·모호한 응답 유실 차단을 추가했다. 기본 pytest는 실제 HTTP를 금지하고 live 마커를 제외한다.
+- 바뀐 파일: backend/app/services/upstage.py, config.py, backend/tests/test_upstage_client.py, conftest.py, pyproject.toml, uv.lock, .env.example, docs/decisions.md
+- 확인 방법: pytest 전체 15개 통과; ruff 통과. httpx MockTransport로 옵션·캐시·429·읽기 타임아웃·예산·동시 중복·비밀값 반사 제거 확인. 실제 과금 호출 0페이지.
+- 남은 문제 · 질문: 타임아웃 후 서버 처리 여부가 불명확한 요청은 자동 재전송하지 않고 수동 확인한다.
+
 ## 2026-10-15 · T-07 · 실손24 가상 전자 서류 연결
 - 관련 요구사항: FR-07
 - 한 일: 04·05·06 정답으로 명시적 가상 JSON을 만들고 청구 연결 API를 구현했다. 중복 연결·다른 담당자 접근을 차단하고 관리자에게는 조회만 허용한다. 수신 이력을 기록하며 실제 외부 호출은 없다.

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     API_PREFIX: str = "/api"
     # T-01~04는 외부 호출이 없으므로 키 없이도 로컬 기반을 검증할 수 있어야 한다.
     UPSTAGE_API_KEY: SecretStr = SecretStr("")
-    UPSTAGE_BASE_URL: str = "https://api.upstage.ai/v2"
+    UPSTAGE_BASE_URL: str = "https://api.upstage.ai/v1"
     UPSTAGE_AGENT_ID: str = ""
     SOLAR_CHAT_MODEL: str = "solar-pro4"
     SOLAR_EMBED_QUERY_MODEL: str = "solar-embedding-2-query"
@@ -28,6 +28,51 @@ class Settings(BaseSettings):
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
     MOCK_SILSON24_PATH: Path = PROJECT_ROOT / "data/mock_silson24"
+    CACHE_PATH: Path = PROJECT_ROOT / "data/cache"
+    UPSTAGE_CLASSIFY_MODEL: str = "document-classify"
+    UPSTAGE_PARSE_MODEL: str = "document-parse"
+    UPSTAGE_EXTRACT_MODEL: str = "information-extract"
+    UPSTAGE_CLASSIFY_PATH: str = "/document-classification/chat/completions"
+    UPSTAGE_PARSE_PATH: str = "/document-digitization"
+    UPSTAGE_EXTRACT_PATH: str = "/information-extraction/chat/completions"
+    UPSTAGE_TIMEOUT_SEC: float = Field(default=120, gt=0)
+    UPSTAGE_CONNECT_TIMEOUT_SEC: float = Field(default=10, gt=0)
+    UPSTAGE_MAX_RETRIES: int = Field(default=1, ge=0, le=3)
+    UPSTAGE_RETRY_DELAY_SEC: float = Field(default=1, ge=0)
+    # 응답을 못 받은 요청도 페이지를 예약해 전체 호출량이 상한을 넘지 않게 한다.
+    UPSTAGE_PAGE_LIMIT: int = Field(default=30, gt=0, le=30)
+    UPSTAGE_OCR_MODE: str = "force"
+    UPSTAGE_EXTRACT_OPTIONS: dict = {
+        "confidence": True,
+        "location": True,
+        "location_granularity": "word",
+    }
+    UPSTAGE_DOC_CLASSES: dict[str, str] = {
+        "diagnosis": "진단서. 병명·질병분류기호·진단일·의사 서명",
+        "pathology": "병리조직검사 결과지. 검체·병리 진단·보고일",
+        "admission": "입퇴원확인서. 입원일·퇴원일·입원 일수",
+        "surgery_cert": "수술확인서. 수술명·수술일·수술 코드",
+        "medical_receipt": "진료비 계산서 영수증. 급여·비급여·본인부담금",
+        "medical_detail": "진료비 세부내역서. 항목별 코드·분류·금액 표",
+        "prescription": "처방전. 처방 의약품명·투약 일수·용법",
+        "pharmacy_receipt": "약국 발행 약제비 영수증. 약품·조제료·금액",
+        "outpatient": "통원확인서. 통원 진료일",
+        "imaging_report": "영상 판독지. MRI·CT 소견",
+        "disability": "후유장해 진단서. 장해 부위·지급률",
+        "death_cert": "사망진단서 또는 시체검안서",
+        "claim_form": "보험금 청구서. 청구 유형·사고일",
+        "id_copy": "신분증 사본",
+        "bankbook": "통장 사본",
+        "family_cert": "가족관계증명서",
+        "basic_cert": "기본증명서",
+        "poa": "위임장",
+        "seal_cert": "인감증명서",
+        "consent": "개인정보 동의서",
+        "accident_report": "사고 사실확인원",
+        "accident_statement": "사고 경위서",
+        "medical_record": "진료기록 사본",
+        "other": "다른 유형에 속하지 않는 문서",
+    }
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False
     POLL_INTERVAL_SEC: float = Field(default=2, gt=0)
