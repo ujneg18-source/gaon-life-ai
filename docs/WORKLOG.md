@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-04 · 프론트 골격과 실제 로그인 연동
+- 관련 요구사항: FR-01~04
+- 한 일: Next.js 16.4.1/App Router/TypeScript·Tailwind v4 기반을 만들고 HTML의 라이트·다크 토큰을 이식했다. 동일한 글꼴을 로컬 패키지로 제공한다. 로그인·메인 입구 2개·역할별 워크스페이스 메뉴 6개·검색 틀·우하단 어시스턴트/안내 버튼을 구현했다. 후속 업무 화면은 준비 중으로 표시한다. 서버 인증 확인과 관리자 경로 검사를 적용했다. 실제 브라우저에서 발견한 서명 쿠키 재인코딩 문제를 원본 헤더 전달로 수정했다. AGENTS 실행 명령과 객체 안내 문서를 작성했다.
+- 바뀐 파일: frontend/*, AGENTS.md, docs/implementation_objects.md, artifacts/t04/*
+- 확인 방법: npm run lint / npm run typecheck / npm run format:check / npm run build 통과. backend pytest 9개·ruff 통과. 프로덕션 서버를 실제 브라우저로 열어 비로그인 리다이렉트, 담당자·관리자 로그인, 로그아웃, 역할 전환, 새로고침 유지, 관리자 메뉴와 직접 경로 제한, 검색 준비 안내·도움말·두 입구 이동을 확인했다. 화면 캡처는 artifacts/t04/에 보관.
+- 남은 문제 · 질문: Upstage 호출·실제 서류 검토·검색·챗봇은 후속 티켓 범위. npm audit --omit=dev는 0건; 개발 도구 eslint-config-next 하위 braces 관련 high 5건은 호환 수정 버전이 없어 남음(강제 다운그레이드는 적용하지 않음). Context7은 설치 확인했지만 이 대화에 호출 도구가 노출되지 않아 공식 문서를 참고했다. 기존 TestClient deprecation warning 1건 유지.
+
 ## 2026-10-15 · T-03 · 데모 로그인과 서버 권한 검사
 - 관련 요구사항: FR-01~03, NFR-02
 - 한 일: reviewer/admin 데모 로그인, 내 정보, 로그아웃을 구현했다. 서명된 httpOnly 쿠키에는 사용자 ID만 저장하고 역할은 DB에서 확인한다. 관리자 설정 변경 API와 담당 청구 접근 의존성, 외부 Origin 변경 요청 차단을 추가했다. 객체·보안 판단 이유는 한국어 주석에 기록했다.
