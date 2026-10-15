@@ -1,5 +1,4 @@
-import { ComingSoon } from "@/components/coming-soon";
-import { workspacePages } from "@/lib/navigation";
+import { Inbox } from "@/components/claim-screens";
 export default function InboxPage() {
-  return <ComingSoon {...workspacePages[0]} />;
+  return <Inbox />;
 }

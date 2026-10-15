@@ -40,9 +40,13 @@ def create_tables(engine: Engine) -> None:
 
         columns = {col["name"] for col in inspect(engine).get_columns("claims")}
         with engine.begin() as connection:
-            for name in ("reported_start", "reported_end"):
+            for name, kind in {
+                "reported_start": "DATE",
+                "reported_end": "DATE",
+                "review_note": "VARCHAR NOT NULL DEFAULT ''",
+            }.items():
                 if name not in columns:
-                    connection.execute(text(f"ALTER TABLE claims ADD COLUMN {name} DATE"))
+                    connection.execute(text(f"ALTER TABLE claims ADD COLUMN {name} {kind}"))
 
 
 def get_session(request: Request) -> Generator[Session]:

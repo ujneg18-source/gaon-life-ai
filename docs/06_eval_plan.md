@@ -65,4 +65,6 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 
 | T-02b | 고객 10·청구 13·동명이인·FK·기존 DB 보존·CV-06·특약 | 35개 통과 | `cd backend && .venv/bin/python -m pytest` | 2026-10-15 |
 
+| T-12 | 검색·배정 권한·집계·단계 저장·7/8 조회·화면 캡처 | 통과 (37 tests; 실측 캐시 0과금) | pytest -q; npm run lint; npm run typecheck; npm run build | 2026-10-15 |
+
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

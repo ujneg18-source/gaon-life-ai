@@ -1,14 +1,28 @@
 """청구 변경 API. 서버 의존성에서 배정 범위와 역할을 함께 확인한다."""
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, UploadFile
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Query, Request, UploadFile
+from pydantic import BaseModel, ConfigDict, Field
 from sqlmodel import select
 
 from app.auth import ClaimAccess, ClaimWrite, CurrentUser, SessionDep
-from app.models import AuditLog, ProcessJob
+from app.models import (
+    ActorType,
+    AuditLog,
+    Claim,
+    ClaimStatus,
+    Customer,
+    Document,
+    DocumentStatus,
+    Issue,
+    IssueStatus,
+    ProcessJob,
+    Role,
+)
 from app.services.pipeline import active_job, create_job, run_job
 from app.services.silson24 import attach_silson24
 from app.services.uploads import claim_lock_path, save_uploads
 from app.services.upstage import UpstageClient, locked
+from app.services.workspace import detail
 
 router = APIRouter(prefix="/claims", tags=["claims"])
 
@@ -93,3 +107,109 @@ def claim_logs(claim: ClaimAccess, session: SessionDep):
     return session.exec(
         select(AuditLog).where(AuditLog.claim_id == claim.id).order_by(AuditLog.created_at)
     ).all()
+
+
+@router.get("")
+def list_claims(
+    user: CurrentUser,
+    session: SessionDep,
+    request: Request,
+    q: str = Query(default="", max_length=120),
+    status: ClaimStatus | None = None,
+):
+    query = select(Claim).order_by(Claim.received_at.desc(), Claim.id.desc())
+    if user.role == Role.REVIEWER:
+        query = query.where(Claim.assignee_id == user.id)
+    rows = list(session.exec(query).all())
+    if q:
+        rows = [
+            c
+            for c in rows
+            if q.casefold()
+            in f"{c.id} {c.customer_name} {c.policy_no} {session.get(Customer, c.customer_id).birth_date if c.customer_id else ''}".casefold()
+        ]
+    counts = {s.value: sum(c.status == s for c in rows) for s in ClaimStatus}
+    counts["total"] = len(rows)
+    selected = [c for c in rows if status is None or c.status == status]
+    return {
+        "items": [detail(session, c, request.app.state.settings) for c in selected],
+        "counts": counts,
+    }
+
+
+@router.get("/{claim_id}")
+def claim_detail(claim: ClaimAccess, user: CurrentUser, session: SessionDep, request: Request):
+    response = detail(session, claim, request.app.state.settings)
+    session.add(
+        AuditLog(
+            claim_id=claim.id,
+            actor_type=ActorType.USER,
+            actor_id=user.id,
+            action="view",
+            detail={"screen": "claim_detail"},
+        )
+    )
+    session.commit()
+    return response
+
+
+class ClaimPatch(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    step: int | None = Field(default=None, ge=0, le=3)
+    review_note: str | None = Field(default=None, max_length=2000)
+
+
+@router.patch("/{claim_id}")
+def patch_claim(payload: ClaimPatch, claim: ClaimWrite, user: CurrentUser, session: SessionDep):
+    changes = payload.model_dump(exclude_unset=True)
+    if any(v is None for v in changes.values()):
+        raise HTTPException(422, "null로 지울 수 없습니다.")
+    before = {k: getattr(claim, k) for k in changes}
+    for key, value in changes.items():
+        setattr(claim, key, value)
+    session.add(claim)
+    session.add(
+        AuditLog(
+            claim_id=claim.id,
+            actor_type=ActorType.USER,
+            actor_id=user.id,
+            action="claim_edit",
+            detail={"before": before, "after": changes},
+        )
+    )
+    session.commit()
+    return {k: getattr(claim, k) for k in changes}
+
+
+@router.get("/{claim_id}/normalized")
+def normalized_claim(claim: ClaimAccess, session: SessionDep, request: Request):
+    return detail(session, claim, request.app.state.settings)["fields"]
+
+
+@router.get("/{claim_id}/issues")
+def claim_issues(claim: ClaimAccess, session: SessionDep):
+    return session.exec(select(Issue).where(Issue.claim_id == claim.id).order_by(Issue.id)).all()
+
+
+@router.post("/{claim_id}/submit")
+def submit_claim(claim: ClaimWrite, user: CurrentUser, session: SessionDep):
+    if session.exec(
+        select(Issue).where(Issue.claim_id == claim.id, Issue.status == IssueStatus.OPEN)
+    ).first():
+        raise HTTPException(409, "열린 이슈를 먼저 확인해 주세요.")
+    docs = session.exec(select(Document).where(Document.claim_id == claim.id)).all()
+    if not docs or any(d.status != DocumentStatus.EXTRACTED for d in docs):
+        raise HTTPException(409, "서류 처리가 완료되지 않았습니다.")
+    claim.status = ClaimStatus.TO_PAYMENT_REVIEW
+    session.add(claim)
+    session.add(
+        AuditLog(
+            claim_id=claim.id,
+            actor_type=ActorType.USER,
+            actor_id=user.id,
+            action="submit",
+            detail={"destination": "payment_review"},
+        )
+    )
+    session.commit()
+    return {"status": claim.status}

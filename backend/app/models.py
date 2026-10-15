@@ -150,6 +150,7 @@ class Claim(SQLModel, table=True):
     __tablename__ = "claims"
     id: str = Field(primary_key=True)
     customer_name: str
+    review_note: str = ""
     reported_start: date | None = None
     reported_end: date | None = None
     policy_no: str = Field(foreign_key="policies.policy_no")

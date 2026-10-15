@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   ClipboardList,
@@ -26,8 +26,11 @@ export function WorkspaceShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const search = useSearchParams();
+  const router = useRouter();
+  const claim = search.get("claim");
   const [help, setHelp] = useState(false);
-  const [searchNote, setSearchNote] = useState("");
+
   return (
     <div className="workspace-shell">
       <aside className="sidebar" aria-label="워크스페이스 메뉴">
@@ -39,14 +42,15 @@ export function WorkspaceShell({
         <nav>
           {workspacePages.map((page, i) => {
             if ("adminOnly" in page && page.adminOnly && !admin) return null;
-            const href = `/workspace${page.slug ? `/${page.slug}` : ""}`;
+            const base = `/workspace${page.slug ? `/${page.slug}` : ""}`;
+            const href = base + (page.slug && claim ? `?claim=${claim}` : "");
             const Icon = menuIcons[i];
             return (
               <Link
                 key={href}
                 href={href}
-                className={`nav-item ${pathname === href ? "active" : ""}`}
-                aria-current={pathname === href ? "page" : undefined}
+                className={`nav-item ${pathname === base ? "active" : ""}`}
+                aria-current={pathname === base ? "page" : undefined}
               >
                 <Icon size={19} strokeWidth={1.7} />
                 {page.title}
@@ -63,11 +67,17 @@ export function WorkspaceShell({
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              setSearchNote("통합 검색은 준비 중입니다.");
+              const form = new FormData(event.currentTarget);
+              router.push(
+                "/workspace?" +
+                  new URLSearchParams({ q: String(form.get("q") ?? "") }),
+              );
             }}
           >
             <Search size={18} aria-hidden="true" />
             <input
+              name="q"
+              defaultValue={search.get("q") ?? ""}
               aria-label="고객 이름 · 청구번호 · 증권번호로 검색"
               placeholder="고객 이름 · 청구번호 · 증권번호로 검색"
             />
@@ -75,11 +85,6 @@ export function WorkspaceShell({
               검색
             </button>
           </form>
-          {searchNote && (
-            <span role="status" className="search-note">
-              {searchNote}
-            </span>
-          )}
         </div>
         <main id="main" className="workspace-content">
           {children}

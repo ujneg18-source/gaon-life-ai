@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-12 · 검토함 · 청구 상세 API 연결
+- 관련 요구사항: FR-05, FR-18~20
+- 한 일: 실제 고객·계약·청구·서류·이슈로 검색/필터/집계를 연결하고 4단계 저장, 메모, 업로드·캐시 처리·제출 게이트를 구현. 김유정 실측 캐시를 DB에 연결해 제출 7/필요 8과 이슈 5건을 표시. 프로토타입과 나란히 비교(artifacts/t12/comparison.html): 보라색 토큰·사이드바·4단계·2열 구성 유지, 시연값 5/6→실데이터 7/8, 동명이인 구분용 생년월일·계약기간·특약·실행 버튼 추가; 헤더는 기존 로그인 사용자 표시를 유지.
+- 바뀐 파일: backend/app/services/workspace.py, backend/app/routers/claims.py, frontend/components/claim-screens.tsx, frontend/lib/workspace.ts, artifacts/t12/
+- 확인 방법: pytest 37 passed / live 1 제외; Ruff 통과; lint/typecheck/build 통과; Playwright 검토함→김유정 상세 탐색 및 캡처; 캐시 초기화 스크립트 외부 호출 0
+- 남은 문제 · 질문: 없음
+
 ## 2026-10-15 · T-02b · 고객·계약 테이블과 시드 확장
 - 관련 요구사항: FR-07, FR-14
 - 한 일: 고객·계약 FK, 가상 고객 10명·청구 13건·동명이인·복수 청구·기간 밖·미가입 특약 사례를 추가했다. 기존 청구와 자식 문서를 보존하는 SQLite 트랜잭션 마이그레이션, CV-06·가입 특약 대조를 구현하고 데이터 설계를 갱신했다.
