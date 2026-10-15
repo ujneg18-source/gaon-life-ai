@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · 환경 정리 2~4 · uv·고정 세션·테스트 기록 규칙
+- 관련 요구사항: FR-01~03, NFR-02, NFR-06
+- 한 일: brew install uv로 /opt/homebrew/bin/uv 0.13.1을 설치하고 AGENTS의 임시 경로를 고쳤다. Git 제외 .env에 긴 임의 SESSION_SECRET을 저장했으며 값은 출력하지 않았다. .env.example에는 빈 키만 둔다. 평가 문서에 제품 성능 표와 분리된 티켓별 테스트 결과 표를 추가해 T-01~04 기록을 옮겼고, AGENTS에 매 티켓 갱신 규칙을 추가했다.
+- 바뀐 파일: AGENTS.md, .env.example, docs/06_eval_plan.md, docs/implementation_objects.md; 로컬 전용 .env는 커밋하지 않음
+- 확인 방법: command -v uv 및 uv --version; 프론트 API 로그인 → 백엔드 프로세스 중단·동일 포트 재시작 → 기존 쿠키만으로 /api/me 200·동일 사용자 및 메인 SSR 200 확인. 임시 쿠키 파일 삭제. backend/.venv/bin/python -m pytest backend/tests -q → 9개 통과. git diff --check 통과.
+- 남은 문제 · 질문: 고정 키 적용 전 임시 키로 발급한 브라우저 세션은 한 번 다시 로그인해야 한다. 고정 키 적용 후 재시작 유지 검증은 통과. TestClient upstream deprecation warning 1건 유지.
+
 ## 2026-10-15 · 환경 정리 1 · 미추적 산출물 커밋
 - 관련 요구사항: NFR-02, NFR-06
 - 한 일: README·TODO·기획 문서·디자인·가상 서류·기존 생성/검증 스크립트를 추적한다. 가이드의 API 키 자리표시자를 <YOUR_API_KEY>로 바꿔 실제 키 탐지와 혼동하지 않게 했다. data/cache/는 이미 제외되어 있었다.

@@ -36,3 +36,19 @@
 | 날짜 | 데이터 | 항목 정확도 | 탐지율 | 오탐률 | 검수 대상 비율 | 근거 적중률 |
 |---|---|---|---|---|---|---|
 | (T-18 후 기록) | | | | | | |
+
+
+## 티켓별 테스트 결과
+
+기능 구현 검증을 기록한다. 위의 정확도·탐지율 등 제품 성능 평가와는 별개다.
+T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 완료 시 한 줄씩 추가하고, 같은 티켓의 추가 수정 검증은 해당 행을 갱신한다.
+명령은 프로젝트 루트에서 실행하며, `cd backend`가 표시된 명령은 그 폴더에서 이어서 실행한다.
+
+| 티켓 | 테스트 항목 | 결과 | 실행 명령 | 날짜 |
+|---|---|---|---|---|
+| T-01 | /health 200, SQLModel 테이블 12개 생성, 외래키 제약, 환경변수 우선순위·비밀값 표시 방지 | 통과: 당시 pytest 2개, ruff 통과 | `cd backend && .venv/bin/python -m pytest tests/test_foundation.py -q && .venv/bin/ruff check app tests` | 2026-10-15 |
+| T-02 | 계정 2개·청구 6건·규칙·설정 시드, 재실행 중복 방지, --demo 초기화 | 통과: 시드 users 2 / claims 6, 당시 전체 pytest 3개, ruff 통과 | `cd backend && .venv/bin/python -m scripts.seed --demo && .venv/bin/python -m pytest && .venv/bin/ruff check app tests` | 2026-10-15 |
+| T-03 | 두 역할 로그인·로그아웃, 쿠키 변조, DB 역할 변경, 관리자 API 401/403, 담당 청구 접근 | 통과: 당시 전체 pytest 9개, ruff 통과. 환경 정리 후 실제 서버 재시작 전 쿠키로 /api/me·메인 200 및 동일 사용자 확인 | `cd backend && .venv/bin/python -m pytest tests/test_auth.py -q && .venv/bin/ruff check app tests`; 재시작 검증: uvicorn 중단·재실행 후 httpx로 기존 쿠키 재사용 | 2026-10-15 |
+| T-04 | 린트·타입·포맷·배포 빌드, 실제 브라우저 로그인 유지·역할 전환·관리자 경로 제한·화면 이동, 원본 로고 SVG 대조 | 통과: lint/typecheck/format:check/build, 브라우저 연동 확인. 로고 수정 후 lint/build 통과 | `cd frontend && npm run lint && npm run typecheck && npm run format:check && npm run build`; 브라우저 수동 확인(`artifacts/t04/verification.md`) | 2026-10-15 |
+
+참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

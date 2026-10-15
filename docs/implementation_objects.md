@@ -39,4 +39,4 @@
 - 개발 기본 SESSION_SECRET은 프로세스별 임의값이다. 재시작 뒤 로그인 유지가 필요하면 루트 .env에서 고정한다. 배포 HTTPS 환경에서는 SESSION_HTTPS_ONLY도 켠다.
 - 데모 로그인은 비밀번호가 없는 역할 체험 기능이다. 실제 고객 인증·SSO를 대신하지 않는다.
 - 데이터베이스는 data/gaon.db이다. 시드 초기화는 검증된 가상 데이터 전용 DB에서만 실행한다.
-- Next.js는 frontend/.env.local의 BACKEND_URL을 읽을 수 있다. FastAPI는 프로젝트 루트 .env를 읽는다. 실제 .env 파일은 생성·수정하지 않았다.
+- Next.js는 frontend/.env.local의 BACKEND_URL을 읽을 수 있다. FastAPI는 프로젝트 루트 .env를 읽는다. 실제 .env는 Git에서 제외한다. 환경 정리 단계에서 긴 임의 SESSION_SECRET을 고정했으며, 값은 출력하거나 문서에 기록하지 않는다.
