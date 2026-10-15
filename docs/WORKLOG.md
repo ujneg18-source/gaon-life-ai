@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · A · 원문 대조 정밀화·약제비 구분 판단
+- 관련 요구사항: FR-10, FR-14, FR-16
+- 한 일: 부분 코드와 청구 내 독립 Parse 근거의 세분류 차이를 표시하고 high여도 확인 필요로 보낸다. 약제비 구분은 유일한 품명 행의 Parse 표 근거로 판정하며 모델 low 원본은 보존한다.
+- 바뀐 파일: backend/app/services/source_evidence.py, normalize.py, rules.py, pipeline.py, backend/scripts/validate_engine.py, backend/tests/test_source_refinement.py, docs/deliverables/T07-T11_실제검증.md, docs/decisions.md, data/evaluations/png/*
+- 확인 방법: 자동 테스트 33개 통과, --cached 재생에서 FIELD-diagnosis_code/not_in_source/원문과 다름(세분류 누락) 확인. 약제비 covered 확인 필요 4→0, 추가 API 0페이지.
+- 남은 문제 · 질문: 없음
+
 ## 2026-10-15 · T-11 · 업로드·백그라운드 파이프라인·실제 검증
 - 관련 요구사항: FR-06, FR-12, NFR-02, NFR-05, NFR-08
 - 한 일: 이미지/PDF 업로드·실손24 연결·비동기 process·영속 상태 조회·이력 API를 연결했다. 파일/페이지/용량/역할/이중 실행 검증, 서버 재시작 실패 복구, 문서별 실패 보존을 구현했다. 입력 폴더 인자와 폴더/내용 지문별 평가 스크립트, 기본 제외 live 테스트를 추가했다. 실제 v1 호출은 앱 4장에 한 번만 수행하고, 실측 파서 보완은 캐시 전용으로 재생했다. 프론트는 변경하지 않았고 API 가이드는 11절만 갱신했다.

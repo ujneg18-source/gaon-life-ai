@@ -196,6 +196,7 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                                 **doc.raw_result,
                                 "normalized": normalized.values,
                                 "kcd_names": normalized.kcd_names,
+                                "parse_evidence": normalized.evidence,
                             }
                         else:
                             doc.raw_result = {**doc.raw_result, "normalized": {}}

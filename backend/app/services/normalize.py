@@ -4,7 +4,7 @@ import html
 import json
 import re
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
 
@@ -13,6 +13,7 @@ from sqlmodel import Session
 
 from app.models import ExtractedField, FieldMethod, KcdCode
 from app.schemas.documents import DOCUMENT_SCHEMAS, CommonDoc
+from app.services.source_evidence import longer_code, pharmacy_evidence
 
 
 def additional_values(message: dict) -> dict:
@@ -203,6 +204,7 @@ class NormalizationResult:
     values: dict
     fields: list[ExtractedField]
     kcd_names: dict[str, str]
+    evidence: dict = field(default_factory=dict)
 
 
 def normalize_document(
@@ -219,6 +221,14 @@ def normalize_document(
     values = {k: v for k, v in values.items() if k in model.model_fields}
     errors: set[str] = set()
     candidate = _normalize_tree(values, "", errors)
+    evidence = (
+        pharmacy_evidence(candidate, parsed, canonical)
+        if doc_type == "pharmacy_receipt" and not is_data
+        else {}
+    )
+    for key, proof in evidence.items():
+        index = int(re.search(r"\[(\d+)\]", key).group(1))
+        candidate["items"][index]["covered"] = proof["value"]
     try:
         normalized = model.model_validate(candidate).model_dump(mode="json", exclude_none=True)
     except ValidationError as error:
@@ -265,6 +275,18 @@ def normalize_document(
             page = matches[0][0].get("page", 1)
             box = valid_box(matches[0][0].get("coordinates"))
         reasons = []
+        if key in evidence:
+            # 모델의 low를 high로 위조하지 않는다. 별도 Parse 표 근거로 판정하고 원 응답은 보존한다.
+            proof = evidence[key]
+            confidence = None
+            found = True
+            page = proof["page"]
+            box = valid_box(proof.get("coordinates"))
+        if key.endswith("diagnosis_code") and longer_code(
+            str(value), " ".join(element_text(el) for el, _ in elements)
+        ):
+            found = False
+            reasons.append("원문과 다름(세분류 누락)")
         if confidence == "low":
             reasons.append("low_conf")
         if not found:
@@ -291,4 +313,4 @@ def normalize_document(
             ref = session.get(KcdCode, value)
             if ref:
                 names[key] = ref.name
-    return NormalizationResult(normalized, fields, names)
+    return NormalizationResult(normalized, fields, names, evidence)

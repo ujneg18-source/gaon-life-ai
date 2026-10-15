@@ -53,6 +53,8 @@
     "source": "image",
     "confidence": "high",
     "review_reasons": [
+      "not_in_source",
+      "원문과 다름(세분류 누락)",
       "cross_check"
     ]
   },
@@ -327,10 +329,8 @@
     "match": true,
     "strict_match": true,
     "source": "image",
-    "confidence": "low",
-    "review_reasons": [
-      "low_conf"
-    ]
+    "confidence": null,
+    "review_reasons": []
   },
   {
     "document": "07_pharmacy_receipt",
@@ -373,10 +373,8 @@
     "match": true,
     "strict_match": true,
     "source": "image",
-    "confidence": "low",
-    "review_reasons": [
-      "low_conf"
-    ]
+    "confidence": null,
+    "review_reasons": []
   },
   {
     "document": "07_pharmacy_receipt",
@@ -419,10 +417,8 @@
     "match": true,
     "strict_match": true,
     "source": "image",
-    "confidence": "low",
-    "review_reasons": [
-      "low_conf"
-    ]
+    "confidence": null,
+    "review_reasons": []
   },
   {
     "document": "07_pharmacy_receipt",
@@ -465,10 +461,8 @@
     "match": true,
     "strict_match": true,
     "source": "image",
-    "confidence": "low",
-    "review_reasons": [
-      "low_conf"
-    ]
+    "confidence": null,
+    "review_reasons": []
   },
   {
     "document": "07_pharmacy_receipt",

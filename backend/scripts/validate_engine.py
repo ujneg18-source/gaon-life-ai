@@ -203,8 +203,16 @@ def run_validation(input_dir: Path, config: Settings, *, client_factory=None) ->
             "expected_core_issues_missing": sorted(expected_core - actual_core),
             "unexpected_core_issues": sorted(actual_core - expected_core),
             "stamp_low_conf_observed": any(
-                i["kind"] == "low_conf" and i["rule"] == "FIELD-diagnosis_code"
-                for i in actual_issues
+                c["document"] == "01_diagnosis"
+                and c["key"] == "diagnosis_code"
+                and c["confidence"] == "low"
+                for c in comparisons
+            ),
+            "code_source_mismatch_observed": any(
+                c["document"] == "01_diagnosis"
+                and c["key"] == "diagnosis_code"
+                and "원문과 다름(세분류 누락)" in c["review_reasons"]
+                for c in comparisons
             ),
             "coverage_excluded": "T-16 범위로 평가 제외",
             "reserved_pages_this_run": after - before,

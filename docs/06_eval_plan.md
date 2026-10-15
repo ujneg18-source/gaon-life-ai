@@ -61,4 +61,6 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 
 | T-11 | 업로드·PDF/페이지·용량·권한·중복·백그라운드·실패·이력·재시작·캐시 재생·실제 4장 검증 | 31개 통과, live 1개 기본 제외; 유료 입력 12/30페이지; 핵심 3/3, 앱 37/39, 전자 77/77 | `cd backend && .venv/bin/python -m pytest`; `.venv/bin/python -m scripts.validate_engine --cached` | 2026-10-15 |
 
+| A | 부분 코드 high·행별 급여·캐시의 실제 C18 이슈 | 33개 통과; C18 확인 필요 검출; 추가 과금 0 | `cd backend && .venv/bin/python -m pytest && .venv/bin/python -m scripts.validate_engine --cached` | 2026-10-15 |
+
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

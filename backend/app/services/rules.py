@@ -20,7 +20,8 @@ from app.models import (
     RequiredDocRule,
     ReviewSettings,
 )
-from app.services.normalize import canonical
+from app.services.normalize import canonical, element_text
+from app.services.source_evidence import longer_code
 
 
 @dataclass
@@ -32,6 +33,7 @@ class ReviewDocument:
     values: dict
     fields: list[ExtractedField]
     status: DocumentStatus = DocumentStatus.EXTRACTED
+    source_text: str = ""
 
 
 @dataclass
@@ -59,6 +61,17 @@ def evaluate_claim(
             field.review_reasons = [r for r in field.review_reasons if r != "cross_check"]
         if doc.status == DocumentStatus.EXTRACTED:
             by_type[doc.doc_type].append(doc)
+    # 자기 문서의 Parse도 짧게 오독한 경우, 다른 제출 서류의 Parse를 독립 근거로 쓴다.
+    source_text = " ".join(doc.source_text for doc in docs)
+    for doc in docs:
+        for field in doc.fields:
+            if field.key == "diagnosis_code" and longer_code(field.value, source_text):
+                field.source_found = False
+                field.review_reasons = list(
+                    dict.fromkeys(
+                        [*field.review_reasons, "not_in_source", "원문과 다름(세분류 누락)"]
+                    )
+                )
     enabled = {r.id for r in cross_rules if r.enabled}
 
     def issue(
@@ -149,6 +162,7 @@ def evaluate_claim(
                 or (r == "not_in_source" and review_settings.review_on_not_in_source)
             ]
             if reasons:
+                reasons += [r for r in field.review_reasons if r.startswith("원문과 다름")]
                 kind = IssueKind.FORMAT if "format" in reasons else IssueKind.LOW_CONF
                 issue(
                     kind,
@@ -246,6 +260,9 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
                 ).all()
             ),
             doc.status,
+            " ".join(
+                element_text(el) for el in doc.raw_result.get("parse", {}).get("elements", [])
+            ),
         )
         for doc in docs
     ]

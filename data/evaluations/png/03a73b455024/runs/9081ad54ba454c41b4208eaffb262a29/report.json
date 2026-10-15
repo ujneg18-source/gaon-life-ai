@@ -1,0 +1,545 @@
+{
+  "input_dir": "/Users/yujin-yeong/Desktop/dvp/upstage_demo/data/samples/kim_yujeong/png",
+  "input_fingerprint": "03a73b455024",
+  "state": "done",
+  "elapsed_seconds": 0.21,
+  "job": {
+    "job_id": "9081ad54ba454c41b4208eaffb262a29",
+    "stage": "done",
+    "state": "done",
+    "progress": 100,
+    "errors": [],
+    "result": {
+      "required": [
+        "admission",
+        "diagnosis",
+        "medical_detail",
+        "medical_receipt",
+        "pathology",
+        "pharmacy_receipt",
+        "prescription",
+        "surgery_cert"
+      ],
+      "document_count": 7,
+      "issue_count": 5,
+      "claim_status": "supplement",
+      "cache_hits": 12,
+      "requests_made": 0
+    }
+  },
+  "app_fields": {
+    "total": 39,
+    "matches": 37,
+    "strict_matches": 37,
+    "mismatches": 2
+  },
+  "silson24_fields": {
+    "total": 77,
+    "matches": 77
+  },
+  "low_confidence_fields": 0,
+  "fields_with_coordinates": 45,
+  "issues": [
+    {
+      "kind": "missing",
+      "rule": "CV-04",
+      "title": "수술확인서 미제출",
+      "detail": "필수 서류 surgery_cert의 제출·처리 여부를 확인해 주세요."
+    },
+    {
+      "kind": "mismatch",
+      "rule": "CV-01",
+      "title": "진단일이 병리 보고일보다 빠름",
+      "detail": "진단일 2026-09-18 · 병리 보고일 2026-09-21"
+    },
+    {
+      "kind": "mismatch",
+      "rule": "CV-03",
+      "title": "질병코드와 병리 진단 부합 확인 필요",
+      "detail": "시연용 질병코드·병리 참조어 기준으로 부합을 확인하지 못했습니다."
+    },
+    {
+      "kind": "mismatch",
+      "rule": "CV-02",
+      "title": "입원 일수 9일 vs 8일",
+      "detail": "입퇴원확인서 9일 · 세부내역서 8일"
+    },
+    {
+      "kind": "low_conf",
+      "rule": "FIELD-diagnosis_code",
+      "title": "추출 항목 확인 필요: diagnosis_code",
+      "detail": "not_in_source, 원문과 다름(세분류 누락)"
+    }
+  ],
+  "expected_core_issues_found": [
+    [
+      "mismatch",
+      "CV-01"
+    ],
+    [
+      "mismatch",
+      "CV-02"
+    ],
+    [
+      "missing",
+      "CV-04"
+    ]
+  ],
+  "expected_core_issues_missing": [],
+  "unexpected_core_issues": [
+    [
+      "mismatch",
+      "CV-03"
+    ]
+  ],
+  "stamp_low_conf_observed": false,
+  "code_source_mismatch_observed": true,
+  "coverage_excluded": "T-16 범위로 평가 제외",
+  "reserved_pages_this_run": 0,
+  "reserved_pages_total": 12,
+  "comparison_policy": "날짜·KCD·금액·수술 분류 정규화 후 텍스트 공백·문장부호·대소문자 정리 비교. strict_match도 별도 기록.",
+  "response_structures": {
+    "diagnosis": {
+      "model": "information-extract-260904",
+      "message_keys": [
+        "content",
+        "refusal",
+        "role",
+        "audio",
+        "tool_calls"
+      ],
+      "tool_names": [
+        "additional_values"
+      ],
+      "additional_values_shape": {
+        "patient_name": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issuer": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issued_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "diagnosis_code": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "diagnosis_name": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "diagnosis_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "onset_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "pathology": {
+      "model": "information-extract-260904",
+      "message_keys": [
+        "content",
+        "refusal",
+        "role",
+        "audio",
+        "tool_calls"
+      ],
+      "tool_names": [
+        "additional_values"
+      ],
+      "additional_values_shape": {
+        "patient_name": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issuer": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issued_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "pathology_result": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "specimen": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "report_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "admission": {
+      "model": "information-extract-260904",
+      "message_keys": [
+        "content",
+        "refusal",
+        "role",
+        "audio",
+        "tool_calls"
+      ],
+      "tool_names": [
+        "additional_values"
+      ],
+      "additional_values_shape": {
+        "patient_name": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issuer": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issued_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "admit_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "discharge_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "stay_days": {
+          "_value": "int",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "diagnosis_code": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "pharmacy_receipt": {
+      "model": "information-extract-260904",
+      "message_keys": [
+        "content",
+        "refusal",
+        "role",
+        "audio",
+        "tool_calls"
+      ],
+      "tool_names": [
+        "additional_values"
+      ],
+      "additional_values_shape": {
+        "patient_name": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issuer": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "issued_date": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "items": [
+          {
+            "drug_name": {
+              "_value": "str",
+              "confidence": "str",
+              "page": "int",
+              "word_coordinates": [
+                [
+                  "dict"
+                ]
+              ]
+            },
+            "per_day": {
+              "_value": "int",
+              "confidence": "str",
+              "page": "int",
+              "word_coordinates": [
+                [
+                  "dict"
+                ]
+              ]
+            },
+            "days": {
+              "_value": "int",
+              "confidence": "str",
+              "page": "int",
+              "word_coordinates": [
+                [
+                  "dict"
+                ]
+              ]
+            },
+            "amount": {
+              "_value": "int",
+              "confidence": "str",
+              "page": "int",
+              "word_coordinates": [
+                [
+                  "dict"
+                ]
+              ]
+            },
+            "covered": {
+              "_value": "bool",
+              "confidence": "str",
+              "page": "int",
+              "word_coordinates": []
+            }
+          }
+        ],
+        "diagnosis_code": {
+          "_value": "str",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": []
+        },
+        "covered_copay": {
+          "_value": "int",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        },
+        "non_covered": {
+          "_value": "int",
+          "confidence": "str",
+          "page": "int",
+          "word_coordinates": [
+            [
+              {
+                "x": "float",
+                "y": "float"
+              }
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "output_dir": "/Users/yujin-yeong/Desktop/dvp/upstage_demo/data/evaluations/png/03a73b455024"
+}
