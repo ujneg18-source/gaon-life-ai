@@ -1,0 +1,40 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>진료비 계산서 · 영수증</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1f2a44}
+.page{width:1240px;height:1754px;padding:90px 96px;position:relative;background:#fff}
+.sample{position:absolute;top:36px;right:44px;border:3px solid #c0392b;color:#c0392b;font-weight:700;font-size:22px;padding:6px 14px;letter-spacing:.06em;transform:rotate(3deg)}
+.hosp{text-align:center;color:#1f3c88}
+.hosp .n{font-size:46px;font-weight:700;letter-spacing:.12em}
+.hosp .e{font-size:17px;letter-spacing:.18em;margin-top:4px}
+h1{text-align:center;font-size:44px;letter-spacing:.5em;margin:34px 0 26px;color:#1f3c88}
+table{width:100%;border-collapse:collapse;font-size:23px}
+td,th{border:2px solid #2b4a9a;padding:12px 14px;vertical-align:middle}
+th{background:#eef2fb;font-weight:500;color:#1f3c88;white-space:nowrap}
+.r{text-align:right;font-variant-numeric:tabular-nums}
+.c{text-align:center}
+.big{font-size:27px;font-weight:700}
+.note{font-size:21px;line-height:1.7;margin-top:22px}
+.foot{position:absolute;left:96px;right:96px;bottom:90px;font-size:22px;line-height:1.7}
+.seal{display:inline-block;width:96px;height:96px;border:4px solid rgba(200,30,40,.75);color:rgba(200,30,40,.8);border-radius:8px;text-align:center;font-weight:700;font-size:20px;line-height:1.25;padding-top:14px;vertical-align:middle;margin-left:16px;transform:rotate(-6deg)}
+.stamp-round{position:absolute;width:150px;height:150px;border:5px solid rgba(200,30,40,.55);border-radius:50%;color:rgba(200,30,40,.6);font-weight:700;font-size:24px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;transform:rotate(-14deg);pointer-events:none}
+.small{font-size:19px;color:#4a5878}
+</style></head><body><div class="page"><div class="sample">SAMPLE · 가상 데이터</div>
+<div class="hosp"><div class="n">하람대학교병원</div><div class="e">HARAM UNIVERSITY HOSPITAL (SAMPLE)</div></div><h1>진료비 계산서 · 영수증</h1>
+<table style="font-size:21px">
+<tr><th>환자등록번호</th><td>20-4471185</td><th>환자 성명</th><td>김유정</td></tr>
+<tr><th>진료기간</th><td>2026.09.22 ~ 2026.09.29</td><th>입원 일수</th><td>8일</td></tr>
+<tr><th>진료과</th><td>외과</td><th>환자구분</th><td>건강보험 · 산정특례(암)</td></tr>
+</table>
+<table style="margin-top:18px;font-size:21px">
+<tr><th rowspan="2">항목</th><th colspan="2">급여</th><th rowspan="2">비급여</th><th rowspan="2">합계</th></tr>
+<tr><th>본인부담금</th><th>공단부담금</th></tr>
+<tr><td>입원료</td><td class="r">34,000</td><td class="r">646,000</td><td class="r">-</td><td class="r">680,000</td></tr><tr><td>검사료</td><td class="r">4,500</td><td class="r">85,500</td><td class="r">-</td><td class="r">90,000</td></tr><tr><td>영상진단료</td><td class="r">11,000</td><td class="r">209,000</td><td class="r">-</td><td class="r">220,000</td></tr><tr><td>마취료</td><td class="r">22,500</td><td class="r">427,500</td><td class="r">-</td><td class="r">450,000</td></tr><tr><td>처치 및 수술료</td><td class="r">160,000</td><td class="r">3,040,000</td><td class="r">-</td><td class="r">3,200,000</td></tr><tr><td>치료재료대</td><td class="r">32,000</td><td class="r">608,000</td><td class="r">-</td><td class="r">640,000</td></tr><tr><td>주사료</td><td class="r">12,800</td><td class="r">243,200</td><td class="r">-</td><td class="r">256,000</td></tr><tr><td>투약 및 조제료</td><td class="r">4,800</td><td class="r">91,200</td><td class="r">-</td><td class="r">96,000</td></tr><tr><td>상급병실료 차액</td><td class="r">-</td><td class="r">-</td><td class="r">560,000</td><td class="r">560,000</td></tr>
+<tr><th>합계</th><td class="r big">281,600</td><td class="r big">5,350,400</td><td class="r big">560,000</td><td class="r big">6,192,000</td></tr>
+</table>
+<table style="margin-top:18px;width:60%;margin-left:auto">
+<tr><th>환자부담 총액</th><td class="r big">841,600</td></tr>
+<tr><th>이미 납부한 금액</th><td class="r">0</td></tr>
+<tr><th>납부할 금액</th><td class="r big">841,600</td></tr>
+</table>
+<div class="foot">발행일 2026.09.30<br>하람대학교병원 · 가상시 표본구 예시로 100 · TEL 000-0000-0000<span class="seal">하람<br>대학교<br>병원인</span></div></div></body></html>

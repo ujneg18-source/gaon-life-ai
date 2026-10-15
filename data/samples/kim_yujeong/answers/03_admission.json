@@ -1,0 +1,12 @@
+{
+  "doc_type": "admission",
+  "patient_name": "김유정",
+  "issuer": "하람대학교병원",
+  "admit_date": "2026-09-22",
+  "discharge_date": "2026-09-30",
+  "stay_days": 9,
+  "diagnosis_code": "C18.7",
+  "_planted": [
+    "CV-02 입원 일수 9일 vs 세부내역서 8일"
+  ]
+}

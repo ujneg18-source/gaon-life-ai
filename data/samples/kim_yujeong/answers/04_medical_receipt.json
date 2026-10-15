@@ -1,0 +1,14 @@
+{
+  "doc_type": "medical_receipt",
+  "source": "silson24",
+  "patient_name": "김유정",
+  "issuer": "하람대학교병원",
+  "period_start": "2026-09-22",
+  "period_end": "2026-09-29",
+  "inpatient_days": 8,
+  "covered_copay": 281600,
+  "covered_nhis": 5350400,
+  "non_covered": 560000,
+  "total": 6192000,
+  "patient_total": 841600
+}

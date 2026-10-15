@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · 환경 정리 1 · 미추적 산출물 커밋
+- 관련 요구사항: NFR-02, NFR-06
+- 한 일: README·TODO·기획 문서·디자인·가상 서류·기존 생성/검증 스크립트를 추적한다. 가이드의 API 키 자리표시자를 <YOUR_API_KEY>로 바꿔 실제 키 탐지와 혼동하지 않게 했다. data/cache/는 이미 제외되어 있었다.
+- 바뀐 파일: README.md, TODO.md, docs/, design/, data/samples/, backend/scripts/samples/, backend/scripts/test_upstage.py, requirements-test.txt
+- 확인 방법: git status 및 staged 경로 검사에서 .env·.venv/·data/cache/ 포함 0건, staged 내용의 API 키 형식 문자열 검사.
+- 남은 문제 · 질문: 없음.
+
 ## 2026-10-15 · T-04 · 요청한 브랜드 마크로 수정
 - 관련 요구사항: FR-01, FR-04
 - 한 일: 첨부 이미지와 일치하는 design/gaon-ai.html의 원본 로고 SVG를 공통 Brand 컴포넌트에 적용했다. 보라색(#9A89F2)으로 채운 하트 안에 흰색 십자가를 배치해 로그인·메인·워크스페이스에서 같은 마크를 사용한다. 원본 비율을 유지하는 이유를 주석으로 남겼다.

@@ -1,0 +1,37 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>약제비 계산서 · 영수증</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1f2a44}
+.page{width:1240px;height:1754px;padding:90px 96px;position:relative;background:#fff}
+.sample{position:absolute;top:36px;right:44px;border:3px solid #c0392b;color:#c0392b;font-weight:700;font-size:22px;padding:6px 14px;letter-spacing:.06em;transform:rotate(3deg)}
+.hosp{text-align:center;color:#1f3c88}
+.hosp .n{font-size:46px;font-weight:700;letter-spacing:.12em}
+.hosp .e{font-size:17px;letter-spacing:.18em;margin-top:4px}
+h1{text-align:center;font-size:44px;letter-spacing:.5em;margin:34px 0 26px;color:#1f3c88}
+table{width:100%;border-collapse:collapse;font-size:23px}
+td,th{border:2px solid #2b4a9a;padding:12px 14px;vertical-align:middle}
+th{background:#eef2fb;font-weight:500;color:#1f3c88;white-space:nowrap}
+.r{text-align:right;font-variant-numeric:tabular-nums}
+.c{text-align:center}
+.big{font-size:27px;font-weight:700}
+.note{font-size:21px;line-height:1.7;margin-top:22px}
+.foot{position:absolute;left:96px;right:96px;bottom:90px;font-size:22px;line-height:1.7}
+.seal{display:inline-block;width:96px;height:96px;border:4px solid rgba(200,30,40,.75);color:rgba(200,30,40,.8);border-radius:8px;text-align:center;font-weight:700;font-size:20px;line-height:1.25;padding-top:14px;vertical-align:middle;margin-left:16px;transform:rotate(-6deg)}
+.stamp-round{position:absolute;width:150px;height:150px;border:5px solid rgba(200,30,40,.55);border-radius:50%;color:rgba(200,30,40,.6);font-weight:700;font-size:24px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;transform:rotate(-14deg);pointer-events:none}
+.small{font-size:19px;color:#4a5878}
+</style></head><body><div class="page"><div class="sample">SAMPLE · 가상 데이터</div>
+<div class="hosp"><div class="n">새솔약국</div><div class="e">PHARMACY (SAMPLE)</div></div><h1>약제비 계산서 · 영수증</h1>
+<table>
+<tr><th>환자 성명</th><td>김유정</td><th>조제일</th><td>2026.09.30</td></tr>
+<tr><th>처방전 교부번호</th><td>2026-0930-01452</td><th>처방 기관</th><td>하람대학교병원</td></tr>
+</table>
+<table style="margin-top:22px">
+<tr><th>품명</th><th>일수</th><th>금액</th><th>구분</th></tr>
+<tr><td>카페시타빈정 500mg</td><td class="c">14</td><td class="r">210,000</td><td class="c">급여</td></tr><tr><td>온단세트론정 8mg</td><td class="c">14</td><td class="r">56,000</td><td class="c">급여</td></tr><tr><td>조제료</td><td class="c">14</td><td class="r">18,000</td><td class="c">급여</td></tr><tr><td>종합비타민정 (일반의약품)</td><td class="c">30</td><td class="r">15,000</td><td class="c">비급여</td></tr>
+</table>
+<table style="margin-top:22px;width:60%;margin-left:auto">
+<tr><th>급여 본인부담금</th><td class="r">14,200</td></tr>
+<tr><th>비급여</th><td class="r">15,000</td></tr>
+<tr><th>합계</th><td class="r big">29,200</td></tr>
+</table>
+<div class="foot">조제일 2026.09.30<br>새솔약국 · 가상시 표본구 예시로 102 · TEL 000-0000-0001<span class="seal">새솔<br>약국<br>인</span></div></div></body></html>

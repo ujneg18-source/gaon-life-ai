@@ -1,0 +1,14 @@
+{
+  "doc_type": "diagnosis",
+  "patient_name": "김유정",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-02",
+  "diagnosis_code": "C18.7",
+  "diagnosis_name": "구불결장의 악성 신생물",
+  "diagnosis_date": "2026-09-18",
+  "onset_date": "2026-09-10",
+  "_planted": [
+    "CV-01 진단일이 병리 보고일(2026-09-21)보다 빠름",
+    "질병분류기호 위 직인 겹침(저신뢰 유도)"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "claim_id": "GA-2610-0482",
+  "customer_name": "김유정",
+  "policy_no": "L-2023-118203",
+  "claim_types": [
+    "cancer_diagnosis",
+    "hospitalization",
+    "medical_expense"
+  ],
+  "submitted": {
+    "app": [
+      "01_diagnosis",
+      "02_pathology",
+      "03_admission",
+      "07_pharmacy_receipt"
+    ],
+    "silson24": [
+      "04_medical_receipt",
+      "05_medical_detail",
+      "06_prescription"
+    ]
+  },
+  "required": 8,
+  "submitted_count": 7,
+  "expected_issues": [
+    {
+      "kind": "missing",
+      "rule": "CV-04",
+      "title": "수술확인서 미제출"
+    },
+    {
+      "kind": "mismatch",
+      "rule": "CV-01",
+      "title": "진단일이 병리 보고일보다 빠름"
+    },
+    {
+      "kind": "mismatch",
+      "rule": "CV-02",
+      "title": "입원 일수 9일 vs 8일"
+    },
+    {
+      "kind": "low_conf",
+      "rule": "-",
+      "title": "질병분류기호 직인 겹침 (모델 결과에 따라 발생 여부 달라짐)"
+    },
+    {
+      "kind": "excluded_item",
+      "rule": "coverage",
+      "title": "종합비타민정 보상 제외 가능성"
+    }
+  ],
+  "totals": {
+    "hospital_patient_total": 841600,
+    "pharmacy_patient_total": 29200
+  }
+}

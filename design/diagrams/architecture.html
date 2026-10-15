@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>가온생명 AI 아키텍처</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1D1A2B;--muted:#625D7C;--line:#D9D4EE;--accent:#5B47D0;--soft:#EEEAFE;--up:#0B7257;--upsoft:#E0F3EC;--bg:#FFFFFF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;color:var(--ink)}
+.wrap{width:1600px;height:900px;padding:48px 56px;display:flex;flex-direction:column;gap:22px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}
+.sub{margin:-12px 0 0;color:var(--muted);font-size:15px}
+.grid{flex:1;display:grid;align-content:center;grid-template-columns:260px 40px 1fr 40px 330px;align-items:start}
+.col{display:flex;flex-direction:column;gap:14px}
+.zone{border:1.5px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.zone h2{margin:0;font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.box{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+.box b{display:block;font-size:15px}
+.box span{font-size:12.5px;color:var(--muted)}
+.box.ours{border-color:var(--accent);background:var(--soft)}
+.box.up{border-color:var(--up);background:var(--upsoft)}
+.arrow{align-self:center;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:22px}
+.flow{display:flex;gap:8px;align-items:center}
+.flow .box{flex:1;text-align:center}
+.flow i{font-style:normal;color:var(--muted)}
+.legend{display:flex;gap:18px;font-size:13px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.l1::before{background:var(--soft);border:1px solid var(--accent)}
+.l2::before{background:var(--upsoft);border:1px solid var(--up)}
+.l3::before{background:#fff;border:1px solid var(--line)}
+</style></head><body><div class="wrap">
+<h1>가온생명 AI · 시스템 구성</h1>
+<p class="sub">Upstage Document AI 위에 얹은 청구 단위 검토 레이어 (데모)</p>
+<div class="grid">
+  <div class="col">
+    <div class="zone"><h2>입력</h2>
+      <div class="box"><b>앱 업로드</b><span>진단서 · 조직검사 결과지 · 입퇴원확인서 · 약제비 영수증 (사진)</span></div>
+      <div class="box"><b>실손24 (모의)</b><span>진료비 영수증 · 세부내역서 · 처방전 (정형 데이터)</span></div>
+    </div>
+    <div class="zone"><h2>사용자</h2>
+      <div class="box"><b>Next.js 화면</b><span>로그인 · 워크스페이스 6메뉴 · 업무 어시스턴트</span></div>
+      <div class="box"><b>데모 계정 2개</b><span>심사 담당자 · 운영 관리자</span></div>
+    </div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="col">
+    <div class="zone"><h2>FASTAPI 백엔드</h2>
+      <div class="flow">
+        <div class="box up"><b>Parse</b><span>글자 · 표 · 레이아웃</span></div><i>→</i>
+        <div class="box up"><b>Classify</b><span>서류 유형</span></div><i>→</i>
+        <div class="box up"><b>Extract</b><span>표준 스키마 값</span></div>
+      </div>
+      <div class="box up" style="text-align:center"><b>Upstage Studio 워크플로 · Agents API</b><span>업로드 → 실행 → 결과 조회</span></div>
+      <div class="flow">
+        <div class="box ours"><b>정규화 · 검증</b><span>Pydantic · KCD</span></div><i>→</i>
+        <div class="box ours"><b>누락</b><span>필수 서류 규칙</span></div><i>→</i>
+        <div class="box ours"><b>불일치</b><span>서류 간 교차검증</span></div><i>→</i>
+        <div class="box ours"><b>약관 대조</b><span>항목 × 약관 RAG</span></div><i>→</i>
+        <div class="box ours"><b>라우팅</b><span>신뢰도 기준</span></div>
+      </div>
+      <div class="flow">
+        <div class="box ours"><b>LangGraph 챗봇</b><span>약관 질문 · 청구 조회 · 항목 대조 · 문구 작성</span></div>
+        <div class="box"><b>SQLite</b><span>청구 · 서류 · 항목 · 이슈 · 이력</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">↔</div>
+  <div class="col">
+    <div class="zone"><h2>AI · 지식</h2>
+      <div class="box up"><b>Solar Chat</b><span>요약 · 보완 문구 · 답변</span></div>
+      <div class="box up"><b>Solar Embedding</b><span>약관 · 매뉴얼 벡터</span></div>
+      <div class="box"><b>Qdrant (로컬)</b><span>벡터 + BM25 하이브리드 검색</span></div>
+      <div class="box"><b>지식 베이스</b><span>공개 표준약관 + 가상 특약 · 매뉴얼</span></div>
+    </div>
+    <div class="zone"><h2>출력</h2>
+      <div class="box"><b>검토 결과</b><span>자동 통과 · 검토 필요 · 보완 요청</span></div>
+      <div class="box"><b>근거</b><span>원본 위치 · 약관 조항 · 검토 이력</span></div>
+    </div>
+  </div>
+</div>
+<div class="legend"><span class="l2">Upstage 제품</span><span class="l1">직접 설계 · 구현</span><span class="l3">저장소 · 입출력</span></div>
+</div></body></html>

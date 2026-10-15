@@ -1,0 +1,37 @@
+{
+  "doc_type": "pharmacy_receipt",
+  "patient_name": "김유정",
+  "issuer": "새솔약국",
+  "issued_date": "2026-09-30",
+  "items": [
+    {
+      "drug_name": "카페시타빈정 500mg",
+      "days": 14,
+      "amount": 210000,
+      "covered": true
+    },
+    {
+      "drug_name": "온단세트론정 8mg",
+      "days": 14,
+      "amount": 56000,
+      "covered": true
+    },
+    {
+      "drug_name": "조제료",
+      "days": 14,
+      "amount": 18000,
+      "covered": true
+    },
+    {
+      "drug_name": "종합비타민정 (일반의약품)",
+      "days": 30,
+      "amount": 15000,
+      "covered": false
+    }
+  ],
+  "covered_copay": 14200,
+  "non_covered": 15000,
+  "_planted": [
+    "약관 대조: '종합비타민정 (일반의약품)'은 처방전에 없음 · 영양제 → 보상 제외 가능성"
+  ]
+}
