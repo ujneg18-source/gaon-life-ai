@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-07 · 실손24 가상 전자 서류 연결
+- 관련 요구사항: FR-07
+- 한 일: 04·05·06 정답으로 명시적 가상 JSON을 만들고 청구 연결 API를 구현했다. 중복 연결·다른 담당자 접근을 차단하고 관리자에게는 조회만 허용한다. 수신 이력을 기록하며 실제 외부 호출은 없다.
+- 바뀐 파일: data/mock_silson24/*, backend/app/services/silson24.py, routers/claims.py, auth.py, main.py, config.py, backend/tests/conftest.py, test_silson24.py, .env.example
+- 확인 방법: backend/.venv/bin/python -m pytest backend/tests -q → 11개 통과; ruff check/format 통과
+- 남은 문제 · 질문: 없음
+
 ## 2026-10-15 · 환경 정리 2~4 · uv·고정 세션·테스트 기록 규칙
 - 관련 요구사항: FR-01~03, NFR-02, NFR-06
 - 한 일: brew install uv로 /opt/homebrew/bin/uv 0.13.1을 설치하고 AGENTS의 임시 경로를 고쳤다. Git 제외 .env에 긴 임의 SESSION_SECRET을 저장했으며 값은 출력하지 않았다. .env.example에는 빈 키만 둔다. 평가 문서에 제품 성능 표와 분리된 티켓별 테스트 결과 표를 추가해 T-01~04 기록을 옮겼고, AGENTS에 매 티켓 갱신 규칙을 추가했다.

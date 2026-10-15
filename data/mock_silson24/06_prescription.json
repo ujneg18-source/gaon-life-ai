@@ -1,0 +1,21 @@
+{
+  "doc_type": "prescription",
+  "source": "silson24",
+  "patient_name": "김유정",
+  "issued_date": "2026-09-30",
+  "diagnosis_code": "C18.7",
+  "items": [
+    {
+      "drug_name": "카페시타빈정 500mg",
+      "per_day": 2,
+      "days": 14
+    },
+    {
+      "drug_name": "온단세트론정 8mg",
+      "per_day": 2,
+      "days": 14
+    }
+  ],
+  "is_mock": true,
+  "claim_id": "GA-2610-0482"
+}

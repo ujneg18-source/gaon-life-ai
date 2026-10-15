@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
+    MOCK_SILSON24_PATH: Path = PROJECT_ROOT / "data/mock_silson24"
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False
     POLL_INTERVAL_SEC: float = Field(default=2, gt=0)

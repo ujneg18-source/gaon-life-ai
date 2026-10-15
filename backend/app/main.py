@@ -11,7 +11,7 @@ from starlette.responses import JSONResponse
 
 from app.config import Settings, get_settings
 from app.db import build_engine, create_tables
-from app.routers import auth
+from app.routers import auth, claims
 from app.routers import settings as settings_router
 
 
@@ -59,6 +59,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return await call_next(request)
 
     app.include_router(auth.router, prefix=config.API_PREFIX)
+    app.include_router(claims.router, prefix=config.API_PREFIX)
     app.include_router(settings_router.router, prefix=config.API_PREFIX)
 
     @app.get("/health")

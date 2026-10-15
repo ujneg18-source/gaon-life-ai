@@ -41,3 +41,16 @@ def require_claim_access(claim_id: str, user: CurrentUser, session: SessionDep) 
     if user.role != Role.ADMIN and claim.assignee_id != user.id:
         raise HTTPException(status_code=403, detail="배정된 청구만 조회할 수 있습니다.")
     return claim
+
+
+ClaimAccess = Annotated[Claim, Depends(require_claim_access)]
+
+
+def require_claim_write(claim: ClaimAccess, user: CurrentUser) -> Claim:
+    """관리자는 청구 조회만 가능하다. 업로드·실행도 담당자의 변경 작업으로 다룬다."""
+    if user.role != Role.REVIEWER:
+        raise HTTPException(status_code=403, detail="배정 담당자만 청구를 변경할 수 있습니다.")
+    return claim
+
+
+ClaimWrite = Annotated[Claim, Depends(require_claim_write)]
