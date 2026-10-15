@@ -1,12 +1,18 @@
 """FastAPI 진입점. 앱 생성 시 설정을 주입해 외부 API 없이 기반을 검증한다."""
 
 from contextlib import asynccontextmanager
+from urllib.parse import urlsplit
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, text
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.responses import JSONResponse
 
 from app.config import Settings, get_settings
 from app.db import build_engine, create_tables
+from app.routers import auth
+from app.routers import settings as settings_router
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -23,6 +29,37 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(title=config.APP_NAME, lifespan=lifespan)
     app.state.settings = config
+    app.add_middleware(
+        SessionMiddleware,
+        secret_key=config.SESSION_SECRET.get_secret_value(),
+        session_cookie=config.SESSION_COOKIE_NAME,
+        max_age=config.SESSION_MAX_AGE,
+        same_site="lax",
+        https_only=config.SESSION_HTTPS_ONLY,
+    )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=config.CORS_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
+        allow_headers=["Content-Type"],
+    )
+
+    @app.middleware("http")
+    async def check_origin(request: Request, call_next):
+        """쿠키 인증의 변경 요청은 허용한 origin만 받는다. CLI는 Origin 없이 검증 가능하다."""
+        origin = request.headers.get("origin")
+        if request.method not in {"GET", "HEAD", "OPTIONS"} and origin:
+            source = urlsplit(origin)
+            same_origin = (
+                source.scheme == request.url.scheme and source.netloc == request.url.netloc
+            )
+            if not same_origin and origin not in config.CORS_ORIGINS:
+                return JSONResponse({"detail": "허용되지 않은 요청 출처입니다."}, status_code=403)
+        return await call_next(request)
+
+    app.include_router(auth.router, prefix=config.API_PREFIX)
+    app.include_router(settings_router.router, prefix=config.API_PREFIX)
 
     @app.get("/health")
     def health():

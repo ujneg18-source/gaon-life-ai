@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-03 · 데모 로그인과 서버 권한 검사
+- 관련 요구사항: FR-01~03, NFR-02
+- 한 일: reviewer/admin 데모 로그인, 내 정보, 로그아웃을 구현했다. 서명된 httpOnly 쿠키에는 사용자 ID만 저장하고 역할은 DB에서 확인한다. 관리자 설정 변경 API와 담당 청구 접근 의존성, 외부 Origin 변경 요청 차단을 추가했다. 객체·보안 판단 이유는 한국어 주석에 기록했다.
+- 바뀐 파일: backend/app/auth.py, backend/app/schemas/auth.py, backend/app/routers/auth.py, backend/app/routers/settings.py, backend/app/main.py, backend/tests/test_auth.py
+- 확인 방법: backend/.venv/bin/python -m pytest backend/tests -q → 9개 통과; ruff check 통과. 두 역할 로그인·로그아웃, 쿠키 변조, DB 역할 변경, 관리자 API 401/403, 담당자별 청구 접근을 검증.
+- 남은 문제 · 질문: 개발 기본 세션 키는 프로세스 재시작 시 바뀐다. 지속 세션을 쓰려면 .env의 SESSION_SECRET을 고정해야 한다. 설정 변경에 따른 재검증은 T-14에서 구현한다. 기존 TestClient deprecation warning 1건 유지.
+
 ## 2026-10-15 · T-02 · 가상 데모 계정·청구·규칙 시드
 - 관련 요구사항: FR-07 (기반 시드만, 실제 모의 수신 API는 T-07)
 - 한 일: 데모 계정 2개·김유정 포함 청구 6건·필수 서류 규칙 10개·교차검증 정의 6개·설정 기본값을 적재한다. 기본 실행은 기존 데이터를 보존하고 --demo에서만 FK 역순으로 행을 초기화한다. 시연 상태는 고정 픽스처이며 AI 실행 결과가 아니다.
