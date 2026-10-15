@@ -48,6 +48,16 @@ def create_tables(engine: Engine) -> None:
                 if name not in columns:
                     connection.execute(text(f"ALTER TABLE claims ADD COLUMN {name} {kind}"))
 
+        if "review_on_format" not in {
+            col["name"] for col in inspect(engine).get_columns("settings")
+        }:
+            with engine.begin() as connection:
+                connection.execute(
+                    text(
+                        "ALTER TABLE settings ADD COLUMN review_on_format BOOLEAN NOT NULL DEFAULT 1"
+                    )
+                )
+
 
 def get_session(request: Request) -> Generator[Session]:
     """요청당 세션을 열고 종료해 연결·트랜잭션이 다음 요청에 남지 않게 한다."""

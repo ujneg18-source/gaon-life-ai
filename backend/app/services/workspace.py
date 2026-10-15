@@ -12,16 +12,17 @@ from app.models import (
     ExtractedField,
     Issue,
     IssueStatus,
+    KcdCode,
     Policy,
     RequiredDocRule,
     ReviewSettings,
 )
-from app.services.normalize import element_text
-from app.services.rules import ReviewDocument, evaluate_claim
+from app.services.normalize import element_text, normal_scalar
+from app.services.rules import ReviewDocument, evaluate_claim, set_nested
 
 
 def review_input(session, doc):
-    return ReviewDocument(
+    result = ReviewDocument(
         doc.id,
         doc.doc_type,
         deepcopy(doc.raw_result.get("normalized", {})),
@@ -34,6 +35,12 @@ def review_input(session, doc):
         doc.status,
         " ".join(element_text(el) for el in doc.raw_result.get("parse", {}).get("elements", [])),
     )
+
+    # 확정값을 읽기 전용 입력에도 반영해 필수 서류 집계와 재검사 결과가 같게 한다.
+    for field in result.fields:
+        if field.confirmed_by is not None and field.confirmed_value is not None:
+            set_nested(result.values, field.key, normal_scalar(field.key, field.confirmed_value))
+    return result
 
 
 def detail(session: Session, claim: Claim, config):
@@ -69,7 +76,12 @@ def detail(session: Session, claim: Claim, config):
                     "display_value": f.confirmed_value
                     if f.confirmed_value is not None
                     else f.value,
-                    "kcd_name": doc.raw_result.get("kcd_names", {}).get(f.key),
+                    "kcd_name": (
+                        session.get(KcdCode, f.confirmed_value or f.value).name
+                        if f.key == "diagnosis_code"
+                        and session.get(KcdCode, f.confirmed_value or f.value)
+                        else doc.raw_result.get("kcd_names", {}).get(f.key)
+                    ),
                     "parse_evidence": doc.raw_result.get("parse_evidence", {}).get(f.key),
                 }
             )

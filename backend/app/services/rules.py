@@ -167,7 +167,7 @@ def evaluate_claim(
             reasons = [
                 r
                 for r in field.review_reasons
-                if r == "format"
+                if (r == "format" and review_settings.review_on_format)
                 or (r == "low_conf" and review_settings.review_on_low_conf)
                 or (r == "not_in_source" and review_settings.review_on_not_in_source)
             ]
@@ -298,6 +298,8 @@ def evaluate_claim(
                             [doc],
                             ["period_start", "period_end", "admit_date", "discharge_date"],
                         )
+    if not review_settings.review_on_format:
+        issues = [item for item in issues if item.kind != IssueKind.FORMAT]
     status = ClaimStatus.AUTO_PASS
     if any(i.kind == IssueKind.MISSING for i in issues):
         status = ClaimStatus.SUPPLEMENT
@@ -365,7 +367,9 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         if fp not in old:
             session.add(item)
         else:
-            if old[fp].detail != item.detail:
+            if old[fp].detail != item.detail or (
+                old[fp].status == IssueStatus.RESOLVED and old[fp].resolved_by is None
+            ):
                 old[fp].status = IssueStatus.OPEN
                 old[fp].resolved_by = None
                 old[fp].resolved_at = None

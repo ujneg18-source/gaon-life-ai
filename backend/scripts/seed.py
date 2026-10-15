@@ -93,6 +93,7 @@ def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) ->
         if session.get(ReviewSettings, 1) is None:
             session.add(
                 ReviewSettings(
+                    review_on_format=settings.REVIEW_ON_FORMAT,
                     review_on_low_conf=settings.REVIEW_ON_LOW_CONF,
                     review_on_not_in_source=settings.REVIEW_ON_NOT_IN_SOURCE,
                     auto_pass_threshold=settings.AUTO_PASS_THRESHOLD,

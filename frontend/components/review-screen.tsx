@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -356,10 +357,21 @@ export function ReviewScreen({
                     )}
                   </span>
                   <div>
-                    <strong title={i.detail}>{i.title}</strong>
-                    <small>{i.detail}</small>
+                    <strong title={i.detail}>
+                      {i.title.replace(/diagnosis_code/g, "질병분류기호")}
+                    </strong>
+                    <small>
+                      {i.detail
+                        .replace(/not_in_source/g, "원문 불일치")
+                        .replace(/surgery_cert/g, "수술확인서")}
+                    </small>
                   </div>
                   <div className="issue-actions">
+                    {i.kind === "missing" && (
+                      <Link href={`/workspace/supplement?claim=${claimId}`}>
+                        보완 요청
+                      </Link>
+                    )}
                     {i.doc_ids.length === 2 && (
                       <button
                         onClick={() => {

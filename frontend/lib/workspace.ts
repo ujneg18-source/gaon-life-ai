@@ -84,6 +84,12 @@ export const docLabels: Record<string, string> = {
   id_copy: "신분증 사본",
   poa: "위임장",
   seal_cert: "인감증명서",
+  bankbook: "통장 사본",
+  consent: "개인정보 동의서",
+  imaging_report: "영상 판독지",
+  accident_report: "사고 사실확인원",
+  accident_statement: "사고 경위서",
+  medical_record: "진료기록 사본",
   other: "분류 대기",
 };
 export const typeLabels: Record<string, string> = {

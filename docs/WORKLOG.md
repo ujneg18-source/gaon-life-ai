@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-14 · 보완 처리 · 검토 이력 · 운영 관리 연결
+- 관련 요구사항: FR-25~27
+- 한 일: 누락 서류로 초안 생성·문구/채널 편집·모의 발송(회신 대기)·중복 발송 방지와 실제 감사 이력을 연결. 관리자만 low/원문 불일치/형식 오류 규칙과 필수서류 목록을 저장하며 즉시 재검사. 확정값·자동 해소 이슈 재발 처리와 화면 집계 일관성 보완, 객체 설명 추가. 프로토타입과 artifacts/t14/comparison.html에서 나란히 비교: 좌측 요청 목록/우측 보라색 문구 미리보기·시간선·운영 카드 구성 유지, 실제 목록 선택/초안 저장/모의 발송 표시 추가, 숫자 슬라이더는 요청한 3개 토글로 교체, 필수서류 10개 규칙·조건을 실제 DB에서 표시. 비교 중 발견한 배경 토큰과 버튼 클래스도 기존 토큰/btn으로 정리. T12·T13 캡처를 최종 스타일/실데이터로 갱신.
+- 바뀐 파일: .env.example, backend/app/routers/supplements.py, backend/app/routers/settings.py, backend/app/services/supplement.py, frontend/components/operations-screens.tsx, docs/implementation_objects.md, artifacts/t12~t14/
+- 확인 방법: pytest 41 passed / live 1 제외; Ruff·lint·typecheck·format:check·build 통과. Playwright 초안→모의발송→회신대기/이력, 관리자 토글 끄기→복원·규칙 저장, 상세 단계 저장·미해결 이슈 제출 차단 확인. 최종 DB 고객10/계약10/청구13·김유정7/8·열린이슈5·C18 세분류 누락·약제비 covered low0 확인. 외부 API 추가0페이지.
+- 남은 문제 · 질문: 남은 질문 없음. Solar 실호출은 하지 않았고 HTTP 모킹으로 생성/캐시 경로를 검증; 로컬 시연은 캐시 전용 표준 문구 사용.
+
 ## 2026-10-15 · T-13 · 원본 좌표 · 비교 · 확정값 검토 연결
 - 관련 요구사항: FR-21~24
 - 한 일: 인증된 원본 조회, 실제 word/Parse bbox, 확대·축소, 이슈의 두 서류 나란히 비교, 출처·높음/낮음·검토 이유 표, 담당자 확정값과 이슈 확인 API 및 이력을 연결. 변경값으로 규칙 재검사하며 AI 원래 값은 보존. artifacts/t13/comparison.html에서 프로토타입과 비교: 2열/보라색 톤 유지, 가상 자리표시 문서→실제 제공 PNG, 숫자 신뢰도→높음/낮음, 카드형 이슈→압축 행, 양쪽 높이 700px 동일화. 실손24는 대응 가상 서식 표시를 명시.

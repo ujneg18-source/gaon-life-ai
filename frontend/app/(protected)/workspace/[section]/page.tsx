@@ -3,7 +3,11 @@ import { requireUser } from "@/lib/auth";
 import { workspacePages } from "@/lib/navigation";
 import { ClaimDetail, ClaimPicker } from "@/components/claim-screens";
 import { ReviewScreen } from "@/components/review-screen";
-import { ComingSoon } from "@/components/coming-soon";
+import {
+  SupplementScreen,
+  HistoryScreen,
+  OperationsScreen,
+} from "@/components/operations-screens";
 
 export default async function SectionPage({
   params,
@@ -31,5 +35,20 @@ export default async function SectionPage({
     ) : (
       <ClaimPicker section={section} />
     );
-  return <ComingSoon {...page} />;
+  if (section === "supplement")
+    return (
+      <SupplementScreen
+        key={query.claim ?? "all"}
+        claimId={query.claim}
+        readOnly={user.role === "admin"}
+      />
+    );
+  if (section === "history")
+    return query.claim ? (
+      <HistoryScreen claimId={query.claim} />
+    ) : (
+      <ClaimPicker section={section} />
+    );
+  if (section === "operations") return <OperationsScreen />;
+  notFound();
 }

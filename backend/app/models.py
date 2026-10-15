@@ -247,6 +247,7 @@ class ReviewSettings(SQLModel, table=True):
     id: int = Field(default=1, primary_key=True)
     review_on_low_conf: bool
     review_on_not_in_source: bool
+    review_on_format: bool = True
     auto_pass_threshold: float = Field(ge=0, le=1)
 
 
