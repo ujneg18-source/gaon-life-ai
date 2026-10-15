@@ -1,0 +1,427 @@
+"use client";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  ZoomIn,
+  ZoomOut,
+  Columns2,
+  CircleCheck,
+  TriangleAlert,
+  CircleX,
+  Pencil,
+  X,
+} from "lucide-react";
+import {
+  api,
+  Claim,
+  Doc,
+  FieldRow,
+  Issue,
+  docLabels,
+  display,
+  label,
+  reason,
+} from "@/lib/workspace";
+import { useResource, LoadState, PageTitle } from "./workspace-ui";
+
+/** 실제 이미지와 정규화 좌표를 동일 비율로 확대한다. 좌표가 없으면 박스를 지어내지 않는다. */
+function Original({
+  doc,
+  fields,
+  selected,
+  select,
+  zoom,
+}: {
+  doc: Doc;
+  fields: FieldRow[];
+  selected: number | null;
+  select: (id: number) => void;
+  zoom: number;
+}) {
+  const [page, setPage] = useState(1);
+  return (
+    <div className="original-pane">
+      <div className="original-caption">
+        <strong>{docLabels[doc.doc_type] ?? doc.doc_type}</strong>
+        <span>
+          {doc.source === "silson24"
+            ? "실손24 데이터 · 대응 가상 서식"
+            : "앱 업로드 원본"}
+        </span>
+      </div>
+      {doc.page_size && (
+        <div className="viewer-scroll">
+          <div className="image-sheet" style={{ width: `${zoom}%` }}>
+            {/* 인증된 동일 출처 이미지. Next 이미지 최적화 캐시에 의료 서류를 저장하지 않는다. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/api/documents/${doc.id}/image`}
+              alt={`${docLabels[doc.doc_type]} 원본`}
+            />
+            <svg
+              viewBox="0 0 1 1"
+              preserveAspectRatio="none"
+              className="boxes"
+              aria-label="추출 항목 좌표"
+            >
+              {fields
+                .filter((f) => f.bbox && f.page === page)
+                .map((f) => (
+                  <polygon
+                    key={f.id}
+                    points={f.bbox!.map((p) => `${p.x},${p.y}`).join(" ")}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${label(f.key)} 원문 위치`}
+                    onClick={() => select(f.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") select(f.id);
+                    }}
+                    className={`${selected === f.id ? "box-selected" : ""} ${f.review_reasons.length ? "box-warning" : "box-ok"}`}
+                  >
+                    <title>
+                      {label(f.key)}: {display(f)}
+                    </title>
+                  </polygon>
+                ))}
+            </svg>
+          </div>
+        </div>
+      )}
+      {fields.some((f) => f.page > 1) && (
+        <label>
+          좌표 페이지{" "}
+          <select
+            aria-label="좌표 페이지"
+            value={page}
+            onChange={(e) => setPage(Number(e.target.value))}
+          >
+            {Array.from(new Set(fields.map((f) => f.page)))
+              .sort()
+              .map((n) => (
+                <option key={n}>{n}</option>
+              ))}
+          </select>
+          <small>
+            다중 페이지 PDF는 원본 뷰어에서 해당 페이지를 확인하세요.
+          </small>
+        </label>
+      )}
+    </div>
+  );
+}
+function FieldCell({
+  f,
+  readOnly,
+  done,
+  select,
+  active,
+}: {
+  f: FieldRow;
+  readOnly: boolean;
+  done: () => void;
+  select: () => void;
+  active: boolean;
+}) {
+  const [edit, setEdit] = useState(false),
+    [value, setValue] = useState(f.display_value),
+    [error, setError] = useState("");
+  async function save() {
+    try {
+      await api(`/fields/${f.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ confirmed_value: value }),
+      });
+      setEdit(false);
+      setError("");
+      done();
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
+  return (
+    <tr className={active ? "field-selected" : ""} onClick={select}>
+      <td>
+        <button className="field-link" onClick={select}>
+          {label(f.key)}
+        </button>
+        <small>{f.bbox ? `p.${f.page} · 원문 위치` : "좌표 없음"}</small>
+      </td>
+      <td>
+        {edit ? (
+          <>
+            <input
+              aria-label={`${label(f.key)} 확정값`}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <button onClick={save}>저장</button>
+            <button onClick={() => setEdit(false)}>취소</button>
+          </>
+        ) : (
+          <>
+            <span>{display(f) || "—"}</span>
+            {!readOnly && (
+              <button
+                className="icon-button"
+                aria-label={`${label(f.key)} 수정`}
+                onClick={() => setEdit(true)}
+              >
+                <Pencil size={13} />
+              </button>
+            )}
+            {f.kcd_name && <small>{f.kcd_name}</small>}
+          </>
+        )}
+        {error && (
+          <small role="alert" className="bad">
+            {error}
+          </small>
+        )}
+      </td>
+      <td>
+        <span className="field-source">
+          {f.method === "data"
+            ? "실손24 데이터"
+            : f.parse_evidence
+              ? "Parse 표"
+              : f.method === "ocr"
+                ? "OCR"
+                : "Parse"}
+        </span>
+        <small
+          className={
+            f.confirmed_by ? "ok" : f.review_reasons.length ? "warn" : "muted"
+          }
+        >
+          {f.confirmed_by
+            ? "담당자 확정"
+            : f.extract_conf === "high"
+              ? "신뢰도 높음"
+              : f.extract_conf === "low"
+                ? "신뢰도 낮음"
+                : "신뢰도 해당 없음"}
+        </small>
+        {f.review_reasons.length > 0 && !f.confirmed_by && (
+          <small className="warn">
+            {f.review_reasons.map(reason).join(" · ")}
+          </small>
+        )}
+        {f.parse_evidence && (
+          <small title={f.parse_evidence.text}>구분 칸 원문으로 확인</small>
+        )}
+      </td>
+    </tr>
+  );
+}
+export function ReviewScreen({
+  claimId,
+  readOnly,
+}: {
+  claimId: string;
+  readOnly: boolean;
+}) {
+  const params = useSearchParams();
+  const resource = useResource<Claim>(`/claims/${claimId}`),
+    { data: c, error } = resource;
+  const [docId, setDoc] = useState<number | null>(null),
+    [selected, setSelected] = useState<number | null>(null),
+    [zoom, setZoom] = useState(100),
+    [compare, setCompare] = useState<Issue | null>(null),
+    [message, setMessage] = useState("");
+  if (!c) return <LoadState error={error} />;
+  const doc =
+    c.documents.find((d) => d.id === (docId ?? Number(params.get("doc")))) ??
+    c.documents[0];
+  const allIssues = c.issues.filter((i) => i.status === "open");
+  const issue =
+    compare ?? c.issues.find((i) => i.id === Number(params.get("issue")));
+  const comparing = !!issue && issue.doc_ids.length === 2;
+  const docs = comparing
+    ? c.documents.filter((d) => issue.doc_ids.includes(d.id))
+    : doc
+      ? [doc]
+      : [];
+  const fields = c.fields.filter((f) =>
+    docs.some((d) => d.id === f.document_id),
+  );
+  async function resolve(i: Issue) {
+    try {
+      await api(`/issues/${i.id}/resolve`, { method: "POST" });
+      resource.reload();
+      setMessage("확인 기록을 남겼어요.");
+    } catch (e) {
+      setMessage((e as Error).message);
+    }
+  }
+  return (
+    <>
+      <PageTitle
+        title="문서 분석 · 검토"
+        description={`${c.customer_name} · ${c.id} · 제출 ${c.submitted_count} / 필요 ${c.required_count}`}
+      />
+      <div className="document-tabs">
+        {c.documents.map((d) => (
+          <button
+            key={d.id}
+            className={!comparing && doc?.id === d.id ? "selected" : ""}
+            onClick={() => {
+              setDoc(d.id);
+              setCompare(null);
+              if (params.get("issue"))
+                window.history.replaceState(null, "", `?claim=${claimId}`);
+              setSelected(null);
+            }}
+          >
+            {docLabels[d.doc_type] ?? d.doc_type}
+          </button>
+        ))}
+      </div>
+      {!doc ? (
+        <div className="panel empty-message">
+          접수된 원본 서류가 없어요. 청구 상세에서 서류를 추가해 주세요.
+        </div>
+      ) : (
+        <div className="review-grid">
+          <section className="panel viewer-panel">
+            <div className="panel-heading">
+              <h2>{comparing ? "원본 비교" : "원본 서류"}</h2>
+              <div className="viewer-tools">
+                <button
+                  aria-label="축소"
+                  disabled={zoom <= 60}
+                  onClick={() => setZoom((z) => z - 20)}
+                >
+                  <ZoomOut size={16} />
+                </button>
+                <span className="mono">{zoom}%</span>
+                <button
+                  aria-label="확대"
+                  disabled={zoom >= 180}
+                  onClick={() => setZoom((z) => z + 20)}
+                >
+                  <ZoomIn size={16} />
+                </button>
+                {comparing && (
+                  <button
+                    aria-label="비교 닫기"
+                    onClick={() => {
+                      setCompare(null);
+                      window.history.replaceState(
+                        null,
+                        "",
+                        `?claim=${claimId}`,
+                      );
+                    }}
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className={comparing ? "originals comparing" : "originals"}>
+              {docs.map((d) => (
+                <Original
+                  key={d.id}
+                  doc={d}
+                  fields={c.fields.filter((f) => f.document_id === d.id)}
+                  selected={selected}
+                  select={setSelected}
+                  zoom={zoom}
+                />
+              ))}
+            </div>
+            <div className="viewer-legend">
+              <span className="ok">□ 추출 위치</span>
+              <span className="warn">□ 확인 필요</span>
+              <span>항목을 누르면 원문 위치가 강조돼요.</span>
+            </div>
+          </section>
+          <section className="panel results-panel">
+            <div className="panel-heading">
+              <h2>
+                누락 · 불일치 · 확인 필요{" "}
+                <span className="muted">{allIssues.length}</span>
+              </h2>
+              <small>서류 간 교차검증 결과</small>
+            </div>
+            <div className="compact-issues">
+              {allIssues.map((i) => (
+                <div key={i.id} className="compact-issue">
+                  <span className={i.kind === "missing" ? "bad" : "warn"}>
+                    {i.kind === "missing" ? (
+                      <CircleX size={15} />
+                    ) : (
+                      <TriangleAlert size={15} />
+                    )}
+                  </span>
+                  <div>
+                    <strong title={i.detail}>{i.title}</strong>
+                    <small>{i.detail}</small>
+                  </div>
+                  <div className="issue-actions">
+                    {i.doc_ids.length === 2 && (
+                      <button
+                        onClick={() => {
+                          setCompare(i);
+                          setZoom(100);
+                        }}
+                        aria-label={`${i.rule_id} 원본 비교`}
+                      >
+                        <Columns2 size={14} />
+                        원본 비교
+                      </button>
+                    )}
+                    {!readOnly && (
+                      <button
+                        aria-label={`${i.rule_id} 확인 완료`}
+                        onClick={() => resolve(i)}
+                      >
+                        <CircleCheck size={14} />
+                        확인
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {!allIssues.length && (
+                <p className="ok">열린 확인 사항이 없어요.</p>
+              )}
+            </div>
+            <div className="normalized-heading">
+              <h2>정규화 결과</h2>
+              <small>
+                {comparing ? "비교 중인 두 문서" : "선택 문서"} ·{" "}
+                {fields.length}개 항목
+              </small>
+            </div>
+            <div className="field-scroll">
+              <table className="work-table field-table">
+                <thead>
+                  <tr>
+                    <th>항목</th>
+                    <th>추출 · 확정값</th>
+                    <th>출처 · 신뢰도</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {fields.map((f) => (
+                    <FieldCell
+                      key={`${f.id}-${f.confirmed_value}`}
+                      f={f}
+                      readOnly={readOnly}
+                      done={resource.reload}
+                      select={() => setSelected(f.id)}
+                      active={selected === f.id}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      )}
+      {message && <p role="status">{message}</p>}
+    </>
+  );
+}

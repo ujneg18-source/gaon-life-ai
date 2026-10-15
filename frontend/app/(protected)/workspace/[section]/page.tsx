@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { workspacePages } from "@/lib/navigation";
 import { ClaimDetail, ClaimPicker } from "@/components/claim-screens";
+import { ReviewScreen } from "@/components/review-screen";
 import { ComingSoon } from "@/components/coming-soon";
 
 export default async function SectionPage({
@@ -21,6 +22,12 @@ export default async function SectionPage({
   if (section === "detail")
     return query.claim ? (
       <ClaimDetail claimId={query.claim} readOnly={user.role === "admin"} />
+    ) : (
+      <ClaimPicker section={section} />
+    );
+  if (section === "review")
+    return query.claim ? (
+      <ReviewScreen claimId={query.claim} readOnly={user.role === "admin"} />
     ) : (
       <ClaimPicker section={section} />
     );

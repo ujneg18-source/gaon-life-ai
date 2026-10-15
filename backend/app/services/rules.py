@@ -1,6 +1,8 @@
 """청구 단위 검토 엔진. 규칙은 결정적이며 지급 여부를 판단하지 않는다."""
 
+import re
 from collections import defaultdict
+from copy import deepcopy
 from dataclasses import dataclass
 from datetime import date
 
@@ -67,7 +69,11 @@ def evaluate_claim(
     source_text = " ".join(doc.source_text for doc in docs)
     for doc in docs:
         for field in doc.fields:
-            if field.key == "diagnosis_code" and longer_code(field.value, source_text):
+            if (
+                field.confirmed_by is None
+                and field.key == "diagnosis_code"
+                and longer_code(field.value, source_text)
+            ):
                 field.source_found = False
                 field.review_reasons = list(
                     dict.fromkeys(
@@ -156,6 +162,8 @@ def evaluate_claim(
                 ["items"],
             )
         for field in doc.fields:
+            if field.confirmed_by is not None:
+                continue  # 사람의 확정은 모델의 low와 분리하고 교차검증에는 확정값을 사용한다.
             reasons = [
                 r
                 for r in field.review_reasons
@@ -298,6 +306,16 @@ def evaluate_claim(
     return ReviewResult(sorted(required), issues, status)
 
 
+def set_nested(values: dict, key: str, value):
+    """평탄화된 셀 경로를 원래 표 구조에 반영한다. 임의 속성을 만들지 않는다."""
+    parts = re.findall(r"[^.\[\]]+", key)
+    node = values
+    for part in parts[:-1]:
+        node = node[int(part)] if isinstance(node, list) else node[part]
+    last = int(parts[-1]) if isinstance(node, list) else parts[-1]
+    node[last] = value
+
+
 def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewResult:
     """저장된 정규화 데이터로 재검사한다. 같은 이슈는 재생성하지 않아 확인 이력을 보존한다."""
     docs = session.exec(select(Document).where(Document.claim_id == claim.id)).all()
@@ -305,7 +323,7 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         ReviewDocument(
             doc.id,
             doc.doc_type,
-            doc.raw_result.get("normalized", {}),
+            deepcopy(doc.raw_result.get("normalized", {})),
             list(
                 session.exec(
                     select(ExtractedField).where(ExtractedField.document_id == doc.id)
@@ -318,6 +336,12 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         )
         for doc in docs
     ]
+    for doc in inputs:
+        for field in doc.fields:
+            if field.confirmed_by is not None and field.confirmed_value is not None:
+                from app.services.normalize import normal_scalar
+
+                set_nested(doc.values, field.key, normal_scalar(field.key, field.confirmed_value))
     settings = session.get(ReviewSettings, 1)
     if settings is None:
         raise ValueError("검토 설정 시드가 필요합니다.")
@@ -341,6 +365,10 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         if fp not in old:
             session.add(item)
         else:
+            if old[fp].detail != item.detail:
+                old[fp].status = IssueStatus.OPEN
+                old[fp].resolved_by = None
+                old[fp].resolved_at = None
             old[fp].detail = item.detail
             old[fp].title = item.title
             session.add(old[fp])
@@ -350,8 +378,21 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
             session.add(item)
     for doc in inputs:
         session.add_all(doc.fields)
-    # 현재 문제의 존재로 라우팅한다. 수동 확인은 후속 T-14에서 정책을 연결한다.
-    claim.status = report.status
+    session.flush()
+    open_issues = session.exec(
+        select(Issue).where(Issue.claim_id == claim.id, Issue.status == IssueStatus.OPEN)
+    ).all()
+    claim.status = (
+        ClaimStatus.SUPPLEMENT
+        if any(i.kind == IssueKind.MISSING for i in open_issues)
+        else ClaimStatus.NEEDS_REVIEW
+        if open_issues
+        else ClaimStatus.AUTO_PASS
+    )
+    # 문서가 하나도 없으면 수동 확인만으로 자동 통과하지 않는다.
+    if not docs:
+        claim.status = ClaimStatus.SUPPLEMENT
+    report.status = claim.status
     session.add(claim)
     session.flush()
     return report
