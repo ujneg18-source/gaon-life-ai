@@ -1,7 +1,7 @@
 """청구 검토 도메인의 저장 객체. JSON 배열은 행별 factory로 만들어 공유를 방지한다.
 
 Claim은 처리 단위, Document는 원본, ExtractedField는 AI 값과 사람의 확정값,
-Issue는 담당자 확인 과제다. 규칙 테이블은 데이터를 저장할 뿐 아직 실행하지 않는다.
+Issue는 담당자 확인 과제다. 규칙 테이블은 정의를 저장하며 services/rules.py가 실행한다.
 """
 
 from datetime import UTC, datetime
@@ -223,7 +223,7 @@ class ReviewSettings(SQLModel, table=True):
 
 
 class RequiredDocRule(SQLModel, table=True):
-    """청구 유형의 필수·조건부 서류 정의. 조건은 후속 규칙 엔진에서 해석한다."""
+    """청구 유형의 필수·조건부 서류 정의. 조건은 규칙 엔진에서 해석한다."""
 
     __tablename__ = "required_doc_rules"
     id: str = Field(primary_key=True)
@@ -233,7 +233,7 @@ class RequiredDocRule(SQLModel, table=True):
 
 
 class CrossCheckRule(SQLModel, table=True):
-    """교차검증 규칙 메타데이터. 현재 티켓은 실행 로직을 만들지 않는다."""
+    """교차검증 규칙 메타데이터. services/rules.py가 활성 규칙만 실행한다."""
 
     __tablename__ = "cross_check_rules"
     id: str = Field(primary_key=True)

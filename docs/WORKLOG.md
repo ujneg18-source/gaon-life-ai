@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-15 · T-10 · 청구 단위 필수서류·교차검증·라우팅
+- 관련 요구사항: FR-13, FR-14, FR-16, FR-17
+- 한 일: 필수 서류 조건·CV-01~05·high/low 및 원문·형식 라우팅을 구현했다. 모든 관련 문서 쌍을 대조하고 cross_check 이유를 필드에 남긴다. 동일 이슈 재생성을 방지하고 엔진은 정답을 읽지 않는다. 누락은 supplement, 나머지 문제는 needs_review, 문제가 없을 때만 auto_pass로 보낸다.
+- 바뀐 파일: backend/app/services/rules.py, config.py, models.py, backend/tests/test_rules.py, .env.example, docs/decisions.md
+- 확인 방법: pytest 전체 22개 통과. 정답 7장 입력 → CV-04 누락 1, CV-01/02 불일치 2 정확히 검출; 강제 low 입력 시 확인 필요 1 추가. 정상·형식 오류·설정 off·CV-03·CV-05·처리 실패도 검증.
+- 남은 문제 · 질문: CV-03은 시연용 제한 참조어 대조다. CV-06 계약기간과 T-16 약관 대조는 제외.
+
 ## 2026-10-15 · T-09 · 서류별 스키마·정규화·원문 및 좌표 검증
 - 관련 요구사항: FR-10, FR-11
 - 한 일: Pydantic 모델과 Extract 전용 변환, 날짜·KCD·금액 정규화, 원문 대조·모델 신뢰도·format 검증, word 좌표 우선과 Parse 대체, C18.7 참조 명칭을 구현했다.

@@ -57,4 +57,6 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 
 | T-09 | 스키마 타입·중첩 제약, 정규화, 형식·원문·신뢰도, 좌표, 실손24 null confidence | 전체 19개 통과 | `cd backend && .venv/bin/python -m pytest tests/test_normalize.py -q` | 2026-10-15 |
 
+| T-10 | 정답 expected_issues 비교·필수 8종·CV-01~05·low/format/실패·라우팅 | 전체 22개 통과; 누락 1·불일치 2 정확히 검출 | `cd backend && .venv/bin/python -m pytest tests/test_rules.py -q` | 2026-10-15 |
+
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
