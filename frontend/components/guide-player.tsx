@@ -153,7 +153,8 @@ export function GuidePlayer({
       );
       // 대상이 중앙에 있어 설명 공간이 없으면 먼저 위쪽에 정렬해 아래 공간을 확보한다.
       if (
-        (!placement.separate || (step.placement && placement.side !== "top")) &&
+        (!placement.separate ||
+          (step.placement?.startsWith("below-") && placement.side !== "top")) &&
         !shifted
       ) {
         shifted = true;

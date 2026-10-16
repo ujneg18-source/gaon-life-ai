@@ -3,7 +3,7 @@ export type TourStep = {
   target: string;
   title: string;
   description: string;
-  placement?: "below-left" | "below-right";
+  placement?: "below-left" | "below-right" | "left" | "right";
   details?: { label: string; text: string }[];
   stage?: string;
   detailStep?: number;
@@ -14,11 +14,25 @@ export const tours: Record<string, TourStep[]> = {
       target: "home-overview",
       title: "안녕하세요. 가온생명 AI입니다",
       description:
-        "청구 서류 검토와 약관 검색을 돕는 데모입니다. 가상 자료로 편하게 살펴보세요.",
+        "보상 담당자의 청구 서류 검토와 대조 업무를 지원하는 가온생명 AI를 소개합니다.",
+      details: [
+        {
+          label: "주요기능",
+          text: "제출 서류를 분석해 누락 서류, 서류 간 불일치, 약관 확인 항목을 우선 표시합니다. 모든 검토 결과에는 근거 약관 조항을 함께 제공합니다.",
+        },
+        {
+          label: "도입 배경",
+          text: "실손24로 데이터가 전송되는 서류는 영수증, 세부내역서, 처방전 3종뿐입니다. 진단서, 수술확인서 등 나머지 서류는 담당자가 직접 읽고 대조해야 합니다. 이 반복 업무를 AI가 먼저 처리해 담당자가 판단이 필요한 항목에 집중하도록 합니다.",
+        },
+        {
+          label: "데모 범위",
+          text: "가상 보험사(가온생명), 가상 고객 10명, 시연용 약관으로 구성한 PoC입니다. 실제 도입에는 사내 약관, 업무 기준, 고객 데이터 연동이 필요합니다. 보험금 지급 여부와 지급 금액은 판단하지 않으며, 지급 심사 담당자가 결정합니다",
+        },
+      ],
     },
     {
       target: "home-assistant",
-      placement: "below-left",
+      placement: "left",
       title: "궁금한 업무는 대화로 물어보세요",
       description: "찾고 싶은 내용을 평소 말하듯 입력해 보세요.",
       details: [
@@ -34,7 +48,7 @@ export const tours: Record<string, TourStep[]> = {
     },
     {
       target: "home-workspace",
-      placement: "below-right",
+      placement: "right",
       title: "청구 서류를 한곳에서 검토하세요",
       description: "서류 접수 이후의 검토 업무를 이어가는 공간입니다.",
       details: [

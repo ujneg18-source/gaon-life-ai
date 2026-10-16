@@ -90,6 +90,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-19q | 서류 정보 탭·실제 백분율·독립 확대/드래그·고객 요약/문자 즉시 표시/오른쪽 이력 | lint/type/format/Webpack 통과. CUA7/6/2필드,99.8%,120/100%,scrollLeft42→0·타문서0유지, 실제 고정 문자 생성 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA | 2026-10-16 |
 | T-19r | 7개 독립 히든 안내·가상 데이터 격리·짧은 문구·정확한 말풍선/머리글 묶음 | pytest142/live1 제외; lint/type/format/Webpack 및 격리/배치/타이핑 검사 통과. CUA1280×720·729×800 각60단계 잘림/겹침0, 원래 입력/120% 배율·경로 보존, DB15테이블 동일 | pytest -q; node scripts/check-onboarding.mjs; node scripts/check-typing.mjs; npm run lint/typecheck/format:check; next build --webpack; CUA | 2026-10-16 |
 | T-19s | 챗봇 원본 디자인·실제 시각·질문 바로가기·기능별 설명 행·빈 예시 메모·안내 순서와 범위 | lint/type/format/Webpack·날짜 경계·격리/순서/빈 메모·타이핑 통과, CUA 캡처 및 7개 페이지 배치 검사 | npm run lint/typecheck/format:check; next build --webpack; node scripts/check-chat-history.mjs; node scripts/check-onboarding.mjs; node scripts/check-typing.mjs; CUA | 2026-10-16 |
+| T-19t | 메인 소개 원문·3행 설명·왼쪽/오른쪽 말풍선 우선 배치 | lint/typecheck/Webpack 및 안내 격리·좌우 배치 검사 통과, CUA 메인 단계 확인 | npm run lint; npm run typecheck; next build --webpack; node scripts/check-onboarding.mjs; CUA | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

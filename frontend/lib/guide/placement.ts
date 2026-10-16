@@ -4,7 +4,7 @@ export function placeGuide(
   target: Rect,
   card: { w: number; h: number },
   viewport: { w: number; h: number },
-  preferred?: "below-left" | "below-right",
+  preferred?: "below-left" | "below-right" | "left" | "right",
 ) {
   const margin = 16,
     gap = 20,
@@ -34,7 +34,10 @@ export function placeGuide(
       y: target.y - card.h - gap,
     },
   ];
-  if (preferred)
+  if (preferred === "left" || preferred === "right") {
+    // side는 말풍선 꼬리 방향이므로 대상의 왼쪽에는 오른쪽 꼬리를 둔다.
+    candidates.unshift(candidates[preferred === "left" ? 1 : 0]);
+  } else if (preferred)
     candidates.unshift({
       side: "top",
       x: clamp(
