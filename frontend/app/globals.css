@@ -2467,3 +2467,123 @@ p {
 .review-issues-card .compact-issue.issue-active {
   border-color: var(--accent);
 }
+
+/* 정보 대조는 HTML 시안의 완료 원·연결선과 여백 없는 카드 표를 따른다. */
+.stepper {
+  gap: 0;
+  align-items: center;
+  justify-content: initial;
+  padding: 18px;
+  border-radius: 14px;
+}
+.stepper button {
+  flex-shrink: 0;
+  padding: 6px 4px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.stepper button span {
+  width: 26px;
+  height: 26px;
+  border-width: 1.5px;
+  background: var(--surface);
+}
+.stepper button.done {
+  color: var(--ink);
+}
+.stepper button.done span {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: white;
+}
+.stepper .step-connector {
+  flex: 1;
+  min-width: 24px;
+  height: 2px;
+  margin: 0 10px;
+  background: var(--line);
+}
+.stepper .step-connector.done {
+  background: var(--accent-strong);
+}
+.comparison-card {
+  padding: 0 !important;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.comparison-card > h2 {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 18px 10px;
+  margin: 0;
+  font-size: 15px;
+}
+.comparison-card > h2 small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.comparison-table-scroll {
+  overflow-x: auto;
+}
+.comparison-table {
+  min-width: 560px;
+  width: 100%;
+  table-layout: fixed;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: 10px 16px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.comparison-table th {
+  font-size: 12.5px;
+  background: var(--surface-2);
+}
+.comparison-table th:first-child {
+  width: 24%;
+}
+.comparison-table th:nth-child(2) {
+  width: 32%;
+}
+.comparison-table th:nth-child(3) {
+  width: 32%;
+}
+.comparison-table th:last-child {
+  width: 12%;
+}
+.comparison-table td:first-child {
+  color: var(--muted);
+}
+.comparison-table .field-link {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.comparison-table .field-link strong {
+  font-weight: 400;
+}
+.comparison-original-link {
+  margin-top: 18px;
+  width: fit-content;
+}
+@media (max-width: 700px) {
+  .stepper {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .stepper button {
+    font-size: 11px;
+  }
+  .stepper .step-connector {
+    min-width: 10px;
+    margin: 0 4px;
+  }
+}

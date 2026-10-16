@@ -2,10 +2,11 @@
 import Link from "next/link";
 import { formatDate, formatDateTime, formatDatesInText } from "@/lib/dates";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import {
   CircleCheck,
   CircleX,
+  TriangleAlert,
   ArrowRight,
   ArrowLeft,
   Upload,
@@ -463,15 +464,24 @@ export function ClaimDetail({
       </div>
       <div className="panel stepper" data-tour="detail-stepper">
         {["서류 확인", "정보 대조", "검토 결과", "완료"].map((text, i) => (
-          <button
-            key={text}
-            onClick={() => move(i)}
-            aria-current={step === i ? "step" : undefined}
-            className={step === i ? "active" : ""}
-          >
-            <span>{i + 1}</span>
-            {text}
-          </button>
+          <Fragment key={text}>
+            {i > 0 && (
+              <span
+                className={`step-connector ${i <= step ? "done" : ""}`}
+                aria-hidden="true"
+              />
+            )}
+            <button
+              onClick={() => move(i)}
+              aria-current={step === i ? "step" : undefined}
+              className={step === i ? "active" : i < step ? "done" : ""}
+            >
+              <span>
+                {i < step ? <Check size={14} aria-hidden="true" /> : i + 1}
+              </span>
+              {text}
+            </button>
+          </Fragment>
         ))}
       </div>
       {message && (
@@ -633,85 +643,96 @@ export function ClaimDetail({
         </div>
       )}
       {step === 1 && (
-        <section className="panel" data-tour="detail-compare">
-          <h2>
-            서류 간 정보 대조{" "}
-            <small>
-              대조 {c.comparisons.length}건 · 일치{" "}
-              {c.comparisons.filter((r) => r.result === "match").length} ·
-              불일치{" "}
-              {c.comparisons.filter((r) => r.result === "mismatch").length} ·
-              안내 {c.comparisons.filter((r) => r.result === "info").length}
-              {c.comparisons.some((r) => r.result === "na") &&
-                ` · 해당 없음 ${c.comparisons.filter((r) => r.result === "na").length}`}
-            </small>
-          </h2>
-          {!c.comparisons.length ? (
-            <p className="muted">
-              대조할 서류 쌍이 없어요. 서류가 접수되면 확인할 수 있어요.
-            </p>
-          ) : (
-            <table className="work-table comparison-table">
-              <thead>
-                <tr>
-                  <th>대조 항목</th>
-                  <th>서류 A</th>
-                  <th>서류 B</th>
-                  <th>결과</th>
-                </tr>
-              </thead>
-              <tbody>
-                {c.comparisons.map((row, index) => (
-                  <tr key={index}>
-                    <td>{row.title}</td>
-                    {[row.a, row.b].map((cell, n) => (
-                      <td key={n}>
-                        <button
-                          className="field-link"
-                          disabled={!cell.document_id}
-                          onClick={() => {
-                            setPreview(cell);
-                            setZoom(100);
-                          }}
-                        >
-                          <strong>{cell.doc_name}</strong>
-                          <span>{formatDatesInText(cell.value)}</span>
-                        </button>
-                      </td>
+        <>
+          <section className="panel comparison-card" data-tour="detail-compare">
+            <h2>
+              서류 간 정보 대조{" "}
+              <small>
+                대조 {c.comparisons.length}건 · 일치{" "}
+                {c.comparisons.filter((r) => r.result === "match").length} ·
+                불일치{" "}
+                {c.comparisons.filter((r) => r.result === "mismatch").length} ·
+                안내 {c.comparisons.filter((r) => r.result === "info").length}
+                {c.comparisons.some((r) => r.result === "na") &&
+                  ` · 해당 없음 ${c.comparisons.filter((r) => r.result === "na").length}`}
+              </small>
+            </h2>
+            {!c.comparisons.length ? (
+              <p className="muted">
+                대조할 서류 쌍이 없어요. 서류가 접수되면 확인할 수 있어요.
+              </p>
+            ) : (
+              <div className="comparison-table-scroll">
+                <table className="work-table comparison-table">
+                  <thead>
+                    <tr>
+                      <th>대조 항목</th>
+                      <th>서류 A</th>
+                      <th>서류 B</th>
+                      <th>결과</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {c.comparisons.map((row, index) => (
+                      <tr key={index}>
+                        <td>{row.title}</td>
+                        {[row.a, row.b].map((cell, n) => (
+                          <td key={n}>
+                            <button
+                              className="field-link"
+                              disabled={!cell.document_id}
+                              onClick={() => {
+                                setPreview(cell);
+                                setZoom(100);
+                              }}
+                            >
+                              <strong>{cell.doc_name}</strong>
+                              <span>{formatDatesInText(cell.value)}</span>
+                            </button>
+                          </td>
+                        ))}
+                        <td>
+                          <span
+                            className={
+                              row.result === "match"
+                                ? "good plain-state"
+                                : row.result === "mismatch"
+                                  ? "warn plain-state"
+                                  : "muted plain-state"
+                            }
+                          >
+                            {row.result === "match" ? (
+                              <CircleCheck size={15} />
+                            ) : row.result === "mismatch" ? (
+                              <TriangleAlert size={15} />
+                            ) : (
+                              <Info size={15} />
+                            )}
+                            {
+                              {
+                                match: "일치",
+                                mismatch: "불일치",
+                                info: "안내",
+                                na: "해당 없음",
+                              }[row.result]
+                            }
+                          </span>
+                        </td>
+                      </tr>
                     ))}
-                    <td>
-                      <span
-                        className={
-                          row.result === "match"
-                            ? "good plain-state"
-                            : row.result === "mismatch"
-                              ? "bad plain-state"
-                              : "muted plain-state"
-                        }
-                      >
-                        {row.result === "match" ? (
-                          <CircleCheck size={15} />
-                        ) : row.result === "mismatch" ? (
-                          <CircleX size={15} />
-                        ) : (
-                          <Info size={15} />
-                        )}
-                        {
-                          {
-                            match: "일치",
-                            mismatch: "불일치",
-                            info: "안내",
-                            na: "해당 없음",
-                          }[row.result]
-                        }
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </section>
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+          <Link
+            className="btn comparison-original-link"
+            href={`/workspace/review?claim=${c.id}`}
+          >
+            <ScanLine size={16} />
+            문서 분석·검토에서 원본으로 확인
+          </Link>
+        </>
       )}
       {step === 2 && (
         <div className="detail-results">
