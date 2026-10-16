@@ -35,6 +35,7 @@ export function Status({ status }: { status: string }) {
     string,
     { text: string; className: string; Icon: typeof CircleCheck }
   > = {
+    pending: { text: "처리 전", className: "neutral", Icon: Clock3 },
     auto_pass: { text: "자동 통과", className: "good", Icon: CircleCheck },
     supplement: { text: "보완 요청", className: "bad", Icon: FilePlus2 },
     needs_review: {

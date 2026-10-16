@@ -24,6 +24,7 @@ from app.models import (
     ReviewSettings,
 )
 from app.services.normalize import canonical, element_text
+from app.services.presentation import document_label, field_label, review_reason
 from app.services.source_evidence import longer_code
 
 
@@ -46,6 +47,26 @@ class ReviewResult:
     status: ClaimStatus
 
 
+def required_documents(claim, required_rules, by_type, *, is_proxy=False):
+    """필수서류 정의 조회와 누락 판단을 분리해 접수 전에도 준비 목록만 표시한다."""
+    required = {}
+    for rule in required_rules:
+        if rule.claim_type not in {"common", *claim.claim_types}:
+            continue
+        conditions = rule.conditions
+        if set(conditions.get("waived_for_channels", [])) & set(claim.channel):
+            continue
+        if conditions.get("is_proxy") and not is_proxy:
+            continue
+        if conditions.get("has_pharmacy_claim") and not (
+            by_type.get("pharmacy_receipt") or by_type.get("prescription")
+        ):
+            continue
+        for code in rule.doc_types:
+            required[code] = rule.id
+    return required
+
+
 def evaluate_claim(
     claim: Claim,
     docs: list[ReviewDocument],
@@ -58,6 +79,10 @@ def evaluate_claim(
     policy: Policy | None = None,
 ) -> ReviewResult:
     """현재 청구와 제출 데이터만 사용한다. 정답·기대 이슈 파일은 실행 로직에서 읽지 않는다."""
+    if not docs:
+        return ReviewResult(
+            sorted(required_documents(claim, required_rules, {})), [], ClaimStatus.PENDING
+        )
     issues: list[Issue] = []
     by_type: dict[str, list[ReviewDocument]] = defaultdict(list)
     for doc in docs:
@@ -109,21 +134,7 @@ def evaluate_claim(
                             dict.fromkeys([*field.review_reasons, "cross_check"])
                         )
 
-    required = {}
-    for rule in required_rules:
-        if rule.claim_type not in {"common", *claim.claim_types}:
-            continue
-        conditions = rule.conditions
-        if set(conditions.get("waived_for_channels", [])) & set(claim.channel):
-            continue
-        if conditions.get("is_proxy") and not is_proxy:
-            continue
-        if conditions.get("has_pharmacy_claim") and not (
-            by_type.get("pharmacy_receipt") or by_type.get("prescription")
-        ):
-            continue
-        for code in rule.doc_types:
-            required[code] = rule.id
+    required = required_documents(claim, required_rules, by_type, is_proxy=is_proxy)
     surgery_docs = [
         doc
         for doc in by_type.get("medical_detail", [])
@@ -136,8 +147,10 @@ def evaluate_claim(
             issue(
                 IssueKind.MISSING,
                 rule,
-                "수술확인서 미제출" if code == "surgery_cert" else f"필수 서류 미제출: {code}",
-                f"필수 서류 {code}의 제출·처리 여부를 확인해 주세요.",
+                "수술확인서 미제출"
+                if code == "surgery_cert"
+                else f"필수 서류 미제출: {document_label(code, config)}",
+                f"{document_label(code, config)}가 제출되었는지 확인해 주세요.",
                 surgery_docs if rule == "CV-04" else [],
                 ["items"] if rule == "CV-04" else [],
             )
@@ -177,8 +190,8 @@ def evaluate_claim(
                 issue(
                     kind,
                     f"FIELD-{field.key}",
-                    f"추출 항목 확인 필요: {field.key}",
-                    ", ".join(reasons),
+                    f"추출 항목 확인 필요: {field_label(field.key, config)}",
+                    " ".join(review_reason(r) for r in reasons),
                     [doc],
                     [field.key],
                 )
@@ -219,7 +232,7 @@ def evaluate_claim(
                         IssueKind.MISMATCH,
                         "CV-03",
                         "질병코드와 병리 진단 부합 확인 필요",
-                        "시연용 질병코드·병리 참조어 기준으로 부합을 확인하지 못했습니다.",
+                        "질병코드와 병리 진단명이 서로 맞는지 확인해 주세요.",
                         [diagnosis, pathology],
                         ["diagnosis_code", "pathology_result", "specimen"],
                     )
@@ -255,7 +268,8 @@ def evaluate_claim(
                 IssueKind.MISMATCH,
                 "POLICY-RIDER",
                 "미가입 특약 확인 필요",
-                ", ".join(sorted(missing_riders)),
+                "가입 특약에 없는 청구 유형입니다: "
+                + ", ".join(config.CLAIM_TYPE_LABELS.get(t, t) for t in sorted(missing_riders)),
                 [],
                 [],
             )
@@ -321,6 +335,18 @@ def set_nested(values: dict, key: str, value):
 def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewResult:
     """저장된 정규화 데이터로 재검사한다. 같은 이슈는 재생성하지 않아 확인 이력을 보존한다."""
     docs = session.exec(select(Document).where(Document.claim_id == claim.id)).all()
+    if not docs:
+        # 빈 접수는 엔진 입력이 아니다. 과거에 잘못 만든 자동 이슈는 이력을 보존하며 해소한다.
+        for item in session.exec(select(Issue).where(Issue.claim_id == claim.id)).all():
+            if item.resolved_by is None:
+                item.status = IssueStatus.RESOLVED
+                session.add(item)
+        claim.status = ClaimStatus.PENDING
+        session.add(claim)
+        session.flush()
+        required = required_documents(claim, session.exec(select(RequiredDocRule)).all(), {})
+        return ReviewResult(sorted(required), [], ClaimStatus.PENDING)
+
     inputs = [
         ReviewDocument(
             doc.id,
@@ -393,9 +419,6 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         if open_issues
         else ClaimStatus.AUTO_PASS
     )
-    # 문서가 하나도 없으면 수동 확인만으로 자동 통과하지 않는다.
-    if not docs:
-        claim.status = ClaimStatus.SUPPLEMENT
     report.status = claim.status
     session.add(claim)
     session.flush()

@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 
 from app.models import (
     Claim,
+    ClaimStatus,
     CrossCheckRule,
     Customer,
     Document,
@@ -18,7 +19,13 @@ from app.models import (
     ReviewSettings,
 )
 from app.services.normalize import element_text, normal_scalar
-from app.services.rules import ReviewDocument, evaluate_claim, set_nested
+from app.services.rules import (
+    ReviewDocument,
+    ReviewResult,
+    evaluate_claim,
+    required_documents,
+    set_nested,
+)
 
 
 def review_input(session, doc):
@@ -51,14 +58,22 @@ def detail(session: Session, claim: Claim, config):
     )
     policy = session.get(Policy, claim.policy_no)
     customer = session.get(Customer, claim.customer_id)
-    report = evaluate_claim(
-        claim,
-        [review_input(session, d) for d in docs],
-        list(session.exec(select(RequiredDocRule)).all()),
-        list(session.exec(select(CrossCheckRule)).all()),
-        session.get(ReviewSettings, 1),
-        config,
-        policy=policy,
+    required_rules = list(session.exec(select(RequiredDocRule)).all())
+    # 조회도 빈 청구의 엔진 실행을 피한다. 필수서류 목록만 계산한다.
+    report = (
+        evaluate_claim(
+            claim,
+            [review_input(session, d) for d in docs],
+            required_rules,
+            list(session.exec(select(CrossCheckRule)).all()),
+            session.get(ReviewSettings, 1),
+            config,
+            policy=policy,
+        )
+        if docs
+        else ReviewResult(
+            sorted(required_documents(claim, required_rules, {})), [], ClaimStatus.PENDING
+        )
     )
     issues = list(
         session.exec(select(Issue).where(Issue.claim_id == claim.id).order_by(Issue.id)).all()

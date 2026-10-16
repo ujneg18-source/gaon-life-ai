@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { formatDatesInText } from "@/lib/dates";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -125,7 +126,7 @@ function FieldCell({
   active: boolean;
 }) {
   const [edit, setEdit] = useState(false),
-    [value, setValue] = useState(f.display_value),
+    [value, setValue] = useState(display(f)),
     [error, setError] = useState("");
   async function save() {
     try {
@@ -358,10 +359,13 @@ export function ReviewScreen({
                   </span>
                   <div>
                     <strong title={i.detail}>
-                      {i.title.replace(/diagnosis_code/g, "질병분류기호")}
+                      {formatDatesInText(i.title).replace(
+                        /diagnosis_code/g,
+                        "질병분류기호",
+                      )}
                     </strong>
                     <small>
-                      {i.detail
+                      {formatDatesInText(i.detail)
                         .replace(/not_in_source/g, "원문 불일치")
                         .replace(/surgery_cert/g, "수술확인서")}
                     </small>

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { formatDate, formatDateTime } from "@/lib/dates";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import {
@@ -40,6 +41,7 @@ export function Inbox() {
       <div className="filter-tabs" aria-label="상태 필터">
         {[
           ["", "전체", "total"],
+          ["pending", "처리 전", "pending"],
           ["needs_review", "검토 필요", "needs_review"],
           ["supplement", "보완 요청", "supplement"],
           ["auto_pass", "자동 통과", "auto_pass"],
@@ -97,20 +99,13 @@ export function Inbox() {
                   <td className="mono">{c.id}</td>
                   <td>
                     <strong>{c.customer_name}</strong>
-                    <small>{c.customer?.birth_date}</small>
+                    <small>{formatDate(c.customer?.birth_date)}</small>
                   </td>
                   <td>
                     {c.claim_types.map((t) => typeLabels[t] ?? t).join(" · ")}
                   </td>
                   <td className="mono muted">
-                    {new Date(c.received_at).toLocaleString("ko-KR", {
-                      timeZone: "Asia/Seoul",
-                      month: "2-digit",
-                      day: "2-digit",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
+                    {formatDateTime(c.received_at, "Asia/Seoul")}
                   </td>
                   <td>
                     <Status status={c.status} />
@@ -152,7 +147,7 @@ export function ClaimPicker({ section }: { section: string }) {
               <li key={c.id}>
                 <Link href={`/workspace/${section}?claim=${c.id}`}>
                   <strong>{c.customer_name}</strong>
-                  <span>{c.customer?.birth_date}</span>
+                  <span>{formatDate(c.customer?.birth_date)}</span>
                   <span className="mono">{c.id}</span>
                   <Status status={c.status} />
                   <ArrowRight size={16} />
@@ -231,13 +226,14 @@ export function ClaimDetail({
     <>
       <PageTitle
         title={`${c.customer_name} 고객 · 청구 상세`}
-        description={`${c.id}  ·  첨부 서류 ${c.submitted_count}개  ·  ${c.customer?.birth_date ?? ""}`}
+        description={`${c.id}  ·  첨부 서류 ${c.submitted_count}개  ·  ${formatDate(c.customer?.birth_date)}`}
       />
       <div className="detail-meta">
         <Status status={c.status} />
         <span>{c.policy?.product_name}</span>
         <span>
-          보장 {c.policy?.coverage_start} ~ {c.policy?.coverage_end}
+          보장 {formatDate(c.policy?.coverage_start)} ~{" "}
+          {formatDate(c.policy?.coverage_end)}
         </span>
       </div>
       <div className="panel stepper">

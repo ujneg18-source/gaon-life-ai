@@ -8,7 +8,7 @@ from sqlmodel import Session, select
 
 from app.config import Settings
 from app.db import build_engine, create_tables
-from app.models import Claim, Customer, Policy
+from app.models import Claim, Customer, Document, Policy
 from app.services.rules import review_from_db
 from scripts.seed import seed_database
 
@@ -25,6 +25,10 @@ def test_customers_contracts_and_cv06(client):
             c.customer_id and s.get(Policy, c.policy_no).customer_id == c.customer_id
             for c in claims
         )
+        # 접수만 된 청구는 검사하지 않는다. 서류가 들어온 뒤 계약 검증이 시작된다.
+        for claim_id in ["GA-2610-0438", "GA-2610-0433"]:
+            s.add(Document(claim_id=claim_id, file_path="scenario-only.png"))
+        s.flush()
         report = review_from_db(s, s.get(Claim, "GA-2610-0438"), client.app.state.settings)
         assert any(i.rule_id == "CV-06" for i in report.issues)
         report = review_from_db(s, s.get(Claim, "GA-2610-0433"), client.app.state.settings)

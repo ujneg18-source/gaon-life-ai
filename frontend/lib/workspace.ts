@@ -1,3 +1,4 @@
+import { formatDatesInText } from "./dates";
 /** 화면은 이 API 타입만 소비한다. 건수·서류 목록·이슈는 서버에서 계산한다. */
 export type FieldRow = {
   id: number;
@@ -152,7 +153,7 @@ export function display(field: FieldRow) {
       : field.display_value === "false"
         ? "비급여"
         : field.display_value
-    : field.display_value;
+    : formatDatesInText(field.display_value);
 }
 export async function api<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch("/api" + url, {

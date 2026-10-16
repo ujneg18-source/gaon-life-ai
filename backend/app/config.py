@@ -87,6 +87,48 @@ class Settings(BaseSettings):
     KCD_PATHOLOGY_HINTS: dict[str, dict[str, list[str]]] = {
         "C18.7": {"result": ["adenocarcinoma", "선암", "악성"], "specimen": ["sigmoid", "구불결장"]}
     }
+    CLAIM_TYPE_LABELS: dict[str, str] = {
+        "cancer_diagnosis": "암 진단금",
+        "hospitalization": "입원일당",
+        "medical_expense": "실손",
+        "surgery": "수술비",
+        "outpatient": "통원일당",
+        "disability": "후유장해",
+        "death": "사망보험금",
+    }
+    FIELD_LABELS: dict[str, str] = {
+        "patient_name": "환자 성명",
+        "issuer": "발행 기관",
+        "issued_date": "발행일",
+        "diagnosis_code": "질병분류기호",
+        "diagnosis_name": "진단명",
+        "diagnosis_date": "진단일",
+        "onset_date": "발병일",
+        "pathology_result": "병리 진단명",
+        "specimen": "검체",
+        "report_date": "병리 보고일",
+        "admit_date": "입원일",
+        "discharge_date": "퇴원일",
+        "stay_days": "입원 일수",
+        "inpatient_days": "입원 일수",
+        "period_start": "진료 시작일",
+        "period_end": "진료 종료일",
+        "items": "진료 항목",
+        "covered": "급여 구분",
+        "amount": "금액",
+        "total": "합계",
+        "patient_total": "환자 부담 합계",
+        "covered_copay": "급여 본인부담",
+        "covered_nhis": "공단 부담",
+        "non_covered": "비급여",
+        "drug_name": "품명",
+        "name": "항목명",
+        "category": "분류",
+        "code": "코드",
+        "date": "진료일",
+        "days": "일수",
+        "per_day": "일일 횟수",
+    }
     KCD_DEMO_CODES: dict[str, str] = {"C18.7": "구불결장의 악성 신생물"}
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False

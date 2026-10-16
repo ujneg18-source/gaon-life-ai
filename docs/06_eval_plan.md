@@ -71,4 +71,6 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 
 | T-14 | 모의 발송 상태·중복/권한·설정 재검사·Solar 캐시/표준 문구·화면 캡처/비교 | 통과 (41 tests; 문서 추가 API 0/5페이지) | pytest -q; ruff check app tests; npm run lint; npm run typecheck; npm run format:check; npm run build | 2026-10-15 |
 
+| polish-1 | 빈 청구 엔진 차단·상태/시드·날짜·안내 문구; 화면 3·5·6 후속 | 데이터 검증 통과: backend 43 / 날짜 1, 화면 최종 검증 진행 중 | pytest -q; node --experimental-strip-types --test tests/dates.test.mjs; npm run lint; npm run typecheck | 2026-10-16 |
+
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

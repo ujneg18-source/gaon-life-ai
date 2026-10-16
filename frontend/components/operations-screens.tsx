@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { formatDateTime, formatDatesInText } from "@/lib/dates";
 import {
   CircleCheck,
   Send,
@@ -104,10 +105,7 @@ function MessageEditor({
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-        <p className="muted small">
-          표준 문구 또는 캐시된 Solar 초안 · 담당자가 내용을 확인한 뒤 모의
-          발송합니다.
-        </p>
+        <p className="muted small">안내 문구를 확인한 뒤 모의 발송해 주세요.</p>
         <div className="action-row">
           <button
             className="btn"
@@ -362,18 +360,7 @@ export function HistoryScreen({ claimId }: { claimId: string }) {
           {items.map((log) => (
             <li key={log.id}>
               <time className="mono" dateTime={log.created_at}>
-                {new Date(
-                  log.created_at.endsWith("Z")
-                    ? log.created_at
-                    : log.created_at + "Z",
-                ).toLocaleString("ko-KR", {
-                  timeZone: "Asia/Seoul",
-                  month: "2-digit",
-                  day: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}
+                {formatDateTime(log.created_at)}
               </time>
               <span className="timeline-icon">
                 {log.actor_type === "user" ? (
@@ -393,7 +380,7 @@ export function HistoryScreen({ claimId }: { claimId: string }) {
                       ? "고객"
                       : "가온 AI"}
                 </span>
-                <p>{logDetail(log)}</p>
+                <p>{formatDatesInText(logDetail(log))}</p>
               </div>
             </li>
           ))}

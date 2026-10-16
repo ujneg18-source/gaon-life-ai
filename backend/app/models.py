@@ -23,6 +23,7 @@ class Role(StrEnum):
 
 
 class ClaimStatus(StrEnum):
+    PENDING = "pending"
     PROCESSING = "processing"
     AUTO_PASS = "auto_pass"
     NEEDS_REVIEW = "needs_review"
@@ -158,7 +159,7 @@ class Claim(SQLModel, table=True):
     claim_types: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))
     received_at: datetime = Field(default_factory=utc_now)
     channel: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))
-    status: ClaimStatus = ClaimStatus.PROCESSING
+    status: ClaimStatus = ClaimStatus.PENDING
     assignee_id: int = Field(foreign_key="users.id", index=True)
     step: int = Field(default=0, ge=0, le=3)
 
