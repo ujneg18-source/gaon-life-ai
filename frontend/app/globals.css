@@ -2897,3 +2897,188 @@ p {
 .viewer-scroll.is-panning {
   cursor: grabbing;
 }
+
+/* 안내는 원래 페이지를 보존한 채 같은 디자인의 히든 페이지에서만 실행한다. */
+.guide-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: var(--bg);
+}
+.guide-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.tour-card {
+  width: min(390px, calc(100vw - 24px));
+  max-height: calc(100dvh - 96px);
+  overflow: auto;
+  font-family: var(--sans);
+}
+.tour-card h2 {
+  font-family: var(--sans);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.tour-card p {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.85;
+  word-break: keep-all;
+}
+.guide-sample-surface h1,
+.guide-sample-surface h2 {
+  font-weight: 700;
+}
+
+/* 목업처럼 짧은 설명과 말풍선 꼬리로 대상과 안내의 관계를 명확히 한다. */
+.tour-card {
+  width: min(410px, calc(100vw - 32px));
+  padding: 22px;
+  border-color: var(--line);
+  border-radius: 16px;
+  box-shadow: 0 14px 45px #18102c35;
+  overflow: visible;
+}
+.tour-card:focus {
+  outline: none;
+}
+.tour-card > .icon-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.tour-kicker {
+  display: block;
+  margin: 0 24px 14px 54px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+.tour-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.tour-symbol {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+}
+.tour-card h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.tour-card #guide-description {
+  margin: 14px 0 0 54px;
+}
+.tour-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--muted);
+  white-space: pre-line;
+  word-break: keep-all;
+}
+.tour-card footer {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin-top: 18px;
+  gap: 10px;
+}
+.tour-card footer .text-link {
+  color: var(--muted);
+  font-size: 12px;
+}
+.tour-next {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  background: var(--accent-strong);
+  cursor: pointer;
+}
+.tour-pointer {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  transform: rotate(45deg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  z-index: -1;
+}
+.tour-card[data-side="left"] .tour-pointer {
+  left: -8px;
+  border-right: 0;
+  border-top: 0;
+}
+.tour-card[data-side="right"] .tour-pointer {
+  right: -8px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.tour-card[data-side="top"] .tour-pointer {
+  top: -8px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.tour-card[data-side="bottom"] .tour-pointer {
+  bottom: -8px;
+  border-left: 0;
+  border-top: 0;
+}
+.guide-sample-surface .assistant-page {
+  height: calc(100dvh - 88px);
+}
+/* 좁은 안내 화면에서 접힌 패널을 설명할 때만 원래 근거 카드를 펼친다. */
+@media (max-width: 850px) {
+  .guide-sample-surface[data-guide-target="assistant-sources"]
+    .assistant-layout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+  }
+  .guide-sample-surface[data-guide-target="assistant-sources"]
+    .assistant-history {
+    display: none;
+  }
+  .guide-sample-surface[data-guide-target="assistant-sources"]
+    .assistant-sources {
+    display: block;
+  }
+}
+@media (max-width: 600px) {
+  .guide-sample-surface[data-guide-target="assistant-new-chat"]
+    .assistant-layout {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+  .guide-sample-surface[data-guide-target="assistant-new-chat"]
+    .assistant-history {
+    display: flex;
+  }
+  .tour-card {
+    padding: 18px;
+  }
+  .tour-card #guide-description {
+    margin-left: 0;
+  }
+}
+/* 마지막 영역도 화면 위쪽에 온전히 놓을 수 있도록 안내 안에만 스크롤 여유를 둔다. */
+.guide-sample-surface {
+  padding-bottom: 320px;
+}
+.guide-sample-surface [data-tour] {
+  scroll-margin: 24px;
+}

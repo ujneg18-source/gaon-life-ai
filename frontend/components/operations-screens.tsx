@@ -72,7 +72,7 @@ function MessageEditor({
     }
   }
   return (
-    <section className="panel message-editor">
+    <section className="panel message-editor" data-tour="supplement-editor">
       <div className="panel-heading">
         <h2>{row.customer_name} 고객 안내</h2>
         <Status status={row.status} />
@@ -107,6 +107,7 @@ function MessageEditor({
           <strong>가온생명 보험금 안내</strong>
           <textarea
             aria-label="고객 안내 문구"
+            data-tour="supplement-letter"
             value={message}
             maxLength={2000}
             disabled={locked || busy}
@@ -118,7 +119,7 @@ function MessageEditor({
             ? "모의 발송이 완료됐어요. 보완 서류의 회신을 기다리고 있어요."
             : "안내 문구를 확인한 뒤 모의 발송해 주세요."}
         </p>
-        <div className="action-row">
+        <div className="action-row" data-tour="supplement-send">
           <button
             className="btn"
             disabled={locked || busy || !message.trim()}
@@ -201,11 +202,14 @@ export function SupplementScreen({
         description="누락 서류를 확인하고 안내 문자를 작성하세요."
       />
       <div className="supplement-grid supplement-workspace">
-        <aside className="panel claimant-summary">
+        <aside
+          className="panel claimant-summary"
+          data-tour="supplement-customer"
+        >
           <p className="small muted">청구인</p>
           <h2>{claim.customer_name}</h2>
           <p className="mono small">{claim.id}</p>
-          <div className="claimant-missing">
+          <div className="claimant-missing" data-tour="supplement-missing">
             <strong>
               누락 서류{" "}
               <span className="muted small">총 {missingNames.length}개</span>
@@ -220,6 +224,7 @@ export function SupplementScreen({
               !missingNames.length ||
               rows.some((r) => r.status === "sent_mock")
             }
+            data-tour="supplement-generate"
             onClick={create}
           >
             {busy ? "안내 문자 준비 중…" : "안내 문자 생성"}
@@ -234,6 +239,7 @@ export function SupplementScreen({
           <section
             className="panel correspondence-history"
             aria-label="발송 및 회신 이력"
+            data-tour="supplement-history"
           >
             <h2>발송·회신 이력</h2>
             {!sent.length && (
@@ -396,7 +402,7 @@ export function HistoryScreen({ claimId }: { claimId: string }) {
         title="검토 이력"
         description={`${claim.data.customer_name} 고객 · ${claimId} · 처리 기록`}
       />
-      <div className="filter-tabs">
+      <div className="filter-tabs" data-tour="history-filters">
         {[
           ["all", "전체"],
           ["user", "담당자"],
@@ -412,7 +418,7 @@ export function HistoryScreen({ claimId }: { claimId: string }) {
         ))}
         <Link href={`/workspace/review?claim=${claimId}`}>문서 검토로</Link>
       </div>
-      <div className="panel">
+      <div className="panel" data-tour="history-records">
         <ol className="timeline">
           {items.map((log) => (
             <li key={log.id}>

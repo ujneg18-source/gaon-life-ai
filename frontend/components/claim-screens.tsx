@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useGuide } from "@/lib/guide/context";
 import { formatDate, formatDateTime, formatDatesInText } from "@/lib/dates";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef, Fragment } from "react";
@@ -33,6 +34,7 @@ import { workspacePages } from "@/lib/navigation";
 import { useResource, Status, PageTitle, LoadState } from "./workspace-ui";
 
 export function Inbox() {
+  const guide = useGuide();
   const params = useSearchParams();
   const router = useRouter();
   const q = params.get("q") ?? "";
@@ -44,6 +46,7 @@ export function Inbox() {
   const { data, error } = resource;
   const page = Math.max(1, Number(params.get("page") ?? 1));
   function openClaim(id: string) {
+    if (guide) return;
     // URL은 필터/페이지를, 세션 메모리는 화면의 스크롤 위치를 복원한다.
     try {
       sessionStorage.setItem(
@@ -57,7 +60,7 @@ export function Inbox() {
     router.push("/workspace/detail?claim=" + id);
   }
   useEffect(() => {
-    if (!data) return;
+    if (!data || guide) return;
     try {
       const saved = JSON.parse(
         sessionStorage.getItem("inbox-return") ?? "null",
@@ -65,7 +68,7 @@ export function Inbox() {
       if (saved?.url === window.location.pathname + window.location.search)
         requestAnimationFrame(() => window.scrollTo(0, saved.scroll));
     } catch {}
-  }, [data]);
+  }, [data, guide]);
   return (
     <>
       <PageTitle
@@ -124,7 +127,18 @@ export function Inbox() {
                   "상태",
                   "AI 검토 결과",
                 ].map((h) => (
-                  <th key={h}>{h}</th>
+                  <th
+                    key={h}
+                    data-tour={
+                      ["청구번호", "고객"].includes(h)
+                        ? "inbox-heading-person"
+                        : ["청구 유형", "접수"].includes(h)
+                          ? "inbox-heading-receipt"
+                          : "inbox-heading-status"
+                    }
+                  >
+                    {h}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -268,7 +282,7 @@ function ClaimSearchResults({ section, q }: { section: string; q: string }) {
           {!data.items.length && (
             <p className="empty-message">검색 조건에 맞는 청구가 없어요.</p>
           )}
-          <ul className="claim-picker">
+          <ul className="claim-picker" data-tour="claim-search-results">
             {data.items.map((c) => (
               <li key={c.id}>
                 <Link href={`/workspace/${section}?claim=${c.id}`}>
@@ -290,10 +304,13 @@ function ClaimSearchResults({ section, q }: { section: string; q: string }) {
 export function ClaimDetail({
   claimId,
   readOnly,
+  guideStep,
 }: {
   claimId: string;
   readOnly: boolean;
+  guideStep?: number;
 }) {
+  const guide = useGuide();
   const params = useSearchParams();
   const requestedIssue = params.get("issue");
   const resource = useResource<Claim>("/claims/" + claimId);
@@ -306,7 +323,7 @@ export function ClaimDetail({
   const previewRef = useRef<HTMLDivElement>(null);
   const [note, setNote] = useState<string | null>(null);
   // 저장된 업무 진행 단계와 화면 진입 위치를 분리한다. 일반 진입은 항상 서류 확인부터 시작한다.
-  const step = localStep ?? (requestedIssue ? 2 : 0);
+  const step = guideStep ?? localStep ?? (requestedIssue ? 2 : 0);
   useEffect(() => {
     // 챗봇 근거에서 이동한 이슈만 데이터 로드 후 화면 가운데로 보여준다.
     if (c && requestedIssue)
@@ -314,11 +331,6 @@ export function ClaimDetail({
         .getElementById(`issue-${requestedIssue}`)
         ?.scrollIntoView({ block: "center" });
   }, [c, requestedIssue]);
-  useEffect(() => {
-    const listener = (e: Event) => setStep((e as CustomEvent<number>).detail);
-    window.addEventListener("tour-detail-step", listener);
-    return () => window.removeEventListener("tour-detail-step", listener);
-  }, []);
   useEffect(() => {
     if (!preview) return;
     // 원본 창 안에서 키보드 초점을 유지하고 닫을 때 이전 값 버튼으로 돌려준다.
@@ -380,6 +392,8 @@ export function ClaimDetail({
     }
   }
   async function upload(files: FileList | null) {
+    // 파일 업로드는 공통 API 함수를 거치지 않으므로 안내 환경에서 별도로 차단한다.
+    if (guide) return;
     if (!files) return;
     setBusy(true);
     const form = new FormData();
@@ -479,6 +493,7 @@ export function ClaimDetail({
               />
             )}
             <button
+              data-tour={`detail-step-${i}`}
               onClick={() => move(i)}
               aria-current={step === i ? "step" : undefined}
               className={step === i ? "active" : i < step ? "done" : ""}
@@ -498,14 +513,14 @@ export function ClaimDetail({
       )}
       {step === 0 && (
         <div className="detail-grid">
-          <section className="panel" data-tour="detail-documents">
+          <section className="panel">
             <h2>
               제출 서류{" "}
               <small>
                 {c.submitted_count} / {c.required_count}
               </small>
             </h2>
-            <ul className="document-checklist">
+            <ul className="document-checklist" data-tour="detail-documents">
               {[
                 ...new Set([
                   ...c.required,
@@ -602,7 +617,7 @@ export function ClaimDetail({
               </div>
             )}
           </section>
-          <section className="panel">
+          <section className="panel" data-tour="detail-extracted">
             <div className="panel-heading">
               <h2>추출된 청구 정보</h2>
               <Link className="btn sm" href={`/workspace/review?claim=${c.id}`}>
@@ -673,10 +688,10 @@ export function ClaimDetail({
                 <table className="work-table comparison-table">
                   <thead>
                     <tr>
-                      <th>대조 항목</th>
-                      <th>서류 A</th>
-                      <th>서류 B</th>
-                      <th>결과</th>
+                      <th data-tour="compare-key">대조 항목</th>
+                      <th data-tour="compare-a">서류 A</th>
+                      <th data-tour="compare-b">서류 B</th>
+                      <th data-tour="compare-result">결과</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -809,7 +824,7 @@ export function ClaimDetail({
               </li>
             </ul>
           </section>
-          <section className="panel">
+          <section className="panel" data-tour="detail-note">
             <h2>담당자 메모</h2>
             <textarea
               className="work-textarea"
@@ -910,14 +925,18 @@ export function ClaimDetail({
         </div>
       )}
       {step === 3 && (
-        <section className="panel completion-panel">
+        <section className="panel completion-panel" data-tour="detail-complete">
           <h2>검토 내용을 확인하고 다음 단계로 이동하세요.</h2>
           <p>
             남은 확인 {open.length}건 · 제출 {c.submitted_count} / 필요{" "}
             {c.required_count}
           </p>
           <div className="row-actions">
-            <Link className="btn" href={`/workspace/supplement?claim=${c.id}`}>
+            <Link
+              data-tour="detail-supplement"
+              className="btn"
+              href={`/workspace/supplement?claim=${c.id}`}
+            >
               <Send size={16} />
               보완 요청 보내기
               {missingNames.length > 0 ? ` (${missingNames.join(", ")})` : ""}
@@ -931,6 +950,7 @@ export function ClaimDetail({
                 !c.documents.length ||
                 c.documents.some((d) => d.status !== "extracted")
               }
+              data-tour="detail-submit"
               onClick={submit}
             >
               지급 심사로 보내기

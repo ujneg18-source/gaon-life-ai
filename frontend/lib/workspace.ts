@@ -180,6 +180,12 @@ export function display(field: FieldRow) {
     : formatDatesInText(field.display_value);
 }
 export async function api<T>(url: string, init?: RequestInit): Promise<T> {
+  // 히든 안내 화면은 실수로 버튼이 실행돼도 실제 조회·저장을 요청하지 않는다.
+  if (
+    typeof window !== "undefined" &&
+    window.location.pathname.startsWith("/guide/")
+  )
+    throw new Error("사용 안내에서는 실제 업무 데이터를 변경하지 않아요.");
   const response = await fetch("/api" + url, {
     cache: "no-store",
     ...init,

@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19r · 페이지별 독립 온보딩과 짧은 말풍선 안내
+- 관련 요구사항: FR-04~05, FR-18~24, SCR-02/03/10~14
+- 한 일: 메인→어시스턴트→워크스페이스 각 페이지 순서로7개 히든 안내 경로를 만들었다. 실제 화면 컴포넌트/CSS를 공유하고 고정 가상 데이터·원본·저장된 시연 답변을 독립 공급한다. 원래 페이지의 ?가 iframe을 열며 종료하면 원래 입력/채팅/서류 선택/배율로 돌아온다. 실제 API/업로드/인박스 복원 저장소 호출을 안내에서 차단한다.
+  첫 초안의 긴 문구와 큰 강조 범위에 대한 사용자 피드백을 반영해60단계로 재구성했다. 최대67자 문구와 큰 볼드 제목, 아이콘, 원형 다음 버튼, 말풍선 꼬리를 사용한다. 머리글은 청구번호/고객·청구 유형/접수·상태/AI 검토 결과로 묶는다. 서류 목록/표 머리글/버튼 등 설명하는 작은 영역 전체를 강조하고, 공간이 없으면 대상부터 정렬해 카드와 겹치지 않게 한다. 마지막은 ‘궁금할 땐 언제든 ?를 눌러 주세요.’ 한 줄이다.
+- 바뀐 파일: frontend/components/{onboarding-tour,guide-player,home-screen,workspace-shell,workspace-ui,claim-screens,chat-screen,review-screen,operations-screens}.tsx, frontend/lib/{tours,workspace}.ts, frontend/lib/guide/, frontend/public/guide-documents/, frontend/app/(protected)/guide/[screen]/page.tsx, frontend/app/globals.css, frontend/scripts/check-onboarding.mjs, docs/decisions.md, docs/implementation_objects.md, TODO.md, artifacts/onboarding/
+- 확인 방법: pytest142 passed/1 live 제외, 프론트 lint/type/format 및 next build --webpack 통과. check-onboarding(실제 API 차단/정상 화면 유지/리소스 격리/7개 종료/4방향 배치)와 check-typing 통과. CUA 1280×720/729×800 각각60단계 대상 표시/전체 범위/카드 비중첩/화면 경계 검사 모두 통과. 7개 ? 연결·독립 종료, 채팅 입력/세션0개 보존, 입퇴원확인서120% 보존, 안내 전후 DB15테이블 동일 확인. 제목 Noto Sans KR/700 확인. 최종 캡처와 검사 JSON은 artifacts/onboarding/v2/, 첫 초안은 v1/에 보존했다.
+- 남은 문제 · 질문: 없음. 실제 업무 데이터 대신 가상 예시를 사용하는 안내다. 중간 DB 비교에는 동시 청구/채팅 조회 로그2건이 섞였으나 안내 전용 전체 재검증에서는15테이블 동일했다. 별도 LLM/Upstage 호출0회, 실제 문자 발송 없음. 운영 관리 안내는 이번 범위 밖이다.
+
 ## 2026-10-16 · T-19q · 추출된 서류 정보 탭과 원본별 확대·이동
 - 관련 요구사항: FR-19~24, SCR-12~13
 - 한 일: ‘정규화 결과’를 ‘추출된 서류 정보’로 바꾸고 두 표를 나란히 두는 대신 문서별 탭/비교 항목 탭에서 한 표씩 보여준다. 비교 항목은 해당 이슈 필드만 기본 표시하며 탭 전환 시 첫 행부터 연다. 신뢰도는 실제 숫자를99.8%처럼 표시하고 줄바꿈을 방지한다.

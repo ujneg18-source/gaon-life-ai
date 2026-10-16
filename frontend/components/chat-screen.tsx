@@ -40,7 +40,7 @@ function citationKind(c: Citation): string {
     c.source_kind ?? (/\/(10|11)_/.test(c.source_path) ? "업무 기준" : "약관");
   return `${kind}${c.is_mock ? " · 가상 문서" : " · 공개 문서"}`;
 }
-type Answer = {
+export type Answer = {
   answer: string;
   draft_text?: string | null;
   display_answer?: string | null;
@@ -77,7 +77,15 @@ function quoteText(text: string) {
 }
 
 /** 본문을 안전한 React 텍스트 노드로 렌더링한다. HTML이나 원문 속 명령은 실행하지 않는다. */
-function AnswerText({ text, onSkip }: { text: string; onSkip: () => void }) {
+function AnswerText({
+  text,
+  onSkip,
+  immediate = false,
+}: {
+  text: string;
+  onSkip: () => void;
+  immediate?: boolean;
+}) {
   const typing = useTyping(formatDatesInText(text));
   function inline(line: string) {
     return line
@@ -117,7 +125,7 @@ function AnswerText({ text, onSkip }: { text: string; onSkip: () => void }) {
     <div
       className="assistant-answer-text"
       data-testid="answer-body"
-      aria-busy={!typing.complete}
+      aria-busy={!immediate && !typing.complete}
       tabIndex={0}
       title="누르면 답변 전체를 바로 표시해요"
       onClick={() => {
@@ -132,35 +140,63 @@ function AnswerText({ text, onSkip }: { text: string; onSkip: () => void }) {
         }
       }}
     >
-      {typing.text.split(/\n\s*\n/).map((block, n) => {
-        const [title, ...rest] = block.split("\n");
-        const headed = /^(추가 서류:|[①-⑳] )/.test(title);
-        return (
-          <div className="answer-block" key={n}>
-            {headed ? (
-              <>
-                <strong>{title}</strong>
-                {rest.length > 0 && (
-                  <>
-                    <br />
-                    {body(rest.join("\n"))}
-                  </>
-                )}
-              </>
-            ) : (
-              body(block)
-            )}
-          </div>
-        );
-      })}
+      {(immediate ? formatDatesInText(text) : typing.text)
+        .split(/\n\s*\n/)
+        .map((block, n) => {
+          const [title, ...rest] = block.split("\n");
+          const headed = /^(추가 서류:|[①-⑳] )/.test(title);
+          return (
+            <div
+              className="answer-block"
+              key={n}
+              data-tour={n < 2 ? "assistant-answer-summary" : undefined}
+            >
+              {headed ? (
+                <>
+                  <strong>{title}</strong>
+                  {rest.length > 0 && (
+                    <>
+                      <br />
+                      {body(rest.join("\n"))}
+                    </>
+                  )}
+                </>
+              ) : (
+                body(block)
+              )}
+            </div>
+          );
+        })}
     </div>
   );
 }
 
-export function ChatScreen() {
+export function ChatScreen({
+  preview,
+}: {
+  preview?: {
+    question: string;
+    answer: Answer;
+    showAnswer: boolean;
+    showQuestion?: boolean;
+  };
+}) {
   const params = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([
-    { id: 1, turns: [], claimId: params.get("claim") ?? undefined },
+    {
+      id: 1,
+      turns:
+        preview && (preview.showAnswer || preview.showQuestion)
+          ? [
+              {
+                id: 1,
+                question: preview.question,
+                result: preview.showAnswer ? preview.answer : undefined,
+              },
+            ]
+          : [],
+      claimId: params.get("claim") ?? undefined,
+    },
   ]);
   const [active, setActive] = useState(1),
     [input, setInput] = useState(""),
@@ -202,6 +238,7 @@ export function ChatScreen() {
       );
   // 예시 고객도 현재 담당자가 조회할 수 있는 실제 청구에서 선택한다.
   useEffect(() => {
+    if (preview) return;
     let live = true;
     api<ClaimList>("/claims")
       .then((result) => {
@@ -211,9 +248,9 @@ export function ChatScreen() {
     return () => {
       live = false;
     };
-  }, []);
+  }, [preview]);
   useEffect(() => {
-    if (!contextId) return;
+    if (!contextId || preview) return;
     let live = true;
     api<Claim>(`/claims/${contextId}`)
       .then((c) => {
@@ -223,14 +260,15 @@ export function ChatScreen() {
     return () => {
       live = false;
     };
-  }, [contextId]);
+  }, [contextId, preview]);
   useEffect(() => {
+    if (preview) return;
     // 새 답변만 대화 영역 아래로 이동시킨다. 근거 패널이나 브라우저 전체는 움직이지 않는다.
     scroll.current?.scrollTo({
       top: scroll.current.scrollHeight,
       behavior: "smooth",
     });
-  }, [turns.length, busy]);
+  }, [turns.length, busy, preview]);
   function update(id: number, patch: Partial<Turn>) {
     setConversations((list) =>
       list.map((c) =>
@@ -293,7 +331,7 @@ export function ChatScreen() {
   }
   return (
     <main id="main" className="assistant-page">
-      <div className="assistant-top">
+      <div className="assistant-top" data-tour="assistant-intro">
         <Link href="/" className="back-home">
           <ArrowLeft size={16} />
           메인으로
@@ -313,6 +351,7 @@ export function ChatScreen() {
       <div className="assistant-layout">
         <aside className="assistant-history" aria-label="대화 목록">
           <button
+            data-tour="assistant-new-chat"
             className="btn"
             disabled={busy}
             onClick={() => {
@@ -394,10 +433,13 @@ export function ChatScreen() {
                   id={`question-${t.id}`}
                   className="assistant-turn"
                 >
-                  <h2 className="assistant-user">{t.question}</h2>
+                  <h2 className="assistant-user" data-tour="assistant-question">
+                    {t.question}
+                  </h2>
                   {t.result && (
                     <div
                       className="assistant-answer"
+                      data-tour="assistant-answer"
                       data-testid={`answer-${t.id}`}
                     >
                       <div className="assistant-answer-label">
@@ -408,6 +450,7 @@ export function ChatScreen() {
                         )}
                       </div>
                       <AnswerText
+                        immediate={!!preview}
                         onSkip={draftTyping.skip}
                         text={t.result.display_answer ?? t.result.answer}
                       />
@@ -547,7 +590,7 @@ export function ChatScreen() {
             )}
           </div>
           <form
-            data-tour={draft !== null ? undefined : "assistant-draft"}
+            data-tour="assistant-input"
             className="assistant-composer"
             onSubmit={(e) => {
               e.preventDefault();

@@ -158,3 +158,11 @@
 - workspace.field_confidences는 Extract choices[0].confidence_score의 JSON 문자열/객체에서 _value만 읽는다. 중첩 배열은 Field.key와 같은 경로로 평탄화하며 invalid/범위 밖/문맥 점수는 제외한다.
 - SupplementScreen은 검색된 고객 요약을 왼쪽, 실제 발송·접수 이력과 편집기를 오른쪽에 둔다. 생성 응답을 즉시 편집기에 연결하며 고객 선택 드롭다운은 없다.
 - Original은 비교 문서별 배율과 포인터 드래그 스크롤을 분리한다. 서류 정보는 문서별 탭과 이슈 field_keys만 모은 비교 항목 탭으로 한 표씩 표시한다. 탭/이슈 변경 시 첫 행으로 돌아간다.
+
+
+## T-19r 독립 온보딩 객체
+- OnboardingTour: 페이지 경로로7개 안내를 구분하고 iframe을 수동으로 연다. 동일 origin + 해당 frame의 종료 메시지만 받고 포커스를 ?로 돌려준다. 재시작은 항상 첫 단계다.
+- GuidePlayer: 스포트라이트·문구·앞/뒤/종료·Esc/방향키/Tab 초점 순환을 담당한다. 강조 대상의 크기에 따라 투명창과 설명 위치를 계산하며 단계에 맞는 예시 화면을 준비한다.
+- GuideContext/useResource: 가상 응답을 즉시 읽으며 실제 fetch 효과를 실행하지 않는다. 컨텍스트가 없는 일반 화면은 기존 동작을 유지한다. api와 파일 업로드에도 안내 경로 차단을 둔다.
+- HomeScreen/WorkspaceShell/ClaimDetail/ReviewScreen/ChatScreen/SupplementScreen/HistoryScreen은 원래 화면과 안내가 공유한다. guideStep, guideIssue와 preview는 안내 인스턴스만 사용한다. 대화는 저장된 시연 원문이고 LLM 호출이 없다.
+- 상세 검색 결과,5개 메뉴,표의 각 열,제출/추출/대조/메모/완료,문자 양식/이력에 data-tour 대상을 명시해 설명 범위를 좁혀 이동한다.

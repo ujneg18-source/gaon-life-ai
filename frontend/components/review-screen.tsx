@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useGuide } from "@/lib/guide/context";
 import { formatDatesInText } from "@/lib/dates";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { referenceForm } from "@/lib/reference-form";
@@ -51,6 +52,7 @@ export function Original({
   showFocusSummary?: boolean;
   changeZoom?: (value: number) => void;
 }) {
+  const guide = useGuide();
   const [page, setPage] = useState(
     () => fields.find((f) => focusKeys.includes(f.key))?.page ?? 1,
   );
@@ -152,6 +154,7 @@ export function Original({
           className="document-zoom-tools"
           role="group"
           aria-label={`${docLabels[doc.doc_type]} 확대 및 이동`}
+          data-tour="review-compare-controls"
         >
           <button
             aria-label={`${docLabels[doc.doc_type]} 축소`}
@@ -261,7 +264,11 @@ export function Original({
             {/* 인증된 동일 출처 이미지. Next 이미지 최적화 캐시에 의료 서류를 저장하지 않는다. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`/api/documents/${doc.id}/image`}
+              src={
+                guide
+                  ? `/guide-documents/${doc.id}.png`
+                  : `/api/documents/${doc.id}/image`
+              }
               alt={`${docLabels[doc.doc_type]} 원본`}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
@@ -438,9 +445,11 @@ function FieldCell({
 export function ReviewScreen({
   claimId,
   readOnly,
+  guideIssue,
 }: {
   claimId: string;
   readOnly: boolean;
+  guideIssue?: number;
 }) {
   const params = useSearchParams();
   const router = useRouter();
@@ -465,7 +474,8 @@ export function ReviewScreen({
     c.documents[0];
   const allIssues = c.display_issues;
   const issue =
-    compare ?? allIssues.find((i) => i.id === Number(params.get("issue")));
+    compare ??
+    allIssues.find((i) => i.id === (guideIssue ?? Number(params.get("issue"))));
   const comparing = !!issue && issue.doc_ids.length === 2;
   const docs = comparing
     ? c.documents.filter((d) => issue.doc_ids.includes(d.id))
@@ -518,7 +528,7 @@ export function ReviewScreen({
         title="문서 분석 · 검토"
         description={`${c.customer_name} · ${c.id} · 제출 ${c.submitted_count} / 필요 ${c.required_count}`}
       />
-      <div className="document-tabs">
+      <div className="document-tabs" data-tour="review-documents">
         {c.documents.map((d) => (
           <button
             key={d.id}
@@ -544,7 +554,7 @@ export function ReviewScreen({
         <div className="review-grid">
           <div className="review-viewer-slot">
             <section className="panel viewer-panel" data-tour="review-original">
-              <div className="panel-heading">
+              <div className="panel-heading" data-tour="review-zoom">
                 <h2>{comparing ? "원본 비교" : "원본 서류"}</h2>
                 <div className="viewer-tools">
                   {!comparing && (
@@ -628,6 +638,7 @@ export function ReviewScreen({
               {comparing && (
                 <div
                   className="normalized-tabs"
+                  data-tour="review-field-tabs"
                   role="tablist"
                   aria-label="추출된 서류 정보 문서 선택"
                 >
@@ -676,7 +687,7 @@ export function ReviewScreen({
                   className="work-table field-table"
                   aria-label="추출된 서류 정보"
                 >
-                  <thead>
+                  <thead data-tour="review-field-headings">
                     <tr>
                       <th>항목</th>
                       <th>값</th>

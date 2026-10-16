@@ -1,0 +1,55 @@
+{
+  "chatIsolation": {
+    "originalInput": "안내를 닫은 뒤에도 작성 중인 질문을 유지합니다.",
+    "originalSessions": 0,
+    "iframeClosed": true
+  },
+  "reviewIsolation": {
+    "viewerUnchanged": true,
+    "document": 1,
+    "viewer": "원본 서류\n120%\n입퇴원확인서\n앱 업로드 원본\n□ 추출 위치\n□ 확인 필요\n항목을 누르면 원문 위치가 강조돼요.",
+    "iframeClosed": true
+  },
+  "hostChecks": [
+    {
+      "screen": "home",
+      "title": "안녕하세요. 가온생명 AI를 소개합니다",
+      "src": "/guide/home?claim=GA-2610-0482",
+      "parentUrl": "http://127.0.0.1:3000/",
+      "closed": true
+    },
+    {
+      "screen": "inbox",
+      "title": "워크스페이스는 청구별 서류 검토 공간입니다",
+      "src": "/guide/inbox?claim=GA-2610-0482",
+      "parentUrl": "http://127.0.0.1:3000/workspace?q=%EA%B9%80%EC%9C%A0%EC%A0%95",
+      "closed": true
+    },
+    {
+      "screen": "detail",
+      "title": "먼저 정확한 고객의 청구를 선택해 주세요",
+      "src": "/guide/detail?q=%EA%B9%80%EC%9C%A0%EC%A0%95&claim=GA-2610-0482",
+      "parentUrl": "http://127.0.0.1:3000/workspace/detail?claim=GA-2610-0482",
+      "closed": true
+    },
+    {
+      "screen": "supplement",
+      "title": "보완할 고객과 누락 서류부터 확인하세요",
+      "src": "/guide/supplement?claim=GA-2610-0482",
+      "parentUrl": "http://127.0.0.1:3000/workspace/supplement?claim=GA-2610-0482",
+      "closed": true
+    },
+    {
+      "screen": "history",
+      "title": "검토 이력에서 처리 과정을 되짚어 보세요",
+      "src": "/guide/history?claim=GA-2610-0482",
+      "parentUrl": "http://127.0.0.1:3000/workspace/history?claim=GA-2610-0482",
+      "closed": true
+    }
+  ],
+  "database": {
+    "table_count": 15,
+    "unchanged": true
+  },
+  "paid_api_calls": 0
+}

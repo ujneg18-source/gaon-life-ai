@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { CircleCheck, TriangleAlert, Clock3, FilePlus2 } from "lucide-react";
+import { useGuide } from "@/lib/guide/context";
 import { api } from "@/lib/workspace";
 
 /** URL과 응답을 함께 보관해 검색이 바뀔 때 이전 응답을 새 결과로 표시하지 않는다. */
 export function useResource<T>(url: string) {
+  const guide = useGuide();
   const [version, setVersion] = useState(0);
   const [result, setResult] = useState<{
     url: string;
@@ -12,6 +14,7 @@ export function useResource<T>(url: string) {
     error?: string;
   }>({ url: "" });
   useEffect(() => {
+    if (guide) return;
     let live = true;
     api<T>(url)
       .then((data) => {
@@ -23,7 +26,13 @@ export function useResource<T>(url: string) {
     return () => {
       live = false;
     };
-  }, [url, version]);
+  }, [url, version, guide]);
+  if (guide)
+    return {
+      data: guide.resolve(url) as T,
+      error: undefined,
+      reload: () => {},
+    };
   return {
     data: result.url === url ? result.data : undefined,
     error: result.url === url ? result.error : undefined,
@@ -76,7 +85,7 @@ export function PageTitle({
   description: string;
 }) {
   return (
-    <div className="work-title">
+    <div className="work-title" data-tour="page-title">
       <div>
         <h1>{title}</h1>
         <p>{description}</p>
