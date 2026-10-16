@@ -307,9 +307,9 @@ export function ClaimDetail({
   const [preview, setPreview] = useState<ComparisonCell | null>(null);
   const [zoom, setZoom] = useState(100);
   const previewRef = useRef<HTMLDivElement>(null);
-  const [returnUrl, setReturnUrl] = useState("/workspace");
   const [note, setNote] = useState<string | null>(null);
-  const step = localStep ?? (requestedIssue ? 2 : (c?.step ?? 0));
+  // 저장된 업무 진행 단계와 화면 진입 위치를 분리한다. 일반 진입은 항상 서류 확인부터 시작한다.
+  const step = localStep ?? (requestedIssue ? 2 : 0);
   useEffect(() => {
     // 챗봇 근거에서 이동한 이슈만 데이터 로드 후 화면 가운데로 보여준다.
     if (c && requestedIssue)
@@ -318,13 +318,6 @@ export function ClaimDetail({
         ?.scrollIntoView({ block: "center" });
   }, [c, requestedIssue]);
   useEffect(() => {
-    try {
-      const saved = JSON.parse(
-        sessionStorage.getItem("inbox-return") ?? "null",
-      );
-      if (saved?.url?.startsWith("/workspace?"))
-        requestAnimationFrame(() => setReturnUrl(saved.url));
-    } catch {}
     const listener = (e: Event) => setStep((e as CustomEvent<number>).detail);
     window.addEventListener("tour-detail-step", listener);
     return () => window.removeEventListener("tour-detail-step", listener);
@@ -439,9 +432,6 @@ export function ClaimDetail({
   const open = c.issues.filter((i) => i.status === "open" && i.kind !== "info");
   return (
     <>
-      <Link className="back-home" href={returnUrl}>
-        ← 청구 검토함
-      </Link>
       <PageTitle
         title={`${c.customer_name} 고객 · 청구 상세`}
         description={`${c.id}  ·  첨부 서류 ${c.submitted_count}개  ·  ${formatDate(c.customer?.birth_date)}`}

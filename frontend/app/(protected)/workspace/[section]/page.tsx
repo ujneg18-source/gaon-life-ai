@@ -14,7 +14,7 @@ export default async function SectionPage({
   searchParams,
 }: {
   params: Promise<{ section: string }>;
-  searchParams: Promise<{ claim?: string }>;
+  searchParams: Promise<{ claim?: string; issue?: string }>;
 }) {
   const { section } = await params;
   const user = await requireUser();
@@ -25,7 +25,11 @@ export default async function SectionPage({
   const query = await searchParams;
   if (section === "detail")
     return query.claim ? (
-      <ClaimDetail claimId={query.claim} readOnly={user.role === "admin"} />
+      <ClaimDetail
+        key={`${query.claim}-${query.issue ?? "start"}`}
+        claimId={query.claim}
+        readOnly={user.role === "admin"}
+      />
     ) : (
       <ClaimPicker section={section} />
     );

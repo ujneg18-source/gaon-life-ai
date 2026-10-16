@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19j · 상세 첫 단계 진입과 중복 복귀 링크 제거
+- 관련 요구사항: FR-18~20, SCR-11
+- 한 일: 상세의 일반 진입 위치를 DB의 저장 step과 분리해 항상 서류 확인(1단계)으로 연다. 청구/이슈 경로가 달라지면 컴포넌트를 재생성해 이전 로컬 탭도 남지 않는다. 명시적인 issue 링크는 해당 확인 항목을 보여주는 기존 동작을 유지한다.
+  본문의 ← 청구 검토함 링크와 그 링크용 복귀 URL 상태를 제거했다. 왼쪽 청구 검토함 메뉴와 검토함 자체의 필터/스크롤 복원은 유지했다.
+- 바뀐 파일: frontend/components/claim-screens.tsx, frontend/app/(protected)/workspace/[section]/page.tsx
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA에서3단계를 선택한 뒤 새로고침→현재1 서류 확인, 본문 복귀 링크0개/왼쪽 메뉴1개 확인. artifacts/ui-cleanup/detail-start.jpg. 저영향 UI 변경으로 별도 자동 테스트 추가 없음.
+- 남은 문제 · 질문: 없음. 외부 Upstage 호출 없음.
+
 ## 2026-10-16 · T-19i · 정보 대조 화면 HTML 목업 스타일 복원
 - 관련 요구사항: FR-18~20, SCR-11
 - 한 일: gaon-ai.html처럼 단계 완료 체크 원/현재 단계 테두리 원과 3개의 진행 연결선을 표시했다. 정보 대조 표는 여백 없는 카드/연보라 머리글/일관된 셀 여백으로 정리하고 서류명과 값을 같은 줄에서 읽도록 바꿨다.
