@@ -13,7 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useTyping } from "@/lib/use-typing";
-import { api, Claim } from "@/lib/workspace";
+import { api, Claim, ClaimList } from "@/lib/workspace";
 import { formatDatesInText } from "@/lib/dates";
 
 /** API 계약만 화면에 전달한다. 대화는 이 컴포넌트의 세션 메모리에만 보관한다. */
@@ -58,7 +58,7 @@ type Conversation = { id: number; turns: Turn[]; claimId?: string };
 const generalQuestions = [
   "암 진단금 청구에 필요한 서류가 뭐야?",
   "실손에서 영양제 비용도 보상돼?",
-  "입원일수가 서류마다 하루 다르면 문제야?",
+  "고객님 관련해서 해야 하는 업무 리스트 좀 뽑아줘",
   "오늘 내가 검토할 청구가 몇 건이야?",
 ];
 const claimQuestions = [
@@ -175,20 +175,43 @@ export function ChatScreen() {
   const sources =
     focus?.result?.display_citations ?? focus?.result?.citations ?? [];
   const nextId = useRef(2);
+  const [exampleClaim, setExampleClaim] = useState<Claim | null>(null);
   const [context, setContext] = useState<Claim | null>(null);
   const [draftTarget, setDraftTarget] = useState("");
   const draftTyping = useTyping(draftTarget);
   const contextId = current.claimId;
   const questions = contextId
-    ? claimQuestions.filter(
-        (q) =>
-          q !== claimQuestions[2] ||
-          !context ||
-          context.issues.some(
-            (i) => i.kind === "missing" && i.status === "open",
-          ),
-      )
-    : generalQuestions;
+    ? claimQuestions
+        .filter(
+          (q) =>
+            q !== claimQuestions[2] ||
+            !context ||
+            context.issues.some(
+              (i) => i.kind === "missing" && i.status === "open",
+            ),
+        )
+        .map((q, index) =>
+          index === 0 && context
+            ? `${context.customer_name} 고객님 관련해서 해야 하는 업무 리스트 좀 뽑아줘`
+            : q,
+        )
+    : generalQuestions.map((q, index) =>
+        index === 2 && exampleClaim
+          ? `${exampleClaim.customer_name} 고객님 관련해서 해야 하는 업무 리스트 좀 뽑아줘`
+          : q,
+      );
+  // 예시 고객도 현재 담당자가 조회할 수 있는 실제 청구에서 선택한다.
+  useEffect(() => {
+    let live = true;
+    api<ClaimList>("/claims")
+      .then((result) => {
+        if (live) setExampleClaim(result.items[0] ?? null);
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
   useEffect(() => {
     if (!contextId) return;
     let live = true;
@@ -345,8 +368,18 @@ export function ChatScreen() {
                   className="assistant-suggestions"
                   data-tour="assistant-actions"
                 >
-                  {questions.map((q) => (
-                    <button key={q} onClick={() => send(q)}>
+                  {questions.map((q, index) => (
+                    <button
+                      key={q}
+                      onClick={() =>
+                        send(
+                          q,
+                          !contextId && index === 2
+                            ? exampleClaim?.id
+                            : undefined,
+                        )
+                      }
+                    >
                       {q}
                       <ArrowUp size={14} />
                     </button>

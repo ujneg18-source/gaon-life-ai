@@ -44,6 +44,7 @@ def test_resolving_all_keeps_missing(client):
     "message,intent",
     [
         ("이 청구 건 서류 다 왔는지 검토해줘", "claim_check"),
+        ("김유정 고객님 관련해서 해야 하는 업무 리스트 좀 뽑아줘", "claim_check"),
         ("이 건 영수증에 보상 제외될 항목 있어?", "item_coverage"),
         ("누락 서류 보완 요청 문자 써줘", "draft"),
         ("이 건 지급 심사로 넘겨도 돼?", "claim_check"),

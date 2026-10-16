@@ -76,6 +76,10 @@ class ChatAgent:
                 message,
             )
         )
+        # 선택한 청구의 업무 목록은 지급 판단이 아닌 기존 검토 결과 조회다.
+        scoped_request = scoped_request or bool(
+            re.search(r"(?:해야\s*(?:하는|할)|남은)\s*업무\s*(?:리스트|목록)", message)
+        )
         # 그 밖의 요청은 기존 모델 분류를 그대로 거쳐 거절/범위 판단을 보존한다.
         if state.get("claim_id") and (draft_request or scoped_request):
             message = state["message"]
