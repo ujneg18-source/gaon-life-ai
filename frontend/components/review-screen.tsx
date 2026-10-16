@@ -39,6 +39,7 @@ export function Original({
   focusKeys,
   allowReferencePosition = false,
   showFocusSummary = false,
+  changeZoom,
 }: {
   doc: Doc;
   fields: FieldRow[];
@@ -48,10 +49,20 @@ export function Original({
   focusKeys: string[];
   allowReferencePosition?: boolean;
   showFocusSummary?: boolean;
+  changeZoom?: (value: number) => void;
 }) {
   const [page, setPage] = useState(
     () => fields.find((f) => focusKeys.includes(f.key))?.page ?? 1,
   );
+  const drag = useRef<{
+    id: number;
+    x: number;
+    y: number;
+    left: number;
+    top: number;
+    moved: boolean;
+  } | null>(null);
+  const [panning, setPanning] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [verifiedForm, setVerifiedForm] = useState(false);
   const viewport = useRef<HTMLDivElement>(null),
@@ -136,6 +147,31 @@ export function Original({
             : "앱 업로드 원본"}
         </span>
       </div>
+      {changeZoom && (
+        <div
+          className="document-zoom-tools"
+          role="group"
+          aria-label={`${docLabels[doc.doc_type]} 확대 및 이동`}
+        >
+          <button
+            aria-label={`${docLabels[doc.doc_type]} 축소`}
+            disabled={zoom <= 60}
+            onClick={() => changeZoom(Math.max(60, zoom - 20))}
+          >
+            <ZoomOut size={14} />
+          </button>
+          <span>{zoom}%</span>
+          <button
+            aria-label={`${docLabels[doc.doc_type]} 확대`}
+            disabled={zoom >= 400}
+            onClick={() => changeZoom(Math.min(400, zoom + 20))}
+          >
+            <ZoomIn size={14} />
+          </button>
+          <button onClick={() => changeZoom(100)}>맞춤</button>
+          <small>드래그해서 이동</small>
+        </div>
+      )}
       {/* 비교하는 양쪽에 같은 높이의 안내 칸을 둬 원본 시작 위치를 맞춘다. */}
       {(focusField || showFocusSummary) && (
         <div className="compare-focus-value">
@@ -157,7 +193,66 @@ export function Original({
         </div>
       )}
       {doc.page_size && (
-        <div className="viewer-scroll" ref={viewport} data-document-id={doc.id}>
+        <div
+          className={`viewer-scroll ${panning ? "is-panning" : ""}`}
+          ref={viewport}
+          data-document-id={doc.id}
+          tabIndex={0}
+          aria-label={`${docLabels[doc.doc_type]} 원본 이동 영역`}
+          onPointerDown={(e) => {
+            if (e.button !== 0) return;
+            drag.current = {
+              id: e.pointerId,
+              x: e.clientX,
+              y: e.clientY,
+              left: e.currentTarget.scrollLeft,
+              top: e.currentTarget.scrollTop,
+              moved: false,
+            };
+          }}
+          onPointerMove={(e) => {
+            const start = drag.current;
+            if (!start || start.id !== e.pointerId) return;
+            const dx = e.clientX - start.x,
+              dy = e.clientY - start.y;
+            if (!start.moved && Math.abs(dx) + Math.abs(dy) < 4) return;
+            start.moved = true;
+            setPanning(true);
+            e.currentTarget.setPointerCapture(e.pointerId);
+            e.currentTarget.scrollLeft = start.left - dx;
+            e.currentTarget.scrollTop = start.top - dy;
+          }}
+          onPointerUp={(e) => {
+            if (e.currentTarget.hasPointerCapture(e.pointerId))
+              e.currentTarget.releasePointerCapture(e.pointerId);
+            setPanning(false);
+          }}
+          onPointerCancel={() => {
+            drag.current = null;
+            setPanning(false);
+          }}
+          onClickCapture={(e) => {
+            if (drag.current?.moved) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            drag.current = null;
+          }}
+          onKeyDown={(e) => {
+            if (e.target !== e.currentTarget) return;
+            const directions: Record<string, [number, number]> = {
+              ArrowLeft: [-60, 0],
+              ArrowRight: [60, 0],
+              ArrowUp: [0, -60],
+              ArrowDown: [0, 60],
+            };
+            const delta = directions[e.key];
+            if (delta) {
+              e.preventDefault();
+              e.currentTarget.scrollBy(delta[0], delta[1]);
+            }
+          }}
+        >
           <div
             className="image-sheet"
             ref={sheet}
@@ -168,6 +263,8 @@ export function Original({
             <img
               src={`/api/documents/${doc.id}/image`}
               alt={`${docLabels[doc.doc_type]} 원본`}
+              draggable={false}
+              onDragStart={(e) => e.preventDefault()}
               onLoad={(event) => imageLoaded(event.currentTarget)}
             />
             <svg
@@ -350,6 +447,13 @@ export function ReviewScreen({
   const resource = useResource<Claim>(`/claims/${claimId}`),
     { data: c, error } = resource;
   // 비교 진입도 기존 맞춤 비율(100%)로 시작한다. 대상 이동·강조와 수동 확대는 유지한다.
+  const [documentZooms, setDocumentZooms] = useState<Record<number, number>>(
+    {},
+  );
+  const [normalizedSelection, setNormalizedSelection] = useState<{
+    context: string;
+    view: string;
+  } | null>(null);
   const [docId, setDoc] = useState<number | null>(null),
     [selected, setSelected] = useState<number | null>(null),
     [zoom, setZoom] = useState(100),
@@ -371,6 +475,17 @@ export function ReviewScreen({
   const fields = c.fields.filter((f) =>
     docs.some((d) => d.id === f.document_id),
   );
+  const normalizedContext = `${docs.map((d) => d.id).join("-")}-${issue?.id ?? "single"}`;
+  const normalizedView =
+    normalizedSelection?.context === normalizedContext
+      ? normalizedSelection.view
+      : comparing
+        ? "comparison"
+        : String(doc?.id);
+  const normalizedFields =
+    normalizedView === "comparison"
+      ? fields.filter((f) => issue?.field_keys.includes(f.key))
+      : fields.filter((f) => String(f.document_id) === normalizedView);
   // 안내의 실제 문서 ID와 필드 키만 사용한다. 누락 서류는 원본 대신 보완 화면으로 연결한다.
   function openIssue(i: Issue) {
     if (i.kind === "missing") {
@@ -432,21 +547,25 @@ export function ReviewScreen({
               <div className="panel-heading">
                 <h2>{comparing ? "원본 비교" : "원본 서류"}</h2>
                 <div className="viewer-tools">
-                  <button
-                    aria-label="축소"
-                    disabled={zoom <= 60}
-                    onClick={() => setZoom((z) => z - 20)}
-                  >
-                    <ZoomOut size={16} />
-                  </button>
-                  <span className="mono">{zoom}%</span>
-                  <button
-                    aria-label="확대"
-                    disabled={zoom >= 400}
-                    onClick={() => setZoom((z) => z + 20)}
-                  >
-                    <ZoomIn size={16} />
-                  </button>
+                  {!comparing && (
+                    <>
+                      <button
+                        aria-label="축소"
+                        disabled={zoom <= 60}
+                        onClick={() => setZoom((z) => z - 20)}
+                      >
+                        <ZoomOut size={16} />
+                      </button>
+                      <span className="mono">{zoom}%</span>
+                      <button
+                        aria-label="확대"
+                        disabled={zoom >= 400}
+                        onClick={() => setZoom((z) => z + 20)}
+                      >
+                        <ZoomIn size={16} />
+                      </button>
+                    </>
+                  )}
                   {comparing && (
                     <button
                       aria-label="비교 닫기"
@@ -472,7 +591,16 @@ export function ReviewScreen({
                     fields={c.fields.filter((f) => f.document_id === d.id)}
                     selected={selected}
                     select={setSelected}
-                    zoom={zoom}
+                    zoom={comparing ? (documentZooms[d.id] ?? 100) : zoom}
+                    changeZoom={
+                      comparing
+                        ? (value) =>
+                            setDocumentZooms((previous) => ({
+                              ...previous,
+                              [d.id]: value,
+                            }))
+                        : undefined
+                    }
                     focusKeys={issue?.field_keys ?? []}
                     showFocusSummary={comparing}
                   />
@@ -491,66 +619,90 @@ export function ReviewScreen({
               data-tour="review-normalized"
             >
               <div className="normalized-heading">
-                <h2>정규화 결과</h2>
+                <h2>추출된 서류 정보</h2>
                 <small>
                   {comparing ? "비교 중인 두 문서" : "선택 문서"} ·{" "}
-                  {fields.length}개 항목
+                  {normalizedFields.length}개 항목
                 </small>
               </div>
-              {/* 원본과 같은 문서 순서로 나누고 문서별 스크롤/수정 상태를 분리한다. */}
-              <div
-                className={`normalized-documents ${comparing ? "split" : ""}`}
-              >
-                {docs.map((d) => {
-                  const documentFields = fields.filter(
-                    (f) => f.document_id === d.id,
-                  );
-                  return (
-                    <section
-                      className="normalized-document"
-                      key={d.id}
-                      aria-label={`${docLabels[d.doc_type]} 정규화 결과`}
+              {comparing && (
+                <div
+                  className="normalized-tabs"
+                  role="tablist"
+                  aria-label="추출된 서류 정보 문서 선택"
+                >
+                  {[
+                    ...docs.map((d) => ({
+                      value: String(d.id),
+                      label: docLabels[d.doc_type],
+                    })),
+                    { value: "comparison", label: "비교 항목" },
+                  ].map((tab) => (
+                    <button
+                      key={tab.value}
+                      role="tab"
+                      aria-selected={normalizedView === tab.value}
+                      aria-controls="normalized-fields-panel"
+                      onClick={() =>
+                        setNormalizedSelection({
+                          context: normalizedContext,
+                          view: tab.value,
+                        })
+                      }
                     >
-                      {comparing && (
-                        <h3>
-                          {docLabels[d.doc_type]}{" "}
-                          <small>{documentFields.length}개 항목</small>
-                        </h3>
-                      )}
-                      {/* 비교 대상이 바뀌면 각 문서의 스크롤도 첫 행부터 시작한다. */}
-                      <div
-                        className="field-scroll"
-                        key={`${d.id}-${issue?.id ?? "single"}`}
-                      >
-                        <table
-                          className="work-table field-table"
-                          aria-label={`${docLabels[d.doc_type]} 정규화 결과`}
-                        >
-                          <thead>
-                            <tr>
-                              <th>항목</th>
-                              <th>값</th>
-                              <th>출처</th>
-                              <th>신뢰도</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {documentFields.map((f) => (
-                              <FieldCell
-                                key={`${f.id}-${f.confirmed_value}`}
-                                f={f}
-                                readOnly={readOnly}
-                                done={resource.reload}
-                                select={() => setSelected(f.id)}
-                                active={selected === f.id}
-                              />
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  );
-                })}
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {/* 한 번에 한 표를 넓게 표시하고 비교 탭에는 실제 이슈 필드만 모은다. */}
+              <div
+                className="field-scroll"
+                id="normalized-fields-panel"
+                role={comparing ? "tabpanel" : undefined}
+                aria-label={
+                  normalizedView === "comparison"
+                    ? "비교 항목"
+                    : docs.find((d) => String(d.id) === normalizedView)
+                      ? docLabels[
+                          docs.find((d) => String(d.id) === normalizedView)!
+                            .doc_type
+                        ]
+                      : "추출된 서류 정보"
+                }
+                key={`${normalizedContext}-${normalizedView}`}
+              >
+                <table
+                  className="work-table field-table"
+                  aria-label="추출된 서류 정보"
+                >
+                  <thead>
+                    <tr>
+                      <th>항목</th>
+                      <th>값</th>
+                      <th>출처</th>
+                      <th>신뢰도</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {normalizedFields.map((f) => (
+                      <FieldCell
+                        key={`${f.id}-${f.confirmed_value}`}
+                        f={f}
+                        readOnly={readOnly}
+                        done={resource.reload}
+                        select={() => setSelected(f.id)}
+                        active={selected === f.id}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+                {!normalizedFields.length && (
+                  <p className="empty-message">
+                    관련 추출 항목이 없어요. 문서 탭에서 전체 항목을 확인해
+                    주세요.
+                  </p>
+                )}
               </div>
             </section>
             <section

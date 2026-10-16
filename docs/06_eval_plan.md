@@ -87,6 +87,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-19n | 숫자 미제공 시 실제 high/low 표시·정형 데이터 구분 | lint/type/format·Webpack 통과. CUA 진단서7개 높음/실손24 10개 대시 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19o | 비교 문서별 정규화 표·독립 스크롤·단일 표 유지 | lint/type/format·Webpack 통과. CUA7/58행·원본과 같은 순서·독립스크롤[0,720]·단일1표 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19p | 고정 문자 양식·누락/권한·초안 재생성·발송 보호·실제 필드 점수 | pytest142 passed/live1 제외, Ruff check/format 통과; 실제 UI 고정 문구 생성 확인 | pytest -q; ruff check; ruff format --check; CUA | 2026-10-16 |
+| T-19q | 서류 정보 탭·실제 백분율·독립 확대/드래그·고객 요약/문자 즉시 표시/오른쪽 이력 | lint/type/format/Webpack 통과. CUA7/6/2필드,99.8%,120/100%,scrollLeft42→0·타문서0유지, 실제 고정 문자 생성 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

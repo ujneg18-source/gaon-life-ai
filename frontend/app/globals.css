@@ -2354,6 +2354,7 @@ p {
 .panel > .normalized-compact td:last-child {
   text-align: right;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .normalization-card .field-link,
 .panel > .normalized-compact .field-link {
@@ -2729,4 +2730,170 @@ p {
 }
 .normalized-documents.split .field-table {
   min-width: 420px;
+}
+
+/* 좁은 두 표 대신 문서 탭으로 전환해 네 열을 한 번에 읽는다. */
+.normalized-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.normalized-tabs button {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+  padding: 7px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.normalized-tabs button[aria-selected="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* 왼쪽은 간결한 청구 요약, 오른쪽은 실제 문자 내용과 발송·회신 기록을 둔다. */
+.supplement-workspace {
+  grid-template-columns: 270px minmax(0, 1fr);
+  max-width: 1180px;
+}
+.claimant-summary {
+  padding: 18px;
+}
+.claimant-summary > h2 {
+  margin: 6px 0;
+  font-size: 18px;
+}
+.claimant-summary > p {
+  margin: 4px 0;
+}
+.claimant-missing {
+  border-block: 1px solid var(--line);
+  margin: 16px 0;
+  padding: 14px 0;
+  font-size: 13px;
+}
+.claimant-missing strong {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.claimant-missing p {
+  margin: 8px 0 0;
+}
+.claimant-summary > button {
+  width: 100%;
+}
+.correspondence-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.correspondence-history h2 {
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+.correspondence-history {
+  max-height: 320px;
+  overflow: auto;
+}
+.correspondence-message {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--ink);
+  padding: 12px;
+  cursor: pointer;
+}
+.correspondence-message > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+}
+.correspondence-entry + .correspondence-entry {
+  margin-top: 12px;
+}
+.correspondence-message p {
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-line;
+  max-height: 100px;
+  overflow: auto;
+  margin-bottom: 0;
+}
+.correspondence-reply {
+  padding: 12px;
+  font-size: 12px;
+}
+.correspondence-history time {
+  color: var(--muted);
+  font-size: 11px;
+}
+.supplement-workspace .message-editor {
+  min-height: 0;
+}
+.supplement-workspace .message-body {
+  padding: 16px;
+}
+.supplement-workspace .message-preview {
+  max-width: none;
+  border-width: 6px;
+  border-radius: 12px;
+}
+.supplement-workspace .message-preview textarea {
+  min-height: 360px;
+  height: 420px;
+  font-size: 13px;
+  line-height: 1.8;
+  padding: 16px;
+}
+@media (max-width: 900px) {
+  .supplement-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 각 비교 원본은 독립 배율과 스크롤을 갖고, 드래그로 기존 스크롤을 이동한다. */
+.document-zoom-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 11px;
+}
+.document-zoom-tools button {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 5px;
+  padding: 4px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.document-zoom-tools small {
+  margin-left: auto;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.viewer-scroll {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.viewer-scroll.is-panning {
+  cursor: grabbing;
 }

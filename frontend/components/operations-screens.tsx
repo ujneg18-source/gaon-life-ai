@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { formatDateTime, formatDatesInText } from "@/lib/dates";
 import {
@@ -14,7 +13,6 @@ import {
 import {
   api,
   Claim,
-  ClaimList,
   docLabels,
   typeLabels,
   label,
@@ -30,6 +28,9 @@ type Supplement = {
   channel: string;
   message: string;
   status: string;
+  created_at: string | null;
+  sent_at: string | null;
+  received_at: string | null;
 };
 /** 서버가 만든 초안만 편집한다. 발송은 모의 상태 전이이며 수신자 전송 기능은 없다. */
 function MessageEditor({
@@ -140,45 +141,53 @@ function MessageEditor({
     </section>
   );
 }
+/** 검색으로 정해진 고객만 다루며 생성 응답을 즉시 편집기에 전달한다. */
 export function SupplementScreen({
   claimId,
   readOnly,
 }: {
-  claimId?: string;
+  claimId: string;
   readOnly: boolean;
 }) {
-  const router = useRouter();
-  const [choice, setChoice] = useState(claimId ?? "");
-  const resource = useResource<Supplement[]>(
-      `/supplements?claim_id=${encodeURIComponent(choice)}`,
-    ),
-    claims = useResource<ClaimList>("/claims"),
-    currentClaim = useResource<Claim>(`/claims/${encodeURIComponent(choice)}`);
-  const [selected, setSelected] = useState<number | null>(null),
-    [message, setMessage] = useState(""),
-    [busy, setBusy] = useState(false);
-  if (!resource.data || !claims.data || !currentClaim.data)
-    return (
-      <LoadState error={resource.error ?? claims.error ?? currentClaim.error} />
-    );
-  // 선택이 바뀌는 순간 이전 고객의 요청과 편집기를 표시하지 않는다.
-  const rows = resource.data.filter((r) => r.claim_id === choice);
-  const missing = currentClaim.data.display_issues.filter(
-    (i) => i.kind === "missing",
+  const requestUrl = `/supplements?claim_id=${encodeURIComponent(claimId)}`;
+  const resource = useResource<Supplement[]>(requestUrl);
+  const currentClaim = useResource<Claim>(
+    `/claims/${encodeURIComponent(claimId)}`,
   );
-  const row = rows.find((r) => r.id === selected) ?? rows[0];
+  const [generated, setGenerated] = useState<Supplement | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  if (!resource.data || !currentClaim.data)
+    return <LoadState error={resource.error ?? currentClaim.error} />;
+  const claim = currentClaim.data;
+  const rows = resource.data.filter((r) => r.claim_id === claimId);
+  const missing = claim.display_issues.filter((i) => i.kind === "missing");
+  const missingNames = [
+    ...new Set(missing.map((i) => i.title.replace(/\s*(?:누락|미제출)$/, ""))),
+  ];
+  const row =
+    generated ??
+    rows.find((r) => r.id === selected) ??
+    rows.find((r) => r.status === "draft");
+  const sent = rows.filter((r) => r.status !== "draft");
+  async function refresh() {
+    // 저장/발송 응답 뒤에도 화면은 서버의 최신 내용과 상태를 사용한다.
+    const fresh = await api<Supplement[]>(requestUrl);
+    setGenerated(fresh.find((r) => r.id === row?.id) ?? null);
+    resource.reload();
+  }
   async function create() {
-    if (!choice) return;
     setBusy(true);
+    setMessage("");
     try {
-      const r = await api<Supplement>(`/claims/${choice}/supplements`, {
+      const result = await api<Supplement>(`/claims/${claimId}/supplements`, {
         method: "POST",
       });
-      setSelected(r.id);
-      setChoice(r.claim_id);
-      router.replace(`/workspace/supplement?claim=${r.claim_id}`);
+      setGenerated(result);
+      setSelected(result.id);
       resource.reload();
-      setMessage("챗봇과 같은 기준으로 안내 문자를 생성했어요.");
+      setMessage("준비된 안내 양식에 청구 정보를 채웠어요.");
     } catch (e) {
       setMessage((e as Error).message);
     } finally {
@@ -189,105 +198,103 @@ export function SupplementScreen({
     <>
       <PageTitle
         title="보완 처리"
-        description="고객에게 보낼 안내를 확인하고, 보완 요청을 관리해요."
+        description="누락 서류를 확인하고 안내 문자를 작성하세요."
       />
-      <div className="supplement-grid">
-        <aside className="supplement-list">
-          <label className="small muted">
-            청구 선택
-            <select
-              aria-label="보완 청구 선택"
-              value={choice}
-              onChange={(e) => {
-                const next = e.target.value;
-                setChoice(next);
-                setSelected(null);
-                setMessage("");
-                router.replace(
-                  next
-                    ? `/workspace/supplement?claim=${encodeURIComponent(next)}`
-                    : "/workspace/supplement",
-                );
-              }}
-            >
-              <option value="">청구를 선택해 주세요</option>
-              {claims.data.items.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.customer_name} · {c.id}
-                </option>
-              ))}
-            </select>
-          </label>
+      <div className="supplement-grid supplement-workspace">
+        <aside className="panel claimant-summary">
+          <p className="small muted">청구인</p>
+          <h2>{claim.customer_name}</h2>
+          <p className="mono small">{claim.id}</p>
+          <div className="claimant-missing">
+            <strong>
+              누락 서류{" "}
+              <span className="muted small">총 {missingNames.length}개</span>
+            </strong>
+            <p>{missingNames.join(", ") || "누락된 필수 서류가 없어요."}</p>
+          </div>
           <button
-            className="btn"
+            className="btn primary"
             disabled={
               readOnly ||
               busy ||
-              !choice ||
-              !missing.length ||
-              row?.status === "sent_mock"
+              !missingNames.length ||
+              rows.some((r) => r.status === "sent_mock")
             }
             onClick={create}
           >
-            {busy ? "안내 문자 생성 중…" : "안내 문자 생성"}
+            {busy ? "안내 문자 준비 중…" : "안내 문자 생성"}
           </button>
-          <section className="panel missing-documents" aria-label="누락 서류">
-            <h3>누락 서류</h3>
-            {missing.length ? (
-              <ul>
-                {missing.map((i) => (
-                  <li key={i.id}>
-                    {i.title.replace(/\s*(?:누락|미제출)$/, "")}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="muted small">현재 누락된 필수 서류가 없어요.</p>
-            )}
-          </section>
           {message && (
-            <p role="status" className="small">
+            <p className="small" role="status">
               {message}
             </p>
           )}
-          {rows.map((r) => (
-            <button
-              key={r.id}
-              className={`supplement-card ${r.id === row?.id ? "selected" : ""}`}
-              onClick={() => {
-                setSelected(r.id);
-                setChoice(r.claim_id);
-                router.replace(`/workspace/supplement?claim=${r.claim_id}`);
-              }}
-            >
-              <div>
-                <strong>{r.customer_name}</strong>
-                <Status status={r.status} />
-              </div>
-              <small className="mono">{r.claim_id}</small>
-              <span>
-                {r.doc_types.map((t) => docLabels[t] ?? t).join(", ")}
-              </span>
-            </button>
-          ))}
-          {!rows.length && (
-            <p className="muted small">아직 작성된 보완 요청이 없어요.</p>
-          )}
         </aside>
-        {row ? (
-          <MessageEditor
-            key={row.id}
-            row={row}
-            readOnly={readOnly}
-            reload={resource.reload}
-          />
-        ) : (
-          <section className="panel empty-message">
-            {missing.length
-              ? "안내 문자 생성을 누르면 이 고객의 누락 서류를 반영한 초안이 나와요."
-              : "현재 고객에게 추가로 요청할 필수 서류가 없어요."}
+        <div className="correspondence-column">
+          <section
+            className="panel correspondence-history"
+            aria-label="발송 및 회신 이력"
+          >
+            <h2>발송·회신 이력</h2>
+            {!sent.length && (
+              <p className="muted small">
+                아직 발송하거나 회신받은 내역이 없어요.
+              </p>
+            )}
+            {sent.map((item) => (
+              <div key={item.id} className="correspondence-entry">
+                <button
+                  className="correspondence-message"
+                  onClick={() => {
+                    setGenerated(null);
+                    setSelected(item.id);
+                  }}
+                >
+                  <span>
+                    <strong>
+                      {item.channel === "sms" ? "문자" : "알림톡"} 발송 (모의)
+                    </strong>
+                    <time>
+                      {item.sent_at
+                        ? formatDateTime(item.sent_at)
+                        : "시각 기록 없음"}
+                    </time>
+                  </span>
+                  <p>{item.message}</p>
+                </button>
+                {item.status === "received" && (
+                  <div className="correspondence-reply">
+                    <strong>보완 서류 접수</strong>
+                    <time>
+                      {item.received_at
+                        ? formatDateTime(item.received_at)
+                        : "시각 기록 없음"}
+                    </time>
+                    <p>
+                      {item.doc_types
+                        .map((code) => docLabels[code] ?? code)
+                        .join(", ")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
           </section>
-        )}
+          {row ? (
+            <MessageEditor
+              key={row.id}
+              row={row}
+              readOnly={readOnly}
+              reload={refresh}
+            />
+          ) : (
+            <section className="panel empty-message">
+              {missingNames.length
+                ? "안내 문자 생성을 누르면 이 청구의 안내 문구가 여기에 표시돼요."
+                : "추가로 요청할 필수 서류가 없어요."}
+            </section>
+          )}
+        </div>
       </div>
     </>
   );
