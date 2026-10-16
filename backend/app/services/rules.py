@@ -461,8 +461,10 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         if fp not in old:
             session.add(item)
         else:
-            if old[fp].detail != item.detail or (
-                old[fp].status == IssueStatus.RESOLVED and old[fp].resolved_by is None
+            if (
+                item.kind == IssueKind.MISSING
+                or old[fp].detail != item.detail
+                or (old[fp].status == IssueStatus.RESOLVED and old[fp].resolved_by is None)
             ):
                 old[fp].status = IssueStatus.OPEN
                 old[fp].resolved_by = None
@@ -479,15 +481,13 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
     for doc in inputs:
         session.add_all(doc.fields)
     session.flush()
-    open_issues = session.exec(
-        select(Issue).where(Issue.claim_id == claim.id, Issue.status == IssueStatus.OPEN)
-    ).all()
-    claim.status = (
-        ClaimStatus.SUPPLEMENT
-        if any(i.kind == IssueKind.MISSING for i in open_issues)
-        else ClaimStatus.NEEDS_REVIEW
-        if any(i.kind != IssueKind.INFO for i in open_issues)
-        else ClaimStatus.AUTO_PASS
+    from app.services.claim_status import claim_status
+
+    claim.status = claim_status(
+        claim,
+        docs,
+        session.exec(select(Issue).where(Issue.claim_id == claim.id)).all(),
+        [i for i in report.issues if i.kind == IssueKind.MISSING],
     )
     report.status = claim.status
     session.add(claim)

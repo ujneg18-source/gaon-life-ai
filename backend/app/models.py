@@ -26,6 +26,7 @@ class ClaimStatus(StrEnum):
     PENDING = "pending"
     PROCESSING = "processing"
     AUTO_PASS = "auto_pass"
+    READY_REVIEW = "ready_review"
     NEEDS_REVIEW = "needs_review"
     SUPPLEMENT = "supplement"
     TO_PAYMENT_REVIEW = "to_payment_review"

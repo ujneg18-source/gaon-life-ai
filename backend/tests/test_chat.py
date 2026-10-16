@@ -411,7 +411,8 @@ def test_workload_counts_only_assigned_claims(client):
         session.add_all([a, b, c])
         session.commit()
         tool = Tools(session, session.get(User, 1), client.app.state.settings, FakeKB())
-        assert tool.get_workload() == {"needs_review": 1, "supplement": 1, "total": 2}
+        # 서류가 없는 건은 잘못 저장된 상태가 있어도 접수 대기로 집계한다.
+        assert tool.get_workload() == {"needs_review": 0, "supplement": 0, "total": 0}
 
 
 def test_claim_check_never_calls_general_search(client):

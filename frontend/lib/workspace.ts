@@ -37,7 +37,27 @@ export type Issue = {
   field_keys: string[];
   status: string;
 };
+export type ComparisonCell = {
+  document_id: number | null;
+  doc_name: string;
+  key: string;
+  value: string;
+};
+export type Comparison = {
+  title: string;
+  a: ComparisonCell;
+  b: ComparisonCell;
+  result: "match" | "mismatch" | "info" | "na";
+};
 export type Claim = {
+  comparisons: Comparison[];
+  display_issues: {
+    id: number;
+    kind: string;
+    title: string;
+    detail: string;
+    doc_ids: number[];
+  }[];
   id: string;
   development_origin: string | null;
   customer_name: string;

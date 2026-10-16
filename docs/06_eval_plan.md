@@ -71,6 +71,8 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-06 | 고객10·청구13·서류29·4상태·동명이인·출처·사진 선택·90일 경계·폴더 검증·실측 | pytest62/live1 제외, Ruff/포맷·프론트 lint/type/format/build 통과; mock10/10, 신규실측74/74·3장9호출, 캐시0호출 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check/build; python -m verify_samples --folder … [--cached]; CUA 캡처 artifacts/t06/ | 2026-10-16 |
 | T-18 | 시연 답변 구조·거절 근거/대안·캐시·관련21문항 표시 비교·UI4질문 <br>추가: 근거/이슈/거절 표시와 세션 초기화| pytest113/live1 제외·Ruff/포맷·프론트 lint/type·Webpack 빌드 통과. 거절/요지100 유지·패턴0/21. 엄격 인용86.36→81.82는 새 근거 요구와 정답 충돌로 미달 공개. HTTP48(중단1)/캐시18·약$0.011188 <br>화면 마무리: pytest119/live1 제외, UI4질문/링크/재로그인 통과. 외부0회·캐시9회·추가$0. 평가 기준과 기존 수치 유지.<br>본문 글머리표: UL/LI3개·disc 표시, lint/type/format/Webpack 빌드 통과. | pytest -q; ruff check/format; eval_presentation; report_solar_usage; npm run lint/typecheck; next build --webpack; CUA Playwright UI4문항 ; CUA Playwright 시연/세션 검증(ui-final/verification.md)| 2026-10-16 |
 
+| T-19a | 상태 공통화·누락 확인 차단·청구 맥락/초안·대조/온보딩·인박스 | pytest129/live1 제외, Ruff·lint/type·Webpack 빌드 통과. 1차 UI 확인, UX 개선은 T-19b | pytest -q; ruff; npm run lint/typecheck; next build --webpack; CUA Playwright | 2026-10-16 |
+
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 
 ## T-18b 원본·수정·개선 비교

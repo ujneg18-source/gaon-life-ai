@@ -1,3 +1,10 @@
+## 2026-10-16 · T-19a · 시연 전 화면·기능 보완
+- 관련 요구사항: FR-20~35, NFR-08
+- 한 일: ui-v2-before-demo 태그와 feat/demo-polish 브랜치를 만들었다. 상태를 실제 누락 기준의 공통 함수로 통일하고 누락 확인만으로 자동 통과하는 오류를 막았다. 실제 값 대조 표/원본 위치, 공유 확인 사항, 밀도 높은 표/인박스 10건 페이징, 고객 맥락 질문/분리 초안/타이핑, 화면별 코치마크를 추가했다.
+- 바뀐 파일: backend/app/services/{claim_status,workspace,rules}.py, routers/{claims,review}.py, agent/{tools,graph,claim_answer,display}.py, models/config/schemas, frontend/components·lib/tours.ts·lib/use-typing.ts·globals.css, tests/test_demo_polish.py, .env.example, artifacts/demo/
+- 확인 방법: pytest129 passed/live1 제외, Ruff/프론트 lint/type/next build --webpack 통과. seed --demo로 13청구/29서류 복구, 복구 전 상태 증거를 로컬 캐시에 보존했다. CUA로 메인/검토함/상세/어시스턴트 1차 확인과 캡처. UX 보고서를 수정 전에 작성했다.
+- 남은 문제 · 질문: artifacts/demo/ux_review.md의 중간 7건을 T-19b에서 수정하고 관리자/오류/되돌아가기까지 전체 검수한다. 구조 제안2건은 적용하지 않는다. 홀드아웃/평가 기준/안전 가드는 변경하지 않았다.
+
 ## 2026-10-16 · T-18 · 답변 본문 목록을 실제 글머리표로 표시
 - 관련 요구사항: FR-28~35
 - 한 일: 답변 표시에서 연속된 `- ` 줄을 ul/li로 묶고 disc 글머리표를 적용했다. 일반 문단·번호 제목·조항 강조와 API 원문은 그대로 보존했다.

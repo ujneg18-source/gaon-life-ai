@@ -2020,3 +2020,192 @@ p {
   color: var(--muted);
   font-size: 0.94em;
 }
+
+/* T-19: 기존 디자인 토큰을 유지하고 표와 코치마크의 정보 밀도를 조정한다. */
+.brand-help {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+.tour-overlay > svg {
+  position: absolute;
+  inset: 0;
+}
+.tour-card {
+  position: fixed;
+  width: 326px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px #0003;
+}
+.tour-card > .icon-button {
+  float: right;
+}
+.tour-card h2 {
+  font-size: 18px;
+  margin: 12px 0;
+}
+.tour-card p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.tour-card footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+.tour-card footer span {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+.inbox-table {
+  table-layout: fixed;
+}
+.inbox-table th:first-child {
+  width: 15%;
+}
+.inbox-table th:nth-child(2) {
+  width: 18%;
+}
+.inbox-table th:nth-child(3) {
+  width: 20%;
+}
+.inbox-table td {
+  height: 56px;
+  padding: 9px 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.inbox-customer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.inbox-table .inbox-customer small {
+  display: inline;
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.pagination {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.pagination > span:first-child {
+  margin-right: auto;
+}
+.detail-results {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.normalized-compact td {
+  height: 40px;
+  padding: 7px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.normalized-compact small {
+  font-size: 10px;
+  color: var(--muted);
+  margin: 0;
+}
+.normalized-compact .review-needed {
+  background: #fff5e8;
+}
+.normalized-compact .field-edit {
+  opacity: 0;
+}
+.normalized-compact tr:hover .field-edit,
+.normalized-compact .field-edit:focus {
+  opacity: 1;
+}
+.item-table {
+  margin-top: 20px;
+}
+.item-table h3 {
+  font-size: 13px;
+}
+.compact-issues {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.compact-issues li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.compact-issues li > div {
+  flex: 1;
+  min-width: 0;
+}
+.compact-issues strong {
+  font-size: 13px;
+}
+.compact-issues p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 4px 0 0;
+  line-height: 1.7;
+}
+.document-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: #17132b99;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+}
+.document-modal > .panel {
+  width: min(900px, 95vw);
+  max-height: 90vh;
+  overflow: auto;
+}
+.document-modal .viewer-scroll {
+  height: 65vh;
+}
+.viewer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.viewer-toolbar strong {
+  margin-right: auto;
+}
+.comparison-table .field-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  text-align: left;
+}
+.assistant-welcome h1 {
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.assistant-welcome > .muted {
+  max-width: 500px;
+  line-height: 1.9;
+}

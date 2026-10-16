@@ -1,3 +1,4 @@
+import { OnboardingTour } from "@/components/onboarding-tour";
 import { Brand } from "@/components/brand";
 import { LogoutButton } from "@/components/logout-button";
 import { requireUser, roleLabel } from "@/lib/auth";
@@ -11,7 +12,10 @@ export default async function ProtectedLayout({
   return (
     <div className="app-frame">
       <header className="topbar">
-        <Brand />
+        <div className="brand-help">
+          <Brand />
+          <OnboardingTour />
+        </div>
         <div className="user-menu">
           <span>
             <strong>{user.name}</strong>

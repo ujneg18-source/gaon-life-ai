@@ -154,7 +154,9 @@ class Settings(BaseSettings):
     CHAT_MAX_MESSAGE: int = 2000
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
     DEMO_SAMPLE_MOCKS: bool = True
-    SHOW_DEVELOPMENT_BADGES: bool = True
+    SHOW_DEVELOPMENT_BADGES: bool = False
+    SHOW_DEV_BADGE: bool = False
+    DEMO_MODE: bool = True
     SAMPLES_ROOT: Path = PROJECT_ROOT / "data/samples"
     DEMO_CUSTOMERS_PATH: Path = PROJECT_ROOT / "data/samples/customers.json"
     DEMO_RESULTS_PATH: Path = PROJECT_ROOT / "data/cache/demo-results"

@@ -10,6 +10,14 @@ import {
   ArrowLeft,
   Upload,
   ScanLine,
+  Info,
+  ZoomIn,
+  ZoomOut,
+  X,
+  Pencil,
+  LocateFixed,
+  Columns2,
+  Check,
 } from "lucide-react";
 import {
   api,
@@ -19,7 +27,10 @@ import {
   typeLabels,
   display,
   label,
+  FieldRow,
+  ComparisonCell,
 } from "@/lib/workspace";
+import { Original } from "./review-screen";
 import { useResource, Status, PageTitle, LoadState } from "./workspace-ui";
 
 export function Inbox() {
@@ -32,13 +43,41 @@ export function Inbox() {
       new URLSearchParams({ q, ...(filter ? { status: filter } : {}) }),
   );
   const { data, error } = resource;
+  const page = Math.max(1, Number(params.get("page") ?? 1));
+  function openClaim(id: string) {
+    // URL은 필터/페이지를, 세션 메모리는 화면의 스크롤 위치를 복원한다.
+    try {
+      sessionStorage.setItem(
+        "inbox-return",
+        JSON.stringify({
+          url: window.location.pathname + window.location.search,
+          scroll: window.scrollY,
+        }),
+      );
+    } catch {}
+    router.push("/workspace/detail?claim=" + id);
+  }
+  useEffect(() => {
+    if (!data) return;
+    try {
+      const saved = JSON.parse(
+        sessionStorage.getItem("inbox-return") ?? "null",
+      );
+      if (saved?.url === window.location.pathname + window.location.search)
+        requestAnimationFrame(() => window.scrollTo(0, saved.scroll));
+    } catch {}
+  }, [data]);
   return (
     <>
       <PageTitle
         title="청구 검토함"
-        description="AI가 먼저 읽고, 사람이 봐야 할 것만 위로 올렸어요."
+        description="보완 요청과 검토가 필요한 청구부터 확인하세요."
       />
-      <div className="filter-tabs" aria-label="상태 필터">
+      <div
+        className="filter-tabs"
+        aria-label="상태 필터"
+        data-tour="inbox-filters"
+      >
         {[
           ["", "전체", "total"],
           ["pending", "처리 전", "pending"],
@@ -46,28 +85,35 @@ export function Inbox() {
           ["supplement", "보완 요청", "supplement"],
           ["auto_pass", "자동 통과", "auto_pass"],
           ["processing", "처리 중", "processing"],
-        ].map(([value, text, key]) => (
-          <button
-            key={key}
-            className={value === filter ? "selected" : ""}
-            onClick={() =>
-              router.push(
-                "/workspace?" +
-                  new URLSearchParams({
-                    q,
-                    ...(value ? { status: value } : {}),
-                  }),
-              )
-            }
-          >
-            {text} <b>{data?.counts[key] ?? "—"}</b>
-          </button>
-        ))}
+          ["ready_review", "이관 가능", "ready_review"],
+          ["to_payment_review", "지급 심사", "to_payment_review"],
+        ]
+          .filter(
+            ([, , key]) =>
+              key === "total" || !data || (data.counts[key] ?? 0) > 0,
+          )
+          .map(([value, text, key]) => (
+            <button
+              key={key}
+              className={value === filter ? "selected" : ""}
+              onClick={() =>
+                router.push(
+                  "/workspace?" +
+                    new URLSearchParams({
+                      q,
+                      ...(value ? { status: value } : {}),
+                    }),
+                )
+              }
+            >
+              {text} <b>{data?.counts[key] ?? "—"}</b>
+            </button>
+          ))}
       </div>
       {!data ? (
         <LoadState error={error} />
       ) : (
-        <div className="panel table-scroll">
+        <div className="panel table-scroll" data-tour="inbox-table">
           <table className="work-table inbox-table">
             <thead>
               <tr>
@@ -84,26 +130,27 @@ export function Inbox() {
               </tr>
             </thead>
             <tbody>
-              {data.items.map((c) => (
+              {data.items.slice((page - 1) * 10, page * 10).map((c) => (
                 <tr
                   key={c.id}
                   tabIndex={0}
                   role="link"
                   aria-label={`${c.customer_name} ${c.id} 청구 상세`}
-                  onClick={() => router.push("/workspace/detail?claim=" + c.id)}
+                  onClick={() => openClaim(c.id)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter")
-                      router.push("/workspace/detail?claim=" + c.id);
+                    if (e.key === "Enter") openClaim(c.id);
                   }}
                 >
                   <td className="mono">{c.id}</td>
                   <td>
-                    <strong>{c.customer_name}</strong>
-                    <small>{formatDate(c.customer?.birth_date)}</small>
+                    <span className="inbox-customer">
+                      <strong>{c.customer_name}</strong>{" "}
+                      <small>{formatDate(c.customer?.birth_date)}</small>
+                    </span>
                     {c.development_origin && (
-                      <small className="development-origin">
-                        개발 검증 · {c.development_origin}
-                      </small>
+                      <span title={c.development_origin}>
+                        <Info size={13} aria-label="개발 데이터 출처" />
+                      </span>
                     )}
                   </td>
                   <td>
@@ -130,6 +177,44 @@ export function Inbox() {
               ))}
             </tbody>
           </table>
+          <div className="pagination" data-tour="inbox-sort">
+            <span>보완 요청·검토 필요 우선, 최근 접수순</span>
+            <button
+              className="btn sm"
+              disabled={page <= 1}
+              onClick={() =>
+                router.push(
+                  "/workspace?" +
+                    new URLSearchParams({
+                      q,
+                      status: filter,
+                      page: String(page - 1),
+                    }),
+                )
+              }
+            >
+              이전
+            </button>
+            <span>
+              {page} / {Math.max(1, Math.ceil(data.items.length / 10))}
+            </span>
+            <button
+              className="btn sm"
+              disabled={page * 10 >= data.items.length}
+              onClick={() =>
+                router.push(
+                  "/workspace?" +
+                    new URLSearchParams({
+                      q,
+                      status: filter,
+                      page: String(page + 1),
+                    }),
+                )
+              }
+            >
+              다음
+            </button>
+          </div>
           {!data.items.length && (
             <p className="empty-message">조건에 맞는 청구가 없어요.</p>
           )}
@@ -184,6 +269,9 @@ export function ClaimDetail({
   const [localStep, setStep] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [preview, setPreview] = useState<ComparisonCell | null>(null);
+  const [zoom, setZoom] = useState(100);
+  const [returnUrl, setReturnUrl] = useState("/workspace");
   const [note, setNote] = useState<string | null>(null);
   const step = localStep ?? (requestedIssue ? 2 : (c?.step ?? 0));
   useEffect(() => {
@@ -193,6 +281,18 @@ export function ClaimDetail({
         .getElementById(`issue-${requestedIssue}`)
         ?.scrollIntoView({ block: "center" });
   }, [c, requestedIssue]);
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(
+        sessionStorage.getItem("inbox-return") ?? "null",
+      );
+      if (saved?.url?.startsWith("/workspace?"))
+        requestAnimationFrame(() => setReturnUrl(saved.url));
+    } catch {}
+    const listener = (e: Event) => setStep((e as CustomEvent<number>).detail);
+    window.addEventListener("tour-detail-step", listener);
+    return () => window.removeEventListener("tour-detail-step", listener);
+  }, []);
   async function move(value: number) {
     setMessage("");
     if (!readOnly) {
@@ -268,11 +368,11 @@ export function ClaimDetail({
   }
   if (!c) return <LoadState error={error} />;
   const open = c.issues.filter((i) => i.status === "open" && i.kind !== "info");
-  const notices = c.issues.filter(
-    (i) => i.status === "open" && i.kind === "info",
-  );
   return (
     <>
+      <Link className="back-home" href={returnUrl}>
+        ← 청구 검토함
+      </Link>
       <PageTitle
         title={`${c.customer_name} 고객 · 청구 상세`}
         description={`${c.id}  ·  첨부 서류 ${c.submitted_count}개  ·  ${formatDate(c.customer?.birth_date)}`}
@@ -282,8 +382,8 @@ export function ClaimDetail({
           <span>계약일 {formatDate(c.policy.contract_date)}</span>
         )}
         {c.development_origin && (
-          <span className="development-origin">
-            개발 검증 · {c.development_origin}
+          <span title={c.development_origin}>
+            <Info size={13} aria-label="개발 데이터 출처" />
           </span>
         )}
         <Status status={c.status} />
@@ -293,7 +393,7 @@ export function ClaimDetail({
           {formatDate(c.policy?.coverage_end)}
         </span>
       </div>
-      <div className="panel stepper">
+      <div className="panel stepper" data-tour="detail-stepper">
         {["서류 확인", "정보 대조", "검토 결과", "완료"].map((text, i) => (
           <button
             key={text}
@@ -313,7 +413,7 @@ export function ClaimDetail({
       )}
       {step === 0 && (
         <div className="detail-grid">
-          <section className="panel">
+          <section className="panel" data-tour="detail-documents">
             <h2>
               제출 서류{" "}
               <small>
@@ -465,95 +565,236 @@ export function ClaimDetail({
         </div>
       )}
       {step === 1 && (
-        <section className="panel table-scroll">
-          <h2>서류 간 정보 대조</h2>
-          <table className="work-table">
-            <thead>
-              <tr>
-                <th>대조 항목</th>
-                <th>서류 A</th>
-                <th>서류 B</th>
-                <th>확인</th>
-              </tr>
-            </thead>
-            <tbody>
-              {c.issues
-                .filter(
-                  (i) =>
-                    i.status === "open" &&
-                    ["mismatch", "info"].includes(i.kind),
-                )
-                .map((i) => (
-                  <tr key={i.id}>
-                    <td>{i.title}</td>
-                    {[0, 1].map((index) => (
-                      <td key={index}>
-                        {i.doc_ids[index] ? (
-                          <>
-                            <strong>
-                              {
-                                docLabels[
-                                  c.documents.find(
-                                    (d) => d.id === i.doc_ids[index],
-                                  )?.doc_type ?? ""
-                                ]
-                              }
-                            </strong>
-                            <small>
-                              {c.fields
-                                .filter(
-                                  (f) =>
-                                    f.document_id === i.doc_ids[index] &&
-                                    i.field_keys.includes(f.key),
-                                )
-                                .map(display)
-                                .join(" · ")}
-                            </small>
-                          </>
-                        ) : (
-                          i.detail
-                        )}
+        <section className="panel" data-tour="detail-compare">
+          <h2>
+            서류 간 정보 대조{" "}
+            <small>
+              대조 {c.comparisons.length}건 · 일치{" "}
+              {c.comparisons.filter((r) => r.result === "match").length} ·
+              불일치{" "}
+              {c.comparisons.filter((r) => r.result === "mismatch").length} ·
+              안내 {c.comparisons.filter((r) => r.result === "info").length}
+            </small>
+          </h2>
+          {!c.comparisons.length ? (
+            <p className="muted">
+              대조할 서류 쌍이 없어요. 서류가 접수되면 확인할 수 있어요.
+            </p>
+          ) : (
+            <table className="work-table comparison-table">
+              <thead>
+                <tr>
+                  <th>대조 항목</th>
+                  <th>서류 A</th>
+                  <th>서류 B</th>
+                  <th>결과</th>
+                </tr>
+              </thead>
+              <tbody>
+                {c.comparisons.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.title}</td>
+                    {[row.a, row.b].map((cell, n) => (
+                      <td key={n}>
+                        <button
+                          className="field-link"
+                          disabled={!cell.document_id}
+                          onClick={() => {
+                            setPreview(cell);
+                            setZoom(100);
+                          }}
+                        >
+                          <strong>{cell.doc_name}</strong>
+                          <span>{cell.value}</span>
+                        </button>
                       </td>
                     ))}
                     <td>
-                      <Link
-                        className="btn sm"
-                        href={`/workspace/review?claim=${c.id}&issue=${i.id}`}
+                      <span
+                        className={
+                          row.result === "match"
+                            ? "good plain-state"
+                            : row.result === "mismatch"
+                              ? "bad plain-state"
+                              : "muted plain-state"
+                        }
                       >
-                        원본 비교
-                      </Link>
+                        {row.result === "match" ? (
+                          <CircleCheck size={15} />
+                        ) : row.result === "mismatch" ? (
+                          <CircleX size={15} />
+                        ) : (
+                          <Info size={15} />
+                        )}
+                        {
+                          {
+                            match: "일치",
+                            mismatch: "불일치",
+                            info: "안내",
+                            na: "해당 없음",
+                          }[row.result]
+                        }
+                      </span>
                     </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          )}
         </section>
       )}
       {step === 2 && (
-        <div className="detail-grid">
-          <section className="panel">
-            <h2>남은 확인 사항 {open.length}건</h2>
-            <ul className="issue-summary">
-              {open.map((i) => (
+        <div className="detail-results">
+          <section className="panel" data-tour="detail-fields">
+            <h2>
+              정규화 결과{" "}
+              <small>
+                {c.fields.filter((f) => !f.key.startsWith("items[")).length}개
+                항목
+              </small>
+            </h2>
+            <table className="work-table normalized-compact">
+              <thead>
+                <tr>
+                  <th>항목</th>
+                  <th>추출·확정값</th>
+                  <th>출처</th>
+                  <th>신뢰도</th>
+                  <th>위치</th>
+                </tr>
+              </thead>
+              <tbody>
+                {c.fields
+                  .filter((f) => !f.key.startsWith("items["))
+                  .map((f) => (
+                    <NormalizedRow
+                      key={f.id}
+                      field={f}
+                      readOnly={readOnly}
+                      done={resource.reload}
+                      show={() => {
+                        setPreview({
+                          document_id: f.document_id,
+                          doc_name: docLabels[f.doc_type],
+                          key: f.key,
+                          value: display(f),
+                        });
+                        setZoom(100);
+                      }}
+                    />
+                  ))}
+              </tbody>
+            </table>
+            {c.documents.map((d) => {
+              const fields = c.fields.filter(
+                (f) => f.document_id === d.id && f.key.startsWith("items["),
+              );
+              const indexes = [
+                ...new Set(
+                  fields.map((f) => f.key.match(/items\[(\d+)\]/)?.[1]),
+                ),
+              ];
+              return (
+                indexes.length > 0 && (
+                  <div key={d.id} className="item-table">
+                    <h3>
+                      {docLabels[d.doc_type]} 품목 {indexes.length}건
+                    </h3>
+                    <table className="work-table normalized-compact">
+                      <thead>
+                        <tr>
+                          {[
+                            "품명",
+                            "1회량",
+                            "일일 횟수",
+                            "일수",
+                            "금액",
+                            "급여 구분",
+                          ].map((h) => (
+                            <th key={h}>{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {indexes.map((index) => (
+                          <tr key={index}>
+                            {[
+                              ["drug_name", "name"],
+                              ["dose"],
+                              ["per_day"],
+                              ["days"],
+                              ["amount"],
+                              ["covered"],
+                            ].map((keys, n) => (
+                              <td key={n}>
+                                {(() => {
+                                  const f = fields.find((f) =>
+                                    keys.some(
+                                      (key) =>
+                                        f.key === `items[${index}].${key}`,
+                                    ),
+                                  );
+                                  return f ? display(f) : "—";
+                                })()}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )
+              );
+            })}
+          </section>
+          <section className="panel" data-tour="detail-issues">
+            <h2>
+              확인 사항 <small>{c.display_issues.length}건</small>
+            </h2>
+            <ul className="compact-issues">
+              {c.display_issues.map((i) => (
                 <li key={i.id} id={`issue-${i.id}`}>
-                  <strong>{i.title}</strong>
-                  <p>{i.detail}</p>
+                  <Info
+                    size={17}
+                    className={i.kind === "info" ? "muted" : "warning"}
+                  />
+                  <div>
+                    <strong>{i.title}</strong>
+                    <p>{i.detail}</p>
+                  </div>
                   <Link
-                    className="text-link"
+                    className="icon-button"
+                    title="원본 비교"
+                    aria-label={`${i.title} 원본 비교`}
                     href={`/workspace/review?claim=${c.id}&issue=${i.id}`}
                   >
-                    검토하기 <ArrowRight size={14} />
+                    <Columns2 size={17} />
                   </Link>
+                  {!readOnly && i.kind !== "missing" && (
+                    <button
+                      className="icon-button"
+                      title="확인"
+                      aria-label={`${i.title} 확인`}
+                      onClick={async () => {
+                        try {
+                          await api(`/issues/${i.id}/resolve`, {
+                            method: "POST",
+                          });
+                          resource.reload();
+                        } catch (e) {
+                          setMessage((e as Error).message);
+                        }
+                      }}
+                    >
+                      <Check size={17} />
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
-            {!open.length && <p className="good">열린 이슈가 없어요.</p>}
-            {notices.map((i) => (
-              <div key={i.id} id={`issue-${i.id}`} className="info-notice">
-                <strong>ⓘ 안내 · {i.title}</strong>
-                <p>{i.detail}</p>
-              </div>
-            ))}
+            {!c.display_issues.length && (
+              <p className="good">추가로 확인할 사항이 없어요.</p>
+            )}
           </section>
           <section className="panel">
             <h2>담당자 메모</h2>
@@ -563,14 +804,13 @@ export function ClaimDetail({
               value={note ?? c.review_note ?? ""}
               onChange={(e) => setNote(e.target.value)}
               readOnly={readOnly}
-              placeholder="확인한 내용과 다음 조치를 남겨 주세요."
             />
             {!readOnly && (
               <button
                 className="btn"
                 onClick={async () => {
                   try {
-                    await api("/claims/" + c.id, {
+                    await api(`/claims/${c.id}`, {
                       method: "PATCH",
                       body: JSON.stringify({
                         review_note: note ?? c.review_note ?? "",
@@ -586,6 +826,64 @@ export function ClaimDetail({
               </button>
             )}
           </section>
+        </div>
+      )}
+      {preview && (
+        <div
+          className="document-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="서류 원본"
+        >
+          <div className="panel">
+            <div className="viewer-toolbar">
+              <strong>{preview.doc_name} 원본</strong>
+              <button
+                className="icon-button"
+                aria-label="축소"
+                onClick={() => setZoom(Math.max(50, zoom - 10))}
+              >
+                <ZoomOut />
+              </button>
+              <span>{zoom}%</span>
+              <button
+                className="icon-button"
+                aria-label="확대"
+                onClick={() => setZoom(Math.min(200, zoom + 10))}
+              >
+                <ZoomIn />
+              </button>
+              <button
+                className="icon-button"
+                aria-label="원본 닫기"
+                onClick={() => setPreview(null)}
+              >
+                <X />
+              </button>
+            </div>
+            {!c.fields.some(
+              (f) =>
+                f.document_id === preview.document_id &&
+                f.key === preview.key &&
+                f.bbox,
+            ) && <small>위치 정보 없음</small>}
+            <Original
+              doc={c.documents.find((d) => d.id === preview.document_id)!}
+              fields={c.fields.filter(
+                (f) => f.document_id === preview.document_id,
+              )}
+              selected={
+                c.fields.find(
+                  (f) =>
+                    f.document_id === preview.document_id &&
+                    f.key === preview.key,
+                )?.id ?? null
+              }
+              select={() => {}}
+              zoom={zoom}
+              focusKeys={[preview.key]}
+            />
+          </div>
         </div>
       )}
       {step === 3 && (
@@ -620,6 +918,9 @@ export function ClaimDetail({
           )}
         </section>
       )}
+      <Link className="btn" href={`/chat?claim=${c.id}`}>
+        업무 어시스턴트에게 묻기
+      </Link>
       <div className="step-actions">
         <button
           className="btn"
@@ -644,5 +945,111 @@ export function ClaimDetail({
         </button>
       </div>
     </>
+  );
+}
+
+function NormalizedRow({
+  field: f,
+  readOnly,
+  done,
+  show,
+}: {
+  field: FieldRow;
+  readOnly: boolean;
+  done: () => void;
+  show: () => void;
+}) {
+  const [editing, setEditing] = useState(false),
+    [value, setValue] = useState(f.display_value),
+    [error, setError] = useState("");
+  const needs = !f.confirmed_by && f.review_reasons.length > 0;
+  return (
+    <tr className={needs ? "review-needed" : ""}>
+      <td>{label(f.key)}</td>
+      <td>
+        {editing ? (
+          <>
+            <input
+              aria-label={`${label(f.key)} 확정값`}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <button
+              onClick={async () => {
+                try {
+                  await api(`/fields/${f.id}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({ confirmed_value: value }),
+                  });
+                  setEditing(false);
+                  done();
+                } catch (e) {
+                  setError((e as Error).message);
+                }
+              }}
+            >
+              저장
+            </button>
+            <button onClick={() => setEditing(false)}>취소</button>
+          </>
+        ) : (
+          <>
+            {display(f)}
+            {!readOnly && (
+              <button
+                className="icon-button field-edit"
+                aria-label={`${label(f.key)} 수정`}
+                title="수정"
+                onClick={() => setEditing(true)}
+              >
+                <Pencil size={13} />
+              </button>
+            )}
+          </>
+        )}
+        {error && <small role="alert">{error}</small>}
+      </td>
+      <td>
+        {docLabels[f.doc_type]}
+        <small>
+          {f.method === "data"
+            ? "실손24"
+            : f.method === "ocr"
+              ? "OCR"
+              : "Parse"}
+        </small>
+      </td>
+      <td>
+        {f.method === "data"
+          ? "—"
+          : f.confirmed_by
+            ? "확정"
+            : needs
+              ? f.review_reasons.some(
+                  (r) => r.includes("원문과 다름") || r === "not_in_source",
+                )
+                ? "원문과 다름"
+                : f.extract_conf === "low"
+                  ? "신뢰도 낮음"
+                  : "대조 필요"
+              : f.extract_conf === "high"
+                ? "높음"
+                : f.extract_conf === "low"
+                  ? "낮음"
+                  : "—"}
+      </td>
+      <td>
+        {f.bbox && (
+          <button
+            className="icon-button"
+            aria-label={`${label(f.key)} 원본 위치 보기`}
+            title="원본 위치 보기"
+            onClick={show}
+          >
+            <LocateFixed size={16} />
+          </button>
+        )}
+      </td>
+    </tr>
   );
 }

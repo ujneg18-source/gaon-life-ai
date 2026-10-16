@@ -12,7 +12,8 @@ import {
   MessageSquarePlus,
   ShieldCheck,
 } from "lucide-react";
-import { api } from "@/lib/workspace";
+import { useTyping } from "@/lib/use-typing";
+import { api, Claim } from "@/lib/workspace";
 import { formatDatesInText } from "@/lib/dates";
 
 /** API 계약만 화면에 전달한다. 대화는 이 컴포넌트의 세션 메모리에만 보관한다. */
@@ -41,6 +42,7 @@ function citationKind(c: Citation): string {
 }
 type Answer = {
   answer: string;
+  draft_text?: string | null;
   display_answer?: string | null;
   display_citations?: Citation[] | null;
   display_claim_refs?:
@@ -53,11 +55,17 @@ type Answer = {
 };
 type Turn = { id: number; question: string; result?: Answer; error?: string };
 type Conversation = { id: number; turns: Turn[]; claimId?: string };
-const questions = [
-  "김유정 고객 서류 왔는지 확인해보고 보완사항 있는지 검토해줘",
-  "김유정 약제비 영수증에 종합비타민정 보상돼?",
-  "수술확인서 보완 요청 문자 써줘",
-  "이거 지급해도 돼?",
+const generalQuestions = [
+  "암 진단금 청구에 필요한 서류가 뭐야?",
+  "실손에서 영양제 비용도 보상돼?",
+  "입원일수가 서류마다 하루 다르면 문제야?",
+  "오늘 내가 검토할 청구가 몇 건이야?",
+];
+const claimQuestions = [
+  "이 청구 건 서류 다 왔는지 검토해줘",
+  "이 건 영수증에 보상 제외될 항목 있어?",
+  "누락 서류 보완 요청 문자 써줘",
+  "이 건 지급 심사로 넘겨도 돼?",
 ];
 
 function quoteText(text: string) {
@@ -70,6 +78,7 @@ function quoteText(text: string) {
 
 /** 본문을 안전한 React 텍스트 노드로 렌더링한다. HTML이나 원문 속 명령은 실행하지 않는다. */
 function AnswerText({ text }: { text: string }) {
+  const typing = useTyping(formatDatesInText(text));
   function inline(line: string) {
     return line
       .split(/(\([^()\n]*(?:제\d+조|\d+장)[^()\n]*\))/g)
@@ -105,30 +114,41 @@ function AnswerText({ text }: { text: string }) {
     );
   }
   return (
-    <div className="assistant-answer-text" data-testid="answer-body">
-      {formatDatesInText(text)
-        .split(/\n\s*\n/)
-        .map((block, n) => {
-          const [title, ...rest] = block.split("\n");
-          const headed = /^(추가 서류:|[①-⑳] )/.test(title);
-          return (
-            <div className="answer-block" key={n}>
-              {headed ? (
-                <>
-                  <strong>{title}</strong>
-                  {rest.length > 0 && (
-                    <>
-                      <br />
-                      {body(rest.join("\n"))}
-                    </>
-                  )}
-                </>
-              ) : (
-                body(block)
-              )}
-            </div>
-          );
-        })}
+    <div
+      className="assistant-answer-text"
+      data-testid="answer-body"
+      aria-busy={!typing.complete}
+      tabIndex={0}
+      title="누르면 답변 전체를 바로 표시해요"
+      onClick={typing.skip}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          typing.skip();
+        }
+      }}
+    >
+      {typing.text.split(/\n\s*\n/).map((block, n) => {
+        const [title, ...rest] = block.split("\n");
+        const headed = /^(추가 서류:|[①-⑳] )/.test(title);
+        return (
+          <div className="answer-block" key={n}>
+            {headed ? (
+              <>
+                <strong>{title}</strong>
+                {rest.length > 0 && (
+                  <>
+                    <br />
+                    {body(rest.join("\n"))}
+                  </>
+                )}
+              </>
+            ) : (
+              body(block)
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -151,6 +171,32 @@ export function ChatScreen() {
   const sources =
     focus?.result?.display_citations ?? focus?.result?.citations ?? [];
   const nextId = useRef(2);
+  const [context, setContext] = useState<Claim | null>(null);
+  const [draftTarget, setDraftTarget] = useState("");
+  const draftTyping = useTyping(draftTarget);
+  const contextId = current.claimId;
+  const questions = contextId
+    ? claimQuestions.filter(
+        (q) =>
+          q !== claimQuestions[2] ||
+          !context ||
+          context.issues.some(
+            (i) => i.kind === "missing" && i.status === "open",
+          ),
+      )
+    : generalQuestions;
+  useEffect(() => {
+    if (!contextId) return;
+    let live = true;
+    api<Claim>(`/claims/${contextId}`)
+      .then((c) => {
+        if (live) setContext(c);
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, [contextId]);
   useEffect(() => {
     // 새 답변만 대화 영역 아래로 이동시킨다. 근거 패널이나 브라우저 전체는 움직이지 않는다.
     scroll.current?.scrollTo({
@@ -202,7 +248,10 @@ export function ChatScreen() {
         }),
       });
       update(id, { result });
-      if (result.intent === "draft") setDraft(result.answer);
+      if (result.intent === "draft") {
+        setDraft(result.draft_text ?? null);
+        setDraftTarget(result.draft_text ?? "");
+      }
       // 이름 조회로 선택이 명확해진 경우에만 후속 질문의 청구 맥락을 유지한다.
       const ids = [...new Set(result.claim_refs.map((r) => r.claim_id))];
       if (ids.length === 1)
@@ -274,21 +323,24 @@ export function ChatScreen() {
             대화는 현재 화면에만 보관돼요.
           </p>
         </aside>
-        <section className="assistant-conversation" aria-label="업무 대화">
+        <section
+          className="assistant-conversation"
+          aria-label="업무 대화"
+          data-tour="assistant-body"
+        >
           <div className="assistant-scroll" ref={scroll}>
             {!turns.length && (
               <div className="assistant-welcome">
                 <BookOpen size={30} />
-                <p className="eyebrow">YOUR EVERYDAY WORK PARTNER</p>
-                <h1>
-                  근거를 찾고,
-                  <br />
-                  다음 업무를 이어가요.
-                </h1>
+                <h1>무엇을 확인할까요?</h1>
                 <p className="muted">
-                  약관과 청구 서류를 함께 확인해 드릴게요.
+                  약관 조항, 청구 서류 검토, 보완 요청 문구까지 물어보세요.
+                  답변마다 근거를 함께 보여드려요.
                 </p>
-                <div className="assistant-suggestions">
+                <div
+                  className="assistant-suggestions"
+                  data-tour="assistant-actions"
+                >
                   {questions.map((q) => (
                     <button key={q} onClick={() => send(q)}>
                       {q}
@@ -340,7 +392,10 @@ export function ChatScreen() {
                           ))}
                         </div>
                       )}
-                      <div className="assistant-actions">
+                      <div
+                        className="assistant-actions"
+                        data-tour="assistant-actions"
+                      >
                         {(
                           t.result.display_claim_refs ??
                           t.result.claim_refs.map((r) => ({
@@ -417,14 +472,19 @@ export function ChatScreen() {
               </div>
             )}
             {draft !== null && (
-              <section className="assistant-draft">
+              <section
+                className="assistant-draft"
+                data-tour="assistant-draft"
+                onClick={draftTyping.skip}
+              >
                 <h2>보완 요청 초안</h2>
                 <p className="muted">
                   내용을 수정하고 확인한 뒤 사용해 주세요.
                 </p>
                 <textarea
                   aria-label="보완 요청 초안"
-                  value={draft}
+                  value={draftTyping.complete ? draft : draftTyping.text}
+                  readOnly={!draftTyping.complete}
                   onChange={(e) => {
                     setDraft(e.target.value);
                     setCopied(false);
@@ -432,6 +492,7 @@ export function ChatScreen() {
                 />
                 <button
                   className="btn sm"
+                  disabled={!draftTyping.complete}
                   onClick={async () => {
                     try {
                       await navigator.clipboard.writeText(draft);
@@ -442,12 +503,13 @@ export function ChatScreen() {
                   }}
                 >
                   <Clipboard size={14} />
-                  {copied ? "복사했어요" : "문구 복사"}
+                  {copied ? "복사했어요" : "복사"}
                 </button>
               </section>
             )}
           </div>
           <form
+            data-tour={draft !== null ? undefined : "assistant-draft"}
             className="assistant-composer"
             onSubmit={(e) => {
               e.preventDefault();
@@ -457,7 +519,9 @@ export function ChatScreen() {
             {current.claimId && (
               <p className="assistant-context">
                 <FileText size={13} />
-                {current.claimId} 청구를 확인하고 있어요.
+                {context?.id === current.claimId
+                  ? `${context.customer_name} 고객 청구(${current.claimId})를 보고 있어요`
+                  : `청구(${current.claimId})를 확인하고 있어요`}
               </p>
             )}
             <div>
@@ -494,7 +558,11 @@ export function ChatScreen() {
             </p>
           </form>
         </section>
-        <aside className="assistant-sources" aria-label="답변 근거">
+        <aside
+          className="assistant-sources"
+          aria-label="답변 근거"
+          data-tour="assistant-sources"
+        >
           <h2>
             <BookOpen size={17} />
             답변 근거

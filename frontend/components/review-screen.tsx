@@ -29,7 +29,7 @@ import {
 import { useResource, LoadState, PageTitle } from "./workspace-ui";
 
 /** 실제 이미지와 정규화 좌표를 동일 비율로 확대한다. 좌표가 없으면 박스를 지어내지 않는다. */
-function Original({
+export function Original({
   doc,
   fields,
   selected,
