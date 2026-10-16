@@ -48,3 +48,18 @@ for(const target of [{x:16,y:100,w:220,h:300},{x:970,y:100,w:290,h:552},{x:260,y
  assert.ok(p.left+410<=target.x || p.left>=target.x+target.w || p.top+250<=target.y || p.top>=target.y+target.h);
 }
 console.log("PASS: 4방향 설명 배치·대상 비중첩");
+
+// 안내 문구를 늘려도 기능별 설명 행과 간단한 마무리, 빈 예시 메모를 유지한다.
+assert.equal(fixture.guideClaim.review_note, "");
+for (const [key, steps] of Object.entries(tours)) {
+  for (const [index, step] of steps.entries()) {
+    if (index === steps.length - 1 || (key === "home" && index === 0)) continue;
+    assert.ok(step.details?.length >= 2, `${key}:${index} 기능별 설명 행`);
+    assert.ok(step.details.every(row => row.label && row.text));
+  }
+  assert.equal(steps.at(-1).details, undefined, "마무리는 한 줄 안내 유지");
+}
+assert.deepEqual(Array.from(tours.review.slice(0, 7), s => s.target), ["page-title", "review-overview", "review-original", "review-normalized", "review-field-values", "review-field-sources", "review-issues"]);
+assert.equal(tours.home[1].placement, "below-left");
+assert.equal(tours.home[2].placement, "below-right");
+console.log("PASS: 기능별 설명 행·빈 예시 메모·문서 검토 안내 순서·메인 말풍선 방향");

@@ -1,0 +1,734 @@
+[
+  {
+    "bounds": true,
+    "overlap": false,
+    "page": "/guide/home",
+    "target": "home-overview"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 371.640625,
+      "w": 410,
+      "x": 110,
+      "y": 320.8828125
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "target": "home-assistant"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 371.640625,
+      "w": 410,
+      "x": 194,
+      "y": 320.8828125
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "target": "home-workspace"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "target": "guide-help"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 155.5,
+      "y": 90
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "assistant-intro"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 210,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "assistant-new-chat"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 252,
+      "y": 169
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "assistant-input"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 299.96875,
+      "y": 159.6953125
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "assistant-question"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 244.5,
+      "y": 187.5078125
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "assistant-answer-summary"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 17,
+      "y": 164.5
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "assistant-sources"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "target": "guide-help"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 152,
+      "y": 182.2890625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-navigation"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 162.3203125,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-menu-1"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 288.640625,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-menu-2"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 136.1953125,
+      "y": 178.2890625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-menu-3"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 269.9765625,
+      "y": 178.2890625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-menu-4"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 97.203125,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-menu-5"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 121,
+      "y": 253.2890625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "workspace-search"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 87.28125
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "inbox-filters"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 16,
+      "y": 263.375
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "inbox-heading-person"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 244.078125,
+      "y": 263.375
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "inbox-heading-receipt"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 303,
+      "y": 205.875
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "inbox-heading-status"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 422.390625,
+      "w": 410,
+      "x": 303,
+      "y": 205.875
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "inbox-heading-status"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "target": "guide-help"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 16,
+      "y": 80
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "claim-search-results"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 152,
+      "y": 127.2265625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-stepper"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 143.5625,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-step-0"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 330.9765625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-documents"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 331.1640625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-extracted"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 66.03125,
+      "y": 89.2265625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-step-1"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 207.1953125,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "compare-key"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 376.890625,
+      "w": 410,
+      "x": 83.9921875,
+      "y": 220.3515625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "compare-a"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 301.5859375,
+      "y": 220.3515625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "compare-b"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 448.390625,
+      "w": 410,
+      "x": 178.3828125,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "compare-result"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 261.2890625,
+      "y": 89.2265625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-step-2"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 343.4765625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-summary"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 365.421875
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-note"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 183.7578125,
+      "y": 200.2265625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-step-3"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 16,
+      "y": 157.171875
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-supplement"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 166.7265625,
+      "y": 157.171875
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "detail-submit"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "target": "guide-help"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 426.234375,
+      "w": 410,
+      "x": 152,
+      "y": 346.6328125
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "page-title"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 448.984375,
+      "w": 410,
+      "x": 152,
+      "y": 230.4296875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-overview"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 330.9296875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-original"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 330.9296875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-normalized"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 16,
+      "y": 234.890625
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-field-values"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 422.390625,
+      "w": 410,
+      "x": 303,
+      "y": 234.890625
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-field-sources"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 497.734375,
+      "w": 410,
+      "x": 152,
+      "y": 270.9296875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-issues"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 90.9296875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-compare-controls"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 160.625
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "review-field-tabs"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "target": "guide-help"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 320.515625
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "supplement-customer"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 376.890625,
+      "w": 410,
+      "x": 152,
+      "y": 245.515625
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "supplement-missing"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 301.515625
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "supplement-generate"
+  },
+  {
+    "bounds": true,
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "supplement-letter"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 61.578125
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "supplement-send"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 376.890625,
+      "w": 410,
+      "x": 152,
+      "y": 271.3046875
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "supplement-history"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "target": "guide-help"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 426.234375,
+      "w": 410,
+      "x": 152,
+      "y": 346.6328125
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "target": "page-title"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 471.140625,
+      "w": 410,
+      "x": 152,
+      "y": 87.28125
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "target": "history-filters"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 399.640625,
+      "w": 410,
+      "x": 152,
+      "y": 242.6171875
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "target": "history-records"
+  },
+  {
+    "bounds": true,
+    "card": {
+      "h": 228.640625,
+      "w": 410,
+      "x": 213,
+      "y": 555
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "target": "guide-help"
+  }
+]

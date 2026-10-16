@@ -166,3 +166,7 @@
 - GuideContext/useResource: 가상 응답을 즉시 읽으며 실제 fetch 효과를 실행하지 않는다. 컨텍스트가 없는 일반 화면은 기존 동작을 유지한다. api와 파일 업로드에도 안내 경로 차단을 둔다.
 - HomeScreen/WorkspaceShell/ClaimDetail/ReviewScreen/ChatScreen/SupplementScreen/HistoryScreen은 원래 화면과 안내가 공유한다. guideStep, guideIssue와 preview는 안내 인스턴스만 사용한다. 대화는 저장된 시연 원문이고 LLM 호출이 없다.
 - 상세 검색 결과,5개 메뉴,표의 각 열,제출/추출/대조/메모/완료,문자 양식/이력에 data-tour 대상을 명시해 설명 범위를 좁혀 이동한다.
+
+## T-19s 챗봇과 안내 가독성
+- AppHeader는 챗봇/안내의 한 줄 브랜드·이동 링크를 제공한다. ChatScreen은 실제 세션 startedAt을 KST 오늘/지난7일/이전 대화로 표시하며, 서버 initialTime으로 수화 시각을 맞춘다. 질문 바로가기는 실제 질문 수만큼 생기고 클릭 시 해당 질문과 근거를 선택한다. 세션은 메모리만 사용한다.
+- TourStep.details는 이름/설명 행, placement는 메인 카드 아래 좌/우 배치 우선순위다. 표 설명은 머리글+데이터 영역을 묶는다. 좁은 안내 화면은 두 데이터 행과 내부 스크롤 영역을 사용한다. 안내 메모는 빈 예시이며 실제 업무 데이터와 독립이다. 전체62단계, 각 페이지별 ?와 단독 종료는 유지한다.

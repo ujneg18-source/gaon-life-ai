@@ -143,60 +143,87 @@ export function Inbox() {
               </tr>
             </thead>
             <tbody>
-              {data.items.slice((page - 1) * 10, page * 10).map((c) => (
-                <tr
-                  key={c.id}
-                  tabIndex={0}
-                  role="link"
-                  aria-label={`${c.customer_name} ${c.id} 청구 상세`}
-                  onClick={() => openClaim(c.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") openClaim(c.id);
-                  }}
-                >
-                  <td className="mono" title={c.id}>
-                    {c.id}
-                  </td>
-                  <td>
-                    <span className="inbox-customer">
-                      <strong>{c.customer_name}</strong>{" "}
-                      <small>{formatDate(c.customer?.birth_date)}</small>
-                    </span>
-                    {c.development_origin && (
-                      <span title={c.development_origin}>
-                        <Info size={13} aria-label="개발 데이터 출처" />
+              {data.items
+                .slice((page - 1) * 10, page * 10)
+                .map((c, rowIndex) => (
+                  <tr
+                    key={c.id}
+                    tabIndex={0}
+                    role="link"
+                    aria-label={`${c.customer_name} ${c.id} 청구 상세`}
+                    onClick={() => openClaim(c.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") openClaim(c.id);
+                    }}
+                  >
+                    <td
+                      data-tour={
+                        rowIndex < 7 ? "inbox-heading-person" : undefined
+                      }
+                      className="mono"
+                      title={c.id}
+                    >
+                      {c.id}
+                    </td>
+                    <td
+                      data-tour={
+                        rowIndex < 7 ? "inbox-heading-person" : undefined
+                      }
+                    >
+                      <span className="inbox-customer">
+                        <strong>{c.customer_name}</strong>{" "}
+                        <small>{formatDate(c.customer?.birth_date)}</small>
                       </span>
-                    )}
-                  </td>
-                  <td
-                    title={c.claim_types
-                      .map((t) => typeLabels[t] ?? t)
-                      .join(" · ")}
-                  >
-                    {c.claim_types.map((t) => typeLabels[t] ?? t).join(" · ")}
-                  </td>
-                  <td
-                    className="mono muted"
-                    title={formatDateTime(c.received_at, "Asia/Seoul")}
-                  >
-                    {formatDateTime(c.received_at, "Asia/Seoul")}
-                  </td>
-                  <td>
-                    <Status status={c.status} />
-                  </td>
-                  <td className="muted">
-                    {c.open_issue_count
-                      ? `확인할 사항 ${c.open_issue_count}건`
-                      : c.submitted_count
-                        ? c.issues.some(
-                            (i) => i.status === "open" && i.kind === "info",
-                          )
-                          ? "서류 확인 완료 · 안내 확인"
-                          : "지급 심사 이관 가능"
-                        : "서류 접수 대기"}
-                  </td>
-                </tr>
-              ))}
+                      {c.development_origin && (
+                        <span title={c.development_origin}>
+                          <Info size={13} aria-label="개발 데이터 출처" />
+                        </span>
+                      )}
+                    </td>
+                    <td
+                      data-tour={
+                        rowIndex < 7 ? "inbox-heading-receipt" : undefined
+                      }
+                      title={c.claim_types
+                        .map((t) => typeLabels[t] ?? t)
+                        .join(" · ")}
+                    >
+                      {c.claim_types.map((t) => typeLabels[t] ?? t).join(" · ")}
+                    </td>
+                    <td
+                      data-tour={
+                        rowIndex < 7 ? "inbox-heading-receipt" : undefined
+                      }
+                      className="mono muted"
+                      title={formatDateTime(c.received_at, "Asia/Seoul")}
+                    >
+                      {formatDateTime(c.received_at, "Asia/Seoul")}
+                    </td>
+                    <td
+                      data-tour={
+                        rowIndex < 7 ? "inbox-heading-status" : undefined
+                      }
+                    >
+                      <Status status={c.status} />
+                    </td>
+                    <td
+                      data-tour={
+                        rowIndex < 7 ? "inbox-heading-status" : undefined
+                      }
+                      className="muted"
+                    >
+                      {c.open_issue_count
+                        ? `확인할 사항 ${c.open_issue_count}건`
+                        : c.submitted_count
+                          ? c.issues.some(
+                              (i) => i.status === "open" && i.kind === "info",
+                            )
+                            ? "서류 확인 완료 · 안내 확인"
+                            : "지급 심사 이관 가능"
+                          : "서류 접수 대기"}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <div className="pagination" data-tour="inbox-sort">

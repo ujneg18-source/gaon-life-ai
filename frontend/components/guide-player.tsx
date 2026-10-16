@@ -29,7 +29,13 @@ import { Inbox, ClaimDetail, ClaimPicker } from "./claim-screens";
 import { ReviewScreen } from "./review-screen";
 import { SupplementScreen, HistoryScreen } from "./operations-screens";
 
-export function GuidePlayer({ screen }: { screen: string }) {
+export function GuidePlayer({
+  screen,
+  initialTime,
+}: {
+  screen: string;
+  initialTime: string;
+}) {
   const [index, setIndex] = useState(0);
   const steps = tours[screen],
     step = steps[index],
@@ -89,9 +95,15 @@ export function GuidePlayer({ screen }: { screen: string }) {
     let positioned = false,
       shifted = false;
     const update = () => {
-      const targets = Array.from(
+      let targets = Array.from(
         document.querySelectorAll<HTMLElement>(`[data-tour="${step.target}"]`),
       );
+      // 좁은 화면도 머리글과 실제 두 행을 함께 보여주되 설명 공간을 남긴다.
+      if (
+        innerWidth <= 850 &&
+        /^(inbox-heading-|review-field-(values|sources))/.test(step.target)
+      )
+        targets = targets.slice(0, 6);
       if (!targets.length) {
         if (retries++ < 30) frame = requestAnimationFrame(update);
         return;
@@ -137,9 +149,13 @@ export function GuidePlayer({ screen }: { screen: string }) {
           h: card.current?.offsetHeight ?? 260,
         },
         { w: innerWidth, h: innerHeight },
+        step.placement,
       );
       // 대상이 중앙에 있어 설명 공간이 없으면 먼저 위쪽에 정렬해 아래 공간을 확보한다.
-      if (!placement.separate && !shifted) {
+      if (
+        (!placement.separate || (step.placement && placement.side !== "top")) &&
+        !shifted
+      ) {
         shifted = true;
         targets[0].scrollIntoView({
           block: "start",
@@ -214,6 +230,7 @@ export function GuidePlayer({ screen }: { screen: string }) {
   else if (screen === "assistant")
     content = (
       <ChatScreen
+        initialTime={initialTime}
         key={stage}
         preview={{
           question: guideQuestion,
@@ -346,6 +363,16 @@ export function GuidePlayer({ screen }: { screen: string }) {
             {step.description.split("\n\n").map((p, i) => (
               <p key={i}>{p}</p>
             ))}
+            {step.details && (
+              <dl className="tour-details">
+                {step.details.map((detail) => (
+                  <div key={detail.label}>
+                    <dt>{detail.label}</dt>
+                    <dd>{detail.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </div>
           <footer>
             <button className="text-link" onClick={close}>

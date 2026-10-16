@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19s · 챗봇 디자인 복원과 기능별 온보딩 설명
+- 관련 요구사항: FR-04~05, FR-18~24, FR-28~35, SCR-02/03/10~14
+- 한 일: 원본 챗봇의 한 줄 헤더와 + 새 채팅, 날짜별 대화 목록·실제 시작 시각·보라색 선택 배경을 복원했다. 실제 질문 수에 따른 위치 바로가기로 대화 안에서 이동한다. 임의 과거 대화는 넣지 않고 세션 메모리 정책을 유지한다.
+  온보딩은 짧은 소개와 기능 이름/설명의 개별 행으로 구성하고 -요/-습니다 말투를 섞었다. 종료 안내는 한 줄을 유지한다. 청구 목록은 머리글과 실제 7행(좁은 화면은 2행)을 함께 강조한다. 안내 전용 담당자 메모를 비웠다. 문서 검토는 소개→상단 서류 현황→왼쪽 원본→오른쪽 추출 정보→항목·값→출처·신뢰도→하단 확인 사항→비교 기능 순서로62단계를 구성했다. 메인 첫 단계는 제목과 두 카드, 다음 단계는 각 카드 아래 좌/우 말풍선이다. 좁은 화면은 내부 스크롤과 안내 전용 여백으로 배치를 조정한다.
+- 바뀐 파일: frontend/components/{app-header,brand,chat-screen,claim-screens,guide-player,home-screen,review-screen}.tsx, frontend/app/(protected)/{layout,chat/page,guide/[screen]/page}.tsx, frontend/app/globals.css, frontend/lib/{chat-history,tours}.ts, frontend/lib/guide/{placement.ts,snapshot.json}, frontend/scripts/check-{chat-history,onboarding}.mjs, docs/implementation_objects.md, artifacts/chat-design/, artifacts/onboarding/v3/
+- 확인 방법: lint/typecheck/format:check/Webpack 배포 빌드 통과. 날짜 경계·실제 API 격리·기능별 설명/빈 메모/문서 안내 순서·타이핑 검사 통과. CUA 기본 챗봇/실제 시각/질문 표시, 1280×720·729×800 각각62단계에서 카드 경계/대상 비중첩 확인(수정된 2개 좁은 화면은 재검사 반영). 메인 좌우 하단 배치 및 빈 메모 확인. 캡처와 단계별 검사 JSON은 artifacts/onboarding/v3/에 기록한다.
+- 남은 문제 · 질문: 없음. 실제 업무 메모/채팅은 변경하지 않는다. 유료 API 및 실제 문자 전송0회. 지난 대화는 현재 세션에서 생긴 실제 기록만 표시한다.
+
 ## 2026-10-16 · T-19r · 페이지별 독립 온보딩과 짧은 말풍선 안내
 - 관련 요구사항: FR-04~05, FR-18~24, SCR-02/03/10~14
 - 한 일: 메인→어시스턴트→워크스페이스 각 페이지 순서로7개 히든 안내 경로를 만들었다. 실제 화면 컴포넌트/CSS를 공유하고 고정 가상 데이터·원본·저장된 시연 답변을 독립 공급한다. 원래 페이지의 ?가 iframe을 열며 종료하면 원래 입력/채팅/서류 선택/배율로 돌아온다. 실제 API/업로드/인박스 복원 저장소 호출을 안내에서 차단한다.

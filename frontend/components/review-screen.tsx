@@ -375,12 +375,12 @@ function FieldCell({
   }
   return (
     <tr className={active ? "field-selected" : ""} onClick={select}>
-      <td>
+      <td data-tour="review-field-values">
         <button className="field-link" onClick={select}>
           {label(f.key)}
         </button>
       </td>
-      <td>
+      <td data-tour="review-field-values">
         {edit ? (
           <>
             <input
@@ -412,7 +412,7 @@ function FieldCell({
           </small>
         )}
       </td>
-      <td>
+      <td data-tour="review-field-sources">
         <span className="field-source">
           {f.method === "data"
             ? "실손24 데이터"
@@ -420,6 +420,7 @@ function FieldCell({
         </span>
       </td>
       <td
+        data-tour="review-field-sources"
         className={
           f.method === "data"
             ? "muted"
@@ -524,27 +525,29 @@ export function ReviewScreen({
   }
   return (
     <>
-      <PageTitle
-        title="문서 분석 · 검토"
-        description={`${c.customer_name} · ${c.id} · 제출 ${c.submitted_count} / 필요 ${c.required_count}`}
-      />
-      <div className="document-tabs" data-tour="review-documents">
-        {c.documents.map((d) => (
-          <button
-            key={d.id}
-            className={!comparing && doc?.id === d.id ? "selected" : ""}
-            onClick={() => {
-              setDoc(d.id);
-              setCompare(null);
-              if (params.get("issue"))
-                window.history.replaceState(null, "", `?claim=${claimId}`);
-              setSelected(null);
-              setZoom(100);
-            }}
-          >
-            {docLabels[d.doc_type] ?? d.doc_type}
-          </button>
-        ))}
+      <div data-tour="review-overview">
+        <PageTitle
+          title="문서 분석 · 검토"
+          description={`${c.customer_name} · ${c.id} · 제출 ${c.submitted_count} / 필요 ${c.required_count}`}
+        />
+        <div className="document-tabs" data-tour="review-documents">
+          {c.documents.map((d) => (
+            <button
+              key={d.id}
+              className={!comparing && doc?.id === d.id ? "selected" : ""}
+              onClick={() => {
+                setDoc(d.id);
+                setCompare(null);
+                if (params.get("issue"))
+                  window.history.replaceState(null, "", `?claim=${claimId}`);
+                setSelected(null);
+                setZoom(100);
+              }}
+            >
+              {docLabels[d.doc_type] ?? d.doc_type}
+            </button>
+          ))}
+        </div>
       </div>
       {!doc ? (
         <div className="panel empty-message">
@@ -689,10 +692,10 @@ export function ReviewScreen({
                 >
                   <thead data-tour="review-field-headings">
                     <tr>
-                      <th>항목</th>
-                      <th>값</th>
-                      <th>출처</th>
-                      <th>신뢰도</th>
+                      <th data-tour="review-field-values">항목</th>
+                      <th data-tour="review-field-values">값</th>
+                      <th data-tour="review-field-sources">출처</th>
+                      <th data-tour="review-field-sources">신뢰도</th>
                     </tr>
                   </thead>
                   <tbody>

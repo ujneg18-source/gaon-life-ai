@@ -10,5 +10,5 @@ export default async function GuidePage({
 }) {
   const { screen } = await params;
   if (!Object.hasOwn(tours, screen)) notFound();
-  return <GuidePlayer screen={screen} />;
+  return <GuidePlayer screen={screen} initialTime={new Date().toISOString()} />;
 }

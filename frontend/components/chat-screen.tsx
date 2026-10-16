@@ -3,15 +3,15 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowLeft,
+  Plus,
   ArrowUp,
   BookOpen,
   Clipboard,
   FileText,
   LoaderCircle,
-  MessageSquarePlus,
   ShieldCheck,
 } from "lucide-react";
+import { conversationDate } from "@/lib/chat-history";
 import { useTyping } from "@/lib/use-typing";
 import { api, Claim, ClaimList } from "@/lib/workspace";
 import { formatDatesInText } from "@/lib/dates";
@@ -54,7 +54,12 @@ export type Answer = {
   refused: boolean;
 };
 type Turn = { id: number; question: string; result?: Answer; error?: string };
-type Conversation = { id: number; turns: Turn[]; claimId?: string };
+type Conversation = {
+  id: number;
+  turns: Turn[];
+  claimId?: string;
+  startedAt: string;
+};
 const generalQuestions = [
   "암 진단금 청구에 필요한 서류가 뭐야?",
   "실손에서 영양제 비용도 보상돼?",
@@ -173,7 +178,9 @@ function AnswerText({
 
 export function ChatScreen({
   preview,
+  initialTime,
 }: {
+  initialTime: string;
   preview?: {
     question: string;
     answer: Answer;
@@ -185,6 +192,7 @@ export function ChatScreen({
   const [conversations, setConversations] = useState<Conversation[]>([
     {
       id: 1,
+      startedAt: initialTime,
       turns:
         preview && (preview.showAnswer || preview.showQuestion)
           ? [
@@ -211,6 +219,8 @@ export function ChatScreen({
   const sources =
     focus?.result?.display_citations ?? focus?.result?.citations ?? [];
   const nextId = useRef(2);
+  const [historyTime, setHistoryTime] = useState(initialTime);
+  const [navQuestion, setNavQuestion] = useState<number | null>(null);
   const [exampleClaim, setExampleClaim] = useState<Claim | null>(null);
   const [context, setContext] = useState<Claim | null>(null);
   const [draftTarget, setDraftTarget] = useState("");
@@ -283,6 +293,8 @@ export function ChatScreen({
   }
   async function send(text: string, contextId?: string) {
     if (!text.trim() || busy) return;
+    const now = new Date().toISOString();
+    setHistoryTime(now);
     const id = nextId.current++;
     const history = turns
       .flatMap((t) => [
@@ -294,7 +306,12 @@ export function ChatScreen({
     setConversations((list) =>
       list.map((c) =>
         c.id === active
-          ? { ...c, claimId, turns: [...c.turns, { id, question: text }] }
+          ? {
+              ...c,
+              startedAt: c.turns.length ? c.startedAt : now,
+              claimId,
+              turns: [...c.turns, { id, question: text }],
+            }
           : c,
       ),
     );
@@ -331,23 +348,6 @@ export function ChatScreen({
   }
   return (
     <main id="main" className="assistant-page">
-      <div className="assistant-top" data-tour="assistant-intro">
-        <Link href="/" className="back-home">
-          <ArrowLeft size={16} />
-          메인으로
-        </Link>
-        <span>업무 어시스턴트</span>
-        <Link
-          className="btn sm"
-          href={
-            current.claimId
-              ? `/workspace/detail?claim=${current.claimId}`
-              : "/workspace"
-          }
-        >
-          워크스페이스로 이동
-        </Link>
-      </div>
       <div className="assistant-layout">
         <aside className="assistant-history" aria-label="대화 목록">
           <button
@@ -355,36 +355,60 @@ export function ChatScreen({
             className="btn"
             disabled={busy}
             onClick={() => {
+              setHistoryTime(new Date().toISOString());
               const id = nextId.current++;
               setConversations((list) => [
-                { id, turns: [], claimId: params.get("claim") ?? undefined },
+                {
+                  id,
+                  startedAt: new Date().toISOString(),
+                  turns: [],
+                  claimId: params.get("claim") ?? undefined,
+                },
                 ...list,
               ]);
               setActive(id);
               setSelected(null);
+              setNavQuestion(null);
               setDraft(null);
             }}
           >
-            <MessageSquarePlus size={17} />새 채팅
+            <Plus size={18} />새 채팅
           </button>
-          <p className="eyebrow">현재 세션</p>
-          {conversations
-            .filter((c) => c.turns.length > 0)
-            .map((c) => (
-              <button
-                key={c.id}
-                disabled={busy}
-                className={`conversation-item ${active === c.id ? "active" : ""}`}
-                onClick={() => {
-                  setActive(c.id);
-                  setSelected(null);
-                  setDraft(null);
-                }}
-              >
-                <strong>{c.turns[0]?.question ?? "새 대화"}</strong>
-                <small>{c.turns.length}개 질문</small>
-              </button>
-            ))}
+          {["오늘", "지난 7일", "이전 대화"].map((group) => {
+            const items = conversations.filter(
+              (c) =>
+                c.turns.length > 0 &&
+                conversationDate(c.startedAt, historyTime).group === group,
+            );
+            return items.length > 0 ? (
+              <section className="conversation-group" key={group}>
+                <h2>{group}</h2>
+                <div className="conversation-list">
+                  {items.map((c) => (
+                    <button
+                      key={c.id}
+                      className={`conversation-item ${active === c.id ? "active" : ""}`}
+                      disabled={busy}
+                      aria-current={active === c.id ? "true" : undefined}
+                      onClick={() => {
+                        setActive(c.id);
+                        setSelected(null);
+                        setNavQuestion(null);
+                        setDraft(null);
+                      }}
+                    >
+                      <strong title={c.turns[0].question}>
+                        {c.turns[0].question}
+                      </strong>
+                      <time dateTime={c.startedAt}>
+                        {conversationDate(c.startedAt, historyTime).label}
+                      </time>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null;
+          })}
           <p className="assistant-session-note">
             대화는 현재 화면에만 보관돼요.
           </p>
@@ -394,7 +418,55 @@ export function ChatScreen({
           aria-label="업무 대화"
           data-tour="assistant-body"
         >
-          <div className="assistant-scroll" ref={scroll}>
+          {turns.length > 0 && (
+            <nav className="question-nav" aria-label="질문 바로가기">
+              {turns.map((t, index) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={
+                    (navQuestion ?? focus?.id) === t.id ? "active" : ""
+                  }
+                  aria-label={`${index + 1}번째 질문: ${t.question}`}
+                  aria-current={
+                    (navQuestion ?? focus?.id) === t.id ? "true" : undefined
+                  }
+                  data-question={t.question}
+                  onClick={() => {
+                    setSelected(t.id);
+                    setNavQuestion(t.id);
+                    const node = document.getElementById(`question-${t.id}`),
+                      container = scroll.current;
+                    if (node && container)
+                      container.scrollTo({
+                        top:
+                          container.scrollTop +
+                          node.getBoundingClientRect().top -
+                          container.getBoundingClientRect().top -
+                          20,
+                        behavior: "smooth",
+                      });
+                  }}
+                />
+              ))}
+            </nav>
+          )}
+          <div
+            className="assistant-scroll"
+            ref={scroll}
+            onScroll={() => {
+              const el = scroll.current;
+              if (!el) return;
+              const top = el.getBoundingClientRect().top;
+              let id = turns[0]?.id ?? null;
+              for (const t of turns) {
+                const node = document.getElementById(`question-${t.id}`);
+                if (node && node.getBoundingClientRect().top <= top + 70)
+                  id = t.id;
+              }
+              setNavQuestion(id);
+            }}
+          >
             {!turns.length && (
               <div className="assistant-welcome">
                 <BookOpen size={30} />

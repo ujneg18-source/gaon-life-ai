@@ -4,6 +4,7 @@ export function placeGuide(
   target: Rect,
   card: { w: number; h: number },
   viewport: { w: number; h: number },
+  preferred?: "below-left" | "below-right",
 ) {
   const margin = 16,
     gap = 20,
@@ -33,6 +34,16 @@ export function placeGuide(
       y: target.y - card.h - gap,
     },
   ];
+  if (preferred)
+    candidates.unshift({
+      side: "top",
+      x: clamp(
+        preferred === "below-left" ? target.x : target.x + target.w - card.w,
+        margin,
+        viewport.w - card.w - margin,
+      ),
+      y: target.y + target.h + gap,
+    });
   const valid = candidates.find(
     (p) =>
       p.x >= margin &&
