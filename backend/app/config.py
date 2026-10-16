@@ -293,6 +293,7 @@ class Settings(BaseSettings):
     MAX_FILES_PER_CLAIM: int = Field(default=10, gt=0)
     REVIEW_ON_FORMAT: bool = True
     SOLAR_CHAT_PATH: str = "/chat/completions"
+    SUPPLEMENT_MESSAGE_TEMPLATES: Path = PROJECT_ROOT / "data/templates/supplement_messages.json"
     SUPPLEMENT_MAX_CHARS: int = 2000
     REVIEW_ON_LOW_CONF: bool = True
     REVIEW_ON_NOT_IN_SOURCE: bool = True

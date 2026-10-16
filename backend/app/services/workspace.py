@@ -1,5 +1,7 @@
 """화면용 읽기 모델. 숫자는 저장 데이터와 현재 규칙에서 계산하며 경로·원본 응답은 숨긴다."""
 
+import json
+import math
 from copy import deepcopy
 
 from sqlmodel import Session, select
@@ -53,6 +55,29 @@ def review_input(session, doc):
     return result
 
 
+def field_confidences(raw):
+    """Extract choice의 JSON 문자열 점수를 펼친다. 분류 점수/_ctx와 혼동하지 않는다."""
+    from app.services.normalize import flatten
+
+    try:
+        score = raw.get("extract", {}).get("choices", [{}])[0].get("confidence_score", {})
+        if isinstance(score, str):
+            score = json.loads(score)
+        if not isinstance(score, dict):
+            return {}
+        return {
+            key.removesuffix("._value"): value
+            for key, value in flatten(score).items()
+            if key.endswith("._value")
+            and isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and math.isfinite(value)
+            and 0 <= value <= 1
+        }
+    except (ValueError, TypeError, IndexError, AttributeError):
+        return {}
+
+
 def detail(session: Session, claim: Claim, config):
     docs = list(
         session.exec(
@@ -84,12 +109,14 @@ def detail(session: Session, claim: Claim, config):
     )
     fields = []
     for doc in docs:
+        scores = field_confidences(doc.raw_result)
         for f in session.exec(
             select(ExtractedField).where(ExtractedField.document_id == doc.id)
         ).all():
             fields.append(
                 {
                     **f.model_dump(mode="json"),
+                    "confidence_score": scores.get(f.key) if f.method.value != "data" else None,
                     "doc_type": doc.doc_type,
                     "provenance": doc.provenance,
                     "source": doc.source,

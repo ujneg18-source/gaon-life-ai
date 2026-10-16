@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19p · 고정 안내 문자 양식과 실제 추출 점수 복원
+- 관련 요구사항: FR-19~24, SCR-12~13
+- 한 일: 최신 요청에 따라 보완 문자 생성은 챗봇 어댑터 대신 data/templates/supplement_messages.json의 서류별 고정 양식으로 변경했다. 권한 범위와 실제 누락을 확인하고 고객명·청구번호·상품·접수일·서류별 준비처를 채운다. 미발송 초안만 재생성하고 발송된 기록은 보호한다. 실제 감사 로그의 발송·접수 시각을 API에 추가했다.
+  T-19n 기록의 ‘API는 high/low만 제공’ 설명을 정정한다. 저장된 extract.choices[0].confidence_score는 JSON 문자열이며 각 필드의 _value 숫자를 제공했다. 중첩 품목도 읽어 API에 confidence_score를 노출하고 _ctx/Classify 점수는 사용하지 않는다. 실손24 데이터는 해당 없음으로 유지한다.
+- 바뀐 파일: backend/app/services/supplement.py, backend/app/services/workspace.py, backend/app/routers/supplements.py, backend/app/config.py, .env.example, data/templates/supplement_messages.json, backend/tests/test_operations_api.py, backend/tests/test_confidence_display.py
+- 확인 방법: 전체 pytest142 passed/1 live 제외, Ruff check/format 통과. 양식 전체 코드·변수 치환·외부 HTTP 금지·같은 초안 재생성·발송 보호·추출 점수 JSON/중첩/잘못된 값/실손24를 테스트했다. 실제 UI 생성 본문은 artifacts/final-workflow/supplement-letter.txt.
+- 남은 문제 · 질문: 없음. Upstage 추가 호출0회. 과거 WORKLOG는 당시 기록으로 보존하며 숫자 미제공 판단은 이 기록으로 정정한다.
+
 ## 2026-10-16 · T-19o · 비교 문서별 정규화 표 분리
 - 관련 요구사항: FR-19~20, SCR-12
 - 한 일: 두 원본 비교 시 정규화 결과도 같은 순서의 문서별 표로 분리했다. 문서명/항목 수를 각각 표시하고 각 표의 세로·가로 스크롤을 독립시켰다. 문서/이슈가 바뀌면 표를 첫 행부터 연다. 단일 원본에서는 한 표를 유지하며 필드 수정·출처·신뢰도 표시도 그대로 사용한다.

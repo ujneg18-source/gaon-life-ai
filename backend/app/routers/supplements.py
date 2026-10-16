@@ -26,7 +26,21 @@ router = APIRouter(tags=["supplements"])
 
 def dto(row, session):
     claim = session.get(Claim, row.claim_id)
-    return {**row.model_dump(mode="json"), "customer_name": claim.customer_name}
+    logs = session.exec(
+        select(AuditLog).where(AuditLog.claim_id == row.claim_id).order_by(AuditLog.created_at)
+    ).all()
+    related = [log for log in logs if log.detail.get("request_id") == row.id]
+
+    def event_time(action):
+        return next((log.created_at.isoformat() for log in related if log.action == action), None)
+
+    return {
+        **row.model_dump(mode="json"),
+        "customer_name": claim.customer_name,
+        "created_at": event_time("supplement_draft"),
+        "sent_at": event_time("supplement_send_mock"),
+        "received_at": event_time("supplement_received"),
+    }
 
 
 @router.get("/supplements")
@@ -71,12 +85,12 @@ def create_supplement(claim: ClaimWrite, user: CurrentUser, session: SessionDep,
     ).first()
     if active and active.status == SupplementStatus.SENT_MOCK:
         raise HTTPException(409, "이미 발송한 보완 요청의 회신을 기다리고 있어요.")
-    # 챗봇과 같은 도구가 실제 누락을 조회하고 표준 템플릿으로 작성한다.
-    generated = claim_supplement_draft(session, user, config, claim.id)
+    # 서버가 판단한 누락 서류에 고정 안내 양식의 고객/계약/접수 정보를 채운다.
+    generated = claim_supplement_draft(session, user, config, claim.id, codes)
     message = generated.get("draft_text")
     if not message:
         raise HTTPException(409, generated.get("message", "안내 문구를 만들지 못했어요."))
-    source = "chatbot_template"
+    source = "fixed_template"
     # 명시적인 생성 요청은 기존 미발송 초안도 재생성한다. 오래된 Solar 캐시를 재사용하지 않는다.
     row = active or SupplementRequest(claim_id=claim.id, doc_types=codes, message=message)
     row.doc_types = codes

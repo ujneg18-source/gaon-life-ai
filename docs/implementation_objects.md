@@ -151,3 +151,10 @@
 - `claim_supplement_draft`: 챗봇의 Tools.draft_supplement(claim_id, [])를 호출한다. 고객 권한과 저장된 누락 이슈를 동일하게 읽고 같은 고객명/템플릿 문구를 반환한다.
 - 보완 API: GET /api/supplements?claim_id=...는 권한 범위와 선택 청구를 모두 검사한다. POST /api/claims/{id}/supplements는 요청할 실제 누락이 있을 때만 초안을 생성/미발송 초안 재생성한다. 이미 발송된 요청은 덮어쓰지 않는다.
 - `SupplementScreen`: 선택 청구별 응답 URL을 사용하며 응답 URL이 바뀌면 이전 고객을 로딩 상태 뒤로 숨긴다. 카드/편집기에도 선택 청구 필터를 적용한다. 새 서버 문구는 같은 초안 ID여도 편집기에 반영하고 모의 발송 피드백은 유지한다.
+
+
+## T-19p/q 최신 보완 객체 (앞선 T-19l 설명 대체)
+- claim_supplement_draft는 config의 SUPPLEMENT_MESSAGE_TEMPLATES 고정 JSON을 사용한다. 고객·계약·누락 서류를 검증해 실제 정보로 채우며 챗봇/LLM/벡터 검색 호출은 없다.
+- workspace.field_confidences는 Extract choices[0].confidence_score의 JSON 문자열/객체에서 _value만 읽는다. 중첩 배열은 Field.key와 같은 경로로 평탄화하며 invalid/범위 밖/문맥 점수는 제외한다.
+- SupplementScreen은 검색된 고객 요약을 왼쪽, 실제 발송·접수 이력과 편집기를 오른쪽에 둔다. 생성 응답을 즉시 편집기에 연결하며 고객 선택 드롭다운은 없다.
+- Original은 비교 문서별 배율과 포인터 드래그 스크롤을 분리한다. 서류 정보는 문서별 탭과 이슈 field_keys만 모은 비교 항목 탭으로 한 표씩 표시한다. 탭/이슈 변경 시 첫 행으로 돌아간다.

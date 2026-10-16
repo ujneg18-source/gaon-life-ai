@@ -80,13 +80,12 @@ def test_admin_flags_rules_reinspection_and_reopen(client):
     assert client.put("/api/rules/required-docs", json=[]).status_code == 403
 
 
-def test_supplement_uses_chatbot_template_and_regenerates_stale_draft(client, monkeypatch):
+def test_fixed_letter_variables_and_regeneration(client, monkeypatch):
     """별도 Solar 문구 대신 챗봇의 실제 누락 조회/템플릿 결과와 완전히 일치해야 한다."""
     import httpx
 
-    from app.agent.tools import Tools
     from app.models import User
-    from app.services.supplement import SupplementTemplates
+    from app.services.supplement import claim_supplement_draft
 
     def no_solar(*args, **kwargs):
         raise AssertionError("안내 문자 생성에서 외부 LLM을 호출하면 안 된다")
@@ -100,13 +99,15 @@ def test_supplement_uses_chatbot_template_and_regenerates_stale_draft(client, mo
     with Session(client.app.state.engine) as session:
         user = session.get(User, 1)
         config = client.app.state.settings
-        expected = Tools(session, user, config, SupplementTemplates(config)).draft_supplement(
-            row["claim_id"], []
-        )
+        expected = claim_supplement_draft(session, user, config, row["claim_id"], row["doc_types"])
     assert row["message"] == expected["draft_text"]
-    assert row["message_source"] == "chatbot_template"
+    assert row["message_source"] == "fixed_template"
+    assert row["message"].startswith("안녕하세요. 김유정 고객님!")
+    assert row["claim_id"] in row["message"]
+    assert "가입 상품:" in row["message"] and "접수일:" in row["message"]
+    assert len(row["message"]) > 400
     assert "수술받으신 병원 원무과" in row["message"]
-    assert "편리한 제출" not in row["message"] and "이미 발급받으신" not in row["message"]
+    assert "편리한 제출" not in row["message"]
     assert (
         client.patch(
             f"/api/supplements/{row['id']}", json={"message": "이전 안내 문구"}
@@ -138,3 +139,31 @@ def test_supplement_list_is_scoped_to_selected_claim(client):
     assert (
         client.get("/api/supplements", params={"claim_id": created["claim_id"]}).status_code == 403
     )
+
+
+def test_fixed_templates_cover_all_supported_documents(client):
+    from app.models import User
+    from app.services.presentation import document_label
+    from app.services.supplement import claim_supplement_draft
+
+    prepare(client)
+    config = client.app.state.settings
+    with Session(client.app.state.engine) as session:
+        for code in config.UPSTAGE_DOC_CLASSES:
+            generated = claim_supplement_draft(
+                session, session.get(User, 1), config, "GA-2610-0482", [code]
+            )
+            assert generated["draft_text"]
+            assert document_label(code, config) in generated["draft_text"]
+            assert "{customer_name}" not in generated["draft_text"]
+            assert len(generated["draft_text"]) <= config.SUPPLEMENT_MAX_CHARS
+
+
+def test_sent_history_uses_real_audit_time_and_cannot_regenerate(client):
+    base, _ = prepare(client)
+    draft = client.post(base + "/supplements").json()
+    assert draft["created_at"] and draft["sent_at"] is None and draft["received_at"] is None
+    client.post(f"/api/supplements/{draft['id']}/send")
+    history = client.get("/api/supplements", params={"claim_id": draft["claim_id"]}).json()
+    assert history[0]["sent_at"]
+    assert client.post(base + "/supplements").status_code == 409
