@@ -108,6 +108,24 @@ export function GuidePlayer({
         if (retries++ < 30) frame = requestAnimationFrame(update);
         return;
       }
+      // 첫 소개는 전체 서비스 설명이다. 화면을 축소하거나 이동하지 않고 중앙 모달로 안내한다.
+      if (step.target === "home-overview") {
+        setBox({ x: 0, y: 0, w: 0, h: 0 });
+        setPosition({
+          left: Math.max(
+            16,
+            (innerWidth - (card.current?.offsetWidth ?? 640)) / 2,
+          ),
+          top: Math.max(
+            16,
+            (innerHeight - (card.current?.offsetHeight ?? 490)) / 2,
+          ),
+          side: "top",
+          arrow: 0,
+          separate: true,
+        });
+        return;
+      }
       const first = targets[0].getBoundingClientRect();
       // 보이는 일부만 잘라 강조하지 않고, 설명할 작은 영역 전체를 먼저 화면 안으로 옮긴다.
       if (

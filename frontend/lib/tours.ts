@@ -13,8 +13,7 @@ export const tours: Record<string, TourStep[]> = {
     {
       target: "home-overview",
       title: "안녕하세요. 가온생명 AI입니다",
-      description:
-        "보상 담당자의 청구 서류 검토와 대조 업무를 지원하는 가온생명 AI를 소개합니다.",
+      description: "보상담당자의 청구업무를 돕는 가온 Ai입니다.",
       details: [
         {
           label: "주요기능",
