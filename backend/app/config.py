@@ -143,7 +143,7 @@ class Settings(BaseSettings):
     SOLAR_RESPONSE_CACHE: bool = False
     SOLAR_USAGE_PATH: Path | None = None
 
-    @field_validator("SOLAR_USAGE_PATH", mode="before")
+    @field_validator("SOLAR_USAGE_PATH", "DEMO_CALL_LOG", mode="before")
     @classmethod
     def optional_usage_path(cls, value):
         return None if value == "" else value
@@ -160,6 +160,10 @@ class Settings(BaseSettings):
     SHOW_DEVELOPMENT_BADGES: bool = False
     SHOW_DEV_BADGE: bool = False
     DEMO_MODE: bool = True
+    DEMO_API_DEADLINE_SEC: float = Field(default=3.0, gt=0, le=3)
+    DEMO_RESET_LIMIT_SEC: float = Field(default=30.0, gt=0, le=30)
+    DEMO_RESET_TIMEZONE: str = "Asia/Seoul"
+    DEMO_CALL_LOG: Path | None = None
     SAMPLES_ROOT: Path = PROJECT_ROOT / "data/samples"
     DEMO_CUSTOMERS_PATH: Path = PROJECT_ROOT / "data/samples/customers.json"
     DEMO_RESULTS_PATH: Path = PROJECT_ROOT / "data/cache/demo-results"

@@ -1,4 +1,5 @@
 "use client";
+import { clearDemoSession } from "@/lib/demo-session";
 import { useState } from "react";
 import Link from "next/link";
 import { formatDateTime, formatDatesInText } from "@/lib/dates";
@@ -583,6 +584,34 @@ export function OperationsScreen() {
         title="운영 관리"
         description="확인이 필요한 조건과 청구 유형별 필수 서류를 정해요."
       />
+      <section className="panel settings-panel">
+        <button
+          className="btn"
+          disabled={busy}
+          onClick={async () => {
+            if (
+              !window.confirm(
+                "시연 상태를 초기화할까요? DB를 백업한 뒤 검토·보완 회신·채팅을 초기화합니다.",
+              )
+            )
+              return;
+            setBusy(true);
+            try {
+              const result = await api<{ revision: string }>("/demo/reset", {
+                method: "POST",
+                body: JSON.stringify({ confirm: true }),
+              });
+              clearDemoSession(result.revision);
+              location.replace("/login");
+            } catch (error) {
+              setMessage((error as Error).message);
+              setBusy(false);
+            }
+          }}
+        >
+          시연 초기화
+        </button>
+      </section>
       <section className="panel settings-panel">
         <h2>
           <SlidersHorizontal size={18} />

@@ -152,7 +152,42 @@ class UpstageClient:
             {**self.settings.UPSTAGE_EXTRACT_OPTIONS, "schema_name": name},
         )
 
-    def _call(
+    def _call(self, operation, path, model, endpoint, schema, options):
+        from app.services.demo_deadline import cached_deadline
+
+        signature = {"model": model, "endpoint": endpoint, "schema": schema, "options": options}
+        request_hash = hashlib.sha256(json.dumps(signature, sort_keys=True).encode()).hexdigest()
+        root = self.settings.CACHE_PATH / digest_file(path)
+        cache = root / f"{operation}-{request_hash}.json"
+
+        def fallback():
+            if not cache.is_file():
+                return None
+            try:
+                saved = json.loads(cache.read_text())
+                result = saved["response"]
+                if (
+                    saved["status_code"] == 200
+                    and isinstance(result, dict)
+                    and not result.get("invalid_json")
+                ):
+                    return result
+            except (ValueError, KeyError):
+                pass
+            return None
+
+        saved = fallback()
+        if saved is not None:
+            self.cache_hits += 1
+            return saved
+        return cached_deadline(
+            self.settings,
+            lambda: self._call_inner(operation, path, model, endpoint, schema, options),
+            fallback,
+            operation,
+        )
+
+    def _call_inner(
         self,
         operation: str,
         path: Path,
@@ -190,6 +225,9 @@ class UpstageClient:
                 self._reserve(operation, file_hash, pages)
                 atomic_json(pending, {"operation": operation, "pages": pages})
                 try:
+                    from app.services.demo_deadline import record_attempt
+
+                    record_attempt(self.settings, endpoint)
                     self.requests_made += 1
                     headers = {"Authorization": f"Bearer {key}"}
                     if operation == "parse":

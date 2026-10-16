@@ -9,7 +9,8 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "next typegen && tsc --noEmit",
     "format": "prettier --write app components lib *.ts *.mjs tsconfig.json package.json",
-    "format:check": "prettier --check app components lib *.ts *.mjs tsconfig.json package.json"
+    "format:check": "prettier --check app components lib *.ts *.mjs tsconfig.json package.json",
+    "test:demo": "playwright test e2e/demo.spec.ts --reporter=line"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "5.3.0",
@@ -21,6 +22,7 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "26.6.5",
     "@types/react": "19.3.0",

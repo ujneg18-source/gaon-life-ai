@@ -1,0 +1,30 @@
+{
+  "merge_order": [
+    "497fafe feat/eval",
+    "10ee05b feat/demo-polish"
+  ],
+  "conflict_files": [],
+  "preserved_cache_files": 2040,
+  "missing_cache_files": [],
+  "changed_cache_files": [],
+  "protected_files_unchanged": true,
+  "actual_upstage_calls": 0,
+  "db_counts": {
+    "customers": 10,
+    "claims": 13,
+    "documents": 29,
+    "supplement_requests": 0
+  },
+  "kim_step": 0,
+  "kim_note_empty": true,
+  "checks": {
+    "backend": "147 passed, 1 live deselected",
+    "frontend": "lint/typecheck/format/e2e-format/webpack build passed",
+    "e2e": "2 passed (19.2s), 1440x900, console errors 0"
+  },
+  "remaining_risks": [
+    "Fresh prompts without matching cache need a cache-warming run; no fabricated cross-request fallback.",
+    "Local Qdrant supports one backend process.",
+    "npm audit: 5 high severity findings in existing development lint dependencies; suggested major downgrade not applied."
+  ]
+}

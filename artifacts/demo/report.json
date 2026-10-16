@@ -1,0 +1,71 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "timings_ms": {
+    "login": 538,
+    "main-onboarding": 922,
+    "inbox": 1878,
+    "detail-1": 858,
+    "detail-2-comparison": 73,
+    "original-comparison": 290,
+    "detail-3": 360,
+    "assistant": 366,
+    "question-1": 2473,
+    "question-2": 503,
+    "question-3": 805,
+    "question-4": 625
+  },
+  "screenshots": [
+    "01-login.png",
+    "onboarding-1.png",
+    "onboarding-2.png",
+    "onboarding-3.png",
+    "onboarding-4.png",
+    "06-main-onboarding.png",
+    "07-inbox.png",
+    "08-detail-1.png",
+    "09-detail-2-comparison.png",
+    "10-original-comparison.png",
+    "11-detail-3.png",
+    "12-assistant.png",
+    "13-question-1.png",
+    "14-question-2.png",
+    "15-question-3.png",
+    "16-question-4.png"
+  ],
+  "console_errors": [],
+  "initial_reset": {
+    "backup": "/Users/yujin-yeong/Desktop/dvp/upstage_demo/data/backup/gaon_20261016_2300_01.db",
+    "elapsed_seconds": 0.626,
+    "within_limit": true,
+    "checks": {
+      "index": true,
+      "structure": true,
+      "cache": true
+    },
+    "seed": {
+      "users": 2,
+      "claims": 13,
+      "documents": 29
+    },
+    "revision": "55045d70f81c4150b5ace2b89ffb112b"
+  },
+  "final_reset": {
+    "backup": "/Users/yujin-yeong/Desktop/dvp/upstage_demo/data/backup/gaon_20261016_2300_02.db",
+    "elapsed_seconds": 0.457,
+    "within_limit": true,
+    "checks": {
+      "index": true,
+      "structure": true,
+      "cache": true
+    },
+    "seed": {
+      "users": 2,
+      "claims": 13,
+      "documents": 29
+    },
+    "revision": "52adfcfbc40043378859fbddc2b7b80e"
+  }
+}
