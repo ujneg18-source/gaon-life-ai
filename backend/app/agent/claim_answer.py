@@ -96,7 +96,7 @@ def render_claim(claim, issues, documents, config):
             )
             title = "진단서: 질병분류기호 확인"
             body = (
-                f"추출된 값({code})이 관련 서류 원문({', '.join(longer)})과 다릅니다. "
+                f"추출된 값({code})이 {next((document_label(d.doc_type, config) for d in documents if any(m in d.source_text for m in longer)), '제출 서류')} 원문({', '.join(longer)})과 다릅니다. "
                 if code and longer
                 else clean(issue["detail"]) + ". "
             )
@@ -127,9 +127,9 @@ def render_claim(claim, issues, documents, config):
                 else "입원일수와 입원일 및 퇴원일을 원본에서 확인해 주세요."
             ) + law(rule)
         elif rule == "coverage":
-            title = "영수증 · 처방전: " + clean(issue["title"]).replace(
-                " 보상 제외 가능성", " 보상 여부"
-            )
+            title = "영수증 · 처방전: " + re.sub(
+                r"\s*\([^)]*\)", "", clean(issue["title"])
+            ).replace(" 보상 제외 가능성", " 보상 여부")
             item = re.sub(
                 r"\s*\([^)]*\)", "", clean(issue["title"]).replace(" 보상 제외 가능성", "")
             )

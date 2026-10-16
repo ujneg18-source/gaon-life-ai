@@ -14,6 +14,15 @@ from tests.engine_fakes import app_files, install_fake
 
 
 class FakeKB:
+    def lookup(self, source, article, keyword=None):
+        return [
+            c.payload()
+            for c in load_chunks(PROJECT_ROOT / "data/kb")
+            if c.source_path.endswith(source)
+            and c.article == article
+            and (keyword is None or keyword in c.chunk_text)
+        ]
+
     def search(self, query, collection=None, limit=3):
         chunks = load_chunks(PROJECT_ROOT / "data/kb")
         if "영양제" in query:
@@ -134,6 +143,47 @@ def test_four_demo_answers(client):
     assert fourth["refused"]
     for answer in answers:
         ChatAnswer.model_validate(answer)
+
+
+def test_demo_display_sources_and_refusal(client):
+    """평가 원본을 보존하면서 화면 근거/링크가 본문에만 대응하는지 확인한다."""
+    setup_chat(client)
+    answers = [
+        client.post("/api/chat", json={"message": q, "claim_id": "GA-2610-0482"}).json()
+        for q in QUESTIONS
+    ]
+    first, second, third, fourth = answers
+    assert [c["article"] for c in first["display_citations"]] == ["제3조 ③", "제4조 ③ 2호", "제5조"]
+    assert all("10_claims" not in c["source_path"] for c in first["display_citations"])
+    assert all(r["label"] and "이슈 " not in r["label"] for r in first["display_claim_refs"])
+    assert "관련 서류 원문" not in first["answer"]
+    assert "(일반의약품)" not in first["answer"]
+    assert len(second["display_citations"]) == 1
+    assert [r["label"] for r in second["display_claim_refs"]] == ["종합비타민정 보상 여부"]
+    assert third["answer"].startswith("[가온생명] 김유정 고객님")
+    assert third["display_citations"][0]["article"] == "2장"
+    assert fourth["answer"].startswith(
+        "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요."
+    )
+    assert "- 보완 요청: 수술확인서" in fourth["answer"]
+    assert "- 확인 필요: 질병분류기호 세분류, 진단일과 병리 보고일" in fourth["answer"]
+    assert "- 보상 제외 가능성: 종합비타민정" in fourth["answer"]
+    assert fourth["answer"].endswith("이 항목들이 정리되면 지급 심사로 이관하시면 돼요.")
+    assert fourth["display_citations"][0]["article"] == "10장"
+    for answer in answers:
+        assert "③항" not in answer["answer"]
+        assert "CV-" not in "".join(c["display_quote"] for c in answer["display_citations"])
+
+
+def test_source_table_is_display_only():
+    from app.agent.display import readable_quote
+    from app.config import Settings
+
+    original = "| 규칙 | 확인 사항 |\n| --- | --- |\n| CV-01 | 날짜 비교 |"
+    shown = readable_quote(original, Settings())
+    assert "규칙: 진단일과 병리 보고일 비교" in shown
+    assert "확인 사항: 날짜 비교" in shown
+    assert "|" not in shown and "CV-01" in original
 
 
 def test_auth_context_id_and_privacy(client):
@@ -437,3 +487,39 @@ def test_refusal_without_context_has_followup_button_and_one_manual_source(clien
     assert answer["suggested_actions"][0]["label"] == "남은 확인 항목 보기"
     privacy = client.post("/api/chat", json={"message": "주민등록번호 알려줘"}).json()
     assert privacy["refused"] and privacy["citations"][0]["article"] == "9장"
+
+
+@pytest.mark.parametrize("original", ["제4조 ③항 2호", "제4조 제3항 제2호", "제4조 ③ 제2호"])
+def test_article_display_address(original):
+    from app.agent.display import address
+
+    assert address(original) == "제4조 ③ 2호"
+
+
+def test_display_never_mixes_coverage_sections():
+    from types import SimpleNamespace
+
+    from app.agent.display import present
+    from app.config import Settings
+    from app.services.coverage import citation
+
+    config = Settings()
+    chunk = next(
+        c
+        for c in load_chunks(config.KB_PATH)
+        if "rider2_" in c.source_path
+        and c.coverage_section == "상해비급여"
+        and c.article == "제4조"
+    )
+    raw = ChatAnswer(
+        answer=f"해당 사항을 확인해 주세요. (특별약관2 상해 비급여 {chunk.address})",
+        intent="policy_qa",
+        citations=[citation(chunk.payload())],
+        claim_refs=[],
+        suggested_actions=[],
+        refused=False,
+    )
+    result = present(SimpleNamespace(config=config), {"result": raw})["result"]
+    assert result.display_citations
+    assert all(c.coverage_section == "상해비급여" for c in result.display_citations)
+    assert raw.display_citations is None

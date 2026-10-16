@@ -8,6 +8,7 @@ from typing import TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from app.agent.claim_answer import render_claim
+from app.agent.display import present
 from app.agent.guardrails import refusal_reason
 from app.agent.rag import chunk_id
 from app.agent.tone import TONE_PROMPT, ToneAnswer, payment_assertion, protected_numbers, violations
@@ -39,7 +40,9 @@ class ChatAgent:
         graph.add_edge("tools", "answer")
         graph.add_node("tone", self.tone)
         graph.add_edge("answer", "tone")
-        graph.add_edge("tone", END)
+        graph.add_node("display", lambda state: present(self, state))
+        graph.add_edge("tone", "display")
+        graph.add_edge("display", END)
         self.graph = graph.compile()
 
     def classify(self, state):
@@ -255,7 +258,10 @@ class ChatAgent:
                 if e.get("issues"):
                     from app.agent.claim_answer import clean
 
-                    pending = e["issues"]
+                    # 원문 값 확인을 앞에 두어 청구 검토 답변과 같은 순서로 읽게 한다.
+                    pending = sorted(
+                        e["issues"], key=lambda i: i["rule_id"] != "FIELD-diagnosis_code"
+                    )
                     missing = list(
                         dict.fromkeys(
                             clean(i["title"]).replace(" 미제출", "")
@@ -263,25 +269,34 @@ class ChatAgent:
                             if i["kind"] == "missing"
                         )
                     )
-                    labels = list(
-                        dict.fromkeys(
-                            self.config.CLAIM_REVIEW_LABELS.get(i["rule_id"], clean(i["title"]))
-                            for i in pending
-                            if i["kind"] not in {"missing", "info"}
-                            and not (
-                                i["rule_id"] == "CV-03"
-                                and any(j["rule_id"] == "FIELD-diagnosis_code" for j in pending)
-                            )
-                        )
-                    )
-                    text = "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요. "
+                    rows = [
+                        "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요."
+                    ]
+                    items = []
                     if missing:
-                        text += ", ".join(missing) + " 보완 요청이 필요해요. "
+                        items.append("- 보완 요청: " + ", ".join(missing))
+                    excluded = [
+                        re.sub(r"\s*\([^)]*\)", "", i["title"]).replace(" 보상 제외 가능성", "")
+                        for i in pending
+                        if i["kind"] == "excluded_item"
+                    ]
+                    labels = [
+                        self.config.CLAIM_REVIEW_LABELS.get(i["rule_id"], clean(i["title"]))
+                        + (" 세분류" if i["rule_id"] == "FIELD-diagnosis_code" else "")
+                        for i in pending
+                        if i["kind"] not in {"missing", "info", "excluded_item"}
+                        and not (
+                            i["rule_id"] == "CV-03"
+                            and "FIELD-diagnosis_code" in {j["rule_id"] for j in pending}
+                        )
+                    ]
                     if labels:
-                        text += ", ".join(labels) + "을 확인해야 해요. "
-                    if any(i["kind"] == "info" for i in pending):
-                        text += "참고할 안내 사항도 함께 확인해 주세요. "
-                    text += "필요하시다면 이 항목들을 정리한 뒤 지급 심사로 이관해 주세요."
+                        items.append("- 확인 필요: " + ", ".join(dict.fromkeys(labels)))
+                    if excluded:
+                        items.append("- 보상 제외 가능성: " + ", ".join(dict.fromkeys(excluded)))
+                    rows.append("\n".join(items))
+                    rows.append("이 항목들이 정리되면 지급 심사로 이관하시면 돼요.")
+                    text = "\n\n".join(rows)
                 else:
                     text = "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요. 청구 건을 선택하시면 남은 확인 항목을 확인할 수 있어요."
                     actions = [
@@ -477,7 +492,7 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
                 if check["reason"] == "처방전에 없음"
                 else check["reason"].rstrip(".") + "."
             )
-            text = f"{check['item_name']}은 {status}. {reason} 특별약관2 제4조 ③항 2호에 따라 치료 목적 같은 예외는 담당자가 확인해야 해요. 필요하시다면 처방전과 진료 기록을 확인한 내용을 지급 심사로 이관할 때 메모로 남겨 주세요. 지급 여부와 금액은 지급 심사 담당자가 결정해요."
+            text = f"{check['item_name']}은 {status}. {reason} 치료 목적 같은 예외는 담당자가 확인해야 해요. (실손 특별약관2 제4조 ③ 2호) 필요하시다면 처방전과 진료 기록을 확인한 내용을 지급 심사로 이관할 때 메모로 남겨 주세요. 지급 여부와 금액은 지급 심사 담당자가 결정해요."
             return done(text, citations=check["citations"], claim_refs=refs)
         draft = e["draft"]
         return done(
@@ -520,6 +535,9 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
         initial = violations(text)
         self.tone_trace = {"before": text, "initial_violations": initial, "attempts": []}
         # 사실과 인용을 확정한 뒤 본문만 생성한다. 고정 DB/템플릿 답변도 같은 규칙으로 쓴다.
+        if original.refused:
+            self.tone_trace = {"before": text, "attempts": [], "remaining_violations": []}
+            return {"result": original}
         render = not original.refused and bool(initial)
         attempts = 1 + int(render) if render else int(bool(initial))
         for attempt in range(attempts):

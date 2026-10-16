@@ -21,11 +21,16 @@ class Citation(StrictModel):
     source_path: str
     is_mock: bool
     quote: str
+    display_quote: str | None = None
 
 
 class ClaimRef(StrictModel):
     claim_id: str
     issue_id: int | None
+
+
+class DisplayClaimRef(ClaimRef):
+    label: str
 
 
 class Action(StrictModel):
@@ -36,6 +41,9 @@ class Action(StrictModel):
 class ChatAnswer(StrictModel):
     used_chunk_ids: list[str] = Field(default_factory=list)
     answer: str
+    display_answer: str | None = None
+    display_citations: list[Citation] | None = None
+    display_claim_refs: list[DisplayClaimRef] | None = None
     intent: Intent
     citations: list[Citation]
     claim_refs: list[ClaimRef]

@@ -24,6 +24,7 @@ type Citation = {
   source_path: string;
   is_mock: boolean;
   quote: string;
+  display_quote?: string | null;
 };
 // 보장종목이 같아야 같은 조 번호를 인용할 수 있다. 원래 주소는 API 그대로 보존한다.
 function citationAddress(c: Citation): string {
@@ -40,6 +41,10 @@ function citationKind(c: Citation): string {
 }
 type Answer = {
   answer: string;
+  display_answer?: string | null;
+  display_citations?: Citation[] | null;
+  display_claim_refs?:
+    { claim_id: string; issue_id: number | null; label: string }[] | null;
   intent: string;
   citations: Citation[];
   claim_refs: { claim_id: string; issue_id: number | null }[];
@@ -60,7 +65,6 @@ function quoteText(text: string) {
     .replace(/^#{1,6}\s+/gm, "")
     .replace(/\*\*/g, "")
     .replace(/^\|[- :|]+\|$/gm, "")
-    .replace(/\|/g, " · ")
     .trim();
 }
 
@@ -123,7 +127,8 @@ export function ChatScreen() {
   const current = conversations.find((c) => c.id === active)!;
   const turns = current.turns;
   const focus = turns.find((t) => t.id === selected) ?? turns[turns.length - 1];
-  const sources = focus?.result?.citations ?? [];
+  const sources =
+    focus?.result?.display_citations ?? focus?.result?.citations ?? [];
   const nextId = useRef(2);
   useEffect(() => {
     // 새 답변만 대화 영역 아래로 이동시킨다. 근거 패널이나 브라우저 전체는 움직이지 않는다.
@@ -227,41 +232,28 @@ export function ChatScreen() {
             <MessageSquarePlus size={17} />새 채팅
           </button>
           <p className="eyebrow">현재 세션</p>
-          {conversations.map((c) => (
-            <button
-              key={c.id}
-              disabled={busy}
-              className={`conversation-item ${active === c.id ? "active" : ""}`}
-              onClick={() => {
-                setActive(c.id);
-                setSelected(null);
-                setDraft(null);
-              }}
-            >
-              <strong>{c.turns[0]?.question ?? "새 대화"}</strong>
-              <small>{c.turns.length}개 질문</small>
-            </button>
-          ))}
+          {conversations
+            .filter((c) => c.turns.length > 0)
+            .map((c) => (
+              <button
+                key={c.id}
+                disabled={busy}
+                className={`conversation-item ${active === c.id ? "active" : ""}`}
+                onClick={() => {
+                  setActive(c.id);
+                  setSelected(null);
+                  setDraft(null);
+                }}
+              >
+                <strong>{c.turns[0]?.question ?? "새 대화"}</strong>
+                <small>{c.turns.length}개 질문</small>
+              </button>
+            ))}
           <p className="assistant-session-note">
             대화는 현재 화면에만 보관돼요.
           </p>
         </aside>
         <section className="assistant-conversation" aria-label="업무 대화">
-          <nav className="assistant-question-nav" aria-label="질문 바로가기">
-            {turns.map((t, n) => (
-              <button
-                key={t.id}
-                title={t.question}
-                aria-label={`${n + 1}번 질문: ${t.question}`}
-                onClick={() => {
-                  document
-                    .getElementById(`question-${t.id}`)
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  setSelected(t.id);
-                }}
-              />
-            ))}
-          </nav>
           <div className="assistant-scroll" ref={scroll}>
             {!turns.length && (
               <div className="assistant-welcome">
@@ -305,10 +297,15 @@ export function ChatScreen() {
                           <span className="muted">판단 범위 안내</span>
                         )}
                       </div>
-                      <AnswerText text={t.result.answer} />
-                      {t.result.citations.length > 0 && (
+                      <AnswerText
+                        text={t.result.display_answer ?? t.result.answer}
+                      />
+                      {(t.result.display_citations ?? t.result.citations)
+                        .length > 0 && (
                         <div className="answer-citations">
-                          {t.result.citations.map((c, n) => (
+                          {(
+                            t.result.display_citations ?? t.result.citations
+                          ).map((c, n) => (
                             <button
                               key={n}
                               className="answer-source-card"
@@ -318,24 +315,25 @@ export function ChatScreen() {
                               <strong>
                                 {c.doc_name} · {citationAddress(c)}
                               </strong>
-                              <small>{citationKind(c)}</small>
-                              <blockquote>{quoteText(c.quote)}</blockquote>
                             </button>
                           ))}
                         </div>
                       )}
                       <div className="assistant-actions">
-                        {t.result.claim_refs.map((r, n) => (
+                        {(
+                          t.result.display_claim_refs ??
+                          t.result.claim_refs.map((r) => ({
+                            ...r,
+                            label: "청구 상세",
+                          }))
+                        ).map((r, n) => (
                           <Link
                             key={n}
                             className="text-link"
                             href={`/workspace/detail?claim=${encodeURIComponent(r.claim_id)}${r.issue_id !== null ? `&issue=${r.issue_id}#issue-${r.issue_id}` : ""}`}
                           >
                             <FileText size={14} />
-                            {r.claim_id}
-                            {r.issue_id !== null
-                              ? ` · 이슈 ${r.issue_id}`
-                              : " · 청구 상세"}
+                            {r.label}
                           </Link>
                         ))}
                       </div>
@@ -492,7 +490,7 @@ export function ChatScreen() {
               </small>
               <h3>{c.doc_name}</h3>
               <strong>{citationAddress(c)}</strong>
-              <blockquote>{quoteText(c.quote)}</blockquote>
+              <blockquote>{c.display_quote ?? quoteText(c.quote)}</blockquote>
               <span>{c.source_path}</span>
             </section>
           ))}

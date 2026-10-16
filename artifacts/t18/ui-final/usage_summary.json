@@ -1,0 +1,14 @@
+{
+  "chat_endpoint_requests": 6,
+  "distinct_demo_questions": 4,
+  "cached_claim_display_rechecks": 2,
+  "events": {
+    "cache_hit": 9
+  },
+  "actual_upstage_http_attempts": 0,
+  "api_calls_by_kind": {},
+  "prompt_tokens_billed_estimate": 0,
+  "completion_tokens_billed_estimate": 0,
+  "estimated_incremental_cost_usd": 0,
+  "note": "외부 호출 0회. 기존 Solar 응답 캐시 재생이며 과거 호출 비용과 혼동하지 않는다. 콘솔 청구액은 조회하지 않았다. 홀드아웃/개발 평가 재실행 없음."
+}

@@ -99,6 +99,26 @@ class Settings(BaseSettings):
     }
     CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
     # 실제 규칙의 근거를 표시하는 주소다. 고객/평가 질문별 문장은 설정하지 않는다.
+    CHAT_RULE_LABELS: dict[str, str] = {
+        "CV-01": "진단일과 병리 보고일 비교",
+        "CV-02": "입원일수 비교",
+        "CV-03": "질병분류기호와 병리 진단명 비교",
+        "CV-04": "수술확인서 제출 확인",
+        "CV-05": "환자 정보 일치 확인",
+        "CV-06": "보장 기간 확인",
+    }
+    CHAT_CITATION_ALIASES: dict[str, tuple[str, ...]] = {
+        "01_cancer_rider.md": ("암진단특약",),
+        "02_hospitalization_rider.md": ("질병입원일당특약",),
+        "03_surgery_rider.md": ("질병수술비특약",),
+        "std_silson_rider2_nonsevere_noncovered.txt": (
+            "실손 특별약관2",
+            "특약2 질병 비급여",
+            "특별약관2",
+        ),
+        "10_claims_manual.md": ("보상 업무 매뉴얼",),
+        "11_supplement_templates.md": ("보완 요청 표준 문구",),
+    }
     CLAIM_REVIEW_LABELS: dict[str, str] = {
         "FIELD-diagnosis_code": "질병분류기호",
         "CV-01": "진단일과 병리 보고일",
@@ -114,7 +134,7 @@ class Settings(BaseSettings):
             "std_silson_rider2_nonsevere_noncovered.txt",
             "제4조",
             "영양제",
-            "실손 특별약관2 제4조 ③ 2호",
+            "실손 특별약관2 질병 비급여 제4조 ③ 2호",
         ),
     }
     SOLAR_RESPONSE_CACHE: bool = False

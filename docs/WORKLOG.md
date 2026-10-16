@@ -1,3 +1,11 @@
+## 2026-10-16 · T-18 · 시연 근거 패널·이슈 링크·거절 목록 마무리
+- 관련 요구사항: FR-28~35, NFR-08
+- 한 일: 본문 인용 순서의 display_citations와 실제 언급 이슈만 담는 display_claim_refs를 별도 조립했다. 평가용 citations/claim_refs/KB는 보존하며 패널은 원문, 답변 카드는 문서명과 조항 요약만 표시한다. 매뉴얼 표는 머리글:값 줄, 내부 규칙 코드는 담당자용 이름으로 화면에서만 바꾼다.
+  청구 맥락의 지급 거절은 남은 항목 목록과 필수 이관 안내로 고정했다. 실제 원문 서류명, 중복 괄호 제거, 조항 표기 통일과 보장종목 구분을 반영했다. 보라색 질문 바로가기 막대를 제거했다. 사용자 추가 지시에 따라 demo_reset/초기화 버튼은 만들지 않고 새로고침/재로그인 초기화만 검증했다.
+- 바뀐 파일: backend/app/agent/{display,graph,claim_answer}.py, backend/app/{config.py,schemas/chat.py}, backend/tests/test_chat.py, frontend/components/chat-screen.tsx, frontend/app/globals.css, docs/{06_eval_plan,implementation_objects,WORKLOG}.md, TODO.md, artifacts/t18/ui-final/
+- 확인 방법: pytest119 passed/live1 제외, Ruff/포맷, 프론트 lint/type/format, next build --webpack 통과. CUA Playwright 시연4질문/첫 질문 최종 근거 재확인, 이슈6 상세 이동, 새로고침/재로그인 빈 목록 확인. 캡처6장은 artifacts/t18/ui-final/. 외부 Upstage 호출0, 응답 캐시9회, 추가 추정$0.
+- 남은 문제 · 질문: 없음(요청 범위). demo_reset은 다음 P4에서 구현 예정. 기존 DB의 옛 이슈 근거는 수정하지 않고 현재 KB와 본문의 명확한 보장종목으로 화면만 연결한다. 평가/홀드아웃은 재실행하지 않았으며 새 성능 수치를 주장하지 않는다. 진단서 C18과 비교되는 C18.7의 실제 원문 출처는 입퇴원확인서다.
+
 ## 2026-10-16 · T-18 · 시연 답변 형식과 문단 표시 마무리
 - 관련 요구사항: FR-28~35, NFR-08
 - 한 일: 청구 검토 합쇼체·실데이터 기반 결론/누락/번호 항목/제안, 코드 원인 병합과 우선순위, 안내 명시를 구현했다. 다른 의도는 기본 용어를 살리고 내부 용어·문장 중간의 명사형 종결을 검사한다. 지급/개인정보 거절은 직접 근거1개와 대안/남은 항목을 제시한다. 기본 비활성의 가상 평가 응답 캐시와 호출/토큰 장부를 추가했다. React 안전한 문단·굵은 제목·연한 근거를 적용했다.
