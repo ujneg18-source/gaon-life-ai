@@ -35,7 +35,9 @@
 ## 결과 기록
 | 날짜 | 데이터 | 항목 정확도 | 탐지율 | 오탐률 | 검수 대상 비율 | 근거 적중률 |
 |---|---|---|---|---|---|---|
-| (T-18 후 기록) | | | | | | |
+| 2026-10-16 | 실제 API PNG7장·3고객·65항목 | 63/65 (96.92%) | 오류 검수 재현율1/2 (50%) | 0/63 (0%) | 1/65 (1.54%) | recall@3 66.67% (원본24문항) |
+
+오류 검수 정밀도1/1(100%). 실손24 mock 포함 보조 정확도188/190(98.95%)는 OCR 성능이 아니다. 상세는 `artifacts/t18/extract_eval.md` 참고. 챗봇은 사용자 명시 전송 승인 후 동일30문항으로 전/중간/최종을 실측했다. 원본 기준 intent63.33→86.67%, recall@3 60.42→66.67%, 인용33.33→45.00%, 거절90.00→86.67%, 요지26.67→53.33%. 금지표현 정규식0건이나 Q04 의미모순은 사람이 발견했다. Q08/Q18 라벨 수정 재채점은 recall70.83%·인용47.50%로 별도 기록했다.
 
 
 ## 티켓별 테스트 결과
@@ -66,5 +68,6 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-17 | 실제 질문4·근거/가상 표시·편집 초안·액션·청구 이슈 링크·맥락·로딩 | 통과: pytest55/live1 제외; 프론트 lint/type/format/date1/build, 브라우저 실제4질문·연결 검증 | pytest -q; ruff; npm run lint/typecheck/format:check/build; Node dates; CUA Playwright 캡처 artifacts/t17/ | 2026-10-16 |
 | T-05 | 수술확인서·회신 자동 검토·CV-04 해소·회신완료·확정값/중복 보존 | pytest56 통과/live1 제외; lint/typecheck 통과; 추가 API0 | pytest -q; npm run lint/typecheck; CUA A4 캡처 | 2026-10-16 |
 | T-06 | 고객10·청구13·서류29·4상태·동명이인·출처·사진 선택·90일 경계·폴더 검증·실측 | pytest62/live1 제외, Ruff/포맷·프론트 lint/type/format/build 통과; mock10/10, 신규실측74/74·3장9호출, 캐시0호출 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check/build; python -m verify_samples --folder … [--cached]; CUA 캡처 artifacts/t06/ | 2026-10-16 |
+| T-18 | 30문항3라운드·고정 rubric·실패전부·추출 혼동행렬·정답 라벨 감사 | pytest71/live1 제외·Ruff/포맷·프론트 lint/type/format 통과; 배포 빌드 환경 권한 오류/정체로 미확인; 챗봇 요지16/30·추출63/65 | pytest -q; python -m app.scripts.eval_chat --out artifacts/t18/ [--phase after]; python -m app.scripts.eval_extract; npm run lint/typecheck/format:check | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

@@ -21,6 +21,10 @@ class Settings(BaseSettings):
     UPSTAGE_BASE_URL: str = "https://api.upstage.ai/v1"
     UPSTAGE_AGENT_ID: str = ""
     SOLAR_CHAT_MODEL: str = "solar-pro4"
+    EVAL_WORKERS: int = Field(default=3, ge=1, le=3)
+    EVAL_JUDGE_MODEL: str = "solar-pro4"
+    EVAL_QUESTIONS_PATH: Path = PROJECT_ROOT / "data/eval/chat_questions.json"
+    EVAL_OUTPUT_PATH: Path = PROJECT_ROOT / "artifacts/t18"
     SOLAR_EMBED_QUERY_MODEL: str = "solar-embedding-2-query"
     SOLAR_EMBED_PASSAGE_MODEL: str = "solar-embedding-2-passage"
     DB_URL: str = f"sqlite:///{PROJECT_ROOT / 'data/gaon.db'}"
@@ -33,10 +37,16 @@ class Settings(BaseSettings):
     KB_CANDIDATES: int = 12
     KB_KEYWORD_LIMIT: int = 512
     KB_MIN_SCORE: float = 0.20
+    KB_LEXICAL_BOOST: float = 0.10
+    KB_CHUNKS_PER_ARTICLE: int = 3
+    KB_TITLE_BOOST: float = 0.12
+    KB_CONTEXT_ARTICLES: int = 12
     KB_TERM_BOOST: float = 0.08
     KB_IDENTIFIER_BOOST: float = 0.25
     EMBED_BATCH_SIZE: int = Field(default=100, ge=1, le=100)
     EMBED_DIMENSIONS: int = 1024
+    CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
+    SOLAR_STRUCTURED_ATTEMPTS: int = Field(default=2, ge=1, le=2)
     CHAT_MAX_TURNS: int = 12
     CHAT_MAX_TOOL_ROUNDS: int = 4
     CHAT_MAX_MESSAGE: int = 2000

@@ -53,6 +53,15 @@ class Solar:
             raise RuntimeError("AI 연결에 실패했어요. 잠시 후 다시 시도해 주세요.") from None
 
     def structured(self, messages, schema, name):
+        """구조화 JSON이 잘못된 경우만 한 번 재시도한다. 업무 오류/권한 오류는 숨기지 않는다."""
+        for attempt in range(self.config.SOLAR_STRUCTURED_ATTEMPTS):
+            try:
+                return self._structured_once(messages, schema, name)
+            except json.JSONDecodeError:
+                if attempt + 1 == self.config.SOLAR_STRUCTURED_ATTEMPTS:
+                    raise RuntimeError("AI 구조화 응답 형식이 올바르지 않아요.") from None
+
+    def _structured_once(self, messages, schema, name):
         result = self.post(
             self.config.SOLAR_CHAT_PATH,
             {

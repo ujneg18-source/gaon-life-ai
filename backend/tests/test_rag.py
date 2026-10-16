@@ -62,3 +62,65 @@ def test_embedding_batch_and_content_cache(tmp_path):
     assert len(calls) == 2
     solar.embed(["0"], query=True)
     assert calls[-1]["model"] == config.SOLAR_EMBED_QUERY_MODEL
+
+
+def test_search_groups_article_pieces_and_retains_definition_context():
+    from qdrant_client import models
+
+    client = QdrantClient(":memory:")
+    config = Settings(_env_file=None, EMBED_DIMENSIONS=2, KB_MIN_SCORE=0)
+    client.create_collection(
+        "policy", vectors_config=models.VectorParams(size=2, distance=models.Distance.DOT)
+    )
+    points = []
+    for i, article in enumerate(["제1조", "제1조", "제1조", "제2조", "제3조"]):
+        points.append(
+            models.PointStruct(
+                id=i,
+                vector=[1, 0],
+                payload={
+                    "doc_name": "가상 기준",
+                    "article": article,
+                    "title": "정의",
+                    "chunk_text": f"입원 기준 조각 {i}",
+                    "source_path": "data/kb/gaon/test.md",
+                    "is_mock": True,
+                },
+            )
+        )
+    client.upsert("policy", points=points)
+    kb = KnowledgeBase(config, FakeEmbedding(), client)
+    hits = kb.search("영양제 기준")
+    assert len({h["article"] for h in hits}) == 3
+    merged = next(h for h in hits if h["article"] == "제1조")
+    assert all(f"조각 {i}" in merged["chunk_text"] for i in range(3))
+    chunks = load_chunks(config.KB_PATH)
+    surgery = next(
+        c.payload()
+        for c in chunks
+        if c.source_path.endswith("03_surgery_rider.md") and c.article == "제1조"
+    )
+    assert any(h["article"] == "제2조" for h in kb.context([surgery]))
+    client.close()
+
+
+def test_structured_json_retry_is_bounded(tmp_path):
+    calls = []
+
+    def respond(request):
+        calls.append(True)
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "finish_reason": "stop",
+                        "message": {"content": "broken json" if len(calls) == 1 else '{"ok":true}'},
+                    }
+                ]
+            },
+        )
+
+    config = Settings(_env_file=None, CACHE_PATH=tmp_path)
+    result = Solar(config, httpx.MockTransport(respond)).structured([], {"type": "object"}, "test")
+    assert result == {"ok": True} and len(calls) == 2

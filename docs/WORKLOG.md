@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · T-18 · 챗봇30문항 전후 평가와 캐시 추출 검수 평가
+- 관련 요구사항: NFR-08, FR-28~35
+- 한 일: 평가기·고정 rubric·정답 해시·스냅샷·문항별 체크포인트·검색 trace/오류 기록을 추가했다. 명시 전송 승인 후 동일30문항 before/after_v1/after를 모두 보존하고 검색/의도/생성/정답4범주 실패 원문을 정리했다. 일반 질문 분기·권한 내 배정 집계·전체 품목 대조·거절 문구·인용 검증·검색 보강/중복 제거·짧은 특약 문맥을 보완했다. 실제 API65항목과 전자 mock 포함190항목을 분리했다. Q08/Q18 source 라벨만 수정한 재채점을 별도로 남겼다.
+- 바뀐 파일: app/scripts/{eval_chat,eval_extract}.py, agent/{graph,rag,solar,tools}.py, config.py, tests/{test_eval,test_chat,test_rag}.py, .env.example, frontend/components/chat-screen.tsx, data/eval/chat_questions.json, artifacts/t18/, docs/06_eval_plan.md, docs/deliverables/테스트결과보고서.md, docs/decisions.md, docs/implementation_objects.md, TODO.md, AGENTS.md
+- 확인 방법: pytest71 passed/live1 제외·Ruff/포맷·프론트 lint/type/format 통과. 원본 정답 intent63.33→86.67%, recall60.42→66.67%, 인용33.33→45%, 거절90→86.67%, Solar 요지26.67→53.33%. 중간 요지73.33%에서 퇴행도 그대로 기록. 실제 PNG7장63/65·검수TP1/FP0/FN1/TN63, 추가 추출 호출0. 후속3문항과 Q22진단1문항은 전체점수에 섞지 않았다.
+- 남은 문제 · 질문: Q04 의미상 오안내를 Solar가 통과시킨 채점 한계, Q10 운영기준 충돌, Q22 간헐적 도구 오류, Q27/28 채점 오판 후보를 보고서에 명시했다. 자동 금지표현0건을 안전성 보장으로 해석하지 않는다. File Search 미실행. 배포빌드는 Turbopack 보조 포트 권한 오류/대체 Webpack 정체로 성공 미확인, 임시 설정 원복. 기존 실행 서버 검토함13건 정상 응답을 브라우저에서 확인했다.
+
 ## 2026-10-16 · T-06 · 고객 10명 시연 세트와 출처 검증
 - 관련 요구사항: FR-05, FR-06, FR-14, FR-15
 - 한 일: customers.json 단일 원본·공통 HTML/PNG/정답 생성기·10고객/13청구/29서류 시드·폴더별 검증 CLI를 구현했다. 상태를 엔진에서 계산하고 C73/90일 안내·코드 미기재 보완·처방 없는 OTC 대조를 추가했다. 계약일과 보장일을 분리하고 실제/mock 출처와 숨김 설정, 고객별 원본 연결, 사진 선택/fallback을 제공했다. 김유정 기존7장·동명이인·복수청구는 보존했다.

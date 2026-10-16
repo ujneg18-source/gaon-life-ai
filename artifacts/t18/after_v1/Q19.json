@@ -1,0 +1,67 @@
+{
+  "id": "Q19",
+  "type": "claim_check",
+  "question": "오늘 내가 검토할 청구 몇 건이야?",
+  "expected_sources": [],
+  "answer_gist": "로그인 담당자 배정 범위 안의 검토 필요 · 보완 요청 건수 요약 (데이터 기준)",
+  "dataset_sha256": "591d21d8a20f3cf54f2ac7f2db7c698e51a057ad0c414187456c345f10e31de7",
+  "response": {
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 처리 흐름",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "## 1. 처리 흐름\n1. **접수:** 앱 업로드 서류와 실손24 전송 데이터를 청구 건에 연결합니다.\n2. **문서 분석 (AI):** 서류 종류를 나누고, 서류별 항목을 표준 스키마로 읽어 정리합니다.\n3. **자동 검토 (AI):** 필수 서류 누락, 서류 간 불일치, 확인이 필요한 값을 찾습니다.\n4. **담당자 검토:** AI가 올린 항목만 확인합니다. AI는 근거를 보여 줄 뿐, 지급 여부를 판단하지 않습니다.\n5. **보완 요청 또는 지급 심사 이관:** 누락이 있으면 보완을 요청하고, 확인할 항목이 모두 끝나면 지급 심사로 보냅니다.",
+      "collection": "manual",
+      "score": 0.8026934305583053
+    },
+    {
+      "doc_name": "가온생명 질병통원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/04_outpatient_rider.md",
+      "chunk_text": "## 제2조(보험금의 청구)\n1. 청구서(앱 청구는 앱 입력으로 대신)\n2. **통원확인서** (병명 또는 질병분류기호, 통원일이 적힌 것). 통원일이 적힌 진단서 · 소견서나 진료비 계산서 · 영수증으로 대신할 수 있습니다.\n3. 신분증(앱 청구는 앱 본인인증으로 대신)",
+      "collection": "policy",
+      "score": 0.767387384732021
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "## 제4조(보험금의 청구)\n1. 청구서(앱 청구는 앱 입력으로 대신)\n2. **수술확인서** (병명 또는 질병분류기호, 수술명, 수술일, 수술 코드가 적힌 것). 수술명과 수술일이 적힌 진단서나 수술기록지로 대신할 수 있습니다.\n3. 신분증(앱 청구는 앱 본인인증으로 대신)",
+      "collection": "policy",
+      "score": 0.7540446130542768
+    }
+  ],
+  "search_trace": [],
+  "error": null,
+  "metrics": {
+    "intent_correct": false,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": false,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "answer_gist가 로그인 담당자 배정 범위 내 검토 필요 및 보완 요청 건수의 요약을 요구하는 반면, 답변은 검토 범위 밖이라는 이유로 질문 자체를 회피하며 요청된 건수 정보나 요약을 전혀 제공하지 않아 핵심 사실/요청 행동을 충족하지 못함."
+    }
+  }
+}

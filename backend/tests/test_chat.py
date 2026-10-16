@@ -283,3 +283,95 @@ def test_missing_prescription_does_not_assert_absence(client):
     assert result["status"] == "확인 필요"
     assert not result["prescription_available"]
     assert result["reason"] != "처방전에 없음"
+
+
+def test_general_rules_do_not_require_customer_or_invent_claim_id(client):
+    from app.schemas.chat import Route
+
+    class GeneralSolar(FakeSolar):
+        def structured(self, messages, schema, name):
+            return Route(
+                intent="claim_check",
+                customer_name=None,
+                claim_id="GA-INVENTED",
+                item_name=None,
+                doc_types=[],
+                query="일반 필수서류 기준",
+            ).model_dump()
+
+    with Session(client.app.state.engine) as session:
+        from app.models import User
+
+        agent = ChatAgent(
+            client.app.state.settings,
+            GeneralSolar(),
+            Tools(session, session.get(User, 1), client.app.state.settings, FakeKB()),
+        )
+        route = agent.classify({"message": "진료 서류 제출 기준을 알려줘", "history": []})["route"]
+        assert route.intent == "policy_qa" and route.claim_id is None
+
+
+def test_policy_ratios_and_whitespace_citations_but_no_payment_commitment():
+    from app.schemas.chat import Route
+
+    hit = {
+        "doc_name": "가상 약관",
+        "article": "제4조",
+        "source_path": "data/kb/gaon/example.md",
+        "is_mock": True,
+        "chunk_text": "일반 약관 기준\n가입금액의 20%를 기준으로 검토한다.",
+    }
+
+    class PolicySolar:
+        text = "가상 약관의 일반 기준은 20%예요. 개별 지급은 담당자가 결정해요."
+
+        def structured(self, *args):
+            return {
+                "answer": self.text,
+                "intent": "policy_qa",
+                "citations": [
+                    {
+                        **{k: v for k, v in hit.items() if k != "chunk_text"},
+                        "quote": "일반 약관 기준 가입금액의 20%를 기준으로 검토한다.",
+                    }
+                ],
+                "claim_refs": [],
+                "suggested_actions": [],
+                "refused": False,
+            }
+
+    solar = PolicySolar()
+    agent = ChatAgent(None, solar, None)
+    state = {
+        "message": "일반 약관 기준",
+        "route": Route(
+            intent="policy_qa",
+            customer_name=None,
+            claim_id=None,
+            item_name=None,
+            doc_types=[],
+            query="기준",
+        ),
+        "evidence": {"hits": [hit]},
+    }
+    answer = agent.answer(state)["result"]
+    assert "20%" in answer.answer and answer.citations[0].quote == hit["chunk_text"]
+    solar.text = "보험금 20만원이 지급됩니다."
+    assert agent.answer(state)["result"].answer == "관련 규정을 찾지 못했어요"
+
+
+def test_workload_counts_only_assigned_claims(client):
+    from app.models import Claim, ClaimStatus, User
+
+    with Session(client.app.state.engine) as session:
+        a = session.get(Claim, "GA-2610-0482")
+        a.status = ClaimStatus.NEEDS_REVIEW
+        b = session.get(Claim, "GA-2610-0477")
+        b.status = ClaimStatus.SUPPLEMENT
+        c = session.get(Claim, "GA-2610-0471")
+        c.status = ClaimStatus.NEEDS_REVIEW
+        c.assignee_id = 2
+        session.add_all([a, b, c])
+        session.commit()
+        tool = Tools(session, session.get(User, 1), client.app.state.settings, FakeKB())
+        assert tool.get_workload() == {"needs_review": 1, "supplement": 1, "total": 2}

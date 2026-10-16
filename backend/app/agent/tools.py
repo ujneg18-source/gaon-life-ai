@@ -130,6 +130,20 @@ class Tools:
             )
         return result
 
+    def get_workload(self):
+        """담당 범위의 상태 집계만 반환해 전체 고객 명단을 모델에 제공하지 않는다."""
+        from collections import Counter
+
+        from app.models import ClaimStatus
+
+        query = select(Claim.status)
+        if self.user.role != Role.ADMIN:
+            query = query.where(Claim.assignee_id == self.user.id)
+        counts = Counter(self.session.exec(query).all())
+        needs = counts[ClaimStatus.NEEDS_REVIEW]
+        supplement = counts[ClaimStatus.SUPPLEMENT]
+        return {"needs_review": needs, "supplement": supplement, "total": needs + supplement}
+
     def get_claim_issues(self, claim_id):
         self.claim(claim_id)
         return [

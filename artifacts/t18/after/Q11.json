@@ -1,0 +1,134 @@
+{
+  "id": "Q11",
+  "type": "policy_qa",
+  "question": "보험금 청구권은 언제 소멸돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제37조"
+    }
+  ],
+  "answer_gist": "3년간 행사하지 않으면 소멸시효 완성",
+  "dataset_sha256": "591d21d8a20f3cf54f2ac7f2db7c698e51a057ad0c414187456c345f10e31de7",
+  "response": {
+    "answer": "보험금 청구권은 3년간 행사하지 않으면 소멸시효가 완성돼yo. 기본형 실손의료보험 표준약관 제41조, 질병·상해보험 표준약관 제39조, 생명보험 표준약관 제37조에 모두 보험금청구권 등이 3년간 행사하지 않으면 소멸시효가 완성된다고 규정되어 있어yo.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+        "article": "제41조",
+        "source_path": "data/kb/policy/std_silson_basic.txt",
+        "is_mock": false,
+        "quote": "제41조(소멸시효) 보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      },
+      {
+        "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+        "article": "제39조",
+        "source_path": "data/kb/policy/std_illness_injury.txt",
+        "is_mock": false,
+        "quote": "제39조(소멸시효) 보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      },
+      {
+        "doc_name": "생명보험 표준약관",
+        "article": "제37조",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제37조(소멸시효) 보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제41조",
+      "title": "제41조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제41조(소멸시효) 보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "score": 0.836804426926872
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제39조",
+      "title": "제39조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제39조(소멸시효) 보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "score": 0.8190585186136787
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제37조",
+      "title": "제37조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제37조(소멸시효) 보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "score": 0.8136250741984918
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "보험금 청구권은 언제 소멸돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제41조",
+          "title": "제41조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제41조(소멸시효) 보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "score": 0.836804426926872
+        },
+        {
+          "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+          "edition": "2026.08.28",
+          "article": "제39조",
+          "title": "제39조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_illness_injury.txt",
+          "chunk_text": "제39조(소멸시효) 보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "score": 0.8190585186136787
+        },
+        {
+          "doc_name": "생명보험 표준약관",
+          "edition": "2026.08.28",
+          "article": "제37조",
+          "title": "제37조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_life_insurance.txt",
+          "chunk_text": "제37조(소멸시효) 보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "score": 0.8136250741984918
+        }
+      ]
+    }
+  ],
+  "error": null,
+  "metrics": {
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 3,
+    "citation_pass": false,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변이 보험금 청구권 소멸 시기에 대해 3년간 행사하지 않으면 소멸시효가 완성된다는 핵심 사실을 포함하고 있으며, 특정 약관 조항을 인용하여 근거를 제시하고 있으므로 요지를 충족함."
+    }
+  }
+}

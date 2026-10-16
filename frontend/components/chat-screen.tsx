@@ -284,22 +284,32 @@ export function ChatScreen() {
                           </Link>
                         ))}
                       </div>
-                      {t.result.suggested_actions.map((a) => (
-                        <button
-                          key={a.action}
-                          className="btn"
-                          disabled={busy}
-                          onClick={() => {
-                            if (a.action.startsWith("draft_supplement:"))
-                              send(
-                                "누락 서류 보완 요청 문자 써줘",
-                                a.action.slice("draft_supplement:".length),
-                              );
-                          }}
-                        >
-                          {a.label}
-                        </button>
-                      ))}
+                      {t.result.suggested_actions.map((a) =>
+                        a.action.startsWith("open_supplement:") ? (
+                          <Link
+                            key={a.action}
+                            className="btn"
+                            href={`/workspace/supplement?claim=${encodeURIComponent(a.action.slice("open_supplement:".length))}`}
+                          >
+                            {a.label}
+                          </Link>
+                        ) : (
+                          <button
+                            key={a.action}
+                            className="btn"
+                            disabled={busy}
+                            onClick={() => {
+                              if (a.action.startsWith("draft_supplement:"))
+                                send(
+                                  "누락 서류 보완 요청 문자 써줘",
+                                  a.action.slice("draft_supplement:".length),
+                                );
+                            }}
+                          >
+                            {a.label}
+                          </button>
+                        ),
+                      )}
                     </div>
                   )}
                   {t.error && (

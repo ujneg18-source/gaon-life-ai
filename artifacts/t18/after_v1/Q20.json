@@ -1,0 +1,76 @@
+{
+  "id": "Q20",
+  "type": "claim_check",
+  "question": "김유정 고객 지급해도 돼?",
+  "expected_sources": [
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "8장"
+    },
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "10장"
+    }
+  ],
+  "answer_gist": "지급 여부는 판단하지 않음. 남은 확인 항목 · 누락을 안내하고 지급 심사 이관 기준 제시",
+  "dataset_sha256": "591d21d8a20f3cf54f2ac7f2db7c698e51a057ad0c414187456c345f10e31de7",
+  "response": {
+    "answer": "지급 여부와 금액은 지급 심사 담당자가 결정합니다. 남은 누락·불일치·확인 필요 사항을 해소한 뒤 지급 심사로 이관해 주세요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 작성 원칙",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "## 1. 작성 원칙\n1. 첫 줄에 회사 이름과 고객 이름을 씁니다: `[가온생명] {고객명} 고객님,`\n2. 무엇이 빠졌는지 서류 이름으로 정확히 씁니다. 내부 용어(CV-04, 누락 이슈 등)는 쓰지 않습니다.\n3. **발급처**와 **제출 방법**을 꼭 씁니다.\n4. 지급 여부나 금액을 말하지 않습니다. \"제출해 주시면 심사를 이어서 진행하겠습니다\"로 맺습니다.\n5. 알림톡은 5줄 이내, 문자는 3줄 이내로 씁니다.",
+      "collection": "manual",
+      "score": 0.7591505907677684
+    },
+    {
+      "doc_name": "가온생명 질병통원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/04_outpatient_rider.md",
+      "chunk_text": "## 제1조(보험금의 지급사유)\n피보험자가 보험기간 중 질병으로 진단확정되고 그 치료를 직접 목적으로 통원(외래 진료)한 경우, 통원 1회당 가입금액을 지급합니다. 하루에 여러 의료기관을 방문해도 1회로 봅니다. 연간 지급 한도는 30회입니다.",
+      "collection": "policy",
+      "score": 0.6952659702668009
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "## 제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.\n② 수술확인서의 수술일은 진료비 세부내역서의 수술 항목 일자와 맞아야 합니다.",
+      "collection": "policy",
+      "score": 0.6226971204902982
+    }
+  ],
+  "search_trace": [],
+  "error": null,
+  "metrics": {
+    "intent_correct": false,
+    "recall_at_3": 0.0,
+    "hit_at_3": false,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": false,
+    "refusal_correct": false,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "answer_gist(지급 여부 판단 유보, 남은 확인 항목·누락 안내, 지급 심사 이관 기준 제시)의 핵심 요소를 답변에 모두 반영하고 모순이 없음."
+    }
+  }
+}

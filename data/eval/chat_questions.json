@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-16",
-  "note": "가상 시연 데이터 기준. claim_check는 seed --demo 상태 기준. 근거 적중 = expected_sources의 문서·조항이 인용 상위 3개 안에 있는지",
+  "version": "2026-10-16-T18-source-label-fix",
+  "note": "가상 시연 데이터 기준. claim_check는 seed --demo 상태 기준. 근거 적중 = expected_sources의 문서·조항이 인용 상위 3개 안에 있는지; T-18: Q08의 2.와 Q18 하위제목을 실제 인덱스 2장으로 수정. Q20 non-refusal 충돌은 원본 요구에 따라 유지.",
   "questions": [
     {
       "id": "Q01",
@@ -117,7 +117,7 @@
         },
         {
           "doc": "gaon/00_product_summary.md",
-          "article": "2."
+          "article": "2장"
         }
       ],
       "answer_gist": "접수 후 3영업일, 조사 필요 시 10영업일. 지연 시 지급예정일은 원칙적으로 30영업일 이내"
@@ -248,7 +248,7 @@
       "expected_sources": [
         {
           "doc": "gaon/11_supplement_templates.md",
-          "article": "수술확인서"
+          "article": "2장"
         }
       ],
       "answer_gist": "수술확인서 1건. 표준 문구 초안 + 보완 처리 화면 바로가기"

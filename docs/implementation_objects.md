@@ -91,3 +91,9 @@
 - `seed_samples`: API 신규 호출 없이 성공 캐시를 재생하고, 없으면 mock으로 표시해 적재한다. 기존 문서가 있으면 증분 적재를 건너뛰고 --demo에서만 초기화한다.
 - `sample_input`: 고객과 제공 파일의 정확한 해시가 맞는 데모 mock만 허용한다. 알 수 없는 파일/실측 고객 원본을 mock으로 바꾸지 않는다.
 - 회신 처리: 기존 EXTRACTED 원본·확정값을 건드리지 않고 새 서류를 읽어 재검토한다. 요청 유형이 정상 제출되고 누락 과제가 해소돼야 보완 요청을 received로 바꾼다.
+
+## T-18 평가 객체
+- eval_chat.measure/aggregate: 정답은 평가기에만 주입한다. 0분모 N/A, recall macro/인용 micro/거절/요지·금지 패턴을 분리한다.
+- eval_chat: SQLite/Qdrant 스냅샷에서 문항별 독립 세션 최대3개를 실행한다. 체크포인트로 완료 문항 재호출을 피하고 고정 rubric·정답 해시를 보존한다.
+- eval_extract.confusion: 실제 API 필드만 주 평가로 집계한다. FIELD-* 검수 이슈와 오답의 TP/FP/FN/TN을 계산하며 업무상 CV 이슈와 구분한다.
+- Tools.get_workload: 담당자 배정 범위의 현재 상태 숫자만 반환한다. 전체 고객 개인정보 목록을 반환하지 않는다.
