@@ -83,6 +83,27 @@ function AnswerText({ text }: { text: string }) {
         ),
       );
   }
+  function body(content: string) {
+    // 연속된 목록 줄만 묶어 실제 목록 의미를 제공한다. 원문과 일반 줄바꿈은 보존한다.
+    const groups: { list: boolean; lines: string[] }[] = [];
+    for (const line of content.split("\n")) {
+      const list = /^[ \t]*- /.test(line);
+      const last = groups[groups.length - 1];
+      if (last?.list === list) last.lines.push(line);
+      else groups.push({ list, lines: [line] });
+    }
+    return groups.map((group, index) =>
+      group.list ? (
+        <ul key={index} className="answer-list">
+          {group.lines.map((line, item) => (
+            <li key={item}>{inline(line.replace(/^[ \t]*- /, ""))}</li>
+          ))}
+        </ul>
+      ) : (
+        <span key={index}>{inline(group.lines.join("\n"))}</span>
+      ),
+    );
+  }
   return (
     <div className="assistant-answer-text" data-testid="answer-body">
       {formatDatesInText(text)
@@ -98,12 +119,12 @@ function AnswerText({ text }: { text: string }) {
                   {rest.length > 0 && (
                     <>
                       <br />
-                      {inline(rest.join("\n"))}
+                      {body(rest.join("\n"))}
                     </>
                   )}
                 </>
               ) : (
-                inline(block)
+                body(block)
               )}
             </div>
           );

@@ -1774,6 +1774,13 @@ p {
   line-height: 1.95;
   overflow-wrap: anywhere;
 }
+/* 글머리표는 실제 목록으로 표시하고 API 답변 원문은 바꾸지 않는다. */
+.assistant-answer-text .answer-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 20px;
+  white-space: normal;
+}
 .answer-citations {
   display: flex;
   flex-direction: column;

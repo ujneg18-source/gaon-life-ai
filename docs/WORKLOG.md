@@ -1,3 +1,10 @@
+## 2026-10-16 · T-18 · 답변 본문 목록을 실제 글머리표로 표시
+- 관련 요구사항: FR-28~35
+- 한 일: 답변 표시에서 연속된 `- ` 줄을 ul/li로 묶고 disc 글머리표를 적용했다. 일반 문단·번호 제목·조항 강조와 API 원문은 그대로 보존했다.
+- 바뀐 파일: frontend/components/chat-screen.tsx, frontend/app/globals.css, docs/{WORKLOG,06_eval_plan}.md, artifacts/t18/ui-bullets/
+- 확인 방법: 프론트 lint/type/포맷·next build --webpack 통과. CUA Playwright로 지급 거절 답변의 UL/LI3개와 list-style-type=disc 확인, bullet_list.jpg 캡처. 외부 Upstage 추가 호출0회.
+- 남은 문제 · 질문: 없음.
+
 ## 2026-10-16 · T-18 · 시연 근거 패널·이슈 링크·거절 목록 마무리
 - 관련 요구사항: FR-28~35, NFR-08
 - 한 일: 본문 인용 순서의 display_citations와 실제 언급 이슈만 담는 display_claim_refs를 별도 조립했다. 평가용 citations/claim_refs/KB는 보존하며 패널은 원문, 답변 카드는 문서명과 조항 요약만 표시한다. 매뉴얼 표는 머리글:값 줄, 내부 규칙 코드는 담당자용 이름으로 화면에서만 바꾼다.
