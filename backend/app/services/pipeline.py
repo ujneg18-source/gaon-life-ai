@@ -20,6 +20,8 @@ from app.models import (
     DocumentType,
     ExtractedField,
     ProcessJob,
+    SupplementRequest,
+    SupplementStatus,
     utc_now,
 )
 from app.schemas.documents import DOCUMENT_SCHEMAS
@@ -50,7 +52,7 @@ def create_job(session: Session, claim: Claim, actor_id: int) -> ProcessJob:
                 ExtractedField.document_id == doc.id, ExtractedField.confirmed_by.is_not(None)
             )
         ).first()
-        if confirmed:
+        if confirmed and doc.status != DocumentStatus.EXTRACTED:
             raise HTTPException(409, "담당자 확정값이 있는 문서는 재분석할 수 없습니다.")
     job = ProcessJob(id=uuid4().hex, claim_id=claim.id, actor_id=actor_id)
     session.add(job)
@@ -143,9 +145,31 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
         try:
             with client_factory(settings) as client:
                 for doc in docs:
+                    # 이미 처리한 원본과 담당자 확정값은 보존하고 새로 회신한 서류만 읽는다.
+                    if doc.status == DocumentStatus.EXTRACTED:
+                        completed += 1 if doc.source == DocumentSource.SILSON24 else 3
+                        continue
                     try:
-                        if doc.source == DocumentSource.SILSON24:
-                            values = doc.raw_result["data"]
+                        from pathlib import Path
+
+                        from app.services.demo_samples import supplement_input
+
+                        claim = session.get(Claim, job.claim_id)
+                        mock = (
+                            supplement_input(settings, claim, Path(doc.file_path))
+                            if doc.source == DocumentSource.IMAGE
+                            else None
+                        )
+                        if mock:
+                            doc.doc_type = mock["doc_type"]
+                            doc.raw_result = {
+                                **doc.raw_result,
+                                "provenance": "mock",
+                                "mock_input": mock,
+                            }
+
+                        if doc.source == DocumentSource.SILSON24 or mock:
+                            values = mock or doc.raw_result["data"]
                             extras = {}
                             parsed = {}
                             stage("extract")
@@ -185,7 +209,7 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                                 extras,
                                 parsed,
                                 doc.id,
-                                is_data=doc.source == DocumentSource.SILSON24,
+                                is_data=doc.source == DocumentSource.SILSON24 or bool(mock),
                                 session=session,
                             )
                             session.exec(
@@ -223,6 +247,26 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                 stage("review")
                 claim = session.get(Claim, job.claim_id)
                 report = review_from_db(session, claim, settings)
+                # 수신만으로 완료 처리하지 않는다. 요청 유형이 모두 정상 추출된 뒤 회신 완료로 기록한다.
+                submitted = {d.doc_type for d in docs if d.status == DocumentStatus.EXTRACTED}
+                for request in session.exec(
+                    select(SupplementRequest).where(
+                        SupplementRequest.claim_id == claim.id,
+                        SupplementRequest.status == SupplementStatus.SENT_MOCK,
+                    )
+                ).all():
+                    if set(request.doc_types) <= submitted:
+                        request.status = SupplementStatus.RECEIVED
+                        session.add(request)
+                        session.add(
+                            AuditLog(
+                                claim_id=claim.id,
+                                actor_type=ActorType.USER,
+                                actor_id=job.actor_id,
+                                action="supplement_received",
+                                detail={"request_id": request.id, "doc_types": request.doc_types},
+                            )
+                        )
                 job.result = {
                     "required": report.required,
                     "document_count": len(docs),

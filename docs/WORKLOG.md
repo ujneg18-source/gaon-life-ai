@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · T-05 · 수술확인서와 보완 회신 흐름
+- 관련 요구사항: FR-06, FR-13, FR-25
+- 한 일: 기존 A4 HTML 토큰을 공통 모듈로 분리하고 보완 회신용 수술확인서 HTML/PNG/정답 JSON을 supplement/에 만들었다. 최초 김유정 7장에는 추가하지 않았다. 회신 업로드 시 새 서류만 처리하고 기존 원본/확정값은 보존하며 CV-04 해소·회신 완료·이력을 연결했다. 데모 모의 입력은 제공 파일의 정확한 해시와 고객 일치 시만 허용하고 표시/모드 설정을 추가했다.
+- 바뀐 파일: backend/scripts/samples/{common,gen_supplement}.py, services/demo_samples.py, services/pipeline.py, routers/claims.py, config.py, frontend/components/claim-screens.tsx, data/samples/kim_yujeong/supplement/, .env.example
+- 확인 방법: pytest56 passed/live1 제외; 보완 생성→모의 발송→회신 업로드→CV-04 해소→needs_review→중복 방지와 확정값 보존 통합 테스트. CUA로 기존 1240×1754 HTML 캡처. lint/typecheck 통과. 실제 API 추가0.
+- 남은 문제 · 질문: T-06 고객별 공통 생성기·시드·검증 진행.
+
 ## 2026-10-16 · T-17 · 챗봇 화면과 청구 맥락 연결
 - 관련 요구사항: FR-28~34
 - 한 일: polish 토큰으로 대화 목록·질문 바로가기·중앙 대화·입력창·근거 패널을 연결했다. 답변 아래 문서명/조항/인용문·가상 표시, 청구별 이슈 상세 앵커, 자동 claim_id, 생성 단계 안내, 편집/복사 가능한 보완 초안과 액션을 제공한다. CV-02 안내를 차단 이슈와 구분해 표시한다. 처방전 자체가 없으면 약품 부재를 단정하지 않도록 대조 경계를 보완하고 모델/스키마 오류는 안전한 503으로 처리한다.

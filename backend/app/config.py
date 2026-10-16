@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     CHAT_MAX_TOOL_ROUNDS: int = 4
     CHAT_MAX_MESSAGE: int = 2000
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
+    DEMO_SAMPLE_MOCKS: bool = True
+    SHOW_DEVELOPMENT_BADGES: bool = True
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
     MOCK_SILSON24_PATH: Path = PROJECT_ROOT / "data/mock_silson24"

@@ -217,12 +217,40 @@ export function ClaimDetail({
     const form = new FormData();
     Array.from(files).forEach((file) => form.append("files", file));
     try {
-      await api("/claims/" + claimId + "/documents", {
-        method: "POST",
-        body: form,
-      });
+      const uploaded = await api<{ job_id: string | null }>(
+        "/claims/" + claimId + "/documents",
+        {
+          method: "POST",
+          body: form,
+        },
+      );
+      // 보완 회신은 자동 재검토가 끝난 뒤 화면을 갱신해 이전 누락 상태가 남지 않게 한다.
+      if (uploaded.job_id) {
+        setMessage("보완 서류를 검토하고 있어요.");
+        let finished = false;
+        for (let attempt = 0; attempt < 120; attempt++) {
+          const status = await api<{ state: string }>(
+            `/claims/${claimId}/process/status?job_id=${uploaded.job_id}`,
+          );
+          if (status.state === "failed")
+            throw new Error("보완 서류 처리 결과를 확인해 주세요.");
+          if (status.state === "done") {
+            finished = true;
+            break;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
+        if (!finished)
+          throw new Error(
+            "검토가 진행 중이에요. 잠시 후 화면을 새로고침해 주세요.",
+          );
+      }
       resource.reload();
-      setMessage("서류를 첨부했어요.");
+      setMessage(
+        uploaded.job_id
+          ? "보완 서류를 접수하고 재검토했어요."
+          : "서류를 첨부했어요.",
+      );
     } catch (e) {
       setMessage((e as Error).message);
     } finally {
