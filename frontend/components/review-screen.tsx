@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { formatDatesInText } from "@/lib/dates";
-import { useState } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { referenceForm } from "@/lib/reference-form";
 import { useSearchParams } from "next/navigation";
 import {
   ZoomIn,
@@ -33,14 +34,85 @@ function Original({
   selected,
   select,
   zoom,
+  focusKeys,
 }: {
   doc: Doc;
   fields: FieldRow[];
   selected: number | null;
   select: (id: number) => void;
   zoom: number;
+  focusKeys: string[];
 }) {
   const [page, setPage] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+  const [verifiedForm, setVerifiedForm] = useState(false);
+  const viewport = useRef<HTMLDivElement>(null),
+    sheet = useRef<HTMLDivElement>(null);
+  const focusField = fields.find((f) => focusKeys.includes(f.key));
+  const focusBox = useMemo(
+    () =>
+      focusField?.bbox ??
+      (verifiedForm && focusField?.key === "inpatient_days"
+        ? referenceForm.medical_detail.regions.inpatient_days
+        : null),
+    [focusField, verifiedForm],
+  );
+  // 공유 확대율이 바뀌면 각 문서의 실제 대상 칸을 각 스크롤 영역 가운데로 맞춘다.
+  // 문서 밖 페이지를 움직이는 scrollIntoView는 사용하지 않는다.
+  useEffect(() => {
+    const container = viewport.current,
+      paper = sheet.current;
+    if (!container || !paper || !loaded || !focusBox) return;
+    const center = () => {
+      const xs = focusBox.map((p) => p.x),
+        ys = focusBox.map((p) => p.y);
+      container.scrollTo({
+        left:
+          paper.offsetLeft +
+          ((Math.min(...xs) + Math.max(...xs)) / 2) * paper.clientWidth -
+          container.clientWidth / 2,
+        top:
+          paper.offsetTop +
+          ((Math.min(...ys) + Math.max(...ys)) / 2) * paper.clientHeight -
+          container.clientHeight / 2,
+        behavior: "instant",
+      });
+    };
+    // 이미지 로드 직후 브라우저의 스크롤 복원보다 뒤에서 한 번 더 정렬한다.
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(center);
+    });
+    const observer = new ResizeObserver(center);
+    observer.observe(container);
+    observer.observe(paper);
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+      observer.disconnect();
+    };
+  }, [focusBox, loaded, zoom]);
+  async function imageLoaded(image: HTMLImageElement) {
+    setLoaded(true);
+    if (doc.source !== "silson24" || doc.doc_type !== "medical_detail") return;
+    try {
+      // 이미 표시한 원본만 해시 검사한다. API 추출이나 외부 서비스 호출은 하지 않는다.
+      const response = await fetch(image.currentSrc, {
+        credentials: "same-origin",
+      });
+      if (!response.ok) return;
+      const digest = await crypto.subtle.digest(
+        "SHA-256",
+        await response.arrayBuffer(),
+      );
+      const hash = Array.from(new Uint8Array(digest), (v) =>
+        v.toString(16).padStart(2, "0"),
+      ).join("");
+      setVerifiedForm(hash === referenceForm.medical_detail.sha256);
+    } catch {
+      setVerifiedForm(false);
+    }
+  }
   return (
     <div className="original-pane">
       <div className="original-caption">
@@ -51,14 +123,32 @@ function Original({
             : "앱 업로드 원본"}
         </span>
       </div>
+      {focusField && (
+        <div className="compare-focus-value">
+          <span>{label(focusField.key)}</span>
+          <strong>{display(focusField)}</strong>
+          <small>
+            {focusField.bbox
+              ? "원문 위치"
+              : verifiedForm
+                ? "가상 서식 위치"
+                : "위치 확인 필요"}
+          </small>
+        </div>
+      )}
       {doc.page_size && (
-        <div className="viewer-scroll">
-          <div className="image-sheet" style={{ width: `${zoom}%` }}>
+        <div className="viewer-scroll" ref={viewport} data-document-id={doc.id}>
+          <div
+            className="image-sheet"
+            ref={sheet}
+            style={{ width: `${zoom}%` }}
+          >
             {/* 인증된 동일 출처 이미지. Next 이미지 최적화 캐시에 의료 서류를 저장하지 않는다. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`/api/documents/${doc.id}/image`}
               alt={`${docLabels[doc.doc_type]} 원본`}
+              onLoad={(event) => imageLoaded(event.currentTarget)}
             />
             <svg
               viewBox="0 0 1 1"
@@ -79,13 +169,31 @@ function Original({
                     onKeyDown={(e) => {
                       if (e.key === "Enter") select(f.id);
                     }}
-                    className={`${selected === f.id ? "box-selected" : ""} ${f.review_reasons.length ? "box-warning" : "box-ok"}`}
+                    className={`${selected === f.id ? "box-selected" : ""} ${focusKeys.includes(f.key) ? "box-comparison" : ""} ${f.review_reasons.length ? "box-warning" : "box-ok"}`}
                   >
                     <title>
                       {label(f.key)}: {display(f)}
                     </title>
                   </polygon>
                 ))}
+              {focusField && !focusField.bbox && verifiedForm && focusBox && (
+                <polygon
+                  className="box-comparison reference-box"
+                  points={focusBox.map((p) => `${p.x},${p.y}`).join(" ")}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${label(focusField.key)} 가상 서식 위치`}
+                  onClick={() => select(focusField.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") select(focusField.id);
+                  }}
+                >
+                  <title>
+                    가상 서식 위치 · {label(focusField.key)}:{" "}
+                    {display(focusField)}
+                  </title>
+                </polygon>
+              )}
             </svg>
           </div>
         </div>
@@ -228,7 +336,7 @@ export function ReviewScreen({
     { data: c, error } = resource;
   const [docId, setDoc] = useState<number | null>(null),
     [selected, setSelected] = useState<number | null>(null),
-    [zoom, setZoom] = useState(100),
+    [zoom, setZoom] = useState(params.get("issue") ? 300 : 100),
     [compare, setCompare] = useState<Issue | null>(null),
     [message, setMessage] = useState("");
   if (!c) return <LoadState error={error} />;
@@ -273,6 +381,7 @@ export function ReviewScreen({
               if (params.get("issue"))
                 window.history.replaceState(null, "", `?claim=${claimId}`);
               setSelected(null);
+              setZoom(100);
             }}
           >
             {docLabels[d.doc_type] ?? d.doc_type}
@@ -299,7 +408,7 @@ export function ReviewScreen({
                 <span className="mono">{zoom}%</span>
                 <button
                   aria-label="확대"
-                  disabled={zoom >= 180}
+                  disabled={zoom >= 400}
                   onClick={() => setZoom((z) => z + 20)}
                 >
                   <ZoomIn size={16} />
@@ -324,12 +433,13 @@ export function ReviewScreen({
             <div className={comparing ? "originals comparing" : "originals"}>
               {docs.map((d) => (
                 <Original
-                  key={d.id}
+                  key={`${d.id}-${comparing ? issue.id : "single"}`}
                   doc={d}
                   fields={c.fields.filter((f) => f.document_id === d.id)}
                   selected={selected}
                   select={setSelected}
                   zoom={zoom}
+                  focusKeys={comparing ? issue.field_keys : []}
                 />
               ))}
             </div>
@@ -380,7 +490,7 @@ export function ReviewScreen({
                       <button
                         onClick={() => {
                           setCompare(i);
-                          setZoom(100);
+                          setZoom(300);
                         }}
                         aria-label={`${i.rule_id} 원본 비교`}
                       >
@@ -411,7 +521,14 @@ export function ReviewScreen({
                 {fields.length}개 항목
               </small>
             </div>
-            <div className="field-scroll">
+            {/* 문서/비교 대상이 바뀌면 DOM 스크롤 컨테이너를 새로 만들어 항상 첫 행부터 보여준다. */}
+            <div
+              className="field-scroll"
+              key={
+                docs.map((d) => d.id).join("-") +
+                (comparing ? `-issue-${issue.id}` : "-single")
+              }
+            >
               <table className="work-table field-table">
                 <thead>
                   <tr>

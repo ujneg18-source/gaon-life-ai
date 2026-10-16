@@ -89,21 +89,21 @@ export function WorkspaceShell({
         <main id="main" className="workspace-content">
           {children}
         </main>
-      </div>
-      <div className="floating-actions">
-        <Link href="/chat" className="btn primary">
-          <MessageSquareText size={18} />
-          가온 AI에게 묻기
-        </Link>
-        <button
-          className="btn help-button"
-          aria-label="메뉴 안내"
-          aria-expanded={help}
-          aria-controls="workspace-help"
-          onClick={() => setHelp(!help)}
-        >
-          <CircleHelp size={21} />
-        </button>
+        <div className="workspace-actions">
+          <Link href="/chat" className="btn primary">
+            <MessageSquareText size={18} />
+            가온 AI에게 묻기
+          </Link>
+          <button
+            className="btn help-button"
+            aria-label="메뉴 안내"
+            aria-expanded={help}
+            aria-controls="workspace-help"
+            onClick={() => setHelp(!help)}
+          >
+            <CircleHelp size={21} />
+          </button>
+        </div>
       </div>
       {help && (
         <section

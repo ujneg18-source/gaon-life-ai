@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · polish-1 · 화면 가림·비교 초점·표 스크롤 보완 (3·5·6번)
+- 관련 요구사항: FR-18, FR-21~24
+- 한 일: 어시스턴트 버튼을 본문 뒤 정상 흐름으로 옮겨 표 가림 제거. 비교 진입 시 공유 300% 확대·대상 칸 자동 스크롤·두 칸 강조, 320% 공유 확대도 확인. 실손24 대응 가상 서식 위치는 제공 PNG 해시 일치 시에만 표시하며 AI 좌표로 저장하지 않는다. 문서/비교 전환 시 표 컨테이너를 새로 만들어 첫 행부터 표시하고 머리글 고정. before/after 및 DOM 검증 JSON 저장. 데이터·로직 커밋 3c96d49와 별도 분리.
+- 바뀐 파일: frontend/components/review-screen.tsx, workspace-shell.tsx, frontend/lib/reference-form.ts, frontend/app/globals.css, artifacts/polish-1/after/, docs/deliverables/polish-1_검증과롤백.md
+- 확인 방법: pytest 43 passed (live 1 제외), 날짜 Node test 1 passed, Ruff·lint·typecheck·format:check·build 통과. DOM 검증: 처리 전 12행/김유정 제외, 기존 김유정 7/8·5이슈 유지, 두 비교 박스 모두 가시 영역 안, 확대율 양쪽 3.2 동일, 표 진입/탭 전환 scrollTop=0 및 첫 행 top>=헤더 bottom, 마지막 행/버튼 overlaps=false. 캡처는 artifacts/polish-1/before, after. 실제 Upstage 추가 호출 0.
+- 남은 문제 · 질문: 없음. 여러 상태의 고객별 서류 세트는 요청대로 T-06에서 작성. 별도 작업의 .gitignore·data/kb/ 변경은 이번 커밋에서 제외한다.
+
 ## 2026-10-16 · polish-1 · 데이터·로직 보완 (1·2·4번)
 - 관련 요구사항: FR-10, FR-13, FR-17~18, FR-24
 - 한 일: 수정 전 550a95e에 ui-v1-before-polish 태그를 만들고 원격 push, polish/ui-1 브랜치 생성. 빈 청구의 엔진 실행을 차단하고 처리 전 상태/필터를 추가; 상태 시드 제거. 가상 생일·접수 시각 패턴 수정 및 초기화 없는 보정 스크립트 추가. 한국 시간/날짜 표시 함수와 담당자용 이슈·안내 문구 정리. before 캡처 저장. 김유정의 원문·추출값은 유지.

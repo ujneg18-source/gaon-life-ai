@@ -1,0 +1,24 @@
+{
+  "actions": {
+    "bottom": 720.125,
+    "height": 76,
+    "left": 232,
+    "right": 1280,
+    "top": 644.125,
+    "width": 1048,
+    "x": 232,
+    "y": 644.125
+  },
+  "actionsPosition": "static",
+  "lastRow": {
+    "bottom": 619.125,
+    "height": 73.6953125,
+    "left": 261,
+    "right": 1251,
+    "top": 545.4296875,
+    "width": 990,
+    "x": 261,
+    "y": 545.4296875
+  },
+  "overlaps": false
+}

@@ -1561,3 +1561,70 @@ p {
     display: none;
   }
 }
+
+/* polish-1: 어시스턴트는 본문 뒤 정상 흐름에 둬 스크롤 중에도 표를 덮지 않는다. */
+.workspace-body {
+  display: flex;
+  flex-direction: column;
+}
+.workspace-content {
+  flex: 1;
+  padding-bottom: 24px;
+}
+.workspace-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px 24px;
+  flex-shrink: 0;
+}
+/* 확대된 각 서류의 스크롤 기준은 자기 영역이다. 브라우저의 문서 스크롤 앵커 보정을 막는다. */
+.viewer-scroll {
+  position: relative;
+  overflow-anchor: none;
+  scroll-behavior: auto;
+}
+.image-sheet {
+  flex-shrink: 0;
+  max-width: none;
+}
+.boxes .box-comparison {
+  stroke: var(--accent-strong);
+  stroke-width: 0.004;
+  fill: #9a89f230;
+  stroke-dasharray: none;
+}
+.boxes .reference-box {
+  stroke-dasharray: 0.003 0.002;
+}
+.compare-focus-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-block: 1px solid var(--line);
+  background: var(--accent-soft);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.compare-focus-value strong {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--accent-strong);
+}
+.compare-focus-value small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 10px;
+}
+.field-scroll {
+  overflow-anchor: none;
+  scroll-padding-top: 44px;
+}
+.field-table th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  z-index: 2;
+}
