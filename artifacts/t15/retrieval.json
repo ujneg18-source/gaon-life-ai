@@ -1,0 +1,48 @@
+[
+  {
+    "question": "영양제 실손 보상돼?",
+    "top3": [
+      {
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "6장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "score": 0.74621994200413
+      },
+      {
+        "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+        "article": "제4조",
+        "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+        "score": 0.648449305803099
+      },
+      {
+        "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+        "article": "제4조",
+        "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+        "score": 0.6456895474977294
+      }
+    ]
+  },
+  {
+    "question": "진단확정일 기준이 뭐야?",
+    "top3": [
+      {
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "4장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "score": 0.7562918036579037
+      },
+      {
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제3조",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "score": 0.6823640319885149
+      },
+      {
+        "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+        "article": "제4조",
+        "source_path": "data/kb/policy/std_illness_injury.txt",
+        "score": 0.6227758526795776
+      }
+    ]
+  }
+]

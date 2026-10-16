@@ -34,7 +34,7 @@
       "title": "진단일이 병리 보고일보다 빠름"
     },
     {
-      "kind": "mismatch",
+      "kind": "info",
       "rule": "CV-02",
       "title": "입원 일수 9일 vs 8일"
     },

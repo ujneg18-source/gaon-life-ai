@@ -74,3 +74,5 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | polish-1 | 빈 접수 엔진 차단·상태/시드/날짜/안내; 버튼 가림·비교 초점·표 첫 행 | 통과: backend 43, 날짜 1, UI 6건·build; 추가 검증: 비교 기본 100%·공유 수동 확대·강조 유지, lint/typecheck/format/build 통과; 추가 API 0 | pytest -q; Ruff; node --experimental-strip-types --test tests/dates.test.mjs; npm run lint/typecheck/format:check/build; CUA Playwright·DOM 캡처 | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
+
+| T-15 | 조·항/절 분할·payload·reference 제외·임베딩 캐시·CV-02 4경계·실제 top-3 | 통과: 규칙/RAG 7개, 실제 2질문 2/2 적중; policy479/manual13 | pytest tests/test_rag.py tests/test_rules.py -q; uv run python -m app.scripts.build_index; retrieval.json | 2026-10-16 |

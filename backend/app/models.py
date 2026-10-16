@@ -82,6 +82,7 @@ class FieldMethod(StrEnum):
 
 
 class IssueKind(StrEnum):
+    INFO = "info"
     MISSING = "missing"
     MISMATCH = "mismatch"
     LOW_CONF = "low_conf"

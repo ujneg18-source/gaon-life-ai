@@ -24,6 +24,22 @@ class Settings(BaseSettings):
     SOLAR_EMBED_QUERY_MODEL: str = "solar-embedding-2-query"
     SOLAR_EMBED_PASSAGE_MODEL: str = "solar-embedding-2-passage"
     DB_URL: str = f"sqlite:///{PROJECT_ROOT / 'data/gaon.db'}"
+    QDRANT_URL: str = ""
+    QDRANT_API_KEY: SecretStr = SecretStr("")
+    KB_PATH: Path = PROJECT_ROOT / "data/kb"
+    KB_COLLECTIONS: tuple[str, ...] = ("policy", "manual")
+    KB_CHUNK_MAX_CHARS: int = 1800
+    KB_TOP_K: int = 3
+    KB_CANDIDATES: int = 12
+    KB_KEYWORD_LIMIT: int = 512
+    KB_MIN_SCORE: float = 0.20
+    KB_TERM_BOOST: float = 0.08
+    KB_IDENTIFIER_BOOST: float = 0.25
+    EMBED_BATCH_SIZE: int = Field(default=100, ge=1, le=100)
+    EMBED_DIMENSIONS: int = 1024
+    CHAT_MAX_TURNS: int = 12
+    CHAT_MAX_TOOL_ROUNDS: int = 4
+    CHAT_MAX_MESSAGE: int = 2000
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"

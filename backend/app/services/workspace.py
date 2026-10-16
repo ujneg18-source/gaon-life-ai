@@ -13,6 +13,7 @@ from app.models import (
     ExtractedField,
     Issue,
     IssueStatus,
+    IssueKind,
     KcdCode,
     Policy,
     RequiredDocRule,
@@ -119,5 +120,7 @@ def detail(session: Session, claim: Claim, config):
         ],
         "issues": [i.model_dump(mode="json") for i in issues],
         "fields": fields,
-        "open_issue_count": sum(i.status == IssueStatus.OPEN for i in issues),
+        "open_issue_count": sum(
+            i.status == IssueStatus.OPEN and i.kind != IssueKind.INFO for i in issues
+        ),
     }

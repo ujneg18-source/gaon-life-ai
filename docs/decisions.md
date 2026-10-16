@@ -77,3 +77,10 @@
 - 기존 SQLite 접수 시각은 한국 현지 시각, 감사 이력은 UTC로 저장돼 있다. 표시 함수가 출처를 구분해 한국 시간 `YYYY.MM.DD HH:mm`으로 표시한다. 날짜 전용 값은 시차 변환하지 않는다.
 - scripts/polish_ui_1.py는 기존 가상 DB의 생일·접수 시각과 빈 청구의 잘못된 자동 이슈를 초기화 없이 보정한다. 로컬 DB 백업 data/ui-v1-before-polish.db는 Git 제외 대상이다. 김유정의 문서·최초 추출값·좌표·확정값은 보존한다.
 - polish-1 디자인: 실손24 대응 서식의 비교 위치는 실제 제공 PNG에서 확인한 고정 레이아웃 영역이며, SHA-256 일치 확인 후에만 사용한다. AI 좌표/확률로 위장하거나 DB에 쓰지 않는다. 다른 이미지·사진판에는 적용하지 않는다. 어시스턴트는 정상 문서 흐름으로 옮겨 어떤 스크롤 위치에서도 표를 가리지 않게 한다.
+
+## 2026-10-16 · T-15~17 추가 요청 반영
+- 이번 사용자 확정 명세가 이전 티켓/SSE 설계보다 우선한다. T-15는 인덱싱, T-16은 LangGraph·약관 대조·JSON chat API, T-17은 화면 연결로 분리한다. 대화는 브라우저 세션 메모리만 사용한다.
+- CV-02의 세부내역서 period_start/end는 진료비 산정 범위이므로 실제 입퇴원일과 혼동하지 않는다. 명시적인 admit_date/discharge_date가 서로 다르면 불일치, 일수만 1일 다르면 info다. 안내는 검토 차단/신뢰도 경고에 포함하지 않는다.
+- 상품 개요 00은 조문이 없는 문서라 기존 ## 절을 보존한다. 긴 항의 표는 문단/행 단위로 더 나누되 조문·항 표제를 유지한다.
+- Dense 검색 후보 내 3글자 이상 원문 단어 일치에 소폭 가중치(설정)를 더한다. 명시 조항/CV는 payload/키워드로 추가 보강하며 특정 질문·정답 경로는 넣지 않는다.
+- 공식 API 확인: https://reference.langchain.com/python/langgraph/graph 및 https://github.com/qdrant/qdrant-client (2026-10-16). StateGraph.compile/invoke와 Qdrant.query_points를 사용한다.

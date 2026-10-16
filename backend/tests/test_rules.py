@@ -53,10 +53,10 @@ def test_answers_match_expected_issues_without_api(client):
     expected = {
         (i["kind"], i["rule"])
         for i in expected["expected_issues"]
-        if i["kind"] in {"missing", "mismatch"}
+        if i["kind"] in {"missing", "mismatch", "info"}
     }
     assert {(i.kind.value, i.rule_id) for i in report.issues} == expected
-    assert Counter(i.kind.value for i in report.issues) == {"missing": 1, "mismatch": 2}
+    assert Counter(i.kind.value for i in report.issues) == {"missing": 1, "mismatch": 1, "info": 1}
     assert len(report.required) == 8 and report.status == ClaimStatus.SUPPLEMENT
     assert (
         "cross_check" in next(f for f in docs[0].fields if f.key == "diagnosis_date").review_reasons
@@ -67,7 +67,8 @@ def test_answers_match_expected_issues_without_api(client):
     report = evaluate(client, docs)
     assert Counter(i.kind.value for i in report.issues) == {
         "missing": 1,
-        "mismatch": 2,
+        "mismatch": 1,
+        "info": 1,
         "low_conf": 1,
     }
 
@@ -99,3 +100,15 @@ def test_normal_auto_pass_and_format_still_routes_with_switches_off(client):
     report = evaluate(client, docs)
     assert len(report.issues) == 1 and report.issues[0].kind.value == "format"
     assert report.status == ClaimStatus.NEEDS_REVIEW
+
+
+def test_cv02_zero_one_two_and_dates(client):
+    """0/1/2일 차이와 실제 입퇴원 날짜 불일치를 각각 독립 검증한다."""
+    for days, expected in [(8, None), (9, "info"), (10, "mismatch")]:
+        docs = inputs()
+        docs[2].values["stay_days"] = days
+        found = [i for i in evaluate(client, docs).issues if i.rule_id == "CV-02"]
+        assert ([i.kind.value for i in found]) == ([expected] if expected else [])
+    docs = inputs()
+    docs[4].values["admit_date"] = "2026-09-23"
+    assert next(i for i in evaluate(client, docs).issues if i.rule_id == "CV-02").kind == "mismatch"

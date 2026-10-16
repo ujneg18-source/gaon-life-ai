@@ -14,6 +14,7 @@ from app.models import (
     Document,
     DocumentStatus,
     Issue,
+    IssueKind,
     IssueStatus,
     ProcessJob,
     Role,
@@ -194,7 +195,11 @@ def claim_issues(claim: ClaimAccess, session: SessionDep):
 @router.post("/{claim_id}/submit")
 def submit_claim(claim: ClaimWrite, user: CurrentUser, session: SessionDep):
     if session.exec(
-        select(Issue).where(Issue.claim_id == claim.id, Issue.status == IssueStatus.OPEN)
+        select(Issue).where(
+            Issue.claim_id == claim.id,
+            Issue.status == IssueStatus.OPEN,
+            Issue.kind != IssueKind.INFO,
+        )
     ).first():
         raise HTTPException(409, "열린 이슈를 먼저 확인해 주세요.")
     docs = session.exec(select(Document).where(Document.claim_id == claim.id)).all()

@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · T-15 · 조항 인덱싱과 CV-02 안내 분리
+- 관련 요구사항: FR-14, FR-28
+- 한 일: 허용 목록의 TXT/가상 MD만 조·항/매뉴얼 절로 분할하고 payload 전체를 보존했다. Solar passage/query 구분·100개 배치·내용 캐시, Qdrant 서버/로컬 설정, CLI를 구현했다. CV-02 1일 차이는 info로 분리해 차단하지 않고 2일 이상/실제 입퇴원일 차이는 불일치로 유지했다. 기대값·평가 질문을 동기화했다.
+- 바뀐 파일: backend/app/agent/{kb,rag,solar}.py, app/scripts/build_index.py, config.py, models.py, services/rules.py, services/workspace.py, routers/claims.py, tests/test_rag.py, tests/test_rules.py, .env.example, pyproject.toml, uv.lock, data/eval/, data/samples/kim_yujeong/answers/_claim.json
+- 확인 방법: pytest 기존+CV 44 passed / live 1 제외; RAG+규칙 7 passed. 실제 인덱싱 policy479/manual13, 2질문 모두 top-3 목표 조항 적중(특약2 제4조, 암진단특약 제3조 각각2위). artifacts/t15/retrieval.json. HWP Parse 0, reference 미포함.
+- 남은 문제 · 질문: T-16 챗봇·화면 연결 진행. 긴 항/상품 개요 분할과 dense 후보 단어 가중치는 decisions.md에 기록.
+
 ## 2026-10-16 · T-15 · 지식 베이스 문서와 평가 질문 추가
 - 관련 요구사항: FR-28
 - 한 일: feat/chatbot 생성 전 polish/ui-1의 main 포함을 확인했다. 공개 표준약관·가온 가상 특약/매뉴얼·평가 질문을 추가하고 실제 회사 약관 reference/는 Git과 인덱싱 대상에서 제외한다. HWP는 보관만 하며 이번에는 Parse하지 않는다.

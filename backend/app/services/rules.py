@@ -126,7 +126,7 @@ def evaluate_claim(
                 field_keys=keys,
             )
         )
-        if rule.startswith("CV-"):
+        if rule.startswith("CV-") and kind != IssueKind.INFO:
             for doc in related:
                 for field in doc.fields:
                     if field.key in keys:
@@ -240,14 +240,27 @@ def evaluate_claim(
         for admission in by_type.get("admission", []):
             for detail in by_type.get("medical_detail", []):
                 a, b = admission.values.get("stay_days"), detail.values.get("inpatient_days")
-                if isinstance(a, int) and isinstance(b, int) and a != b:
+                # 진료비 산정 기간(period_*)은 입퇴원 날짜와 다를 수 있어 직접 비교하지 않는다.
+                # 입퇴원 날짜가 명시된 경우에만 날짜 불일치를 우선하며 1일 차이는 안내로 분리한다.
+                dates_differ = any(
+                    admission.values.get(key)
+                    and detail.values.get(key)
+                    and admission.values[key] != detail.values[key]
+                    for key in ("admit_date", "discharge_date")
+                )
+                valid_days = isinstance(a, int) and isinstance(b, int)
+                if dates_differ or (valid_days and a != b):
+                    informational = not dates_differ and abs(a - b) == 1
                     issue(
-                        IssueKind.MISMATCH,
+                        IssueKind.INFO if informational else IssueKind.MISMATCH,
                         "CV-02",
-                        f"입원 일수 {a}일 vs {b}일",
-                        f"입퇴원확인서 {a}일 · 세부내역서 {b}일",
+                        "1일 차이: 산정 방식 차이 가능 (질병입원일당특약 제5조)"
+                        if informational
+                        else "입원 기간 불일치 확인 필요",
+                        f"입퇴원확인서 {a}일 · 세부내역서 {b}일"
+                        + (" · 입원일·퇴원일 자체가 다릅니다." if dates_differ else ""),
                         [admission, detail],
-                        ["stay_days", "inpatient_days"],
+                        ["stay_days", "inpatient_days", "admit_date", "discharge_date"],
                     )
     if "CV-05" in enabled:
         for doc in docs:
@@ -317,7 +330,7 @@ def evaluate_claim(
     status = ClaimStatus.AUTO_PASS
     if any(i.kind == IssueKind.MISSING for i in issues):
         status = ClaimStatus.SUPPLEMENT
-    elif issues:
+    elif any(i.kind != IssueKind.INFO for i in issues):
         status = ClaimStatus.NEEDS_REVIEW
     return ReviewResult(sorted(required), issues, status)
 
@@ -416,7 +429,7 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         ClaimStatus.SUPPLEMENT
         if any(i.kind == IssueKind.MISSING for i in open_issues)
         else ClaimStatus.NEEDS_REVIEW
-        if open_issues
+        if any(i.kind != IssueKind.INFO for i in open_issues)
         else ClaimStatus.AUTO_PASS
     )
     report.status = claim.status
