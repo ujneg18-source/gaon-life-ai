@@ -37,6 +37,7 @@ export function Original({
   zoom,
   focusKeys,
   allowReferencePosition = false,
+  showFocusSummary = false,
 }: {
   doc: Doc;
   fields: FieldRow[];
@@ -45,6 +46,7 @@ export function Original({
   zoom: number;
   focusKeys: string[];
   allowReferencePosition?: boolean;
+  showFocusSummary?: boolean;
 }) {
   const [page, setPage] = useState(
     () => fields.find((f) => focusKeys.includes(f.key))?.page ?? 1,
@@ -133,12 +135,19 @@ export function Original({
             : "앱 업로드 원본"}
         </span>
       </div>
-      {focusField && (
+      {/* 비교하는 양쪽에 같은 높이의 안내 칸을 둬 원본 시작 위치를 맞춘다. */}
+      {(focusField || showFocusSummary) && (
         <div className="compare-focus-value">
-          <span>{label(focusField.key)}</span>
-          <strong>{display(focusField)}</strong>
+          <span title={focusField ? label(focusField.key) : "대조 항목"}>
+            {focusField ? label(focusField.key) : "대조 항목"}
+          </span>
+          <strong
+            title={focusField ? display(focusField) : "대응하는 추출 항목 없음"}
+          >
+            {focusField ? display(focusField) : "대응하는 추출 항목 없음"}
+          </strong>
           <small>
-            {focusField.bbox
+            {focusField?.bbox
               ? "원문 위치"
               : verifiedForm
                 ? "가상 서식 위치"
@@ -453,6 +462,7 @@ export function ReviewScreen({
                     select={setSelected}
                     zoom={zoom}
                     focusKeys={issue?.field_keys ?? []}
+                    showFocusSummary={comparing}
                   />
                 ))}
               </div>

@@ -83,6 +83,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-19j | 상세 일반 진입1단계·본문 복귀 링크 제거 | lint/type/format·Webpack 통과. CUA3단계→재진입1단계/본문링크0/메뉴1 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19k | 세 줄 요약·메모 목업·동적 보완 문구·이슈 링크 유지 | lint/type/format·Webpack 통과. CUA 실제2/1/1 요약·issue6/3 이동 및 보완 버튼 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19l | 보완 고객 격리·누락 표시·챗봇 동일 도구 생성·구형 미발송 초안 재생성 | pytest138/live1 제외·관련23·Ruff·lint/type/format·Webpack 통과. CUA 한누리0요청/김유정 수술확인서 생성/전환 확인, 외부0회 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
+| T-19m | 긴 품목명 안내·양쪽 비교 원본 시작 높이 정렬 | lint/type·Webpack 통과. CUA 안내46px/글자14px/원본top 동일 확인 | npm run lint/typecheck; next build --webpack; CUA Playwright | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

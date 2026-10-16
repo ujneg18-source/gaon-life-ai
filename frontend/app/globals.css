@@ -2648,3 +2648,45 @@ p {
     grid-template-columns: 1fr;
   }
 }
+
+/* 긴 품목명으로 비교 안내가 늘어나거나 양쪽 문서 시작점이 달라지지 않게 한다. */
+.compare-focus-value {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  height: 46px;
+  min-height: 46px;
+  gap: 10px;
+}
+.compare-focus-value > span {
+  max-width: 96px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.compare-focus-value strong {
+  min-width: 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.compare-focus-value small {
+  white-space: nowrap;
+  margin-left: 0;
+}
+.comparing .original-caption {
+  height: 52px;
+  min-height: 52px;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.comparing .original-caption strong,
+.comparing .original-caption > span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
