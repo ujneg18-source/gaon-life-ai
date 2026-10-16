@@ -2209,3 +2209,41 @@ p {
   max-width: 500px;
   line-height: 1.9;
 }
+
+/* 검수 반영: 값은 툴팁으로 보존하고 페이지 안의 표/이슈는 한 줄씩 읽는다. */
+.normalized-compact {
+  table-layout: fixed;
+}
+.normalized-compact td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.6;
+}
+.normalized-compact th:nth-child(2) {
+  width: 34%;
+}
+.normalized-compact th:last-child {
+  width: 60px;
+}
+.compact-issues strong,
+.compact-issues p {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.normalized-compact td small {
+  display: inline;
+  margin-left: 6px;
+  line-height: inherit;
+}
+.item-table .normalized-compact th:first-child {
+  width: 38%;
+}
+.item-table .normalized-compact th:nth-child(2) {
+  width: 12%;
+}
+.item-table .normalized-compact th:last-child {
+  width: 90px;
+}

@@ -77,7 +77,7 @@ function quoteText(text: string) {
 }
 
 /** 본문을 안전한 React 텍스트 노드로 렌더링한다. HTML이나 원문 속 명령은 실행하지 않는다. */
-function AnswerText({ text }: { text: string }) {
+function AnswerText({ text, onSkip }: { text: string; onSkip: () => void }) {
   const typing = useTyping(formatDatesInText(text));
   function inline(line: string) {
     return line
@@ -120,11 +120,15 @@ function AnswerText({ text }: { text: string }) {
       aria-busy={!typing.complete}
       tabIndex={0}
       title="누르면 답변 전체를 바로 표시해요"
-      onClick={typing.skip}
+      onClick={() => {
+        typing.skip();
+        onSkip();
+      }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           typing.skip();
+          onSkip();
         }
       }}
     >
@@ -371,6 +375,7 @@ export function ChatScreen() {
                         )}
                       </div>
                       <AnswerText
+                        onSkip={draftTyping.skip}
                         text={t.result.display_answer ?? t.result.answer}
                       />
                       {(t.result.display_citations ?? t.result.citations)

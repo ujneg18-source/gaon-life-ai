@@ -15,6 +15,7 @@ from app.agent.tone import TONE_PROMPT, ToneAnswer, payment_assertion, protected
 from app.schemas.chat import Action, ChatAnswer, ClaimRef, GroundedAnswer, Route
 from app.schemas.to_upstage import to_chat_schema
 from app.services.coverage import citation
+from app.services.presentation import document_label
 
 
 class State(TypedDict, total=False):
@@ -60,10 +61,23 @@ class ChatAgent:
             }
         # 청구 지시어는 이미 권한 검증된 claim_id의 업무 조회에 연결한다. 지급 판단
         # 선행 가드는 위에서 먼저 실행되어 기존 안전 범위는 그대로 유지된다.
-        if state.get("claim_id") and (
-            re.search(r"이\s*(?:청구\s*건|건)", state["message"])
-            or re.search(r"(?:문자|문구|초안).*(?:써|작성)", state["message"])
-        ):
+        message = state["message"]
+        draft_request = bool(
+            re.search(r"(?:문자|문구|초안).*(?:써|작성)", message)
+            and (
+                re.search(r"보완|누락|서류", message)
+                or re.search(self.config.DRAFT_DOCUMENT_NOUN_PATTERN, message)
+            )
+        )
+        scoped_request = bool(
+            re.search(r"이\s*(?:청구\s*건|건)", message)
+            and re.search(
+                r"서류.*(?:왔|검토|보완|확인)|영수증.*(?:항목|보상)|지급\s*심사.*(?:넘겨|이관)",
+                message,
+            )
+        )
+        # 그 밖의 요청은 기존 모델 분류를 그대로 거쳐 거절/범위 판단을 보존한다.
+        if state.get("claim_id") and (draft_request or scoped_request):
             message = state["message"]
             intent = (
                 "draft"
@@ -72,19 +86,31 @@ class ChatAgent:
                 if re.search(r"영수증.*(?:항목|보상)", message)
                 else "claim_check"
             )
+            chosen_docs = (
+                [
+                    code
+                    for code in self.config.UPSTAGE_DOC_CLASSES
+                    if document_label(code, self.config).replace(" ", "")
+                    in message.replace(" ", "")
+                ]
+                if intent == "draft"
+                else []
+            )
+            if (
+                intent == "draft"
+                and not chosen_docs
+                and re.search(self.config.DRAFT_DOCUMENT_NOUN_PATTERN, message)
+            ):
+                chosen_docs = [
+                    "other"
+                ]  # 이름을 인식하지 못한 명시 요청을 누락 서류로 바꿔 보내지 않는다.
             return {
                 "route": Route(
                     intent=intent,
                     customer_name=None,
                     claim_id=state["claim_id"],
                     item_name=None,
-                    doc_types=[
-                        code
-                        for code in self.config.UPSTAGE_DOC_CLASSES
-                        if self.config.UPSTAGE_DOC_CLASSES[code].split(".")[0] in message
-                    ]
-                    if intent == "draft"
-                    else [],
+                    doc_types=chosen_docs,
                     query=message,
                 )
             }
@@ -216,7 +242,8 @@ class ChatAgent:
                 evidence["claims"] = claims
                 evidence["hits"] = (
                     []
-                    if route.intent in {"claim_check", "draft", "item_coverage"}
+                    if route.intent in {"claim_check", "draft"}
+                    or (route.intent == "item_coverage" and len(claims) == 1)
                     else self.tools.call_with_retry(
                         "search_kb", {"query": state["message"], "collection": None}
                     )
@@ -437,6 +464,11 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
             and not e.get("coverage", {}).get("found")
             and not e.get("coverage_all")
         ):
+            if len(e.get("claims", [])) == 1:
+                return done(
+                    "제출된 약제비 영수증에서 해당 품목을 찾지 못했어요. 영수증과 품명을 확인해 주세요.",
+                    claim_refs=[ClaimRef(claim_id=e["claims"][0]["claim_id"], issue_id=None)],
+                )
             return policy_reply()
         claims = e.get("claims", [])
         if not claims:
@@ -488,15 +520,32 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
                 checks = e["coverage_all"]
                 # 처방 일치(문서 사실)와 보상 확인(판단 과제)을 별도 문장으로 표시한다.
                 # 같은 품목에 '확인 필요'와 '일치'를 나란히 써서 모순처럼 읽히지 않게 한다.
-                text = "\n".join(
-                    f"{c['item_name']}: {c['status']} · {c['reason']}"
-                    for c in checks
-                    if not c["prescribed"]
-                )
-                prescribed = [c["item_name"] for c in checks if c["prescribed"]]
+                sentences = ["영수증의 약품을 처방전과 대조했어요."]
+                for check in checks:
+                    if check["prescribed"]:
+                        continue
+                    status = (
+                        "보상에서 제외될 가능성이 있어요"
+                        if check["status"] == "보상 제외 가능성"
+                        else "추가 확인이 필요해요"
+                    )
+                    reason = (
+                        "제출된 처방전에는 해당 약품이 없어요"
+                        if check["reason"] == "처방전에 없음"
+                        else "처방전과 치료 목적을 확인해야 해요"
+                    )
+                    sentences.append(
+                        f"{check['item_name']}은 {status}. {reason}. (실손 특별약관2 질병 비급여 제4조 ③ 2호)"
+                    )
+                prescribed = [check["item_name"] for check in checks if check["prescribed"]]
                 if prescribed:
-                    text += "\n나머지 약품은 처방전과 일치해요: " + ", ".join(prescribed)
-                text += "\n처방전 일치는 보상 확정과 다르며 치료 목적과 약관 적용은 담당자가 확인해 주세요."
+                    sentences.append(
+                        "나머지 약품인 " + ", ".join(prescribed) + "은 제출된 처방전과 일치해요."
+                    )
+                sentences.append(
+                    "처방전 일치만으로 보상이 확정되지는 않으니 치료 목적과 약관 적용을 확인해 주세요."
+                )
+                text = "\n\n".join(sentences)
                 citations = []
                 for check in checks:
                     for c in check["citations"]:
@@ -527,7 +576,7 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
         draft = e["draft"]
         return done(
             (
-                f"{draft['customer_name']} 고객님은 {', '.join(draft['submitted'])}을 이미 제출했어요. 그래도 다시 요청하려면 아래 초안을 쓰시면 돼요."
+                f"{draft['customer_name']} 고객님은 {', '.join(draft['submitted'])}{'을' if (ord(draft['submitted'][-1][-1]) - ord('가')) % 28 else '를'} 이미 제출했어요. 그래도 다시 요청하려면 아래 초안을 쓰시면 돼요."
                 if draft.get("submitted")
                 else draft["message"]
             ),
@@ -570,7 +619,8 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
         initial = violations(text)
         self.tone_trace = {"before": text, "initial_violations": initial, "attempts": []}
         # 사실과 인용을 확정한 뒤 본문만 생성한다. 고정 DB/템플릿 답변도 같은 규칙으로 쓴다.
-        if original.refused:
+        # 표준 초안과 제출 안내는 도구가 확정한 문구여서 말투 재생성으로 덧붙이지 않는다.
+        if original.refused or original.intent == "draft":
             self.tone_trace = {"before": text, "attempts": [], "remaining_violations": []}
             return {"result": original}
         render = not original.refused and bool(initial)

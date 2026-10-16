@@ -62,13 +62,14 @@ def detail(session: Session, claim: Claim, config):
     policy = session.get(Policy, claim.policy_no)
     customer = session.get(Customer, claim.customer_id)
     required_rules = list(session.exec(select(RequiredDocRule)).all())
+    cross_rules = list(session.exec(select(CrossCheckRule)).all())
     # 조회도 빈 청구의 엔진 실행을 피한다. 필수서류 목록만 계산한다.
     report = (
         evaluate_claim(
             claim,
             [review_input(session, d) for d in docs],
             required_rules,
-            list(session.exec(select(CrossCheckRule)).all()),
+            cross_rules,
             session.get(ReviewSettings, 1),
             config,
             policy=policy,
@@ -120,7 +121,12 @@ def detail(session: Session, claim: Claim, config):
             claim, docs, issues, [i for i in report.issues if i.kind == IssueKind.MISSING]
         ),
         "comparisons": comparisons(
-            claim, [review_input(session, d) for d in docs], policy, report.issues, config
+            claim,
+            [review_input(session, d) for d in docs],
+            policy,
+            report.issues,
+            config,
+            {rule.id for rule in cross_rules if rule.enabled},
         ),
         "customer": customer.model_dump(mode="json") if customer else None,
         "policy": policy.model_dump(mode="json") if policy else None,
@@ -160,13 +166,15 @@ def detail(session: Session, claim: Claim, config):
     }
 
 
-def comparisons(claim, docs, policy, issues, config):
+def comparisons(claim, docs, policy, issues, config, enabled):
     """실제 대조 가능한 값과 서류 쌍만 표시하고 없는 값을 일치로 꾸미지 않는다."""
     from itertools import combinations
 
     from app.services.presentation import document_label
 
     rows = []
+    if not docs:
+        return rows
 
     def cell(doc, key):
         return {
@@ -183,18 +191,28 @@ def comparisons(claim, docs, policy, issues, config):
 
     # 환자명은 제출 서류의 실제 값끼리 대조한다.
     named = [d for d in docs if d.values.get("patient_name")]
-    for a, b in combinations(named, 2):
-        add("환자명", cell(a, "patient_name"), cell(b, "patient_name"))
+    for doc in named if "CV-05" in enabled else []:
+        add(
+            "환자명",
+            {
+                "document_id": None,
+                "doc_name": "청구 접수정보",
+                "key": "patient_name",
+                "value": claim.customer_name,
+            },
+            cell(doc, "patient_name"),
+        )
     for key, title in [
         ("diagnosis_code", "질병분류기호"),
         ("surgery_date", "수술일"),
         ("admit_date", "입원일"),
         ("discharge_date", "퇴원일"),
     ]:
-        present = [d for d in docs if d.values.get(key)]
+        rule = "CV-03" if key == "diagnosis_code" else "CV-04" if key == "surgery_date" else "CV-02"
+        present = [d for d in docs if d.values.get(key)] if rule in enabled else []
         for a, b in combinations(present, 2):
             add(title, cell(a, key), cell(b, key))
-    for a in [d for d in docs if d.doc_type == "admission"]:
+    for a in [d for d in docs if d.doc_type == "admission" and "CV-02" in enabled]:
         for b in [d for d in docs if d.doc_type == "medical_detail"]:
             x, y = a.values.get("stay_days"), b.values.get("inpatient_days")
             if isinstance(x, int) and isinstance(y, int):
@@ -202,7 +220,7 @@ def comparisons(claim, docs, policy, issues, config):
                 if any(i.rule_id == "CV-02" and i.kind == IssueKind.MISMATCH for i in issues):
                     result = "mismatch"
                 add("입원일수", cell(a, "stay_days"), cell(b, "inpatient_days"), result)
-    for a in [d for d in docs if d.doc_type == "diagnosis"]:
+    for a in [d for d in docs if d.doc_type == "diagnosis" and "CV-01" in enabled]:
         for b in [d for d in docs if d.doc_type == "pathology"]:
             if a.values.get("diagnosis_date") and b.values.get("report_date"):
                 add(
@@ -211,25 +229,75 @@ def comparisons(claim, docs, policy, issues, config):
                     cell(b, "report_date"),
                     "mismatch" if any(i.rule_id == "CV-01" for i in issues) else "match",
                 )
-    if policy:
-        for d in docs:
-            key = next(
-                (k for k in ["diagnosis_date", "admit_date", "period_start"] if d.values.get(k)),
-                None,
+    if "CV-03" in enabled:
+        for diagnosis in [
+            d for d in docs if d.doc_type == "diagnosis" and d.values.get("diagnosis_code")
+        ]:
+            for pathology in [d for d in docs if d.doc_type == "pathology"]:
+                relevant = any(
+                    i.rule_id == "CV-03" and diagnosis.id in i.doc_ids and pathology.id in i.doc_ids
+                    for i in issues
+                )
+                add(
+                    "질병분류기호와 병리 진단명",
+                    cell(diagnosis, "diagnosis_code"),
+                    cell(pathology, "pathology_result"),
+                    "mismatch"
+                    if relevant
+                    else "match"
+                    if pathology.values.get("pathology_result")
+                    else "na",
+                )
+    if policy and "CV-06" in enabled:
+        # 엔진과 같이 진료/입퇴원 기간의 양 끝을 검사한다. 진단일 하나로
+        # 기간 전체의 일치를 주장하거나 퇴원일의 보장 초과를 놓치지 않는다.
+        if claim.reported_start and claim.reported_end:
+            add(
+                "접수 진료 기간",
+                {
+                    "document_id": None,
+                    "doc_name": "청구 접수정보",
+                    "key": "reported_period",
+                    "value": f"{claim.reported_start} ~ {claim.reported_end}",
+                },
+                {
+                    "document_id": None,
+                    "doc_name": "보험 계약",
+                    "key": "coverage",
+                    "value": f"{policy.coverage_start} ~ {policy.coverage_end}",
+                },
+                "match"
+                if claim.reported_start >= policy.coverage_start
+                and claim.reported_end <= policy.coverage_end
+                else "mismatch",
             )
-            if key:
-                v = str(d.values[key])
-                start, end = str(policy.coverage_start), str(policy.coverage_end)
+        for d in docs:
+            start_key = "period_start" if d.values.get("period_start") else "admit_date"
+            end_key = "period_end" if d.values.get("period_end") else "discharge_date"
+            start, end = d.values.get(start_key), d.values.get(end_key, d.values.get(start_key))
+            if start and end:
+                from datetime import date
+
+                try:
+                    result = (
+                        "match"
+                        if date.fromisoformat(start) >= policy.coverage_start
+                        and date.fromisoformat(end) <= policy.coverage_end
+                        else "mismatch"
+                    )
+                except (TypeError, ValueError):
+                    result = "na"
+                a = cell(d, start_key)
+                a["value"] = f"{start} ~ {end}"
                 add(
                     "보장 기간",
-                    cell(d, key),
+                    a,
                     {
                         "document_id": None,
                         "doc_name": "보험 계약",
                         "key": "coverage",
-                        "value": f"{start} ~ {end}",
+                        "value": f"{policy.coverage_start} ~ {policy.coverage_end}",
                     },
-                    "match" if start <= v <= end else "mismatch",
+                    result,
                 )
-                break
     return sorted(rows, key=lambda r: {"mismatch": 0, "info": 1, "match": 2, "na": 3}[r["result"]])

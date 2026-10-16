@@ -36,6 +36,7 @@ export type Issue = {
   doc_ids: number[];
   field_keys: string[];
   status: string;
+  related_ids?: number[];
 };
 export type ComparisonCell = {
   document_id: number | null;
@@ -51,13 +52,7 @@ export type Comparison = {
 };
 export type Claim = {
   comparisons: Comparison[];
-  display_issues: {
-    id: number;
-    kind: string;
-    title: string;
-    detail: string;
-    doc_ids: number[];
-  }[];
+  display_issues: (Issue & { related_ids?: number[] })[];
   id: string;
   development_origin: string | null;
   customer_name: string;
@@ -143,6 +138,10 @@ export const fieldLabels: Record<string, string> = {
   period_end: "진료 종료일",
   inpatient_days: "입원 일수",
   covered_copay: "급여 본인부담",
+  covered_nhis: "공단 부담",
+  surgery_name: "수술명",
+  surgery_date: "수술일",
+  surgery_code: "수술 코드",
   non_covered: "비급여",
   total: "합계",
   patient_total: "환자부담 합계",
@@ -199,4 +198,20 @@ export async function api<T>(url: string, init?: RequestInit): Promise<T> {
     );
   }
   return response.status === 204 ? (undefined as T) : response.json();
+}
+
+/** 규칙 식별자는 로그/접근성 이름에서도 담당자가 읽는 이름으로만 표시한다. */
+export function ruleLabel(code: string) {
+  return (
+    (
+      {
+        "CV-01": "진단일과 병리 보고일 비교",
+        "CV-02": "입원일수 비교",
+        "CV-03": "질병분류기호와 병리 진단명 비교",
+        "CV-04": "수술확인서 제출 확인",
+        "CV-05": "환자 정보 확인",
+        "CV-06": "보장 기간 확인",
+      } as Record<string, string>
+    )[code] ?? (code.startsWith("FIELD-") ? label(code.slice(6)) : "검토 항목")
+  );
 }

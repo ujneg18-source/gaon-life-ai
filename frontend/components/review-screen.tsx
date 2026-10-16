@@ -36,6 +36,7 @@ export function Original({
   select,
   zoom,
   focusKeys,
+  allowReferencePosition = false,
 }: {
   doc: Doc;
   fields: FieldRow[];
@@ -43,8 +44,11 @@ export function Original({
   select: (id: number) => void;
   zoom: number;
   focusKeys: string[];
+  allowReferencePosition?: boolean;
 }) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(
+    () => fields.find((f) => focusKeys.includes(f.key))?.page ?? 1,
+  );
   const [loaded, setLoaded] = useState(false);
   const [verifiedForm, setVerifiedForm] = useState(false);
   const viewport = useRef<HTMLDivElement>(null),
@@ -95,7 +99,12 @@ export function Original({
   }, [focusBox, loaded, zoom]);
   async function imageLoaded(image: HTMLImageElement) {
     setLoaded(true);
-    if (doc.source !== "silson24" || doc.doc_type !== "medical_detail") return;
+    if (
+      !allowReferencePosition ||
+      doc.source !== "silson24" ||
+      doc.doc_type !== "medical_detail"
+    )
+      return;
     try {
       // 이미 표시한 원본만 해시 검사한다. API 추출이나 외부 서비스 호출은 하지 않는다.
       const response = await fetch(image.currentSrc, {
@@ -347,9 +356,9 @@ export function ReviewScreen({
   const doc =
     c.documents.find((d) => d.id === (docId ?? Number(params.get("doc")))) ??
     c.documents[0];
-  const allIssues = c.issues.filter((i) => i.status === "open");
+  const allIssues = c.display_issues;
   const issue =
-    compare ?? c.issues.find((i) => i.id === Number(params.get("issue")));
+    compare ?? allIssues.find((i) => i.id === Number(params.get("issue")));
   const comparing = !!issue && issue.doc_ids.length === 2;
   const docs = comparing
     ? c.documents.filter((d) => issue.doc_ids.includes(d.id))
@@ -361,7 +370,8 @@ export function ReviewScreen({
   );
   async function resolve(i: Issue) {
     try {
-      await api(`/issues/${i.id}/resolve`, { method: "POST" });
+      for (const id of [i.id, ...(i.related_ids ?? [])])
+        await api(`/issues/${id}/resolve`, { method: "POST" });
       resource.reload();
       setMessage("확인 기록을 남겼어요.");
     } catch (e) {
@@ -507,15 +517,15 @@ export function ReviewScreen({
                           setCompare(i);
                           setZoom(100);
                         }}
-                        aria-label={`${i.rule_id} 원본 비교`}
+                        aria-label={`${i.title} 원본 비교`}
                       >
                         <Columns2 size={14} />
                         원본 비교
                       </button>
                     )}
-                    {!readOnly && (
+                    {!readOnly && i.kind !== "missing" && (
                       <button
-                        aria-label={`${i.rule_id} 확인 완료`}
+                        aria-label={`${i.title} 확인 완료`}
                         onClick={() => resolve(i)}
                       >
                         <CircleCheck size={14} />

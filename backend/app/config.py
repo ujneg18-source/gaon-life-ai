@@ -97,6 +97,9 @@ class Settings(BaseSettings):
         "CV-05": [("10_claims_manual.md", "4장", "CV-05")],
         "CV-06": [("10_claims_manual.md", "4장", "CV-06")],
     }
+    DRAFT_DOCUMENT_NOUN_PATTERN: str = (
+        r"[가-힣A-Z]+(?:확인서|결과지|증명서|진단서|사본|동의서|기록지|판독지|의뢰서)"
+    )
     CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
     # 실제 규칙의 근거를 표시하는 주소다. 고객/평가 질문별 문장은 설정하지 않는다.
     CHAT_RULE_LABELS: dict[str, str] = {
@@ -238,6 +241,11 @@ class Settings(BaseSettings):
         "outpatient": "통원일당",
         "disability": "후유장해",
         "death": "사망보험금",
+    }
+    DOCUMENT_DISPLAY_LABELS: dict[str, str] = {
+        "pathology": "조직검사 결과지",
+        "medical_receipt": "진료비 영수증",
+        "pharmacy_receipt": "약제비 영수증",
     }
     FIELD_LABELS: dict[str, str] = {
         "patient_name": "환자 성명",

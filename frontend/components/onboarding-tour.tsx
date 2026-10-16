@@ -115,6 +115,7 @@ export function OnboardingTour() {
       window.removeEventListener("keydown", keys);
     };
   }, [step, steps.length]);
+  if (!steps.length) return null;
   return (
     <>
       <button

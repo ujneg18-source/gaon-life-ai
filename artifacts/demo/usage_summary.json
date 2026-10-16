@@ -1,0 +1,8 @@
+{
+  "external_upstage_http_attempts": 0,
+  "document_pages_sent": 0,
+  "solar_cache_hits": 0,
+  "estimated_incremental_cost_usd": 0,
+  "verification_mode": "UI/도구 경로는 USE_CACHED_RESULTS=true로 검수. 시드는 기존 추출 캐시와 가상 정형 데이터만 사용. 정상 실행 모드 복귀 후에는 조회·캡처만 수행.",
+  "console_actual_charge_checked": false
+}

@@ -70,3 +70,105 @@ def test_templates_and_comparisons(client):
     assert any(r["result"] == "match" for r in result["comparisons"])
     assert any(r["title"] == "입원일수" and r["result"] == "info" for r in result["comparisons"])
     assert result["development_origin"] is None
+
+
+def test_workload_and_development_visibility(client):
+    from app.models import Claim
+
+    setup_chat(client)
+    with Session(client.app.state.engine) as s:
+        tool = Tools(s, s.get(User, 1), client.app.state.settings, FakeKB())
+        assert tool.get_workload()["supplement"] == 1
+        claim = s.get(Claim, "GA-2610-0482")
+        claim.assignee_id = 2
+        s.add(claim)
+        s.commit()
+        assert tool.get_workload()["total"] == 0
+    client.post("/api/auth/demo-login", json={"role": "admin"})
+    config = client.app.state.settings
+    config.SHOW_DEV_BADGE = True
+    config.DEMO_MODE = True
+    assert client.get("/api/claims/GA-2610-0482").json()["development_origin"] is None
+    config.DEMO_MODE = False
+    assert client.get("/api/claims/GA-2610-0482").json()["development_origin"]
+    counts = client.get("/api/claims").json()["counts"]
+    assert sum(v for k, v in counts.items() if k != "total") == counts["total"]
+
+
+def test_submitted_draft_is_customer_text_only(client):
+    setup_chat(client)
+    data = client.post(
+        "/api/chat", json={"message": "진단서 보완 요청 문자 써줘", "claim_id": "GA-2610-0482"}
+    ).json()
+    assert "진단서를 이미 제출했어요" in data["answer"]
+    assert "필요하시다면" not in data["answer"]
+    assert data["draft_text"].startswith("[가온생명] 김유정 고객님")
+    assert "이미 제출" not in data["draft_text"]
+
+
+def test_disabled_patient_comparison_not_displayed(client):
+    from app.models import CrossCheckRule
+
+    setup_chat(client)
+    with Session(client.app.state.engine) as s:
+        rule = s.get(CrossCheckRule, "CV-05")
+        rule.enabled = False
+        s.add(rule)
+        s.commit()
+    data = client.get("/api/claims/GA-2610-0482").json()
+    assert not any(r["title"] == "환자명" for r in data["comparisons"])
+    merged = next(i for i in data["display_issues"] if i["rule_id"] == "FIELD-diagnosis_code")
+    assert merged["related_ids"]
+
+
+def test_unknown_named_document_does_not_request_missing_instead(client):
+    setup_chat(client)
+    data = client.post(
+        "/api/chat",
+        json={"message": "장기요양확인서 보완 요청 문자 써줘", "claim_id": "GA-2610-0482"},
+    ).json()
+    assert data["draft_text"] is None and "템플릿" in data["answer"]
+
+
+def test_unknown_context_question_still_uses_model_scope_decision(client):
+    from app.agent.graph import ChatAgent
+    from tests.test_chat import FakeSolar
+
+    class RefusingSolar(FakeSolar):
+        called = False
+
+        def structured(self, messages, schema, name):
+            self.called = True
+            return {
+                "intent": "refusal",
+                "customer_name": None,
+                "claim_id": None,
+                "item_name": None,
+                "doc_types": [],
+                "query": "범위 밖 질문",
+            }
+
+    setup_chat(client)
+    with Session(client.app.state.engine) as s:
+        solar = RefusingSolar()
+        agent = ChatAgent(
+            client.app.state.settings,
+            solar,
+            Tools(s, s.get(User, 1), client.app.state.settings, FakeKB()),
+        )
+        result = agent.classify(
+            {"message": "이 건 내일 운세를 알려줘", "claim_id": "GA-2610-0482", "history": []}
+        )
+        assert solar.called and result["route"].intent == "refusal"
+
+
+def test_processing_is_preserved_only_while_documents_are_unprocessed():
+    claim = SimpleNamespace(status=ClaimStatus.PROCESSING)
+    assert (
+        claim_status(claim, [SimpleNamespace(status="processing")], [], [object()])
+        == ClaimStatus.PROCESSING
+    )
+    assert (
+        claim_status(claim, [SimpleNamespace(status="extracted")], [], [object()])
+        == ClaimStatus.SUPPLEMENT
+    )

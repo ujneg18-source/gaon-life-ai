@@ -18,6 +18,7 @@ import {
   docLabels,
   typeLabels,
   label,
+  ruleLabel,
 } from "@/lib/workspace";
 import { PageTitle, LoadState, Status, useResource } from "./workspace-ui";
 
@@ -105,7 +106,11 @@ function MessageEditor({
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-        <p className="muted small">안내 문구를 확인한 뒤 모의 발송해 주세요.</p>
+        <p className="muted small">
+          {row.status === "sent_mock"
+            ? "모의 발송이 완료됐어요. 보완 서류의 회신을 기다리고 있어요."
+            : "안내 문구를 확인한 뒤 모의 발송해 주세요."}
+        </p>
         <div className="action-row">
           <button
             className="btn"
@@ -229,7 +234,7 @@ export function SupplementScreen({
         </aside>
         {row ? (
           <MessageEditor
-            key={`${row.id}-${row.status}`}
+            key={row.id}
             row={row}
             readOnly={readOnly}
             reload={resource.reload}
@@ -273,7 +278,8 @@ function logDetail(log: Log) {
   const d = log.detail;
   if (log.action === "field_confirm")
     return `${label(String(d.key))} · ${d.before} → ${d.after}`;
-  if (log.action === "issue_resolve") return `${d.rule_id} · 확인 기록`;
+  if (log.action === "issue_resolve")
+    return `${ruleLabel(String(d.rule_id))} 확인 기록`;
   if (log.action === "supplement_send_mock")
     return `${d.channel === "kakao" ? "알림톡" : "문자"} · 모의 발송 · 회신 대기`;
   if (log.action === "supplement_draft")
@@ -433,7 +439,6 @@ function RuleEditor({ rule, reload }: { rule: Rule; reload: () => void }) {
           {typeLabels[rule.claim_type] ??
             (rule.claim_type === "common" ? "공통" : rule.claim_type)}
         </strong>
-        <small className="mono">{rule.id}</small>
       </td>
       <td>
         {editing ? (
@@ -464,7 +469,7 @@ function RuleEditor({ rule, reload }: { rule: Rule; reload: () => void }) {
             {Object.entries(rule.conditions)
               .map(
                 ([k, v]) =>
-                  `${({ waived_for_channels: "면제 접수 경로", is_proxy: "대리 청구 시", has_pharmacy_claim: "약제비 청구 시" } as Record<string, string>)[k] ?? k} ${Array.isArray(v) ? v.join(", ") : v === true ? "적용" : String(v)}`,
+                  `${({ waived_for_channels: "면제 접수 경로", is_proxy: "대리 청구 시", has_pharmacy_claim: "약제비 청구 시" } as Record<string, string>)[k] ?? k} ${Array.isArray(v) ? v.map((value) => (({ app: "앱 접수", silson24: "실손24" }) as Record<string, string>)[String(value)] ?? String(value)).join(", ") : v === true ? "적용" : String(v)}`,
               )
               .join(" · ")}
           </small>
@@ -534,12 +539,12 @@ export function OperationsScreen() {
             [
               "review_on_low_conf",
               "모델 신뢰도 낮음",
-              "Extract가 낮은 신뢰도로 반환한 항목",
+              "문서에서 읽은 값의 신뢰도가 낮은 항목",
             ],
             [
               "review_on_not_in_source",
               "원문 불일치",
-              "Parse 원문에서 추출값을 찾지 못하거나 세분류가 빠진 항목",
+              "서류 원문에서 값을 찾지 못하거나 세분류가 빠진 항목",
             ],
             [
               "review_on_format",

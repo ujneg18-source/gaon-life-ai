@@ -73,6 +73,7 @@ def render_claim(claim, issues, documents, config, *, as_rows=False):
     rows = []
     display_rows = [
         {
+            **i,
             "id": i["id"],
             "kind": i["kind"],
             "title": clean(i["title"])
@@ -170,6 +171,8 @@ def render_claim(claim, issues, documents, config, *, as_rows=False):
         rows.append((priority, title, body))
         display_rows.append(
             {
+                **issue,
+                "related_ids": sorted(merged) if rule == "FIELD-diagnosis_code" else [],
                 "id": issue["id"],
                 "kind": kind,
                 "title": title,

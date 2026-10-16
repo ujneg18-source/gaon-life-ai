@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { formatDate, formatDateTime } from "@/lib/dates";
+import { formatDate, formatDateTime, formatDatesInText } from "@/lib/dates";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   CircleCheck,
   CircleX,
@@ -141,7 +141,9 @@ export function Inbox() {
                     if (e.key === "Enter") openClaim(c.id);
                   }}
                 >
-                  <td className="mono">{c.id}</td>
+                  <td className="mono" title={c.id}>
+                    {c.id}
+                  </td>
                   <td>
                     <span className="inbox-customer">
                       <strong>{c.customer_name}</strong>{" "}
@@ -153,10 +155,17 @@ export function Inbox() {
                       </span>
                     )}
                   </td>
-                  <td>
+                  <td
+                    title={c.claim_types
+                      .map((t) => typeLabels[t] ?? t)
+                      .join(" · ")}
+                  >
                     {c.claim_types.map((t) => typeLabels[t] ?? t).join(" · ")}
                   </td>
-                  <td className="mono muted">
+                  <td
+                    className="mono muted"
+                    title={formatDateTime(c.received_at, "Asia/Seoul")}
+                  >
                     {formatDateTime(c.received_at, "Asia/Seoul")}
                   </td>
                   <td>
@@ -271,6 +280,7 @@ export function ClaimDetail({
   const [message, setMessage] = useState("");
   const [preview, setPreview] = useState<ComparisonCell | null>(null);
   const [zoom, setZoom] = useState(100);
+  const previewRef = useRef<HTMLDivElement>(null);
   const [returnUrl, setReturnUrl] = useState("/workspace");
   const [note, setNote] = useState<string | null>(null);
   const step = localStep ?? (requestedIssue ? 2 : (c?.step ?? 0));
@@ -293,6 +303,39 @@ export function ClaimDetail({
     window.addEventListener("tour-detail-step", listener);
     return () => window.removeEventListener("tour-detail-step", listener);
   }, []);
+  useEffect(() => {
+    if (!preview) return;
+    // 원본 창 안에서 키보드 초점을 유지하고 닫을 때 이전 값 버튼으로 돌려준다.
+    const previous = document.activeElement as HTMLElement | null;
+    const frame = requestAnimationFrame(() =>
+      previewRef.current?.querySelector<HTMLButtonElement>("button")?.focus(),
+    );
+    const keys = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPreview(null);
+      if (e.key === "Tab") {
+        const buttons = Array.from(
+          previewRef.current?.querySelectorAll<HTMLElement>(
+            "button:not(:disabled), [tabindex='0']",
+          ) ?? [],
+        );
+        const first = buttons[0],
+          last = buttons[buttons.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    window.addEventListener("keydown", keys);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("keydown", keys);
+      previous?.focus();
+    };
+  }, [preview]);
   async function move(value: number) {
     setMessage("");
     if (!readOnly) {
@@ -574,6 +617,8 @@ export function ClaimDetail({
               불일치{" "}
               {c.comparisons.filter((r) => r.result === "mismatch").length} ·
               안내 {c.comparisons.filter((r) => r.result === "info").length}
+              {c.comparisons.some((r) => r.result === "na") &&
+                ` · 해당 없음 ${c.comparisons.filter((r) => r.result === "na").length}`}
             </small>
           </h2>
           {!c.comparisons.length ? (
@@ -605,7 +650,7 @@ export function ClaimDetail({
                           }}
                         >
                           <strong>{cell.doc_name}</strong>
-                          <span>{cell.value}</span>
+                          <span>{formatDatesInText(cell.value)}</span>
                         </button>
                       </td>
                     ))}
@@ -759,8 +804,10 @@ export function ClaimDetail({
                     className={i.kind === "info" ? "muted" : "warning"}
                   />
                   <div>
-                    <strong>{i.title}</strong>
-                    <p>{i.detail}</p>
+                    <strong title={i.title}>{i.title}</strong>
+                    <p title={formatDatesInText(i.detail)}>
+                      {formatDatesInText(i.detail)}
+                    </p>
                   </div>
                   <Link
                     className="icon-button"
@@ -777,9 +824,10 @@ export function ClaimDetail({
                       aria-label={`${i.title} 확인`}
                       onClick={async () => {
                         try {
-                          await api(`/issues/${i.id}/resolve`, {
-                            method: "POST",
-                          });
+                          for (const id of [i.id, ...(i.related_ids ?? [])])
+                            await api(`/issues/${id}/resolve`, {
+                              method: "POST",
+                            });
                           resource.reload();
                         } catch (e) {
                           setMessage((e as Error).message);
@@ -834,6 +882,7 @@ export function ClaimDetail({
           role="dialog"
           aria-modal="true"
           aria-label="서류 원본"
+          ref={previewRef}
         >
           <div className="panel">
             <div className="viewer-toolbar">
@@ -870,7 +919,13 @@ export function ClaimDetail({
             <Original
               doc={c.documents.find((d) => d.id === preview.document_id)!}
               fields={c.fields.filter(
-                (f) => f.document_id === preview.document_id,
+                (f) =>
+                  f.document_id === preview.document_id &&
+                  !!c.fields.find(
+                    (target) =>
+                      target.document_id === preview.document_id &&
+                      target.key === preview.key,
+                  )?.bbox,
               )}
               selected={
                 c.fields.find(
@@ -882,6 +937,7 @@ export function ClaimDetail({
               select={() => {}}
               zoom={zoom}
               focusKeys={[preview.key]}
+              allowReferencePosition={false}
             />
           </div>
         </div>
@@ -965,8 +1021,8 @@ function NormalizedRow({
   const needs = !f.confirmed_by && f.review_reasons.length > 0;
   return (
     <tr className={needs ? "review-needed" : ""}>
-      <td>{label(f.key)}</td>
-      <td>
+      <td title={label(f.key)}>{label(f.key)}</td>
+      <td title={display(f)}>
         {editing ? (
           <>
             <input
@@ -1010,13 +1066,9 @@ function NormalizedRow({
         {error && <small role="alert">{error}</small>}
       </td>
       <td>
-        {docLabels[f.doc_type]}
+        {f.method === "data" ? "실손24" : docLabels[f.doc_type]}
         <small>
-          {f.method === "data"
-            ? "실손24"
-            : f.method === "ocr"
-              ? "OCR"
-              : "Parse"}
+          {f.method === "data" ? "" : f.method === "ocr" ? "OCR" : "Parse"}
         </small>
       </td>
       <td>

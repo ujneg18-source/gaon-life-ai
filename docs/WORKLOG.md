@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19b · 전체 UX 검수 반영
+- 관련 요구사항: FR-20~35, NFR-08
+- 한 일: 수정 전 UX 보고서에13건을 기록하고 명확한11건을 수정했다. 내부 항목명·날짜·41px 필드표·56px 인박스·툴팁·원본 창 키보드·초안 조사/타이핑·발송 피드백·공유 이슈/이력 표시를 보완했다. 큰 구조 제안2건은 미적용으로 남겼다.
+  대조는 엔진과 같은 접수 환자명/진료 기간 양 끝/활성 규칙을 사용한다. 명확한 청구 지시어만 도구에 연결하고 나머지는 기존 모델 분류/거절 판단을 유지한다. 알려지지 않은 서류는 누락 서류로 바꾸지 않고 템플릿 목록만 안내한다. 코드와 실제 추출 좌표를 보존하며 화면에서만 가독성을 바꾼다.
+- 바뀐 파일: backend/app/agent/{graph,claim_answer}.py, services/{workspace,claim_status,presentation}.py, config.py, tests/test_demo_polish.py, frontend/components/{claim-screens,chat-screen,review-screen,operations-screens,onboarding-tour}.tsx, lib/workspace.ts, scripts/check-typing.mjs, globals.css, AGENTS.md/.env.example, docs/{implementation_objects,decisions,06_eval_plan,WORKLOG}.md, TODO.md, artifacts/demo/
+- 확인 방법: pytest135 passed/live1 제외, Ruff 검사/포맷, 프론트 lint/type/format, next build --webpack 통과. 실제 훅 가상 시계로50자/초·건너뛰기·reduced-motion 검증. CUA로 로그인~관리자, 네 맥락 질문/복사/지급 거절, 빈 상태/오류/모의 발송/이관 상태, 필터/페이지/스크롤172.5복원,1440/1920와 투어 확인. PNG39장 경로는 artifacts/demo/README.md.
+- 남은 문제 · 질문: 대조 항목별 접기와 문서별 필드 접기는 사용자 결정 제안으로 남겼다. OS 모션 설정과 저장 차단 브라우저는 직접 변경하지 않았고 해당 분기는 코드/가상 시계/예외 처리로 검증했다. 검수 상태는13청구/29서류·요청0·단계0으로 복구, 김유정7/8 보완 요청이다. Upstage 외부0회/문서0페이지, 추가 추정$0. 정상 실행 모드로 복귀했다. 홀드아웃/평가/안전 가드/KB/기존 T18 산출물은 불변.
+
 ## 2026-10-16 · T-19a · 시연 전 화면·기능 보완
 - 관련 요구사항: FR-20~35, NFR-08
 - 한 일: ui-v2-before-demo 태그와 feat/demo-polish 브랜치를 만들었다. 상태를 실제 누락 기준의 공통 함수로 통일하고 누락 확인만으로 자동 통과하는 오류를 막았다. 실제 값 대조 표/원본 위치, 공유 확인 사항, 밀도 높은 표/인박스 10건 페이징, 고객 맥락 질문/분리 초안/타이핑, 화면별 코치마크를 추가했다.
