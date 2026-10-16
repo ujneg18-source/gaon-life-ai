@@ -2690,3 +2690,43 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* 비교 원본과 같은 순서의 문서별 표를 둔다. 스크롤은 각 문서 안에서만 움직인다. */
+.normalized-documents {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+.normalized-documents.split {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.normalized-document {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.normalized-document + .normalized-document {
+  border-left: 1px solid var(--line);
+}
+.normalized-document > h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  margin: 0;
+  font-size: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.normalized-document > h3 small {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.normalized-documents.split .field-table {
+  min-width: 420px;
+}

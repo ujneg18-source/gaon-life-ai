@@ -497,36 +497,60 @@ export function ReviewScreen({
                   {fields.length}개 항목
                 </small>
               </div>
-              {/* 문서/비교 대상이 바뀌면 DOM 스크롤 컨테이너를 새로 만들어 항상 첫 행부터 보여준다. */}
+              {/* 원본과 같은 문서 순서로 나누고 문서별 스크롤/수정 상태를 분리한다. */}
               <div
-                className="field-scroll"
-                key={
-                  docs.map((d) => d.id).join("-") +
-                  (comparing ? `-issue-${issue.id}` : "-single")
-                }
+                className={`normalized-documents ${comparing ? "split" : ""}`}
               >
-                <table className="work-table field-table">
-                  <thead>
-                    <tr>
-                      <th>항목</th>
-                      <th>값</th>
-                      <th>출처</th>
-                      <th>신뢰도</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {fields.map((f) => (
-                      <FieldCell
-                        key={`${f.id}-${f.confirmed_value}`}
-                        f={f}
-                        readOnly={readOnly}
-                        done={resource.reload}
-                        select={() => setSelected(f.id)}
-                        active={selected === f.id}
-                      />
-                    ))}
-                  </tbody>
-                </table>
+                {docs.map((d) => {
+                  const documentFields = fields.filter(
+                    (f) => f.document_id === d.id,
+                  );
+                  return (
+                    <section
+                      className="normalized-document"
+                      key={d.id}
+                      aria-label={`${docLabels[d.doc_type]} 정규화 결과`}
+                    >
+                      {comparing && (
+                        <h3>
+                          {docLabels[d.doc_type]}{" "}
+                          <small>{documentFields.length}개 항목</small>
+                        </h3>
+                      )}
+                      {/* 비교 대상이 바뀌면 각 문서의 스크롤도 첫 행부터 시작한다. */}
+                      <div
+                        className="field-scroll"
+                        key={`${d.id}-${issue?.id ?? "single"}`}
+                      >
+                        <table
+                          className="work-table field-table"
+                          aria-label={`${docLabels[d.doc_type]} 정규화 결과`}
+                        >
+                          <thead>
+                            <tr>
+                              <th>항목</th>
+                              <th>값</th>
+                              <th>출처</th>
+                              <th>신뢰도</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {documentFields.map((f) => (
+                              <FieldCell
+                                key={`${f.id}-${f.confirmed_value}`}
+                                f={f}
+                                readOnly={readOnly}
+                                done={resource.reload}
+                                select={() => setSelected(f.id)}
+                                active={selected === f.id}
+                              />
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  );
+                })}
               </div>
             </section>
             <section
