@@ -1,3 +1,10 @@
+## 2026-10-16 · T-19n · 숫자 미제공 신뢰도 등급 표시 복원
+- 관련 요구사항: FR-19~20, SCR-12
+- 한 일: 숫자 점수가 없는 실제 high/low 정보까지 대시로 가리던 표시를 고쳤다. 숫자 점수는 %로, 숫자가 없으면 원래 높음/낮음 등급으로 표시한다. 실손24 정형 데이터와 신뢰도 자체가 없는 경우만 대시다. 확인 이유는 신뢰도 셀 툴팁으로 유지한다.
+- 바뀐 파일: frontend/lib/workspace.ts, frontend/components/review-screen.tsx, frontend/lib/tours.ts
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA 진단서7개 항목 높음 표시, 실손24 영수증10개 항목 대시 확인. artifacts/ui-cleanup/confidence.jpg. 별도 추출/유료 API 호출 없음.
+- 남은 문제 · 질문: 현재 API는 high/low만 제공하며 임의의 숫자 확률은 만들지 않는다.
+
 ## 2026-10-16 · T-19m · 비교 안내 높이와 긴 품목명 레이아웃 보정
 - 관련 요구사항: FR-19~20, SCR-12
 - 한 일: 긴 품목명이 18px 큰 글자와 flex 축소로 여러 줄로 꺾이던 안내를 14px 한 줄/말줄임/전체값 툴팁으로 바꿨다. 비교 시 양쪽 안내 칸을46px, 문서 제목 칸을52px로 맞춰 원본 시작 높이가 다르지 않게 했다.

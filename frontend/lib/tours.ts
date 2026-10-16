@@ -98,7 +98,7 @@ export const tours: Record<string, TourStep[]> = {
       target: "review-normalized",
       title: "정규화 결과",
       description:
-        "항목, 값, 출처, 신뢰도를 각각 확인하세요. 숫자 점수가 제공되지 않은 항목은 대시로 표시해요.",
+        "항목, 값, 출처, 신뢰도를 각각 확인하세요. 숫자 점수가 없으면 높음/낮음으로 표시하고, 실손24 정형 데이터는 대시로 표시해요.",
     },
     {
       target: "review-issues",

@@ -24,7 +24,8 @@ import {
   docLabels,
   display,
   label,
-  confidencePercent,
+  confidenceDisplay,
+  reason,
 } from "@/lib/workspace";
 import { useResource, LoadState, PageTitle } from "./workspace-ui";
 
@@ -315,13 +316,24 @@ function FieldCell({
         </span>
       </td>
       <td
+        className={
+          f.method === "data"
+            ? "muted"
+            : f.extract_conf === "low"
+              ? "warn"
+              : f.extract_conf === "high"
+                ? "ok"
+                : "muted"
+        }
         title={
-          f.extract_conf === "low"
-            ? "추출 신뢰도 낮음 · 숫자 점수 미제공"
-            : "숫자 점수 미제공"
+          f.method === "data"
+            ? "실손24 정형 데이터는 추출 신뢰도 대상이 아니에요."
+            : f.review_reasons.length
+              ? f.review_reasons.map(reason).join(" · ")
+              : "API가 제공한 추출 신뢰도예요."
         }
       >
-        {confidencePercent(f)}
+        {confidenceDisplay(f)}
       </td>
     </tr>
   );

@@ -217,10 +217,15 @@ export function ruleLabel(code: string) {
   );
 }
 
-/** 실제 숫자 점수만 백분율로 표시한다. high/low를 가짜 확률로 바꾸지 않는다. */
-export function confidencePercent(f: FieldRow): string {
-  if (f.method === "data" || f.confidence_score == null) return "—";
+/** 실제 숫자가 없을 때는 API의 high/low를 보존한다. 확률을 임의로 만들지 않는다. */
+export function confidenceDisplay(f: FieldRow): string {
+  if (f.method === "data") return "—";
   const score = f.confidence_score;
-  if (!Number.isFinite(score) || score < 0 || score > 100) return "—";
-  return `${Number((score <= 1 ? score * 100 : score).toFixed(1))}%`;
+  if (score != null && Number.isFinite(score) && score >= 0 && score <= 100)
+    return `${Number((score <= 1 ? score * 100 : score).toFixed(1))}%`;
+  return f.extract_conf === "high"
+    ? "높음"
+    : f.extract_conf === "low"
+      ? "낮음"
+      : "—";
 }
