@@ -12,9 +12,11 @@ def clean(text):
     return text.replace("·", " 및 ").replace("→", ", ").strip(" :.,")
 
 
-def render_claim(claim, issues, documents, config):
+def render_claim(claim, issues, documents, config, *, as_rows=False):
     """규칙 결과별 표시 템플릿. 같은 진단서의 코드 원인만 합치고 서로 다른 이슈는 보존한다."""
     if not claim["submitted_count"]:
+        if as_rows:
+            return []
         return f"{claim['customer_name']}({claim['claim_id']}) 고객님은 아직 서류를 제출하지 않았습니다.\n\n서류가 접수되면 필요한 서류와 검토 사항을 확인하겠습니다.\n\n필요하시다면 접수 안내를 진행해 주세요."
     by_type = {}
     for doc in documents:
@@ -69,6 +71,19 @@ def render_claim(claim, issues, documents, config):
         )
 
     rows = []
+    display_rows = [
+        {
+            **i,
+            "id": i["id"],
+            "kind": i["kind"],
+            "title": clean(i["title"])
+            .replace(" 미제출", " 누락")
+            .replace("필수 서류 미제출: ", ""),
+            "detail": "보완 요청이 필요합니다.",
+            "doc_ids": i["doc_ids"],
+        }
+        for i in missing
+    ]
     code_issue = next((i for i in issues if i["rule_id"] == "FIELD-diagnosis_code"), None)
     merged = set()
     if code_issue:
@@ -154,6 +169,22 @@ def render_claim(claim, issues, documents, config):
             body = body.rstrip(".") + "."
         priority = 2 if kind == "info" else 1 if kind == "excluded_item" else 0
         rows.append((priority, title, body))
+        display_rows.append(
+            {
+                **issue,
+                "related_ids": sorted(merged) if rule == "FIELD-diagnosis_code" else [],
+                "id": issue["id"],
+                "kind": kind,
+                "title": title,
+                "detail": body,
+                "doc_ids": issue["doc_ids"],
+            }
+        )
+    if as_rows:
+        return sorted(
+            display_rows,
+            key=lambda i: {"missing": 0, "excluded_item": 2, "info": 3}.get(i["kind"], 1),
+        )
     if rows:
         blocks.append("그 외 검토 사항은 다음과 같습니다.")
         for n, (_, title, body) in enumerate(sorted(rows, key=lambda row: row[0]), 1):

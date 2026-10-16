@@ -127,7 +127,7 @@ class Tools:
                     else None,
                     "submitted_count": view["submitted_count"],
                     "required_count": view["required_count"],
-                    "status": row.status,
+                    "status": view["status"],
                 }
             )
         return result
@@ -138,10 +138,13 @@ class Tools:
 
         from app.models import ClaimStatus
 
-        query = select(Claim.status)
+        query = select(Claim)
         if self.user.role != Role.ADMIN:
             query = query.where(Claim.assignee_id == self.user.id)
-        counts = Counter(self.session.exec(query).all())
+        counts = Counter(
+            detail(self.session, row, self.config)["status"]
+            for row in self.session.exec(query).all()
+        )
         needs = counts[ClaimStatus.NEEDS_REVIEW]
         supplement = counts[ClaimStatus.SUPPLEMENT]
         return {"needs_review": needs, "supplement": supplement, "total": needs + supplement}
@@ -199,10 +202,11 @@ class Tools:
                         if document_label(code, self.config) in issue["title"]
                     )
         chosen = doc_types or sorted(allowed)
-        if not chosen or any(code not in allowed for code in chosen):
+        if not chosen:
             return {
-                "message": "현재 누락 목록에서 요청할 서류를 선택해 주세요.",
-                "citations": [citation(templates[0]).model_dump()],
+                "message": "추가로 요청할 누락 서류가 없어요. 요청할 서류명을 말씀해 주세요.",
+                "citations": [],
+                "draft_text": None,
             }
         messages = []
         for code in chosen:
@@ -211,12 +215,25 @@ class Tools:
                 r"### " + re.escape(title) + r"[^\n]*\n(.*?)(?=\n### |\Z)", text, re.DOTALL
             )
             if not match:
-                return {"message": "관련 규정을 찾지 못했어요", "citations": []}
+                return {
+                    "message": "이 서류의 보완 요청 템플릿은 없어요. 사용할 수 있는 서류는 "
+                    + ", ".join(re.findall(r"^### (.+)$", text, re.MULTILINE))
+                    + "예요.",
+                    "citations": [],
+                    "draft_text": None,
+                }
             messages.append(
                 match.group(1).strip().replace("{고객명}", claim.customer_name).replace("**", "")
             )
         return {
             "message": "\n\n".join(messages),
+            "draft_text": "\n\n".join(messages),
+            "submitted": [
+                document_label(code, self.config)
+                for code in chosen
+                if any(d.doc_type == code for d in self.documents(claim_id))
+            ],
+            "customer_name": claim.customer_name,
             "citations": [citation(templates[0]).model_dump()],
         }
 

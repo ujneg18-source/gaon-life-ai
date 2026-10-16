@@ -134,3 +134,46 @@
 - `DisplayClaimRef`는 기존 claim_id/issue_id에 사람이 읽는 `label`을 더한 객체다. 본문에 언급한 항목만 화면 링크로 내보내고, 병합한 질병코드 원인은 대표 링크 하나로 남긴다.
 - `ChatScreen`은 같은 표시 근거 배열로 요약 카드와 오른쪽 원문 패널을 렌더링한다. 세션은 React 메모리에만 있어 새로고침/로그아웃 후 재로그인 시 사라진다. demo_reset은 이번 범위에 포함하지 않는다.
 - 청구 맥락의 지급 거절문은 DB 이슈에서 목록을 만들고 LLM 말투 재생성을 거치지 않는다. 거절 판단 가드/권한/평가 기준은 그대로다.
+
+
+## T-19 시연 보완 객체
+- `claim_status.claim_status`는 현재 필수서류 누락을 사람 확인보다 먼저 적용한다. 목록과 상세는 `workspace.detail`, 챗봇 `Tools.get_claim/get_workload`도 같은 읽기 모델을 사용한다. 처음부터 이슈가 없는 건의 자동 통과와 확인 후 이관 가능한 `ready_review`를 구분한다. `to_payment_review`는 심사 이관 상태이며 지급 승인이 아니다.
+- `workspace.comparisons`는 켜진 대조 규칙과 저장된 서류 값을 사용한다. 환자명은 엔진과 같이 청구 접수정보를 기준으로 각 서류와 대조한다. 보장 기간은 진료/입퇴원 시작일과 종료일을 함께 확인한다. 표의 숫자는 대조 행에서 집계하며 별도 시드 상태나 특정 고객명을 사용하지 않는다.
+- `render_claim(..., as_rows=True)`는 챗봇과 상세/문서 분석 화면이 공유하는 표시 행이다. 같은 진단서의 질병코드 원인만 합치며 `related_ids`에 함께 설명한 실제 이슈 ID를 담는다. 사람이 그 항목을 확인하면 해당 ID들만 확인한다. 누락 확인은 제출을 대신하지 않는다.
+- `ChatAnswer.draft_text`는 고객에게 보낼 표준 문구만 담는다. `answer`의 이미 제출 안내, 템플릿 없음 안내와 분리한다. 명시한 서류가 알려지지 않은 경우 누락 서류로 바꿔 요청하지 않고 템플릿 목록을 안내한다.
+- `useTyping`은 받은 본문을 초당50글자로 표시한다. API 스트리밍이나 답변 생성 변경이 아니다. 클릭/키보드 건너뛰기와 prefers-reduced-motion을 지원하고 초안 타이핑이 끝나야 편집/복사한다. 가상 시계 단위 검증은 `node scripts/check-typing.mjs`다.
+- `tours.ts`는 네 화면의 단계 데이터, `OnboardingTour`는 마스크·위치·키보드·localStorage 실패 처리를 맡는다. 투어가 없는 화면에는 작동하지 않는 안내 버튼을 남기지 않는다.
+- `Original`은 비교 원본에도 재사용한다. 기본값은 추출 좌표만 사용하며 좌표가 없으면 이미지와 위치 정보 없음만 표시한다. 문서2페이지의 좌표는 그 페이지에서 시작한다. 모달은 Esc·Tab 제한과 초점 복원을 지원한다.
+- 인박스는 URL로 필터/페이지를 보존하고 sessionStorage에 해당 URL/스크롤을 저장한다. 출처는 `SHOW_DEV_BADGE` 기본false, `DEMO_MODE`에서 항상 숨기며 DB provenance는 유지한다.
+
+## T-19l 보완 안내 공통 객체
+- `SupplementTemplates`: KB_PATH의 기존 파서 결과 중 보완 표준 문구를 조회하는 로컬 어댑터다. 원문/평가셋/인덱스를 수정하지 않고 Qdrant·임베딩·LLM도 열지 않는다.
+- `claim_supplement_draft`: 챗봇의 Tools.draft_supplement(claim_id, [])를 호출한다. 고객 권한과 저장된 누락 이슈를 동일하게 읽고 같은 고객명/템플릿 문구를 반환한다.
+- 보완 API: GET /api/supplements?claim_id=...는 권한 범위와 선택 청구를 모두 검사한다. POST /api/claims/{id}/supplements는 요청할 실제 누락이 있을 때만 초안을 생성/미발송 초안 재생성한다. 이미 발송된 요청은 덮어쓰지 않는다.
+- `SupplementScreen`: 선택 청구별 응답 URL을 사용하며 응답 URL이 바뀌면 이전 고객을 로딩 상태 뒤로 숨긴다. 카드/편집기에도 선택 청구 필터를 적용한다. 새 서버 문구는 같은 초안 ID여도 편집기에 반영하고 모의 발송 피드백은 유지한다.
+
+
+## T-19p/q 최신 보완 객체 (앞선 T-19l 설명 대체)
+- claim_supplement_draft는 config의 SUPPLEMENT_MESSAGE_TEMPLATES 고정 JSON을 사용한다. 고객·계약·누락 서류를 검증해 실제 정보로 채우며 챗봇/LLM/벡터 검색 호출은 없다.
+- workspace.field_confidences는 Extract choices[0].confidence_score의 JSON 문자열/객체에서 _value만 읽는다. 중첩 배열은 Field.key와 같은 경로로 평탄화하며 invalid/범위 밖/문맥 점수는 제외한다.
+- SupplementScreen은 검색된 고객 요약을 왼쪽, 실제 발송·접수 이력과 편집기를 오른쪽에 둔다. 생성 응답을 즉시 편집기에 연결하며 고객 선택 드롭다운은 없다.
+- Original은 비교 문서별 배율과 포인터 드래그 스크롤을 분리한다. 서류 정보는 문서별 탭과 이슈 field_keys만 모은 비교 항목 탭으로 한 표씩 표시한다. 탭/이슈 변경 시 첫 행으로 돌아간다.
+
+
+## T-19r 독립 온보딩 객체
+- OnboardingTour: 페이지 경로로7개 안내를 구분하고 iframe을 수동으로 연다. 동일 origin + 해당 frame의 종료 메시지만 받고 포커스를 ?로 돌려준다. 재시작은 항상 첫 단계다.
+- GuidePlayer: 스포트라이트·문구·앞/뒤/종료·Esc/방향키/Tab 초점 순환을 담당한다. 강조 대상의 크기에 따라 투명창과 설명 위치를 계산하며 단계에 맞는 예시 화면을 준비한다.
+- GuideContext/useResource: 가상 응답을 즉시 읽으며 실제 fetch 효과를 실행하지 않는다. 컨텍스트가 없는 일반 화면은 기존 동작을 유지한다. api와 파일 업로드에도 안내 경로 차단을 둔다.
+- HomeScreen/WorkspaceShell/ClaimDetail/ReviewScreen/ChatScreen/SupplementScreen/HistoryScreen은 원래 화면과 안내가 공유한다. guideStep, guideIssue와 preview는 안내 인스턴스만 사용한다. 대화는 저장된 시연 원문이고 LLM 호출이 없다.
+- 상세 검색 결과,5개 메뉴,표의 각 열,제출/추출/대조/메모/완료,문자 양식/이력에 data-tour 대상을 명시해 설명 범위를 좁혀 이동한다.
+
+## T-19s 챗봇과 안내 가독성
+- AppHeader는 챗봇/안내의 한 줄 브랜드·이동 링크를 제공한다. ChatScreen은 실제 세션 startedAt을 KST 오늘/지난7일/이전 대화로 표시하며, 서버 initialTime으로 수화 시각을 맞춘다. 질문 바로가기는 실제 질문 수만큼 생기고 클릭 시 해당 질문과 근거를 선택한다. 세션은 메모리만 사용한다.
+- TourStep.details는 이름/설명 행, placement는 메인 카드 아래 좌/우 배치 우선순위다. 표 설명은 머리글+데이터 영역을 묶는다. 좁은 안내 화면은 두 데이터 행과 내부 스크롤 영역을 사용한다. 안내 메모는 빈 예시이며 실제 업무 데이터와 독립이다. 전체62단계, 각 페이지별 ?와 단독 종료는 유지한다.
+
+## T-19v 도움말과 출처 목록
+- OnboardingTour의60px 물음표는 가이드라인/어시스턴트/데이터 출처 메뉴를 연다. 안내는 기존 iframe 격리를 사용하고, 챗봇 링크는 claim 파라미터를 유지한다. 출처 화면의 가이드라인은 메인 안내를 연다.
+- /data-sources는14개 자료 카드를 공개 표준약관5/시연 문서7/시연 데이터2로 나눠 보여준다. /data-sources/[source]는 protected 인증 아래 lib/data-sources.ts의 허용 목록에 있는12개 파일만 읽는다. 요청 문자열로 파일 경로를 구성하지 않으며 미등록 ID는404다. 나머지2개 데이터 카드는 가상 데이터 제작/모의 연계 설명만 보여준다. 원본 KB/평가 정답은 수정하지 않는다.
+
+- 안내 iframe은 처음 opacity0이며 GuidePlayer가 글꼴 준비와 배치 반영 뒤 gaon-guide-ready를 부모에 보낸다. 부모는 origin/source 일치 후에만 표시하고180ms 페이드를 적용한다. 메인/어시스턴트 첫 소개는 중앙 모달, 나머지는 기존 강조 배치다. 안내 폭438px/좁은 화면390px/첫 메인610px, 본문 글자 크기는 유지했다.
+- 메인 실제 콘텐츠 폭1040px/카드 최소350px/제목42px로 확대했다. 안내와 실제 화면은 같은 HomeScreen/CSS를 사용하며 메인 안내 모달 크기는 별도로 유지한다.

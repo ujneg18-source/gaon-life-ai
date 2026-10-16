@@ -54,7 +54,7 @@ def present(agent, state):
     # 고객에게 보내는 문자 원문은 그대로 편집하고, 화면에만 출처 설명을 붙인다.
     display_text = text
     if result.intent == "draft" and result.citations:
-        display_text = "(업무 기준: 보완 요청 표준 문구 2장)\n\n" + text
+        display_text = text + "\n\n(업무 기준: 보완 요청 표준 문구 2장)"
     if result.refused and result.citations:
         source = result.citations[0]
         if "매뉴얼" in source.doc_name:

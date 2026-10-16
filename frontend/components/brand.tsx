@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /** 원본 HTML의 하트 안 십자가를 그대로 표현하는 브랜드 로고. */
-export function Brand() {
+export function Brand({ badge = "AI" }: { badge?: string }) {
   return (
     <Link href="/" className="brand" aria-label="가온생명 AI 홈">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -21,7 +21,7 @@ export function Brand() {
         <rect x="8.2" y="9.9" width="7.6" height="2.2" rx=".5" fill="#FFFFFF" />
       </svg>
       <span>가온생명</span>
-      <small>AI</small>
+      <small>{badge}</small>
     </Link>
   );
 }

@@ -1,0 +1,80 @@
+{
+  "before": {
+    "stored_status": "auto_pass",
+    "issue_states": [
+      {
+        "rule": "CV-04",
+        "kind": "missing",
+        "status": "resolved",
+        "human_confirmed": true
+      },
+      {
+        "rule": "FIELD-diagnosis_code",
+        "kind": "low_conf",
+        "status": "resolved",
+        "human_confirmed": true
+      },
+      {
+        "rule": "CV-01",
+        "kind": "mismatch",
+        "status": "resolved",
+        "human_confirmed": true
+      },
+      {
+        "rule": "CV-03",
+        "kind": "mismatch",
+        "status": "resolved",
+        "human_confirmed": true
+      },
+      {
+        "rule": "CV-02",
+        "kind": "info",
+        "status": "resolved",
+        "human_confirmed": true
+      },
+      {
+        "rule": "coverage",
+        "kind": "excluded_item",
+        "status": "resolved",
+        "human_confirmed": true
+      }
+    ]
+  },
+  "restored": {
+    "claims": 13,
+    "documents": 29,
+    "supplement_requests": 0,
+    "kim_status": "supplement",
+    "kim_submitted": 7,
+    "kim_required": 8
+  },
+  "comparisons": {
+    "김유정": {
+      "total": 16,
+      "results": {
+        "match": 11,
+        "mismatch": 4,
+        "info": 1,
+        "na": 0
+      }
+    },
+    "이가온": {
+      "total": 8,
+      "results": {
+        "match": 8,
+        "mismatch": 0,
+        "info": 0,
+        "na": 0
+      }
+    },
+    "한누리": {
+      "total": 6,
+      "results": {
+        "match": 6,
+        "mismatch": 0,
+        "info": 0,
+        "na": 0
+      }
+    }
+  }
+}

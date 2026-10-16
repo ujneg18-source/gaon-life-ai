@@ -16,6 +16,7 @@ from app.models import (
     DocumentSource,
     ExtractedField,
     Issue,
+    IssueKind,
     IssueStatus,
     Role,
     utc_now,
@@ -129,6 +130,11 @@ def confirm_field(
 def resolve_issue(issue_id: int, user: CurrentUser, session: SessionDep, request: Request):
     issue = session.get(Issue, issue_id)
     claim = access(issue, user, session, write=True)
+    if issue.kind == IssueKind.MISSING:
+        # 확인 버튼은 제출을 대신하지 않는다. 원래 이슈를 열린 상태로 유지한다.
+        review_from_db(session, claim, request.app.state.settings)
+        session.commit()
+        return {"id": issue.id, "status": issue.status}
     if issue.status == IssueStatus.OPEN:
         issue.status = IssueStatus.RESOLVED
         issue.resolved_by = user.id

@@ -1,0 +1,101 @@
+{
+  "message": "안녕하세요. {customer_name} 고객님!\n가온생명입니다. 접수하신 보험금 청구 서류를 검토하던 중 추가로 필요한 서류가 있어 안내드립니다.\n\n[청구 접수 내용]\n청구번호: {claim_id}\n가입 상품: {product_name}\n청구 내용: {claim_types}\n접수일: {received_date}\n\n[추가로 필요한 서류: 총 {document_count}개]\n{document_details}\n\n[제출 방법]\n서류가 준비되시면 가온생명 앱의 [서류 추가 제출] 메뉴에서 위 청구번호의 접수 건을 선택해 올려 주세요.\n이미 발급받은 서류가 있다면 안내된 기재 사항을 확인한 뒤 제출하실 수 있습니다. 아직 발급받지 않으셨다면 위 발급처에 문의해 주세요.\n사진으로 제출하실 때에는 서류의 네 모서리와 글자가 선명하게 보이도록 촬영해 주세요.\n\n제출해 주시면 담당자가 서류를 확인한 뒤 검토를 이어가겠습니다. 이번 안내는 서류 보완을 위한 것으로, 보험금 지급 여부와 금액은 별도 심사를 통해 안내드립니다.\n발급이나 제출 과정에서 궁금한 점이 있으시면 가온생명 앱의 문의 메뉴 또는 담당자에게 문의해 주세요.\n감사합니다. 가온생명 드림.",
+  "documents": {
+    "diagnosis": {
+      "issuer": "진단받으신 병원 원무과",
+      "description": "진단명, 질병분류기호, 진단일 및 담당 의사의 확인이 기재된 진단서"
+    },
+    "pathology": {
+      "issuer": "검사를 받으신 병원 원무과 또는 병리과",
+      "description": "병리 진단명과 보고일이 기재된 조직검사 결과지"
+    },
+    "admission": {
+      "issuer": "입원하셨던 병원 원무과",
+      "description": "환자 성명, 입원일과 퇴원일이 기재된 입퇴원확인서"
+    },
+    "surgery_cert": {
+      "issuer": "수술받으신 병원 원무과",
+      "description": "수술명과 수술일이 기재된 수술확인서"
+    },
+    "medical_receipt": {
+      "issuer": "진료받으신 병원 수납 창구",
+      "description": "진료일과 납부 금액이 기재된 진료비 계산서·영수증"
+    },
+    "medical_detail": {
+      "issuer": "진료받으신 병원 원무과",
+      "description": "항목별 진료 내역과 금액이 기재된 진료비 세부내역서"
+    },
+    "prescription": {
+      "issuer": "처방받으신 병원 원무과",
+      "description": "처방 의약품명과 질병분류기호가 기재된 처방전 사본"
+    },
+    "pharmacy_receipt": {
+      "issuer": "약을 조제받으신 약국",
+      "description": "조제일, 약품 내역 및 금액이 기재된 약제비 영수증"
+    },
+    "outpatient": {
+      "issuer": "통원하신 병원 원무과",
+      "description": "통원 진료일이 기재된 통원확인서"
+    },
+    "imaging_report": {
+      "issuer": "검사를 받으신 병원 원무과 또는 영상의학과",
+      "description": "검사명, 검사일 및 판독 소견이 기재된 영상 판독지"
+    },
+    "disability": {
+      "issuer": "진단받으신 병원",
+      "description": "장해 부위와 상태가 기재된 후유장해 진단서"
+    },
+    "death_cert": {
+      "issuer": "해당 서류를 발급한 의료기관",
+      "description": "사망일과 사망 원인이 기재된 사망진단서 또는 시체검안서"
+    },
+    "claim_form": {
+      "issuer": "가온생명 앱 또는 담당자에게 요청한 양식",
+      "description": "청구 내용과 청구인 정보를 작성한 보험금 청구서"
+    },
+    "id_copy": {
+      "issuer": "보유하신 신분증",
+      "description": "명의를 확인할 수 있는 신분증 사본"
+    },
+    "bankbook": {
+      "issuer": "보유하신 통장 또는 이용 은행",
+      "description": "명의와 계좌를 확인할 수 있는 통장 사본"
+    },
+    "family_cert": {
+      "issuer": "행정복지센터 또는 가족관계등록 전자민원 서비스",
+      "description": "관계를 확인할 수 있는 가족관계증명서"
+    },
+    "basic_cert": {
+      "issuer": "행정복지센터 또는 가족관계등록 전자민원 서비스",
+      "description": "해당 사실을 확인할 수 있는 기본증명서"
+    },
+    "poa": {
+      "issuer": "가온생명 담당자에게 요청한 양식",
+      "description": "위임인과 수임인 정보 및 서명이 기재된 위임장"
+    },
+    "seal_cert": {
+      "issuer": "행정복지센터 등 발급 기관",
+      "description": "요청된 용도를 확인한 인감증명서"
+    },
+    "consent": {
+      "issuer": "가온생명 앱 또는 담당자에게 요청한 양식",
+      "description": "필요한 동의 항목과 서명을 작성한 개인정보 동의서"
+    },
+    "accident_report": {
+      "issuer": "사고를 접수한 경찰서 등 관련 기관",
+      "description": "사고 일시와 사실관계를 확인할 수 있는 사고 사실확인원"
+    },
+    "accident_statement": {
+      "issuer": "가온생명 담당자에게 요청한 양식",
+      "description": "사고 일시와 경위를 작성한 사고 경위서"
+    },
+    "medical_record": {
+      "issuer": "진료받으신 병원 의무기록 발급 창구",
+      "description": "담당자가 요청한 진료기록 사본"
+    },
+    "other": {
+      "issuer": "가온생명 담당자에게 문의",
+      "description": "추가 확인이 필요한 서류"
+    }
+  }
+}

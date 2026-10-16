@@ -1,0 +1,50 @@
+{
+  "emptyChecks": [
+    {
+      "section": "detail",
+      "customerLinks": 0,
+      "message": "검색한 뒤 청구를 선택하면 업무를 시작할 수 있어요."
+    },
+    {
+      "section": "review",
+      "customerLinks": 0,
+      "message": "검색한 뒤 청구를 선택하면 업무를 시작할 수 있어요."
+    },
+    {
+      "section": "supplement",
+      "customerLinks": 0,
+      "message": "검색한 뒤 청구를 선택하면 업무를 시작할 수 있어요."
+    },
+    {
+      "section": "history",
+      "customerLinks": 0,
+      "message": "검색한 뒤 청구를 선택하면 업무를 시작할 수 있어요."
+    }
+  ],
+  "searchChecks": [
+    {
+      "section": "detail",
+      "url": "http://127.0.0.1:3000/workspace/detail?q=C001",
+      "count": 1,
+      "href": "/workspace/detail?claim=GA-2610-0482"
+    },
+    {
+      "section": "review",
+      "url": "http://127.0.0.1:3000/workspace/review?q=C001",
+      "count": 1,
+      "href": "/workspace/review?claim=GA-2610-0482"
+    },
+    {
+      "section": "supplement",
+      "url": "http://127.0.0.1:3000/workspace/supplement?q=C001",
+      "count": 1,
+      "href": "/workspace/supplement?claim=GA-2610-0482"
+    },
+    {
+      "section": "history",
+      "url": "http://127.0.0.1:3000/workspace/history?q=C001",
+      "count": 1,
+      "href": "/workspace/history?claim=GA-2610-0482"
+    }
+  ]
+}

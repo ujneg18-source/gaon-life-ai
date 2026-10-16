@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import {
   ClipboardList,
   FileText,
@@ -11,7 +10,6 @@ import {
   Settings2,
   Search,
   MessageSquareText,
-  CircleHelp,
   ArrowLeft,
 } from "lucide-react";
 import { workspacePages } from "@/lib/navigation";
@@ -21,15 +19,17 @@ const menuIcons = [ClipboardList, FileText, ScanLine, Send, History, Settings2];
 export function WorkspaceShell({
   admin,
   children,
+  guidePath,
 }: {
+  guidePath?: string;
   admin: boolean;
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
+  const currentPath = usePathname();
+  const pathname = guidePath ?? currentPath;
   const search = useSearchParams();
   const router = useRouter();
   const claim = search.get("claim");
-  const [help, setHelp] = useState(false);
 
   return (
     <div className="workspace-shell">
@@ -38,26 +38,29 @@ export function WorkspaceShell({
           <ArrowLeft size={15} />
           메인으로
         </Link>
-        <p className="eyebrow sidebar-label">WORKSPACE</p>
-        <nav>
-          {workspacePages.map((page, i) => {
-            if ("adminOnly" in page && page.adminOnly && !admin) return null;
-            const base = `/workspace${page.slug ? `/${page.slug}` : ""}`;
-            const href = base + (page.slug && claim ? `?claim=${claim}` : "");
-            const Icon = menuIcons[i];
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`nav-item ${pathname === base ? "active" : ""}`}
-                aria-current={pathname === base ? "page" : undefined}
-              >
-                <Icon size={19} strokeWidth={1.7} />
-                {page.title}
-              </Link>
-            );
-          })}
-        </nav>
+        <div data-tour="workspace-navigation">
+          <p className="eyebrow sidebar-label">WORKSPACE</p>
+          <nav>
+            {workspacePages.map((page, i) => {
+              if ("adminOnly" in page && page.adminOnly && !admin) return null;
+              const base = `/workspace${page.slug ? `/${page.slug}` : ""}`;
+              const href = base + (page.slug && claim ? `?claim=${claim}` : "");
+              const Icon = menuIcons[i];
+              return (
+                <Link
+                  data-tour={`workspace-menu-${i + 1}`}
+                  key={href}
+                  href={href}
+                  className={`nav-item ${pathname === base ? "active" : ""}`}
+                  aria-current={pathname === base ? "page" : undefined}
+                >
+                  <Icon size={19} strokeWidth={1.7} />
+                  {page.title}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
         <div className="sidebar-footer">
           가온생명 AI<span>보험금 청구 서류 검토</span>
         </div>
@@ -65,25 +68,36 @@ export function WorkspaceShell({
       <div className="workspace-body">
         <div className="searchbar">
           <form
+            data-tour="workspace-search"
             onSubmit={(event) => {
               event.preventDefault();
               const form = new FormData(event.currentTarget);
               router.push(
-                "/workspace?" +
+                // 개별 업무의 검색 결과를 현재 화면에 표시해 선택한 업무 흐름을 유지한다.
+                ([
+                  "/workspace/detail",
+                  "/workspace/review",
+                  "/workspace/supplement",
+                  "/workspace/history",
+                ].includes(pathname)
+                  ? pathname
+                  : "/workspace") +
+                  "?" +
                   new URLSearchParams({ q: String(form.get("q") ?? "") }),
               );
             }}
           >
-            <Search size={18} aria-hidden="true" />
-            <input
-              name="q"
-              defaultValue={search.get("q") ?? ""}
-              aria-label="고객 이름 · 청구번호 · 증권번호로 검색"
-              placeholder="고객 이름 · 청구번호 · 증권번호로 검색"
-            />
-            <button className="btn sm" type="submit">
-              검색
+            <button className="search-submit" type="submit" aria-label="검색">
+              <Search size={18} aria-hidden="true" />
             </button>
+            <input
+              key={`${pathname}-${search.get("q") ?? ""}`}
+              name="q"
+              type="search"
+              defaultValue={search.get("q") ?? ""}
+              aria-label="고객 이름 · 고객 ID · 청구번호로 검색"
+              placeholder="고객 이름 · 고객 ID · 청구번호로 검색"
+            />
           </form>
         </div>
         <main id="main" className="workspace-content">
@@ -97,33 +111,8 @@ export function WorkspaceShell({
             <MessageSquareText size={18} />
             가온 AI에게 묻기
           </Link>
-          <button
-            className="btn help-button"
-            aria-label="메뉴 안내"
-            aria-expanded={help}
-            aria-controls="workspace-help"
-            onClick={() => setHelp(!help)}
-          >
-            <CircleHelp size={21} />
-          </button>
         </div>
       </div>
-      {help && (
-        <section
-          id="workspace-help"
-          className="help-panel"
-          aria-label="메뉴 안내"
-        >
-          <strong>워크스페이스 안내</strong>
-          <p>
-            왼쪽 메뉴에서 청구 검토·보완·이력을 선택하세요. 운영 관리는
-            관리자에게만 표시됩니다.
-          </p>
-          <button className="btn sm" onClick={() => setHelp(false)}>
-            닫기
-          </button>
-        </section>
-      )}
     </div>
   );
 }

@@ -10,7 +10,6 @@ from app.models import (
     AuditLog,
     Claim,
     ClaimStatus,
-    Customer,
     Document,
     DocumentStatus,
     Issue,
@@ -143,19 +142,23 @@ def list_claims(
         query = query.where(Claim.assignee_id == user.id)
     rows = list(session.exec(query).all())
     if q:
+        # 화면에 안내한 세 식별자만 검색하고 담당자 배정 필터는 그대로 유지한다.
         rows = [
             c
             for c in rows
-            if q.casefold()
-            in f"{c.id} {c.customer_name} {c.policy_no} {session.get(Customer, c.customer_id).birth_date if c.customer_id else ''}".casefold()
+            if q.casefold() in f"{c.id} {c.customer_name} {c.customer_id or ''}".casefold()
         ]
-    counts = {s.value: sum(c.status == s for c in rows) for s in ClaimStatus}
-    counts["total"] = len(rows)
-    selected = [c for c in rows if status is None or c.status == status]
-    return {
-        "items": [detail(session, c, request.app.state.settings) for c in selected],
-        "counts": counts,
-    }
+    views = [detail(session, c, request.app.state.settings) for c in rows]
+    counts = {s.value: sum(c["status"] == s for c in views) for s in ClaimStatus}
+    counts["total"] = len(views)
+    selected = [c for c in views if status is None or c["status"] == status]
+    selected.sort(
+        key=lambda c: (
+            0 if c["status"] in {"supplement", "needs_review"} else 1,
+            -next(row.received_at.timestamp() for row in rows if row.id == c["id"]),
+        )
+    )
+    return {"items": selected, "counts": counts}
 
 
 @router.get("/{claim_id}")
@@ -213,7 +216,10 @@ def claim_issues(claim: ClaimAccess, session: SessionDep):
 
 
 @router.post("/{claim_id}/submit")
-def submit_claim(claim: ClaimWrite, user: CurrentUser, session: SessionDep):
+def submit_claim(claim: ClaimWrite, user: CurrentUser, session: SessionDep, request: Request):
+    from app.services.rules import review_from_db
+
+    review_from_db(session, claim, request.app.state.settings)
     if session.exec(
         select(Issue).where(
             Issue.claim_id == claim.id,

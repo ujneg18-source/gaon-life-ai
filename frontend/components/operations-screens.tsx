@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { formatDateTime, formatDatesInText } from "@/lib/dates";
 import {
@@ -14,10 +13,10 @@ import {
 import {
   api,
   Claim,
-  ClaimList,
   docLabels,
   typeLabels,
   label,
+  ruleLabel,
 } from "@/lib/workspace";
 import { PageTitle, LoadState, Status, useResource } from "./workspace-ui";
 
@@ -29,6 +28,9 @@ type Supplement = {
   channel: string;
   message: string;
   status: string;
+  created_at: string | null;
+  sent_at: string | null;
+  received_at: string | null;
 };
 /** 서버가 만든 초안만 편집한다. 발송은 모의 상태 전이이며 수신자 전송 기능은 없다. */
 function MessageEditor({
@@ -44,6 +46,12 @@ function MessageEditor({
     [channel, setChannel] = useState(row.channel),
     [feedback, setFeedback] = useState(""),
     [busy, setBusy] = useState(false);
+  const [sourceMessage, setSourceMessage] = useState(row.message);
+  // 같은 초안 ID를 재생성해도 서버의 새 문구를 반영하고 발송 피드백은 유지한다.
+  if (sourceMessage !== row.message) {
+    setSourceMessage(row.message);
+    setMessage(row.message);
+  }
   const locked = readOnly || row.status !== "draft";
   async function save(send = false) {
     setBusy(true);
@@ -64,7 +72,7 @@ function MessageEditor({
     }
   }
   return (
-    <section className="panel message-editor">
+    <section className="panel message-editor" data-tour="supplement-editor">
       <div className="panel-heading">
         <h2>{row.customer_name} 고객 안내</h2>
         <Status status={row.status} />
@@ -99,14 +107,19 @@ function MessageEditor({
           <strong>가온생명 보험금 안내</strong>
           <textarea
             aria-label="고객 안내 문구"
+            data-tour="supplement-letter"
             value={message}
             maxLength={2000}
             disabled={locked || busy}
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-        <p className="muted small">안내 문구를 확인한 뒤 모의 발송해 주세요.</p>
-        <div className="action-row">
+        <p className="muted small">
+          {row.status === "sent_mock"
+            ? "모의 발송이 완료됐어요. 보완 서류의 회신을 기다리고 있어요."
+            : "안내 문구를 확인한 뒤 모의 발송해 주세요."}
+        </p>
+        <div className="action-row" data-tour="supplement-send">
           <button
             className="btn"
             disabled={locked || busy || !message.trim()}
@@ -129,39 +142,53 @@ function MessageEditor({
     </section>
   );
 }
+/** 검색으로 정해진 고객만 다루며 생성 응답을 즉시 편집기에 전달한다. */
 export function SupplementScreen({
   claimId,
   readOnly,
 }: {
-  claimId?: string;
+  claimId: string;
   readOnly: boolean;
 }) {
-  const router = useRouter();
-  const resource = useResource<Supplement[]>("/supplements"),
-    claims = useResource<ClaimList>("/claims");
-  const [selected, setSelected] = useState<number | null>(null),
-    [choice, setChoice] = useState(claimId ?? ""),
-    [message, setMessage] = useState(""),
-    [busy, setBusy] = useState(false);
-  if (!resource.data || !claims.data)
-    return <LoadState error={resource.error ?? claims.error} />;
-  const rows = resource.data;
+  const requestUrl = `/supplements?claim_id=${encodeURIComponent(claimId)}`;
+  const resource = useResource<Supplement[]>(requestUrl);
+  const currentClaim = useResource<Claim>(
+    `/claims/${encodeURIComponent(claimId)}`,
+  );
+  const [generated, setGenerated] = useState<Supplement | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  if (!resource.data || !currentClaim.data)
+    return <LoadState error={resource.error ?? currentClaim.error} />;
+  const claim = currentClaim.data;
+  const rows = resource.data.filter((r) => r.claim_id === claimId);
+  const missing = claim.display_issues.filter((i) => i.kind === "missing");
+  const missingNames = [
+    ...new Set(missing.map((i) => i.title.replace(/\s*(?:누락|미제출)$/, ""))),
+  ];
   const row =
+    generated ??
     rows.find((r) => r.id === selected) ??
-    rows.find((r) => r.claim_id === claimId) ??
-    (claimId ? undefined : rows[0]);
+    rows.find((r) => r.status === "draft");
+  const sent = rows.filter((r) => r.status !== "draft");
+  async function refresh() {
+    // 저장/발송 응답 뒤에도 화면은 서버의 최신 내용과 상태를 사용한다.
+    const fresh = await api<Supplement[]>(requestUrl);
+    setGenerated(fresh.find((r) => r.id === row?.id) ?? null);
+    resource.reload();
+  }
   async function create() {
-    if (!choice) return;
     setBusy(true);
+    setMessage("");
     try {
-      const r = await api<Supplement>(`/claims/${choice}/supplements`, {
+      const result = await api<Supplement>(`/claims/${claimId}/supplements`, {
         method: "POST",
       });
-      setSelected(r.id);
-      setChoice(r.claim_id);
-      router.replace(`/workspace/supplement?claim=${r.claim_id}`);
+      setGenerated(result);
+      setSelected(result.id);
       resource.reload();
-      setMessage("누락 서류로 초안을 만들었어요.");
+      setMessage("준비된 안내 양식에 청구 정보를 채웠어요.");
     } catch (e) {
       setMessage((e as Error).message);
     } finally {
@@ -172,73 +199,108 @@ export function SupplementScreen({
     <>
       <PageTitle
         title="보완 처리"
-        description="고객에게 보낼 안내를 확인하고, 보완 요청을 관리해요."
+        description="누락 서류를 확인하고 안내 문자를 작성하세요."
       />
-      <div className="supplement-grid">
-        <aside className="supplement-list">
-          <label className="small muted">
-            청구 선택
-            <select
-              aria-label="보완 청구 선택"
-              value={choice}
-              onChange={(e) => setChoice(e.target.value)}
-            >
-              <option value="">청구를 선택해 주세요</option>
-              {claims.data.items.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.customer_name} · {c.id}
-                </option>
-              ))}
-            </select>
-          </label>
+      <div className="supplement-grid supplement-workspace">
+        <aside
+          className="panel claimant-summary"
+          data-tour="supplement-customer"
+        >
+          <p className="small muted">청구인</p>
+          <h2>{claim.customer_name}</h2>
+          <p className="mono small">{claim.id}</p>
+          <div className="claimant-missing" data-tour="supplement-missing">
+            <strong>
+              누락 서류{" "}
+              <span className="muted small">총 {missingNames.length}개</span>
+            </strong>
+            <p>{missingNames.join(", ") || "누락된 필수 서류가 없어요."}</p>
+          </div>
           <button
-            className="btn"
-            disabled={readOnly || busy || !choice}
+            className="btn primary"
+            disabled={
+              readOnly ||
+              busy ||
+              !missingNames.length ||
+              rows.some((r) => r.status === "sent_mock")
+            }
+            data-tour="supplement-generate"
             onClick={create}
           >
-            누락 서류로 초안 만들기
+            {busy ? "안내 문자 준비 중…" : "안내 문자 생성"}
           </button>
           {message && (
-            <p role="status" className="small">
+            <p className="small" role="status">
               {message}
             </p>
           )}
-          {rows.map((r) => (
-            <button
-              key={r.id}
-              className={`supplement-card ${r.id === row?.id ? "selected" : ""}`}
-              onClick={() => {
-                setSelected(r.id);
-                setChoice(r.claim_id);
-                router.replace(`/workspace/supplement?claim=${r.claim_id}`);
-              }}
-            >
-              <div>
-                <strong>{r.customer_name}</strong>
-                <Status status={r.status} />
-              </div>
-              <small className="mono">{r.claim_id}</small>
-              <span>
-                {r.doc_types.map((t) => docLabels[t] ?? t).join(", ")}
-              </span>
-            </button>
-          ))}
-          {!rows.length && (
-            <p className="muted small">아직 작성된 보완 요청이 없어요.</p>
-          )}
         </aside>
-        {row ? (
-          <MessageEditor
-            key={`${row.id}-${row.status}`}
-            row={row}
-            readOnly={readOnly}
-            reload={resource.reload}
-          />
-        ) : (
-          <section className="panel empty-message">
-            청구를 선택하고 누락 서류로 안내 초안을 만들어 주세요.
+        <div className="correspondence-column">
+          <section
+            className="panel correspondence-history"
+            aria-label="발송 및 회신 이력"
+            data-tour="supplement-history"
+          >
+            <h2>발송·회신 이력</h2>
+            {!sent.length && (
+              <p className="muted small">
+                아직 발송하거나 회신받은 내역이 없어요.
+              </p>
+            )}
+            {sent.map((item) => (
+              <div key={item.id} className="correspondence-entry">
+                <button
+                  className="correspondence-message"
+                  onClick={() => {
+                    setGenerated(null);
+                    setSelected(item.id);
+                  }}
+                >
+                  <span>
+                    <strong>
+                      {item.channel === "sms" ? "문자" : "알림톡"} 발송 (모의)
+                    </strong>
+                    <time>
+                      {item.sent_at
+                        ? formatDateTime(item.sent_at)
+                        : "시각 기록 없음"}
+                    </time>
+                  </span>
+                  <p>{item.message}</p>
+                </button>
+                {item.status === "received" && (
+                  <div className="correspondence-reply">
+                    <strong>보완 서류 접수</strong>
+                    <time>
+                      {item.received_at
+                        ? formatDateTime(item.received_at)
+                        : "시각 기록 없음"}
+                    </time>
+                    <p>
+                      {item.doc_types
+                        .map((code) => docLabels[code] ?? code)
+                        .join(", ")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
           </section>
-        )}
+          {row ? (
+            <MessageEditor
+              key={row.id}
+              row={row}
+              readOnly={readOnly}
+              reload={refresh}
+            />
+          ) : (
+            <section className="panel empty-message">
+              {missingNames.length
+                ? "안내 문자 생성을 누르면 이 청구의 안내 문구가 여기에 표시돼요."
+                : "추가로 요청할 필수 서류가 없어요."}
+            </section>
+          )}
+        </div>
       </div>
     </>
   );
@@ -273,7 +335,8 @@ function logDetail(log: Log) {
   const d = log.detail;
   if (log.action === "field_confirm")
     return `${label(String(d.key))} · ${d.before} → ${d.after}`;
-  if (log.action === "issue_resolve") return `${d.rule_id} · 확인 기록`;
+  if (log.action === "issue_resolve")
+    return `${ruleLabel(String(d.rule_id))} 확인 기록`;
   if (log.action === "supplement_send_mock")
     return `${d.channel === "kakao" ? "알림톡" : "문자"} · 모의 발송 · 회신 대기`;
   if (log.action === "supplement_draft")
@@ -339,7 +402,7 @@ export function HistoryScreen({ claimId }: { claimId: string }) {
         title="검토 이력"
         description={`${claim.data.customer_name} 고객 · ${claimId} · 처리 기록`}
       />
-      <div className="filter-tabs">
+      <div className="filter-tabs" data-tour="history-filters">
         {[
           ["all", "전체"],
           ["user", "담당자"],
@@ -355,7 +418,7 @@ export function HistoryScreen({ claimId }: { claimId: string }) {
         ))}
         <Link href={`/workspace/review?claim=${claimId}`}>문서 검토로</Link>
       </div>
-      <div className="panel">
+      <div className="panel" data-tour="history-records">
         <ol className="timeline">
           {items.map((log) => (
             <li key={log.id}>
@@ -433,7 +496,6 @@ function RuleEditor({ rule, reload }: { rule: Rule; reload: () => void }) {
           {typeLabels[rule.claim_type] ??
             (rule.claim_type === "common" ? "공통" : rule.claim_type)}
         </strong>
-        <small className="mono">{rule.id}</small>
       </td>
       <td>
         {editing ? (
@@ -464,7 +526,7 @@ function RuleEditor({ rule, reload }: { rule: Rule; reload: () => void }) {
             {Object.entries(rule.conditions)
               .map(
                 ([k, v]) =>
-                  `${({ waived_for_channels: "면제 접수 경로", is_proxy: "대리 청구 시", has_pharmacy_claim: "약제비 청구 시" } as Record<string, string>)[k] ?? k} ${Array.isArray(v) ? v.join(", ") : v === true ? "적용" : String(v)}`,
+                  `${({ waived_for_channels: "면제 접수 경로", is_proxy: "대리 청구 시", has_pharmacy_claim: "약제비 청구 시" } as Record<string, string>)[k] ?? k} ${Array.isArray(v) ? v.map((value) => (({ app: "앱 접수", silson24: "실손24" }) as Record<string, string>)[String(value)] ?? String(value)).join(", ") : v === true ? "적용" : String(v)}`,
               )
               .join(" · ")}
           </small>
@@ -534,12 +596,12 @@ export function OperationsScreen() {
             [
               "review_on_low_conf",
               "모델 신뢰도 낮음",
-              "Extract가 낮은 신뢰도로 반환한 항목",
+              "문서에서 읽은 값의 신뢰도가 낮은 항목",
             ],
             [
               "review_on_not_in_source",
               "원문 불일치",
-              "Parse 원문에서 추출값을 찾지 못하거나 세분류가 빠진 항목",
+              "서류 원문에서 값을 찾지 못하거나 세분류가 빠진 항목",
             ],
             [
               "review_on_format",

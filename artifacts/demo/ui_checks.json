@@ -1,0 +1,55 @@
+{
+  "inbox1440": {
+    "horizontalOverflow": false,
+    "rowHeights": [
+      56,
+      56,
+      56,
+      56,
+      56,
+      56,
+      56,
+      56,
+      56,
+      56
+    ],
+    "visibleRows": 9
+  },
+  "contextClaimAnswer": {
+    "hasSevenEight": true,
+    "hasCode": true,
+    "hasPathology": true,
+    "hasVitamin": true,
+    "hasInfo": true
+  },
+  "draftReadonlyDuringTyping": true,
+  "draftEditableAfterSkip": true,
+  "unsupportedHasNoDraft": true,
+  "draftEditableAfterBodySkip": true,
+  "step3": {
+    "hasInternalField": false,
+    "internalScroll": false,
+    "maxRowHeight": 41
+  },
+  "originalEscapeCloses": true,
+  "noCoordinatesNoBox": true,
+  "filterReturnUrl": "http://127.0.0.1:3000/workspace?q=&status=needs_review",
+  "pageTwoUrl": "http://127.0.0.1:3000/workspace?q=&status=&page=2",
+  "browserBackPageTwo": true,
+  "paymentReviewTab": true,
+  "historyNoInternalCodes": true,
+  "adminSettingsPersist": true,
+  "tourDoesNotRestart": true,
+  "tourResize": true,
+  "inbox1920NoOverflow": true,
+  "detail1920NoOverflow": true,
+  "assistant1920NoOverflow": true,
+  "draftCopy": true,
+  "paymentDecisionStillRefused": true,
+  "supplementFeedbackPersists": true,
+  "inboxScrollRestoration": {
+    "before": 172.5,
+    "after": 172.5
+  },
+  "tourPrevious": true
+}

@@ -1,3 +1,188 @@
+## 2026-10-16 · T-19w · 메인 카드 설명 문구와 두 줄 구분
+- 관련 요구사항: FR-04~05, SCR-02
+- 한 일: 업무 어시스턴트 설명을 ‘약관, 심사 기준, 업무 절차를 물어보면 / 관련된 근거 문서와 함께 답해 드려요’로 바꿨다. 워크스페이스 설명을 ‘청구 서류 분석부터 누락 불일치 확인 보완요청까지 / 한곳에서 처리해요’로 바꿨다. 요청한 위치에 명시적 줄바꿈을 넣고 실제 메인과 온보딩에서 같은 컴포넌트를 사용한다.
+- 바뀐 파일: frontend/components/home-screen.tsx, artifacts/home-card-copy.jpg
+- 확인 방법: lint 및 Webpack 배포 빌드 통과. CUA 메인에서 문구 일치와 각2줄 표시를 DOM 실제 줄 좌표로 확인했다. artifacts/home-card-copy.jpg에 최종 화면을 저장했다.
+- 남은 문제 · 질문: 없음. 외부 API 호출 없음.
+
+## 2026-10-16 · T-19v · 도움말 메뉴와 데이터 출처 페이지
+- 관련 요구사항: FR-04~05, FR-18, FR-28~35, SCR-02/03/10~14
+- 한 일: 물음표 버튼을40→60px로 키우고 가이드라인/업무 어시스턴트/데이터 출처 메뉴를 추가했다. 가이드라인은 기존 독립 안내, 어시스턴트는 청구 맥락을 보존한 챗봇, 출처는 새 페이지로 연결한다. 메뉴는 바깥 클릭·Escape로 닫고 키보드 초점을 관리한다.
+  프로젝트 실제 자료를 대조해 공개 표준약관5종·가온생명 시연 문서7종·가상 시연 데이터2종을 분류한 출처 페이지와 본문 페이지를 만들었다. 고객10명/청구13건을 표시하며 실손24는 모의 연계임을 명시했다. 본문은 인증된 경로에서 허용 목록의12개 문서만 읽고 평가 정답·참고용 실제 회사 약관을 제외한다.
+  첫 소개를 ‘보상 담당자의 청구 서류 대조·검토 업무를 지원합니다.’로 바꿨다. 워크스페이스와 해당 안내 헤더에 ‘서류 검토 워크스페이스’ 배지를 복원하고 챗봇 새 채팅 위에 ‘메인으로’를 추가했다.
+  추가 요청에 따라 안내창 폭을460→438px(좁은 화면410→390, 첫 메인640→610)로 조금 줄이고 글자 크기를 유지한 채 여백을 정리했다. 어시스턴트 첫 안내는 꼬리/강조 없는 중앙 모달이다. 답변 강조는 AI 표시·요약·첫 검토 항목까지 확대하고 좁은 화면은 요약 범위를 사용한다. 글꼴 준비·배치 후 iframe이 준비 메시지를 보내면 부모가 페이드로 표시해 중간 화면 노출을 막는다. 동일 출처/iframe 발신자를 확인하며 reduced-motion을 지원한다.
+  메인 진입 영역은 실제 레이아웃을820→1040px, 카드 최소 높이300→350px, 제목36→42px 등으로 확대했다. 축소/확대 zoom은 사용하지 않으며 메인 안내창 크기는 유지하고2·3단계 대상 좌표를 새 크기에 맞췄다.
+- 바뀐 파일: frontend/components/{onboarding-tour,data-sources-screen,app-header,chat-screen}.tsx, frontend/lib/{data-sources,tours}.ts, frontend/app/(protected)/data-sources/, frontend/app/globals.css, frontend/scripts/check-data-sources.mjs, docs/implementation_objects.md, artifacts/help-hub/
+- 확인 방법: lint/typecheck/format:check/Webpack, check-onboarding 및 check-data-sources(허용12개 실파일/분류/임의 경로 제외/고객·청구 건수) 통과. CUA 도움말60×60, 메뉴3개/닫기, 가이드라인의 원래 안내 열기/닫기, 청구 맥락 챗봇 이동, 메인 링크, 출처 필터5/7/2개·실제 약관 본문·390px 메뉴/페이지 넘침 없음 확인. 1280×720·729×800 각각62단계 카드 경계/대상 비중첩 통과. 어시스턴트 중앙 모달/꼬리 숨김, 답변 강조 높이265.34px 확인. 준비 완료 후 iframe opacity1·180ms 전환·160ms 배경 애니메이션, 안내 종료 후 원래 채팅 입력 보존 확인. 메인 실제 카드510×350/콘텐츠1040px/제목42px/zoom1 확인. artifacts/help-hub/에 캡처와 검사 JSON을 기록했다.
+- 남은 문제 · 질문: 없음. 별도 유료 API/실제 문자 전송 없음. 출처 본문은 이 프로젝트가 사용한 보관본이며 최신 공시 자료를 자동 동기화하는 기능은 아니다.
+
+## 2026-10-16 · T-19u · 메인 첫 안내의 원래 비율 복원
+- 관련 요구사항: FR-04~05, SCR-02
+- 한 일: 소개 문장을 ‘보상담당자의 청구업무를 돕는 가온 Ai입니다.’로 바꿨다. 첫 안내에만 적용했던 zoom 0.5/0.4/0.65와 고정 폭·좌측 정렬을 제거했다. 주요기능/도입 배경/데모 범위 문구는 유지한다.
+  전체 서비스 소개는 원래 크기의 메인 화면 위 중앙 모달로 표시한다. 특정 영역을 가리키는 꼬리는 첫 안내에서 숨기며, 2·3단계의 좌우 안내는 유지한다. 긴 내용은 설명 영역에서 스크롤할 수 있다.
+- 바뀐 파일: frontend/lib/tours.ts, frontend/components/guide-player.tsx, frontend/app/globals.css, artifacts/onboarding/v5/
+- 확인 방법: lint/typecheck/Webpack 및 check-onboarding 검사. CUA 원래 메인/안내 배경 모두 overview 820×425.49, 두 카드 각각400×300, zoom1 동일 확인. 요청 문구 일치, 중앙 모달640×488.64가1280×720 안에 표시됨을 확인했다. 729×800에서도 zoom1/모달 경계 통과. artifacts/onboarding/v5/에 캡처와 비교 JSON을 저장했다.
+- 남은 문제 · 질문: 없음. 실제 업무 데이터/API 변경 없음.
+
+## 2026-10-16 · T-19t · 메인 소개 문구와 말풍선 좌우 위치
+- 관련 요구사항: FR-04~05, SCR-02
+- 한 일: 메인 첫 안내를 사용자가 제공한 소개 문장과 주요기능/도입 배경/데모 범위 3행으로 교체했다. 본문은 원문대로 보존했다. 긴 표를 읽을 수 있도록 첫 안내 폭을 늘리고 설명 영역 내부 스크롤을 지원하며, 메인 화면은 같은 컴포넌트의 축소 미리보기로 함께 보여준다.
+  두 번째 안내는 어시스턴트 카드의 왼쪽, 세 번째는 워크스페이스 카드의 오른쪽 바깥 여백을 우선 사용한다. 데스크톱에서 공간이 모자라면 안내용 화면의 카드 위치를 옮겨 설명 공간을 확보한다. 좁은 화면은 화면 안에 들어오는 대체 배치를 사용한다.
+- 바뀐 파일: frontend/lib/tours.ts, frontend/lib/guide/placement.ts, frontend/components/guide-player.tsx, frontend/app/globals.css, frontend/scripts/check-onboarding.mjs, artifacts/onboarding/v4/
+- 확인 방법: lint/typecheck 및 Webpack 배포 빌드, check-onboarding 격리/빈 메모/안내 순서/좌우 우선 배치 검사 통과. CUA 1280×720·729×800에서 메인 1~3단계의 경계/대상 비중첩을 확인했다. 기본 화면 2단계는 대상 왼쪽(x17.5), 3단계는 대상 오른쪽(x787.5)이다. 첫 안내의 세 행을 원문과 대조했다. artifacts/onboarding/v4/에 캡처와 검사 JSON을 남겼다.
+- 남은 문제 · 질문: 없음. 안내 전용 변경이며 실제 API 호출 없음.
+
+## 2026-10-16 · T-19s · 챗봇 디자인 복원과 기능별 온보딩 설명
+- 관련 요구사항: FR-04~05, FR-18~24, FR-28~35, SCR-02/03/10~14
+- 한 일: 원본 챗봇의 한 줄 헤더와 + 새 채팅, 날짜별 대화 목록·실제 시작 시각·보라색 선택 배경을 복원했다. 실제 질문 수에 따른 위치 바로가기로 대화 안에서 이동한다. 임의 과거 대화는 넣지 않고 세션 메모리 정책을 유지한다.
+  온보딩은 짧은 소개와 기능 이름/설명의 개별 행으로 구성하고 -요/-습니다 말투를 섞었다. 종료 안내는 한 줄을 유지한다. 청구 목록은 머리글과 실제 7행(좁은 화면은 2행)을 함께 강조한다. 안내 전용 담당자 메모를 비웠다. 문서 검토는 소개→상단 서류 현황→왼쪽 원본→오른쪽 추출 정보→항목·값→출처·신뢰도→하단 확인 사항→비교 기능 순서로62단계를 구성했다. 메인 첫 단계는 제목과 두 카드, 다음 단계는 각 카드 아래 좌/우 말풍선이다. 좁은 화면은 내부 스크롤과 안내 전용 여백으로 배치를 조정한다.
+- 바뀐 파일: frontend/components/{app-header,brand,chat-screen,claim-screens,guide-player,home-screen,review-screen}.tsx, frontend/app/(protected)/{layout,chat/page,guide/[screen]/page}.tsx, frontend/app/globals.css, frontend/lib/{chat-history,tours}.ts, frontend/lib/guide/{placement.ts,snapshot.json}, frontend/scripts/check-{chat-history,onboarding}.mjs, docs/implementation_objects.md, artifacts/chat-design/, artifacts/onboarding/v3/
+- 확인 방법: lint/typecheck/format:check/Webpack 배포 빌드 통과. 날짜 경계·실제 API 격리·기능별 설명/빈 메모/문서 안내 순서·타이핑 검사 통과. CUA 기본 챗봇/실제 시각/질문 표시, 1280×720·729×800 각각62단계에서 카드 경계/대상 비중첩 확인(수정된 2개 좁은 화면은 재검사 반영). 메인 좌우 하단 배치 및 빈 메모 확인. 캡처와 단계별 검사 JSON은 artifacts/onboarding/v3/에 기록한다.
+- 남은 문제 · 질문: 없음. 실제 업무 메모/채팅은 변경하지 않는다. 유료 API 및 실제 문자 전송0회. 지난 대화는 현재 세션에서 생긴 실제 기록만 표시한다.
+
+## 2026-10-16 · T-19r · 페이지별 독립 온보딩과 짧은 말풍선 안내
+- 관련 요구사항: FR-04~05, FR-18~24, SCR-02/03/10~14
+- 한 일: 메인→어시스턴트→워크스페이스 각 페이지 순서로7개 히든 안내 경로를 만들었다. 실제 화면 컴포넌트/CSS를 공유하고 고정 가상 데이터·원본·저장된 시연 답변을 독립 공급한다. 원래 페이지의 ?가 iframe을 열며 종료하면 원래 입력/채팅/서류 선택/배율로 돌아온다. 실제 API/업로드/인박스 복원 저장소 호출을 안내에서 차단한다.
+  첫 초안의 긴 문구와 큰 강조 범위에 대한 사용자 피드백을 반영해60단계로 재구성했다. 최대67자 문구와 큰 볼드 제목, 아이콘, 원형 다음 버튼, 말풍선 꼬리를 사용한다. 머리글은 청구번호/고객·청구 유형/접수·상태/AI 검토 결과로 묶는다. 서류 목록/표 머리글/버튼 등 설명하는 작은 영역 전체를 강조하고, 공간이 없으면 대상부터 정렬해 카드와 겹치지 않게 한다. 마지막은 ‘궁금할 땐 언제든 ?를 눌러 주세요.’ 한 줄이다.
+- 바뀐 파일: frontend/components/{onboarding-tour,guide-player,home-screen,workspace-shell,workspace-ui,claim-screens,chat-screen,review-screen,operations-screens}.tsx, frontend/lib/{tours,workspace}.ts, frontend/lib/guide/, frontend/public/guide-documents/, frontend/app/(protected)/guide/[screen]/page.tsx, frontend/app/globals.css, frontend/scripts/check-onboarding.mjs, docs/decisions.md, docs/implementation_objects.md, TODO.md, artifacts/onboarding/
+- 확인 방법: pytest142 passed/1 live 제외, 프론트 lint/type/format 및 next build --webpack 통과. check-onboarding(실제 API 차단/정상 화면 유지/리소스 격리/7개 종료/4방향 배치)와 check-typing 통과. CUA 1280×720/729×800 각각60단계 대상 표시/전체 범위/카드 비중첩/화면 경계 검사 모두 통과. 7개 ? 연결·독립 종료, 채팅 입력/세션0개 보존, 입퇴원확인서120% 보존, 안내 전후 DB15테이블 동일 확인. 제목 Noto Sans KR/700 확인. 최종 캡처와 검사 JSON은 artifacts/onboarding/v2/, 첫 초안은 v1/에 보존했다.
+- 남은 문제 · 질문: 없음. 실제 업무 데이터 대신 가상 예시를 사용하는 안내다. 중간 DB 비교에는 동시 청구/채팅 조회 로그2건이 섞였으나 안내 전용 전체 재검증에서는15테이블 동일했다. 별도 LLM/Upstage 호출0회, 실제 문자 발송 없음. 운영 관리 안내는 이번 범위 밖이다.
+
+## 2026-10-16 · T-19q · 추출된 서류 정보 탭과 원본별 확대·이동
+- 관련 요구사항: FR-19~24, SCR-12~13
+- 한 일: ‘정규화 결과’를 ‘추출된 서류 정보’로 바꾸고 두 표를 나란히 두는 대신 문서별 탭/비교 항목 탭에서 한 표씩 보여준다. 비교 항목은 해당 이슈 필드만 기본 표시하며 탭 전환 시 첫 행부터 연다. 신뢰도는 실제 숫자를99.8%처럼 표시하고 줄바꿈을 방지한다.
+  비교 원본마다 독립 확대/축소/맞춤을 제공하고 드래그·방향키로 이동한다. 자동 확대는 하지 않는다. 보완 화면은 드롭다운을 제거하고 왼쪽에 검색 고객/청구번호/누락 서류/총개수/문자 생성, 오른쪽에 실제 발송·접수 이력과 축소한 편집기를 둔다. 생성 응답을 즉시 바인딩해 빈 편집기 문제를 해소했다.
+- 바뀐 파일: frontend/components/review-screen.tsx, frontend/components/operations-screens.tsx, frontend/app/globals.css, frontend/lib/tours.ts
+- 확인 방법: lint/typecheck/format:check 및 next build --webpack 통과. CUA 진단서7개/조직검사6개/비교2개 필드, 실제99.8%/98.4%, 왼쪽120%·오른쪽100%, 드래그 왼쪽scrollLeft42→0·오른쪽0유지 확인. 고정 문자 생성 후 실제 고객·상품·접수일·누락1개와 편집기 본문 반영 확인. artifacts/final-workflow/{document-tabs,comparison-fields,supplement}.png와 supplement-letter.txt.
+- 남은 문제 · 질문: SMS 회신 기능 자체는 없으며 이력은 실제 감사 로그에 있는 모의 발송/보완 서류 접수만 표시한다. 검증 중 모의 발송은 실행하지 않았다. 유료 API 호출0회.
+
+## 2026-10-16 · T-19p · 고정 안내 문자 양식과 실제 추출 점수 복원
+- 관련 요구사항: FR-19~24, SCR-12~13
+- 한 일: 최신 요청에 따라 보완 문자 생성은 챗봇 어댑터 대신 data/templates/supplement_messages.json의 서류별 고정 양식으로 변경했다. 권한 범위와 실제 누락을 확인하고 고객명·청구번호·상품·접수일·서류별 준비처를 채운다. 미발송 초안만 재생성하고 발송된 기록은 보호한다. 실제 감사 로그의 발송·접수 시각을 API에 추가했다.
+  T-19n 기록의 ‘API는 high/low만 제공’ 설명을 정정한다. 저장된 extract.choices[0].confidence_score는 JSON 문자열이며 각 필드의 _value 숫자를 제공했다. 중첩 품목도 읽어 API에 confidence_score를 노출하고 _ctx/Classify 점수는 사용하지 않는다. 실손24 데이터는 해당 없음으로 유지한다.
+- 바뀐 파일: backend/app/services/supplement.py, backend/app/services/workspace.py, backend/app/routers/supplements.py, backend/app/config.py, .env.example, data/templates/supplement_messages.json, backend/tests/test_operations_api.py, backend/tests/test_confidence_display.py
+- 확인 방법: 전체 pytest142 passed/1 live 제외, Ruff check/format 통과. 양식 전체 코드·변수 치환·외부 HTTP 금지·같은 초안 재생성·발송 보호·추출 점수 JSON/중첩/잘못된 값/실손24를 테스트했다. 실제 UI 생성 본문은 artifacts/final-workflow/supplement-letter.txt.
+- 남은 문제 · 질문: 없음. Upstage 추가 호출0회. 과거 WORKLOG는 당시 기록으로 보존하며 숫자 미제공 판단은 이 기록으로 정정한다.
+
+## 2026-10-16 · T-19o · 비교 문서별 정규화 표 분리
+- 관련 요구사항: FR-19~20, SCR-12
+- 한 일: 두 원본 비교 시 정규화 결과도 같은 순서의 문서별 표로 분리했다. 문서명/항목 수를 각각 표시하고 각 표의 세로·가로 스크롤을 독립시켰다. 문서/이슈가 바뀌면 표를 첫 행부터 연다. 단일 원본에서는 한 표를 유지하며 필드 수정·출처·신뢰도 표시도 그대로 사용한다.
+- 바뀐 파일: frontend/components/review-screen.tsx, frontend/app/globals.css
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA issue5: 원본 순서와 표 순서 동일, 입퇴원확인서7행/세부내역서58행 및 네 열 확인. 오른쪽만 스크롤 후 위치[0,720], 진단서 선택 시 표1개 확인. artifacts/ui-cleanup/normalized-split.jpg. 백엔드·API/평가 변경 없음.
+- 남은 문제 · 질문: 없음. 좁은 칸에서는 표를 가로로 스크롤해 네 열을 확인한다. 외부 호출 없음.
+
+## 2026-10-16 · T-19n · 숫자 미제공 신뢰도 등급 표시 복원
+- 관련 요구사항: FR-19~20, SCR-12
+- 한 일: 숫자 점수가 없는 실제 high/low 정보까지 대시로 가리던 표시를 고쳤다. 숫자 점수는 %로, 숫자가 없으면 원래 높음/낮음 등급으로 표시한다. 실손24 정형 데이터와 신뢰도 자체가 없는 경우만 대시다. 확인 이유는 신뢰도 셀 툴팁으로 유지한다.
+- 바뀐 파일: frontend/lib/workspace.ts, frontend/components/review-screen.tsx, frontend/lib/tours.ts
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA 진단서7개 항목 높음 표시, 실손24 영수증10개 항목 대시 확인. artifacts/ui-cleanup/confidence.jpg. 별도 추출/유료 API 호출 없음.
+- 남은 문제 · 질문: 현재 API는 high/low만 제공하며 임의의 숫자 확률은 만들지 않는다.
+
+## 2026-10-16 · T-19m · 비교 안내 높이와 긴 품목명 레이아웃 보정
+- 관련 요구사항: FR-19~20, SCR-12
+- 한 일: 긴 품목명이 18px 큰 글자와 flex 축소로 여러 줄로 꺾이던 안내를 14px 한 줄/말줄임/전체값 툴팁으로 바꿨다. 비교 시 양쪽 안내 칸을46px, 문서 제목 칸을52px로 맞춰 원본 시작 높이가 다르지 않게 했다.
+  실제 대응 추출 항목이 없는 쪽은 그 사실을 표시하고 원문에 없는 값을 만들거나 강조하지 않는다. 이미지 비율과 확대율은 변경하지 않았다.
+- 바뀐 파일: frontend/components/review-screen.tsx, frontend/app/globals.css
+- 확인 방법: lint/type 및 Webpack 통과. CUA 처방전/약제비 영수증 비교에서 양쪽 안내46px/글자14px/뷰어 top482.4921875px 동일 확인. artifacts/supplement-scope/comparison-aligned.jpg. 외부 호출 없음.
+- 남은 문제 · 질문: 없음.
+
+## 2026-10-16 · T-19l · 보완 고객 범위 고정과 챗봇 공통 안내 생성
+- 관련 요구사항: FR-21~24, SCR-13
+- 한 일: 보완 목록 API에 claim_id 필터와 해당 청구 권한 검사를 추가했다. 화면도 선택 고객 기준으로 목록/편집기를 제한하고 고객 전환 즉시 이전 선택과 안내를 비운다.
+  버튼을 안내 문자 생성으로 바꾸고 바로 아래 실제 누락 서류를 표시했다. 누락이 없는 한누리 건은 누락 없음/생성 비활성화로 안내하며 김유정의 요청을 보여주지 않는다.
+  별도 Solar 재작성·구형 문구 캐시 경로를 제거하고 챗봇 Tools.draft_supplement를 그대로 사용한다. 로컬 표준 문구만 읽으며 LLM/벡터 검색을 호출하지 않는다. 명시적으로 재생성하면 같은 미발송 초안도 새 문구로 갱신한다. 발송된 요청은 보호하고 모의 발송만 유지한다.
+- 바뀐 파일: backend/app/services/supplement.py, backend/app/routers/supplements.py, backend/tests/test_operations_api.py, frontend/components/operations-screens.tsx
+- 확인 방법: 전체 pytest138 passed/1 live 제외, 관련 회귀23개, Ruff check/format 통과. 프론트 lint/type/format 및 Webpack 통과. CUA 한누리→김유정 생성→한누리 전환: 요청 카드0/편집기0/생성 비활성화, 김유정 실제 누락 수술확인서/표준 문자 반영 확인. artifacts/supplement-scope/{han-nuri,kim-draft}.jpg. 도구 결과 문구 동일성·구형 초안 재생성·고객 범위/권한을 테스트로 고정했다.
+- 남은 문제 · 질문: 없음. 실제 전송/Upstage 추가 호출0회. 기존 미발송 김유정 초안은 UI의 생성 동작으로 공통 문구로 갱신했다. 과거 발송 문구는 변경하지 않는다.
+
+## 2026-10-16 · T-19k · 검토 결과를 목업의 세 줄 요약으로 간소화
+- 관련 요구사항: FR-18~20, SCR-11
+- 한 일: 3단계의 긴 정규화 표·품목 표·이슈 목록을 없애고 왼쪽 검토 결과 세 줄/오른쪽 담당자 메모의 목업 구성으로 바꿨다. 자세한 값 수정과 이슈 확인은 기존 문서 분석·검토 화면에서 유지한다.
+  확인 필요는 같은 원인을 병합한 실제 표시 이슈로 계산한다. 누락 서류명과 약관 대조도 실제 결과에서 계산하며, 분석 전에는 대기 문구를 쓴다. 김유정은 확인2/누락 수술확인서1/보상 제외 가능성1로 표시한다.
+  완료 단계 버튼을 보완 요청 보내기 (실제 누락 서류명)으로 바꾸고 보완 화면으로 연결했다. 명시적인 상세 issue 링크는 문서 검토의 같은 이슈로 연결해 기존 챗봇 이슈 이동을 유지한다. 온보딩도 요약 구성에 맞췄다.
+- 바뀐 파일: frontend/components/claim-screens.tsx, frontend/app/globals.css, frontend/lib/tours.ts, frontend/app/(protected)/workspace/[section]/page.tsx
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA 요약 세 줄 실제 수치, 약관 요약→issue6, 보완 버튼 문구와 경로, 상세 issue3→문서 검토 issue3 확인. artifacts/ui-cleanup/{review-summary,supplement-action}.jpg. UI 변경으로 백엔드/평가 재실행 없음.
+- 남은 문제 · 질문: 없음. 외부 Upstage 호출 없음. 가상 목업의 고정값(제외 항목 없음 등)은 사용하지 않았다.
+
+## 2026-10-16 · T-19j · 상세 첫 단계 진입과 중복 복귀 링크 제거
+- 관련 요구사항: FR-18~20, SCR-11
+- 한 일: 상세의 일반 진입 위치를 DB의 저장 step과 분리해 항상 서류 확인(1단계)으로 연다. 청구/이슈 경로가 달라지면 컴포넌트를 재생성해 이전 로컬 탭도 남지 않는다. 명시적인 issue 링크는 해당 확인 항목을 보여주는 기존 동작을 유지한다.
+  본문의 ← 청구 검토함 링크와 그 링크용 복귀 URL 상태를 제거했다. 왼쪽 청구 검토함 메뉴와 검토함 자체의 필터/스크롤 복원은 유지했다.
+- 바뀐 파일: frontend/components/claim-screens.tsx, frontend/app/(protected)/workspace/[section]/page.tsx
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA에서3단계를 선택한 뒤 새로고침→현재1 서류 확인, 본문 복귀 링크0개/왼쪽 메뉴1개 확인. artifacts/ui-cleanup/detail-start.jpg. 저영향 UI 변경으로 별도 자동 테스트 추가 없음.
+- 남은 문제 · 질문: 없음. 외부 Upstage 호출 없음.
+
+## 2026-10-16 · T-19i · 정보 대조 화면 HTML 목업 스타일 복원
+- 관련 요구사항: FR-18~20, SCR-11
+- 한 일: gaon-ai.html처럼 단계 완료 체크 원/현재 단계 테두리 원과 3개의 진행 연결선을 표시했다. 정보 대조 표는 여백 없는 카드/연보라 머리글/일관된 셀 여백으로 정리하고 서류명과 값을 같은 줄에서 읽도록 바꿨다.
+  불일치는 주황 경고 아이콘으로 표시하고 하단 원본 확인 링크를 추가했다. 실제 비교 16건, 1일 차이 안내 판정, 값 클릭 원본 모달 기능은 유지했다.
+- 바뀐 파일: frontend/components/claim-screens.tsx, frontend/app/globals.css
+- 확인 방법: npm run lint/typecheck/format:check, next build --webpack 통과. CUA 정보 대조 단계 선택 후 완료1개/연결선3개/현재 단계2/네 열/실제16행 확인. artifacts/ui-cleanup/comparison-style.jpg. 가벼운 디자인 변경으로 별도 자동 테스트 추가 없음.
+- 남은 문제 · 질문: 없음. 외부 Upstage 호출 및 백엔드 변경 없음.
+
+## 2026-10-16 · T-19h · 중복 어시스턴트 진입 버튼 제거
+- 관련 요구사항: SCR-11, FR-18~20
+- 한 일: 청구 상세 본문의 업무 어시스턴트에게 묻기 버튼을 제거하고 공통 우하단 가온 AI에게 묻기만 유지했다.
+- 바뀐 파일: frontend/components/claim-screens.tsx
+- 확인 방법: npm run lint/typecheck, next build --webpack 통과. CUA 본문 링크0개, 공통 링크 /chat?claim=GA-2610-0482 유지 확인. artifacts/ui-cleanup/chat-entry.jpg. UI 한 요소 제거이므로 별도 자동 테스트 추가 없음.
+- 남은 문제 · 질문: 없음. 외부 API 호출 없음.
+
+## 2026-10-16 · T-19g · 원본 높이 정렬과 안내별 서류 이동
+- 관련 요구사항: FR-18~20, SCR-12
+- 한 일: 오른쪽 두 카드가 정한 높이를 왼쪽 원본 뷰어가 채우도록 레이아웃을 바꿨다. 이미지 종횡비와 확대율은 그대로 유지하며 좁은 화면에서는 기존처럼 세로로 배치한다.
+  안내 제목/본문을 키보드 접근 가능한 버튼으로 바꿨다. 실제 doc_ids와 field_keys로 단일 원본 또는 두 서류 비교를 열고 좌표가 있으면 해당 위치로 이동·강조한다. 기존 원본 비교 버튼도 같은 동작을 사용한다. 확인 기록 버튼과 서류 이동은 분리했고, 누락 항목은 원본 대신 보완 화면으로 연결한다.
+- 바뀐 파일: frontend/components/review-screen.tsx, frontend/app/globals.css
+- 확인 방법: lint/type/format 및 next build --webpack 통과. CUA 1280px 화면에서 원본 bottom=1195.1875, 안내 bottom=1195.1875로 차이0px. 수동120% 뒤 진단일 안내→진단서/조직검사 결과지·각 날짜 위치, 코드 안내→진단서·C18 위치, 누락→보완 처리 경로 확인. 확대율120% 유지. artifacts/search-first/{review-height,issue-open-comparison}.jpg.
+- 남은 문제 · 질문: 없음. 외부 Upstage 호출 없음. 백엔드/평가/안전 규칙 변경 없음.
+
+## 2026-10-16 · T-19f · 개별 업무 화면을 검색 후 선택으로 시작
+- 관련 요구사항: FR-05, FR-18~20
+- 한 일: 청구 상세/문서 분석/보완 처리/검토 이력은 청구 ID 없이 들어오면 고객 목록을 조회하지 않고 안내만 보여준다. 검색어를 제출한 뒤에만 결과를 조회한다.
+  상단 검색이 현재 업무 경로를 유지하도록 바꿔 검색 결과 선택 시 해당 업무의 청구 화면으로 연결한다. 기존 검토함에서 청구를 선택하거나 청구 ID로 직접 이동하는 흐름은 유지한다.
+- 바뀐 파일: frontend/components/{claim-screens,workspace-shell}.tsx, frontend/app/(protected)/workspace/[section]/page.tsx
+- 확인 방법: lint/type/format 및 next build --webpack 통과. CUA로 4개 경로 모두 초기 고객 링크 0개, C001 검색 후 결과 1개와 동일 업무 경로의 claim 링크를 확인하고 클릭했다. artifacts/search-first/{detail,review,supplement,history}-empty.jpg 및 checks.json. 백엔드 변경 없음(직전 전체137개 통과).
+- 남은 문제 · 질문: 없음. 실제 Upstage 호출 없음.
+
+## 2026-10-16 · T-19e · 원본 검색창과 고객 ID 검색
+- 관련 요구사항: FR-05 (사용자 변경 지시)
+- 한 일: 원본 HTML의 배경·620px 독립 검색 상자·44px 높이·12px 모서리·돋보기 구성을 복원했다. 검색 안내와 실제 API 검색 대상을 고객 이름/고객 ID/청구번호로 통일하고 증권번호·생년월일 검색을 제거했다. 담당자 배정 권한 범위는 유지했다.
+  메인과 챗봇 디자인은 유지했다. 우하단 도움말과 업무 버튼이 겹치지 않도록 업무 버튼의 오른쪽 여백을 확보했다.
+- 바뀐 파일: backend/app/routers/claims.py, backend/tests/test_demo_polish.py, frontend/components/workspace-shell.tsx, frontend/app/globals.css
+- 확인 방법: 전체 pytest137 passed/1 live 제외, 검색 포함 회귀18개 통과, Ruff·lint·typecheck·format 및 Webpack 빌드 통과. 실제 UI에서 C001 검색→김유정 GA-2610-0482 한 건을 확인했다. artifacts/ui-restore/search-customer-id.jpg. 외부 호출 없음.
+- 남은 문제 · 질문: 없음. 기존 FR-05 문서의 증권번호 검색 명세보다 최신 사용자 요청을 우선했다.
+
+## 2026-10-16 · T-19d · 고객별 업무 목록 예시 질문 연결
+- 관련 요구사항: FR-22~24, SCR-20
+- 한 일: 입원일수 예시 질문을 현재 조회 가능한 고객의 업무 목록 질문으로 교체했다. 청구 상세에서 진입하면 선택 고객을 사용하고 일반 화면에서는 담당자에게 배정된 첫 청구의 이름과 ID를 사용한다. 고객명과 답변은 하드코딩하지 않는다.
+  권한 검증된 claim_id 맥락에서 해야 할 업무 목록은 기존 claim_check 도구/검토 답변으로 연결했다. 지급 판단 선행 가드는 그대로 유지했다. 챗봇의 레이아웃과 스타일은 변경하지 않았다.
+- 바뀐 파일: frontend/components/chat-screen.tsx, backend/app/agent/graph.py, backend/tests/test_demo_polish.py
+- 확인 방법: pytest136/live1 제외 및 Ruff, 프론트 lint/type/format, Webpack 빌드 통과. 실제 /api/chat을 UI에서 캐시 전용 모드로 실행해 수술확인서·세분류·진단/병리일·종합비타민정·입원일수 안내 및 보완 요청 버튼을 확인했다. 결과 artifacts/ui-restore/task-list-answer.{txt,jpg}. 외부 Upstage 호출 0회, 추가 추정 비용 $0.
+- 남은 문제 · 질문: 없음. 홀드아웃/평가 기준/안전 가드 수정 없음.
+
+## 2026-10-16 · T-19c · 원본 카드·표 복원과 수동 온보딩
+- 관련 요구사항: FR-18~20, SCR-02, SCR-11, SCR-12
+- 한 일: 문서 검토의 합쳐진 결과 영역을 정규화 표(위)와 확인 안내 카드(아래)로 분리하고 원본 gaon-ai.html의 테두리·간격·표 톤을 복원했다. 청구 상세도 동일한 네 열(항목/값/출처/신뢰도)로 정리했다.
+  메인·챗봇 디자인은 유지하고 메인 현황 한 줄만 제거했다. 자동 온보딩을 없애고 기존 우하단 물음표를 수동 투어로 통일했다. 메인·검토함·챗봇에서 자동 대화상자 0개/버튼 클릭 후 열림을 확인했고, 문서 검토에도 안내를 추가했다.
+  숫자 confidence가 없는 high/low를 임의 확률로 만들지 않는다. 숫자 점수가 제공되면 0~1은 백분율(0.7=70%), 1 초과~100은 점수 그대로 %로 표시하며 미제공/실손24는 —다.
+- 바뀐 파일: frontend/components/{claim-screens,review-screen,onboarding-tour,workspace-shell}.tsx, frontend/lib/{workspace,tours}.ts, frontend/app/globals.css, frontend/app/(protected)/page.tsx
+- 확인 방법: pytest 136 passed/1 live 제외, Ruff 통과. npm run lint/typecheck/format:check, next build --webpack 통과. CUA Playwright에서 실제 네 열·카드 순서·도움말 확인. 캡처 artifacts/ui-restore/{review,detail,home,tour-home,tour-workspace,tour-chat}.jpg.
+- 남은 문제 · 질문: 현재 추출 API는 숫자 confidence가 아닌 high/low만 제공하므로 실제 점수 칸은 —로 표시한다. 평가셋·안전 규칙·KB 원문은 수정하지 않았다.
+
+## 2026-10-16 · T-19b · 전체 UX 검수 반영
+- 관련 요구사항: FR-20~35, NFR-08
+- 한 일: 수정 전 UX 보고서에13건을 기록하고 명확한11건을 수정했다. 내부 항목명·날짜·41px 필드표·56px 인박스·툴팁·원본 창 키보드·초안 조사/타이핑·발송 피드백·공유 이슈/이력 표시를 보완했다. 큰 구조 제안2건은 미적용으로 남겼다.
+  대조는 엔진과 같은 접수 환자명/진료 기간 양 끝/활성 규칙을 사용한다. 명확한 청구 지시어만 도구에 연결하고 나머지는 기존 모델 분류/거절 판단을 유지한다. 알려지지 않은 서류는 누락 서류로 바꾸지 않고 템플릿 목록만 안내한다. 코드와 실제 추출 좌표를 보존하며 화면에서만 가독성을 바꾼다.
+- 바뀐 파일: backend/app/agent/{graph,claim_answer}.py, services/{workspace,claim_status,presentation}.py, config.py, tests/test_demo_polish.py, frontend/components/{claim-screens,chat-screen,review-screen,operations-screens,onboarding-tour}.tsx, lib/workspace.ts, scripts/check-typing.mjs, globals.css, AGENTS.md/.env.example, docs/{implementation_objects,decisions,06_eval_plan,WORKLOG}.md, TODO.md, artifacts/demo/
+- 확인 방법: pytest135 passed/live1 제외, Ruff 검사/포맷, 프론트 lint/type/format, next build --webpack 통과. 실제 훅 가상 시계로50자/초·건너뛰기·reduced-motion 검증. CUA로 로그인~관리자, 네 맥락 질문/복사/지급 거절, 빈 상태/오류/모의 발송/이관 상태, 필터/페이지/스크롤172.5복원,1440/1920와 투어 확인. PNG39장 경로는 artifacts/demo/README.md.
+- 남은 문제 · 질문: 대조 항목별 접기와 문서별 필드 접기는 사용자 결정 제안으로 남겼다. OS 모션 설정과 저장 차단 브라우저는 직접 변경하지 않았고 해당 분기는 코드/가상 시계/예외 처리로 검증했다. 검수 상태는13청구/29서류·요청0·단계0으로 복구, 김유정7/8 보완 요청이다. Upstage 외부0회/문서0페이지, 추가 추정$0. 정상 실행 모드로 복귀했다. 홀드아웃/평가/안전 가드/KB/기존 T18 산출물은 불변.
+
+## 2026-10-16 · T-19a · 시연 전 화면·기능 보완
+- 관련 요구사항: FR-20~35, NFR-08
+- 한 일: ui-v2-before-demo 태그와 feat/demo-polish 브랜치를 만들었다. 상태를 실제 누락 기준의 공통 함수로 통일하고 누락 확인만으로 자동 통과하는 오류를 막았다. 실제 값 대조 표/원본 위치, 공유 확인 사항, 밀도 높은 표/인박스 10건 페이징, 고객 맥락 질문/분리 초안/타이핑, 화면별 코치마크를 추가했다.
+- 바뀐 파일: backend/app/services/{claim_status,workspace,rules}.py, routers/{claims,review}.py, agent/{tools,graph,claim_answer,display}.py, models/config/schemas, frontend/components·lib/tours.ts·lib/use-typing.ts·globals.css, tests/test_demo_polish.py, .env.example, artifacts/demo/
+- 확인 방법: pytest129 passed/live1 제외, Ruff/프론트 lint/type/next build --webpack 통과. seed --demo로 13청구/29서류 복구, 복구 전 상태 증거를 로컬 캐시에 보존했다. CUA로 메인/검토함/상세/어시스턴트 1차 확인과 캡처. UX 보고서를 수정 전에 작성했다.
+- 남은 문제 · 질문: artifacts/demo/ux_review.md의 중간 7건을 T-19b에서 수정하고 관리자/오류/되돌아가기까지 전체 검수한다. 구조 제안2건은 적용하지 않는다. 홀드아웃/평가 기준/안전 가드는 변경하지 않았다.
+
 ## 2026-10-16 · T-18 · 답변 본문 목록을 실제 글머리표로 표시
 - 관련 요구사항: FR-28~35
 - 한 일: 답변 표시에서 연속된 `- ` 줄을 ul/li로 묶고 disc 글머리표를 적용했다. 일반 문단·번호 제목·조항 강조와 API 원문은 그대로 보존했다.

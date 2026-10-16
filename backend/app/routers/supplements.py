@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field
 from sqlmodel import select
 
-from app.auth import ClaimWrite, CurrentUser, SessionDep
+from app.auth import ClaimWrite, CurrentUser, SessionDep, require_claim_access
 from app.models import (
     ActorType,
     AuditLog,
@@ -19,19 +19,36 @@ from app.models import (
 )
 from app.routers.review import access
 from app.services.rules import review_from_db
-from app.services.supplement import draft_message
+from app.services.supplement import claim_supplement_draft
 
 router = APIRouter(tags=["supplements"])
 
 
 def dto(row, session):
     claim = session.get(Claim, row.claim_id)
-    return {**row.model_dump(mode="json"), "customer_name": claim.customer_name}
+    logs = session.exec(
+        select(AuditLog).where(AuditLog.claim_id == row.claim_id).order_by(AuditLog.created_at)
+    ).all()
+    related = [log for log in logs if log.detail.get("request_id") == row.id]
+
+    def event_time(action):
+        return next((log.created_at.isoformat() for log in related if log.action == action), None)
+
+    return {
+        **row.model_dump(mode="json"),
+        "customer_name": claim.customer_name,
+        "created_at": event_time("supplement_draft"),
+        "sent_at": event_time("supplement_send_mock"),
+        "received_at": event_time("supplement_received"),
+    }
 
 
 @router.get("/supplements")
-def list_supplements(user: CurrentUser, session: SessionDep):
+def list_supplements(user: CurrentUser, session: SessionDep, claim_id: str | None = None):
     query = select(SupplementRequest).join(Claim, SupplementRequest.claim_id == Claim.id)
+    if claim_id:
+        require_claim_access(claim_id, user, session)
+        query = query.where(SupplementRequest.claim_id == claim_id)
     if user.role != Role.ADMIN:
         query = query.where(Claim.assignee_id == user.id)
     return [
@@ -66,12 +83,18 @@ def create_supplement(claim: ClaimWrite, user: CurrentUser, session: SessionDep,
             SupplementRequest.status.in_([SupplementStatus.DRAFT, SupplementStatus.SENT_MOCK]),
         )
     ).first()
-    if active:
-        return dto(active, session)
-    labels = [config.UPSTAGE_DOC_CLASSES[c].split(".")[0] for c in codes]
-    # 캐시 전용 서버에서는 Solar 호출 없이 표준 문구를 사용하며 이를 이력·응답에 명시한다.
-    message, source = draft_message(config, claim.customer_name, claim.id, labels)
-    row = SupplementRequest(claim_id=claim.id, doc_types=codes, message=message)
+    if active and active.status == SupplementStatus.SENT_MOCK:
+        raise HTTPException(409, "이미 발송한 보완 요청의 회신을 기다리고 있어요.")
+    # 서버가 판단한 누락 서류에 고정 안내 양식의 고객/계약/접수 정보를 채운다.
+    generated = claim_supplement_draft(session, user, config, claim.id, codes)
+    message = generated.get("draft_text")
+    if not message:
+        raise HTTPException(409, generated.get("message", "안내 문구를 만들지 못했어요."))
+    source = "fixed_template"
+    # 명시적인 생성 요청은 기존 미발송 초안도 재생성한다. 오래된 Solar 캐시를 재사용하지 않는다.
+    row = active or SupplementRequest(claim_id=claim.id, doc_types=codes, message=message)
+    row.doc_types = codes
+    row.message = message
     session.add(row)
     session.flush()
     session.add(

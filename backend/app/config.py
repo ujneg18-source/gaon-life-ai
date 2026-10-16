@@ -97,6 +97,9 @@ class Settings(BaseSettings):
         "CV-05": [("10_claims_manual.md", "4장", "CV-05")],
         "CV-06": [("10_claims_manual.md", "4장", "CV-06")],
     }
+    DRAFT_DOCUMENT_NOUN_PATTERN: str = (
+        r"[가-힣A-Z]+(?:확인서|결과지|증명서|진단서|사본|동의서|기록지|판독지|의뢰서)"
+    )
     CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
     # 실제 규칙의 근거를 표시하는 주소다. 고객/평가 질문별 문장은 설정하지 않는다.
     CHAT_RULE_LABELS: dict[str, str] = {
@@ -154,7 +157,9 @@ class Settings(BaseSettings):
     CHAT_MAX_MESSAGE: int = 2000
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
     DEMO_SAMPLE_MOCKS: bool = True
-    SHOW_DEVELOPMENT_BADGES: bool = True
+    SHOW_DEVELOPMENT_BADGES: bool = False
+    SHOW_DEV_BADGE: bool = False
+    DEMO_MODE: bool = True
     SAMPLES_ROOT: Path = PROJECT_ROOT / "data/samples"
     DEMO_CUSTOMERS_PATH: Path = PROJECT_ROOT / "data/samples/customers.json"
     DEMO_RESULTS_PATH: Path = PROJECT_ROOT / "data/cache/demo-results"
@@ -237,6 +242,11 @@ class Settings(BaseSettings):
         "disability": "후유장해",
         "death": "사망보험금",
     }
+    DOCUMENT_DISPLAY_LABELS: dict[str, str] = {
+        "pathology": "조직검사 결과지",
+        "medical_receipt": "진료비 영수증",
+        "pharmacy_receipt": "약제비 영수증",
+    }
     FIELD_LABELS: dict[str, str] = {
         "patient_name": "환자 성명",
         "issuer": "발행 기관",
@@ -283,6 +293,7 @@ class Settings(BaseSettings):
     MAX_FILES_PER_CLAIM: int = Field(default=10, gt=0)
     REVIEW_ON_FORMAT: bool = True
     SOLAR_CHAT_PATH: str = "/chat/completions"
+    SUPPLEMENT_MESSAGE_TEMPLATES: Path = PROJECT_ROOT / "data/templates/supplement_messages.json"
     SUPPLEMENT_MAX_CHARS: int = 2000
     REVIEW_ON_LOW_CONF: bool = True
     REVIEW_ON_NOT_IN_SOURCE: bool = True

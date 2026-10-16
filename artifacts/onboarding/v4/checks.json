@@ -1,0 +1,88 @@
+{
+  "desktop": [
+    {
+      "bounds": true,
+      "box": {
+        "h": 226.7421875,
+        "w": 424,
+        "x": 9,
+        "y": 128
+      },
+      "card": {
+        "h": 488.640625,
+        "w": 640,
+        "x": 453,
+        "y": 16
+      },
+      "overlap": false,
+      "rows": [
+        "주요기능",
+        "도입 배경",
+        "데모 범위"
+      ],
+      "side": "left",
+      "target": "home-overview"
+    },
+    {
+      "bounds": true,
+      "box": {
+        "h": 314,
+        "w": 414,
+        "x": 497.5,
+        "y": 253.4921875
+      },
+      "card": {
+        "h": 348.890625,
+        "w": 460,
+        "x": 17.5,
+        "y": 235.9921875
+      },
+      "overlap": false,
+      "rows": [
+        "기준 찾기",
+        "고객 업무"
+      ],
+      "side": "right",
+      "target": "home-assistant"
+    },
+    {
+      "bounds": true,
+      "box": {
+        "h": 314,
+        "w": 414,
+        "x": 353.5,
+        "y": 253.4921875
+      },
+      "card": {
+        "h": 348.890625,
+        "w": 460,
+        "x": 787.5,
+        "y": 235.9921875
+      },
+      "overlap": false,
+      "rows": [
+        "서류 확인",
+        "대조·처리"
+      ],
+      "side": "left",
+      "target": "home-workspace"
+    }
+  ],
+  "narrow": [
+    {
+      "bounds": true,
+      "overlap": false,
+      "target": "home-overview"
+    },
+    {
+      "bounds": true,
+      "overlap": false,
+      "target": "home-assistant"
+    },
+    {
+      "bounds": true,
+      "overlap": false,
+      "target": "home-workspace"
+    }
+  ]
+}

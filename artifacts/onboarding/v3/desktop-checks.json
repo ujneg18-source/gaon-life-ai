@@ -1,0 +1,1245 @@
+[
+  {
+    "bounds": true,
+    "box": {
+      "h": 439.4921875,
+      "w": 834,
+      "x": 215.5,
+      "y": 17
+    },
+    "card": {
+      "h": 227.234375,
+      "w": 460,
+      "x": 402.5,
+      "y": 476.4921875
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "side": "top",
+    "target": "home-overview",
+    "title": "안녕하세요. 가온생명 AI입니다"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 314,
+      "w": 414,
+      "x": 215.5,
+      "y": 16.9921875
+    },
+    "card": {
+      "h": 348.890625,
+      "w": 460,
+      "x": 215.5,
+      "y": 350.9921875
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "side": "top",
+    "target": "home-assistant",
+    "title": "궁금한 업무는 대화로 물어보세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 314,
+      "w": 414,
+      "x": 635.5,
+      "y": 16.9921875
+    },
+    "card": {
+      "h": 348.890625,
+      "w": 460,
+      "x": 589.5,
+      "y": 350.9921875
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "side": "top",
+    "target": "home-workspace",
+    "title": "청구 서류를 한곳에서 검토하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/home",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 70,
+      "w": 1272,
+      "x": 0,
+      "y": 0
+    },
+    "card": {
+      "h": 471.140625,
+      "w": 460,
+      "x": 406,
+      "y": 90
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "top",
+    "target": "assistant-intro",
+    "title": "업무 어시스턴트와 함께 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 241,
+      "x": 9,
+      "y": 72
+    },
+    "card": {
+      "h": 471.140625,
+      "w": 460,
+      "x": 270,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "left",
+    "target": "assistant-new-chat",
+    "title": "다른 업무는 새 채팅에서 시작해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 131.796875,
+      "w": 719,
+      "x": 253,
+      "y": 570.203125
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 382.5,
+      "y": 150.203125
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "bottom",
+    "target": "assistant-input",
+    "title": "평소 말하듯 질문해 주세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 59.6953125,
+      "w": 373.6015625,
+      "x": 558.3984375,
+      "y": 86
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 78.3984375,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "right",
+    "target": "assistant-question",
+    "title": "고객의 업무 리스트를 물어볼게요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 125.375,
+      "w": 624,
+      "x": 293,
+      "y": 16.7890625
+    },
+    "card": {
+      "h": 425.640625,
+      "w": 460,
+      "x": 375,
+      "y": 162.1640625
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "top",
+    "target": "assistant-answer-summary",
+    "title": "제출 현황과 확인할 일을 정리해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 646,
+      "w": 314,
+      "x": 958,
+      "y": 37
+    },
+    "card": {
+      "h": 448.390625,
+      "w": 460,
+      "x": 478,
+      "y": 136
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "right",
+    "target": "assistant-sources",
+    "title": "답변의 근거를 함께 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/assistant",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 303.5234375,
+      "w": 217,
+      "x": 7,
+      "y": 128.59375
+    },
+    "card": {
+      "h": 448.390625,
+      "w": 460,
+      "x": 244,
+      "y": 56.3515625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "workspace-navigation",
+    "title": "청구 검토는 여기서 시작해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 61.6953125,
+      "w": 217,
+      "x": 7,
+      "y": 159.640625
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 244,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "workspace-menu-1",
+    "title": "1. 검토할 청구를 찾아보세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 61.6953125,
+      "w": 217,
+      "x": 7,
+      "y": 212.3359375
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 244,
+      "y": 43.1796875
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "workspace-menu-2",
+    "title": "2. 청구의 전체 흐름을 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 61.6953125,
+      "w": 217,
+      "x": 7,
+      "y": 265.03125
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 244,
+      "y": 95.875
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "workspace-menu-3",
+    "title": "3. 원본과 추출 정보를 대조해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 61.6953125,
+      "w": 217,
+      "x": 7,
+      "y": 317.7265625
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 244,
+      "y": 148.5703125
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "workspace-menu-4",
+    "title": "4. 누락 서류를 안내해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 61.6953125,
+      "w": 217,
+      "x": 7,
+      "y": 328.921875
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 244,
+      "y": 171.265625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "workspace-menu-5",
+    "title": "5. 처리한 내용을 되짚어 봐요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 58,
+      "w": 634,
+      "x": 253,
+      "y": 30.5
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 340,
+      "y": 108.5
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "top",
+    "target": "workspace-search",
+    "title": "고객 이름이나 번호로 검색하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 50.1484375,
+      "w": 991,
+      "x": 253,
+      "y": 199.84375
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 518.5,
+      "y": 269.9921875
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "top",
+    "target": "inbox-filters",
+    "title": "필요한 상태만 모아 보세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 449.09375,
+      "w": 335.75,
+      "x": 254,
+      "y": 256.9921875
+    },
+    "card": {
+      "h": 471.140625,
+      "w": 460,
+      "x": 609.75,
+      "y": 233
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "left",
+    "target": "inbox-heading-person",
+    "title": "청구번호와 고객을 함께 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 449.09375,
+      "w": 361.75,
+      "x": 575.75,
+      "y": 256.9921875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 95.75,
+      "y": 281.5390625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "right",
+    "target": "inbox-heading-receipt",
+    "title": "청구 유형과 접수 시각을 살펴봐요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 449.09375,
+      "w": 319.5,
+      "x": 923.5,
+      "y": 256.9921875
+    },
+    "card": {
+      "h": 471.140625,
+      "w": 460,
+      "x": 443.5,
+      "y": 233
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "right",
+    "target": "inbox-heading-status",
+    "title": "처리 상태와 확인할 일을 구분해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 449.09375,
+      "w": 319.5,
+      "x": 923.5,
+      "y": 256.9921875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 443.5,
+      "y": 281.5390625
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "right",
+    "target": "inbox-heading-status",
+    "title": "자동 통과는 지급 확정이 아니에요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/inbox",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 16,
+      "y": 80
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "top",
+    "target": "claim-search-results",
+    "title": "검색 결과에서 고객을 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 90,
+      "w": 991,
+      "x": 253,
+      "y": 16.9375
+    },
+    "card": {
+      "h": 471.140625,
+      "w": 460,
+      "x": 518.5,
+      "y": 126.9375
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "top",
+    "target": "detail-stepper",
+    "title": "네 단계로 차례대로 검토해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 52,
+      "w": 107.484375,
+      "x": 272,
+      "y": 35.9375
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 399.484375,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "detail-step-0",
+    "title": "1. 필요한 서류부터 살펴보세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 439.1875,
+      "w": 452.5,
+      "x": 274,
+      "y": 173.1875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 746.5,
+      "y": 192.78125
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "detail-documents",
+    "title": "제출 서류와 누락 서류를 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 570.4375,
+      "w": 494.5,
+      "x": 749.5,
+      "y": 112.9375
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 269.5,
+      "y": 198.15625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "detail-extracted",
+    "title": "주요 청구 정보를 요약해 드려요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 52,
+      "w": 107.484375,
+      "x": 563.0234375,
+      "y": 35.9375
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 690.5078125,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "detail-step-1",
+    "title": "2. 서로 다른 서류의 값을 비교해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 53.875,
+      "w": 248,
+      "x": 254,
+      "y": 165.1875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 522,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "compare-key",
+    "title": "무엇을 비교했는지 먼저 읽어 주세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 53.875,
+      "w": 326,
+      "x": 488,
+      "y": 165.1875
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 421,
+      "y": 239.0625
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "top",
+    "target": "compare-a",
+    "title": "첫 번째 서류와 값을 보여드려요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 53.875,
+      "w": 326,
+      "x": 800,
+      "y": 165.1875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 320,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "compare-b",
+    "title": "함께 대조할 서류를 보여드려요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 53.875,
+      "w": 131,
+      "x": 1112,
+      "y": 165.1875
+    },
+    "card": {
+      "h": 448.390625,
+      "w": 460,
+      "x": 632,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "compare-result",
+    "title": "일치·불일치·안내를 구분해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 52,
+      "w": 107.484375,
+      "x": 854.0546875,
+      "y": 35.9375
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 374.0546875,
+      "y": 16
+    },
+    "note": "",
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "detail-step-2",
+    "title": "3. 남은 업무를 정리하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 328.4453125,
+      "w": 494.5,
+      "x": 253,
+      "y": 112.9375
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 767.5,
+      "y": 77.15625
+    },
+    "note": "",
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "detail-summary",
+    "title": "남은 확인 사항을 한눈에 봐요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 328.4453125,
+      "w": 494.5,
+      "x": 749.5,
+      "y": 112.9375
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 269.5,
+      "y": 77.15625
+    },
+    "note": "",
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "detail-note",
+    "title": "확인한 내용과 전달 사항을 남겨요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 52,
+      "w": 79.921875,
+      "x": 1145.078125,
+      "y": 35.9375
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 665.078125,
+      "y": 16
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "detail-step-3",
+    "title": "4. 다음 업무로 이어가세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 246.2890625,
+      "x": 294,
+      "y": 238.8828125
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 560.2890625,
+      "y": 65.8828125
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "detail-supplement",
+    "title": "누락 서류가 있다면 보완 요청해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 158.8828125,
+      "x": 536.2890625,
+      "y": 238.8828125
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 715.171875,
+      "y": 65.8828125
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "left",
+    "target": "detail-submit",
+    "title": "확인이 끝나면 지급 심사로 넘겨요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/detail",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 77.34375,
+      "w": 991,
+      "x": 253,
+      "y": 154
+    },
+    "card": {
+      "h": 403.484375,
+      "w": 460,
+      "x": 518.5,
+      "y": 251.34375
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "top",
+    "target": "page-title",
+    "title": "원본을 보며 추출 정보를 검토해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 143.4921875,
+      "w": 991,
+      "x": 253,
+      "y": 17
+    },
+    "card": {
+      "h": 426.234375,
+      "w": 460,
+      "x": 518.5,
+      "y": 180.4921875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "top",
+    "target": "review-overview",
+    "title": "상단에서 고객과 서류 현황을 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 670,
+      "w": 493.5,
+      "x": 253,
+      "y": 24.9921875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 766.5,
+      "y": 159.9921875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "left",
+    "target": "review-original",
+    "title": "왼쪽은 제출된 원본 서류입니다"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 454,
+      "w": 493.5,
+      "x": 750.5,
+      "y": 24.9921875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 270.5,
+      "y": 51.9921875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "right",
+    "target": "review-normalized",
+    "title": "오른쪽 상단은 추출된 서류 정보예요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 445.703125,
+      "w": 254.5,
+      "x": 751.5,
+      "y": 80.6875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 271.5,
+      "y": 103.5390625
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "right",
+    "target": "review-field-values",
+    "title": "항목과 값을 짝지어 읽어 주세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 445.703125,
+      "w": 236,
+      "x": 992,
+      "y": 80.6875
+    },
+    "card": {
+      "h": 422.390625,
+      "w": 460,
+      "x": 512,
+      "y": 92.5390625
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "right",
+    "target": "review-field-sources",
+    "title": "출처와 신뢰도를 함께 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 446.6953125,
+      "w": 493.5,
+      "x": 750.5,
+      "y": 136.4921875
+    },
+    "card": {
+      "h": 471.140625,
+      "w": 460,
+      "x": 270.5,
+      "y": 124.3359375
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "right",
+    "target": "review-issues",
+    "title": "오른쪽 하단은 확인 사항과 안내입니다"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 491.5,
+      "x": 254,
+      "y": 332.9921875
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 765.5,
+      "y": 159.9921875
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "left",
+    "target": "review-compare-controls",
+    "title": "두 서류는 각각 확대하고 움직여요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 65.59375,
+      "w": 491.5,
+      "x": 751.5,
+      "y": 258.6875
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 271.5,
+      "y": 102.984375
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "right",
+    "target": "review-field-tabs",
+    "title": "문서별 정보와 비교 항목을 나눠 봐요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/review",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 283.3828125,
+      "w": 284,
+      "x": 253,
+      "y": 241.34375
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 557,
+      "y": 194.53125
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "left",
+    "target": "supplement-customer",
+    "title": "먼저 안내할 고객을 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 92.296875,
+      "w": 246,
+      "x": 272,
+      "y": 357.4296875
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 538,
+      "y": 215.078125
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "left",
+    "target": "supplement-missing",
+    "title": "누락 서류와 총개수를 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 246,
+      "x": 272,
+      "y": 451.7265625
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 538,
+      "y": 278.7265625
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "left",
+    "target": "supplement-generate",
+    "title": "준비된 양식으로 문자를 만들어요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 434,
+      "w": 657,
+      "x": 564,
+      "y": 142.8125
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 84,
+      "y": 159.8125
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "right",
+    "target": "supplement-letter",
+    "title": "보낼 내용을 꼼꼼히 살펴보세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 669,
+      "x": 558,
+      "y": 607.40625
+    },
+    "card": {
+      "h": 399.640625,
+      "w": 460,
+      "x": 78,
+      "y": 304
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "right",
+    "target": "supplement-send",
+    "title": "저장과 모의 발송은 달라요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 234.2890625,
+      "w": 703,
+      "x": 541,
+      "y": 241.34375
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 61,
+      "y": 169.984375
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "right",
+    "target": "supplement-history",
+    "title": "이전 안내와 보완 접수를 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/supplement",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 77.34375,
+      "w": 991,
+      "x": 253,
+      "y": 154
+    },
+    "card": {
+      "h": 403.484375,
+      "w": 460,
+      "x": 518.5,
+      "y": 251.34375
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "side": "top",
+    "target": "page-title",
+    "title": "처리 과정을 시간순으로 살펴봐요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 50.1484375,
+      "w": 991,
+      "x": 253,
+      "y": 16.84375
+    },
+    "card": {
+      "h": 425.640625,
+      "w": 460,
+      "x": 518.5,
+      "y": 86.9921875
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "side": "top",
+    "target": "history-filters",
+    "title": "처리 주체별로 기록을 모아 보세요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 185.3359375,
+      "w": 991,
+      "x": 253,
+      "y": 72.9921875
+    },
+    "card": {
+      "h": 376.890625,
+      "w": 460,
+      "x": 518.5,
+      "y": 278.328125
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "side": "top",
+    "target": "history-records",
+    "title": "언제 누가 무엇을 했는지 확인해요"
+  },
+  {
+    "bounds": true,
+    "box": {
+      "h": 54,
+      "w": 54,
+      "x": 1194,
+      "y": 649
+    },
+    "card": {
+      "h": 228.640625,
+      "w": 460,
+      "x": 714,
+      "y": 475
+    },
+    "overlap": false,
+    "page": "/guide/history",
+    "side": "right",
+    "target": "guide-help",
+    "title": "언제든 다시 확인하세요"
+  }
+]

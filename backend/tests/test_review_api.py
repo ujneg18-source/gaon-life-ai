@@ -42,7 +42,7 @@ def test_document_field_confirmation_and_issue_resolution(client):
         stored = s.get(ExtractedField, field["id"])
         assert stored.value == "2026-09-18" and stored.confirmed_value == "2026-09-23"
         assert s.exec(select(AuditLog).where(AuditLog.action == "field_confirm")).first()
-    issue = next(i for i in changed["issues"] if i["status"] == "open")
+    issue = next(i for i in changed["issues"] if i["status"] == "open" and i["kind"] != "missing")
     assert client.post(f"/api/issues/{issue['id']}/resolve").json()["status"] == "resolved"
     assert client.post(f"/api/issues/{issue['id']}/resolve").status_code == 200
     client.post("/api/auth/demo-login", json={"role": "admin"})

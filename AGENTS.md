@@ -124,7 +124,7 @@ uv run python -m scripts.seed --demo
 # 사진이 있는 앱 서류만 교체:
 uv run python -m scripts.seed --demo --use-photo
 ```
-공통 생성기 PNG 재렌더링에는 `uv run playwright install chromium`이 필요하다. 기존 파일 해시가 맞으면 재캡처하지 않는다. 이번 신규 실제 호출은 C002/C006에만 수행했고 김유정은 캐시 재생했다. 기본 verify는 정답 기반 mock이며 OCR 정확도 실측으로 보고하면 안 된다. --live는 실제 호출, --cached는 네트워크 금지다. SHOW_DEVELOPMENT_BADGES=false면 화면 개발 표시는 숨기되 DB provenance는 보존한다.
+공통 생성기 PNG 재렌더링에는 `uv run playwright install chromium`이 필요하다. 기존 파일 해시가 맞으면 재캡처하지 않는다. 이번 신규 실제 호출은 C002/C006에만 수행했고 김유정은 캐시 재생했다. 기본 verify는 정답 기반 mock이며 OCR 정확도 실측으로 보고하면 안 된다. --live는 실제 호출, --cached는 네트워크 금지다. SHOW_DEV_BADGE=false가 기본이며 DEMO_MODE=true에서는 항상 화면 개발 출처를 숨긴다. DB provenance는 보존한다.
 
 ## T-18 평가
 backend/에서 `uv run python -m app.scripts.eval_chat --out artifacts/t18/` 실행. 수정 후 `--phase after`로 별도 저장한다. 동일 phase의 질문별 체크포인트를 재사용하며 정답 해시가 바뀌면 새 결과 폴더가 필요하다. 이번 세션에서 가상 질문/고객·청구/서류 맥락/공개·가상 약관의 Upstage 전송을 사용자가 명시 승인해 실측을 마쳤다. Q08/Q18 source 라벨 수정으로 정답 해시가 바뀌었으므로 다음 실행은 `--out artifacts/t18/revision-2`처럼 새 폴더를 쓴다. `uv run python -m app.scripts.eval_extract`는 기존 캐시만 재생한다. 실제 API65항목과 전자 mock 포함190항목을 구분한다.

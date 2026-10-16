@@ -1,68 +1,40 @@
-"""문구 생성은 지급 판단과 분리한다. 캐시 전용·실패 시 표준 문구를 그대로 쓴다."""
+"""미리 작성한 안내 양식에 실제 청구 정보만 채운다. 외부 AI/문자 발송은 하지 않는다."""
 
-import hashlib
 import json
+from datetime import UTC
+from zoneinfo import ZoneInfo
 
-import httpx
+from app.auth import require_claim_access
+from app.models import Policy
+from app.services.presentation import document_label
 
-from app.services.upstage import locked
 
-
-def draft_message(config, name, claim_id, labels, *, transport=None):
-    base = (
-        f"[가온생명] {name} 고객님, 보험금 청구({claim_id}) 검토를 위해 다음 서류가 필요합니다.\n\n"
-        + ", ".join(labels)
-        + "\n\n발급받으신 서류를 가온생명 앱의 [서류 추가 제출]에 올려 주세요. 제출 후 담당자가 확인하겠습니다."
+def claim_supplement_draft(session, user, config, claim_id, doc_types):
+    """서버가 검증한 누락 서류에만 발급 안내를 붙이고 금액·기한은 만들어 넣지 않는다."""
+    claim = require_claim_access(claim_id, user, session)
+    policy = session.get(Policy, claim.policy_no)
+    templates = json.loads(config.SUPPLEMENT_MESSAGE_TEMPLATES.read_text())
+    documents = []
+    for index, code in enumerate(doc_types, 1):
+        entry = templates["documents"].get(code)
+        if not entry:
+            return {"message": "이 서류의 안내 양식이 준비되지 않았어요.", "draft_text": None}
+        documents.append(
+            f"{index}. {document_label(code, config)}\n"
+            f"발급·준비처: {entry['issuer']}\n확인 사항: {entry['description']}"
+        )
+    received = claim.received_at
+    if received.tzinfo is None:
+        received = received.replace(tzinfo=UTC)
+    message = templates["message"].format(
+        customer_name=claim.customer_name,
+        claim_id=claim.id,
+        product_name=policy.product_name if policy else "가입 상품 확인 필요",
+        claim_types=", ".join(config.CLAIM_TYPE_LABELS.get(t, t) for t in claim.claim_types),
+        received_date=received.astimezone(ZoneInfo("Asia/Seoul")).strftime("%Y.%m.%d"),
+        document_count=len(doc_types),
+        document_details="\n\n".join(documents),
     )
-    body = {
-        "model": config.SOLAR_CHAT_MODEL,
-        "messages": [
-            {
-                "role": "system",
-                "content": "표준 보완 안내문의 표현만 친절하게 다듬으세요. 서류 이름, 청구번호, 고객 이름을 유지하세요. 지급 여부·기한·금액·새로운 요구는 추가하지 마세요. 본문만 출력하세요.",
-            },
-            {"role": "user", "content": base},
-        ],
-        "reasoning_effort": "medium",
-    }
-    fingerprint = hashlib.sha256(
-        json.dumps(body, ensure_ascii=False, sort_keys=True).encode()
-    ).hexdigest()
-    directory = config.CACHE_PATH / "solar"
-    directory.mkdir(parents=True, exist_ok=True)
-    cache = directory / f"{fingerprint}.json"
-    with locked(cache.with_suffix(".lock")):
-        if cache.exists():
-            return json.loads(cache.read_text())["message"], "solar_cached"
-        if config.USE_CACHED_RESULTS or not config.UPSTAGE_API_KEY.get_secret_value():
-            return base, "standard_template"
-        try:
-            # 문서 엔진과 같은 config로만 키를 읽으며 예외 응답/헤더는 이력에 넣지 않는다.
-            with httpx.Client(timeout=config.UPSTAGE_TIMEOUT_SEC, transport=transport) as client:
-                response = client.post(
-                    config.UPSTAGE_BASE_URL.rstrip("/").removesuffix("/v2").removesuffix("/v1")
-                    + "/v1"
-                    + config.SOLAR_CHAT_PATH,
-                    headers={
-                        "Authorization": "Bearer " + config.UPSTAGE_API_KEY.get_secret_value()
-                    },
-                    json=body,
-                )
-                response.raise_for_status()
-                result = response.json()
-                message = result["choices"][0]["message"]["content"].strip()
-            if (
-                not message
-                or len(message) > config.SUPPLEMENT_MAX_CHARS
-                or any(v not in message for v in [name, claim_id, *labels])
-            ):
-                return base, "standard_template"
-            # 원 응답과 채택 문구를 별도로 캐시한다. 로그에는 사용 경로만 남긴다.
-            temp = cache.with_suffix(".tmp")
-            temp.write_text(
-                json.dumps({"response": result, "message": message}, ensure_ascii=False)
-            )
-            temp.replace(cache)
-            return message, "solar"
-        except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError):
-            return base, "standard_template"
+    if not doc_types or len(message) > config.SUPPLEMENT_MAX_CHARS:
+        return {"message": "요청할 서류와 안내 문구 길이를 확인해 주세요.", "draft_text": None}
+    return {"message": message, "draft_text": message, "customer_name": claim.customer_name}

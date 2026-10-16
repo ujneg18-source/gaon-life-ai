@@ -42,6 +42,7 @@ class ChatAnswer(StrictModel):
     used_chunk_ids: list[str] = Field(default_factory=list)
     answer: str
     display_answer: str | None = None
+    draft_text: str | None = None
     display_citations: list[Citation] | None = None
     display_claim_refs: list[DisplayClaimRef] | None = None
     intent: Intent

@@ -5,7 +5,7 @@ import { ChatScreen } from "@/components/chat-screen";
 export default function ChatPage() {
   return (
     <Suspense fallback={<p>업무 어시스턴트를 열고 있어요.</p>}>
-      <ChatScreen />
+      <ChatScreen initialTime={new Date().toISOString()} />
     </Suspense>
   );
 }

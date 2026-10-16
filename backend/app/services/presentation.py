@@ -11,7 +11,9 @@ def field_label(key, config):
 
 
 def document_label(code, config):
-    return config.UPSTAGE_DOC_CLASSES.get(code, "해당 서류").split(".")[0]
+    return config.DOCUMENT_DISPLAY_LABELS.get(
+        code, config.UPSTAGE_DOC_CLASSES.get(code, "해당 서류").split(".")[0]
+    )
 
 
 def review_reason(reason):

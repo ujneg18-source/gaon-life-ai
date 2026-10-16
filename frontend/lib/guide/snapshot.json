@@ -1,0 +1,5049 @@
+{
+  "claims": [
+    {
+      "display_issues": [
+        {
+          "id": 1,
+          "kind": "missing",
+          "title": "수술확인서 누락",
+          "doc_ids": [5],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-04",
+          "claim_id": "GA-2610-0482",
+          "detail": "보완 요청이 필요합니다.",
+          "field_keys": ["items"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 2,
+          "kind": "low_conf",
+          "title": "진단서: 질병분류기호 확인",
+          "doc_ids": [1],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "FIELD-diagnosis_code",
+          "claim_id": "GA-2610-0482",
+          "detail": "추출된 값(C18)이 입퇴원확인서 원문(C18.7)과 다릅니다. 세분류가 빠졌을 수 있으니 원문과 같은지 확인하고, 병리 진단명과도 함께 대조해 주세요.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": [4]
+        },
+        {
+          "id": 3,
+          "kind": "mismatch",
+          "title": "진단서 · 조직검사 결과지: 진단일과 병리 보고일 확인",
+          "doc_ids": [1, 2],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-01",
+          "claim_id": "GA-2610-0482",
+          "detail": "진단일(2026-09-18)이 병리 보고일(2026-09-21)보다 빠릅니다. 진단확정일은 병리 보고일 기준이므로 진료 기록으로 경위를 확인해 주세요. (암진단특약 제3조 ③)",
+          "field_keys": ["diagnosis_date", "report_date"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        },
+        {
+          "id": 6,
+          "kind": "excluded_item",
+          "title": "영수증 · 처방전: 종합비타민정 보상 여부",
+          "doc_ids": [7, 6],
+          "evidence": [
+            {
+              "source": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+              "article": "제4조 ③ 2호",
+              "text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다(다만, 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용은 보상하지 않습니다).\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+              "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+              "is_mock": false
+            },
+            {
+              "source": "가온생명 보상 업무 매뉴얼",
+              "article": "6장",
+              "text": "6. 실손 비급여 항목 확인\n다음 비급여 비용은 실손의료보험에서 보상하지 않습니다. 해당 항목이 보이면 **\"보상 제외 가능성\"**으로 표시하고 담당자가 확인합니다. 단정하지 않습니다.",
+              "source_path": "data/kb/gaon/10_claims_manual.md",
+              "is_mock": true
+            }
+          ],
+          "resolved_by": null,
+          "rule_id": "coverage",
+          "claim_id": "GA-2610-0482",
+          "detail": "종합비타민정은 처방전에 없는 일반의약품 및 비급여 항목으로 분류되어 보상 제외 가능성이 있습니다. 치료 목적 등 예외 여부를 확인하고, 필요하시다면 지급 심사로 이관할 때 메모를 함께 남겨 주세요. (실손 특별약관2 질병 비급여 제4조 ③ 2호)",
+          "field_keys": ["items[3].drug_name"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        },
+        {
+          "id": 5,
+          "kind": "info",
+          "title": "입퇴원확인서 · 세부내역서: 입원일수 차이",
+          "doc_ids": [3, 5],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-02",
+          "claim_id": "GA-2610-0482",
+          "detail": "입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 있습니다. 산정 방식 차이일 수 있어 불일치로 보지 않았습니다. (질병입원일당특약 제5조)",
+          "field_keys": [
+            "stay_days",
+            "inpatient_days",
+            "admit_date",
+            "discharge_date"
+          ],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": null,
+      "customer_name": "김유정",
+      "review_note": "",
+      "customer_id": "DEMO-C001",
+      "received_at": "2026-10-15T00:12:00Z",
+      "status": "supplement",
+      "step": 3,
+      "reported_start": null,
+      "id": "GA-2610-0482",
+      "policy_no": "L-2026-000001",
+      "claim_types": ["cancer_diagnosis", "hospitalization", "medical_expense"],
+      "channel": ["app", "silson24"],
+      "assignee_id": 1,
+      "comparisons": [
+        {
+          "title": "질병분류기호",
+          "a": {
+            "document_id": 1,
+            "doc_name": "진단서",
+            "key": "diagnosis_code",
+            "value": "C18"
+          },
+          "b": {
+            "document_id": 3,
+            "doc_name": "입퇴원확인서",
+            "key": "diagnosis_code",
+            "value": "C18.7"
+          },
+          "result": "mismatch"
+        },
+        {
+          "title": "질병분류기호",
+          "a": {
+            "document_id": 1,
+            "doc_name": "진단서",
+            "key": "diagnosis_code",
+            "value": "C18"
+          },
+          "b": {
+            "document_id": 6,
+            "doc_name": "처방전",
+            "key": "diagnosis_code",
+            "value": "C18.7"
+          },
+          "result": "mismatch"
+        },
+        {
+          "title": "진단일과 병리 보고일",
+          "a": {
+            "document_id": 1,
+            "doc_name": "진단서",
+            "key": "diagnosis_date",
+            "value": "2026-09-18"
+          },
+          "b": {
+            "document_id": 2,
+            "doc_name": "조직검사 결과지",
+            "key": "report_date",
+            "value": "2026-09-21"
+          },
+          "result": "mismatch"
+        },
+        {
+          "title": "질병분류기호와 병리 진단명",
+          "a": {
+            "document_id": 1,
+            "doc_name": "진단서",
+            "key": "diagnosis_code",
+            "value": "C18"
+          },
+          "b": {
+            "document_id": 2,
+            "doc_name": "조직검사 결과지",
+            "key": "pathology_result",
+            "value": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)"
+          },
+          "result": "mismatch"
+        },
+        {
+          "title": "입원일수",
+          "a": {
+            "document_id": 3,
+            "doc_name": "입퇴원확인서",
+            "key": "stay_days",
+            "value": "9"
+          },
+          "b": {
+            "document_id": 5,
+            "doc_name": "진료비 세부내역서",
+            "key": "inpatient_days",
+            "value": "8"
+          },
+          "result": "info"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 1,
+            "doc_name": "진단서",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 2,
+            "doc_name": "조직검사 결과지",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 3,
+            "doc_name": "입퇴원확인서",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 4,
+            "doc_name": "진료비 영수증",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 5,
+            "doc_name": "진료비 세부내역서",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 6,
+            "doc_name": "처방전",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "환자명",
+          "a": {
+            "document_id": null,
+            "doc_name": "청구 접수정보",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "b": {
+            "document_id": 7,
+            "doc_name": "약제비 영수증",
+            "key": "patient_name",
+            "value": "김유정"
+          },
+          "result": "match"
+        },
+        {
+          "title": "질병분류기호",
+          "a": {
+            "document_id": 3,
+            "doc_name": "입퇴원확인서",
+            "key": "diagnosis_code",
+            "value": "C18.7"
+          },
+          "b": {
+            "document_id": 6,
+            "doc_name": "처방전",
+            "key": "diagnosis_code",
+            "value": "C18.7"
+          },
+          "result": "match"
+        },
+        {
+          "title": "보장 기간",
+          "a": {
+            "document_id": 3,
+            "doc_name": "입퇴원확인서",
+            "key": "admit_date",
+            "value": "2026-09-22 ~ 2026-09-30"
+          },
+          "b": {
+            "document_id": null,
+            "doc_name": "보험 계약",
+            "key": "coverage",
+            "value": "2020-01-01 ~ 2033-12-31"
+          },
+          "result": "match"
+        },
+        {
+          "title": "보장 기간",
+          "a": {
+            "document_id": 4,
+            "doc_name": "진료비 영수증",
+            "key": "period_start",
+            "value": "2026-09-22 ~ 2026-09-29"
+          },
+          "b": {
+            "document_id": null,
+            "doc_name": "보험 계약",
+            "key": "coverage",
+            "value": "2020-01-01 ~ 2033-12-31"
+          },
+          "result": "match"
+        },
+        {
+          "title": "보장 기간",
+          "a": {
+            "document_id": 5,
+            "doc_name": "진료비 세부내역서",
+            "key": "period_start",
+            "value": "2026-09-22 ~ 2026-09-29"
+          },
+          "b": {
+            "document_id": null,
+            "doc_name": "보험 계약",
+            "key": "coverage",
+            "value": "2020-01-01 ~ 2033-12-31"
+          },
+          "result": "match"
+        }
+      ],
+      "customer": {
+        "contact": "000-0000-0001",
+        "id": "DEMO-C001",
+        "name": "김유정",
+        "is_mock": true,
+        "birth_date": "1988-05-20"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2020-01-01",
+        "customer_id": "DEMO-C001",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000001",
+        "riders": [
+          "cancer_diagnosis",
+          "hospitalization",
+          "medical_expense",
+          "surgery",
+          "outpatient",
+          "disability",
+          "death"
+        ],
+        "coverage_start": "2020-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 7,
+      "required_count": 8,
+      "required": [
+        "admission",
+        "diagnosis",
+        "medical_detail",
+        "medical_receipt",
+        "pathology",
+        "pharmacy_receipt",
+        "prescription",
+        "surgery_cert"
+      ],
+      "documents": [
+        {
+          "id": 1,
+          "doc_type": "diagnosis",
+          "source": "image",
+          "provenance": "upstage",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        },
+        {
+          "id": 2,
+          "doc_type": "pathology",
+          "source": "image",
+          "provenance": "upstage",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        },
+        {
+          "id": 3,
+          "doc_type": "admission",
+          "source": "image",
+          "provenance": "upstage",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        },
+        {
+          "id": 4,
+          "doc_type": "medical_receipt",
+          "source": "silson24",
+          "provenance": "silson24",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        },
+        {
+          "id": 5,
+          "doc_type": "medical_detail",
+          "source": "silson24",
+          "provenance": "silson24",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        },
+        {
+          "id": 6,
+          "doc_type": "prescription",
+          "source": "silson24",
+          "provenance": "silson24",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        },
+        {
+          "id": 7,
+          "doc_type": "pharmacy_receipt",
+          "source": "image",
+          "provenance": "upstage",
+          "status": "extracted",
+          "page_size": {
+            "width": 1240,
+            "height": 1754
+          }
+        }
+      ],
+      "issues": [
+        {
+          "id": 1,
+          "kind": "missing",
+          "title": "수술확인서 미제출",
+          "doc_ids": [5],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-04",
+          "claim_id": "GA-2610-0482",
+          "detail": "수술확인서가 제출되었는지 확인해 주세요.",
+          "field_keys": ["items"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 2,
+          "kind": "low_conf",
+          "title": "추출 항목 확인 필요: 질병분류기호",
+          "doc_ids": [1],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "FIELD-diagnosis_code",
+          "claim_id": "GA-2610-0482",
+          "detail": "추출한 값과 원문이 같은지 확인해 주세요. 원문과 다름(세분류 누락)",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 3,
+          "kind": "mismatch",
+          "title": "진단일이 병리 보고일보다 빠름",
+          "doc_ids": [1, 2],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-01",
+          "claim_id": "GA-2610-0482",
+          "detail": "진단일 2026-09-18 · 병리 보고일 2026-09-21",
+          "field_keys": ["diagnosis_date", "report_date"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 4,
+          "kind": "mismatch",
+          "title": "질병코드와 병리 진단 부합 확인 필요",
+          "doc_ids": [1, 2],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-03",
+          "claim_id": "GA-2610-0482",
+          "detail": "질병코드와 병리 진단명이 서로 맞는지 확인해 주세요.",
+          "field_keys": ["diagnosis_code", "pathology_result", "specimen"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 5,
+          "kind": "info",
+          "title": "1일 차이: 산정 방식 차이 가능 (질병입원일당특약 제5조)",
+          "doc_ids": [3, 5],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-02",
+          "claim_id": "GA-2610-0482",
+          "detail": "입퇴원확인서 9일 · 세부내역서 8일",
+          "field_keys": [
+            "stay_days",
+            "inpatient_days",
+            "admit_date",
+            "discharge_date"
+          ],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 6,
+          "kind": "excluded_item",
+          "title": "종합비타민정 (일반의약품) 보상 제외 가능성",
+          "doc_ids": [7, 6],
+          "evidence": [
+            {
+              "source": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+              "article": "제4조 ③ 2호",
+              "text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다(다만, 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용은 보상하지 않습니다).\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+              "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+              "is_mock": false
+            },
+            {
+              "source": "가온생명 보상 업무 매뉴얼",
+              "article": "6장",
+              "text": "6. 실손 비급여 항목 확인\n다음 비급여 비용은 실손의료보험에서 보상하지 않습니다. 해당 항목이 보이면 **\"보상 제외 가능성\"**으로 표시하고 담당자가 확인합니다. 단정하지 않습니다.",
+              "source_path": "data/kb/gaon/10_claims_manual.md",
+              "is_mock": true
+            }
+          ],
+          "resolved_by": null,
+          "rule_id": "coverage",
+          "claim_id": "GA-2610-0482",
+          "detail": "처방전에 없는 일반의약품·비급여 항목이에요. 치료 목적 등 예외 여부를 담당자가 확인해 주세요.",
+          "field_keys": ["items[3].drug_name"],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [
+        {
+          "value": "김유정",
+          "id": 1,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 1,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7109,
+              "y": 0.1789
+            },
+            {
+              "x": 0.7644,
+              "y": 0.1787
+            },
+            {
+              "x": 0.7645,
+              "y": 0.1922
+            },
+            {
+              "x": 0.711,
+              "y": 0.1924
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.998,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "하람대학교병원",
+          "id": 2,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "하람대학교병원",
+          "document_id": 1,
+          "key": "issuer",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.3557,
+              "y": 0.0573
+            },
+            {
+              "x": 0.6375,
+              "y": 0.056
+            },
+            {
+              "x": 0.6377,
+              "y": 0.082
+            },
+            {
+              "x": 0.356,
+              "y": 0.0833
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9962,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "하람대학교병원",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-10-02",
+          "id": 3,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-10-02",
+          "document_id": 1,
+          "key": "issued_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.135,
+              "y": 0.8782
+            },
+            {
+              "x": 0.2252,
+              "y": 0.8778
+            },
+            {
+              "x": 0.2252,
+              "y": 0.8889
+            },
+            {
+              "x": 0.1351,
+              "y": 0.8893
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9971,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-10-02",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "C18",
+          "id": 4,
+          "extract_conf": "high",
+          "review_reasons": [
+            "not_in_source",
+            "원문과 다름(세분류 누락)",
+            "cross_check"
+          ],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "C18",
+          "document_id": 1,
+          "key": "diagnosis_code",
+          "source_found": false,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2937,
+              "y": 0.3345
+            },
+            {
+              "x": 0.3392,
+              "y": 0.3344
+            },
+            {
+              "x": 0.3394,
+              "y": 0.3503
+            },
+            {
+              "x": 0.2938,
+              "y": 0.3506
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.999,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "C18",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "구불결장의 악성 신생물",
+          "id": 5,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "구불결장의 악성 신생물",
+          "document_id": 1,
+          "key": "diagnosis_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2936,
+              "y": 0.2899
+            },
+            {
+              "x": 0.522,
+              "y": 0.2899
+            },
+            {
+              "x": 0.522,
+              "y": 0.3063
+            },
+            {
+              "x": 0.2936,
+              "y": 0.3063
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9921,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "구불결장의 악성 신생물",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-18",
+          "id": 6,
+          "extract_conf": "high",
+          "review_reasons": ["cross_check"],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-18",
+          "document_id": 1,
+          "key": "diagnosis_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.6744,
+              "y": 0.3797
+            },
+            {
+              "x": 0.785,
+              "y": 0.3792
+            },
+            {
+              "x": 0.7851,
+              "y": 0.3924
+            },
+            {
+              "x": 0.6746,
+              "y": 0.3929
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9973,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-18",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-10",
+          "id": 7,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-10",
+          "document_id": 1,
+          "key": "onset_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2924,
+              "y": 0.3807
+            },
+            {
+              "x": 0.3865,
+              "y": 0.3803
+            },
+            {
+              "x": 0.3867,
+              "y": 0.3918
+            },
+            {
+              "x": 0.2926,
+              "y": 0.3922
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9974,
+          "doc_type": "diagnosis",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-10",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "김유정",
+          "id": 8,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 2,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7265,
+              "y": 0.1788
+            },
+            {
+              "x": 0.7797,
+              "y": 0.1785
+            },
+            {
+              "x": 0.7798,
+              "y": 0.1922
+            },
+            {
+              "x": 0.7267,
+              "y": 0.1925
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9994,
+          "doc_type": "pathology",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "하람대학교병원",
+          "id": 9,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "하람대학교병원",
+          "document_id": 2,
+          "key": "issuer",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.3556,
+              "y": 0.0573
+            },
+            {
+              "x": 0.6377,
+              "y": 0.056
+            },
+            {
+              "x": 0.6379,
+              "y": 0.0822
+            },
+            {
+              "x": 0.3558,
+              "y": 0.0834
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9963,
+          "doc_type": "pathology",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "하람대학교병원",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-21",
+          "id": 10,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-21",
+          "document_id": 2,
+          "key": "issued_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.1351,
+              "y": 0.8782
+            },
+            {
+              "x": 0.2245,
+              "y": 0.8778
+            },
+            {
+              "x": 0.2246,
+              "y": 0.8891
+            },
+            {
+              "x": 0.1352,
+              "y": 0.8895
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9979,
+          "doc_type": "pathology",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-21",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)",
+          "id": 11,
+          "extract_conf": "high",
+          "review_reasons": ["cross_check"],
+          "page": 1,
+          "confirmed_value": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)",
+          "raw_value": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)",
+          "document_id": 2,
+          "key": "pathology_result",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2922,
+              "y": 0.4568
+            },
+            {
+              "x": 0.7419,
+              "y": 0.4568
+            },
+            {
+              "x": 0.7419,
+              "y": 0.4905
+            },
+            {
+              "x": 0.2922,
+              "y": 0.4905
+            }
+          ],
+          "confirmed_by": 1,
+          "confidence_score": 0.984,
+          "doc_type": "pathology",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "대장 조직 (구불결장), 내시경 생검",
+          "id": 12,
+          "extract_conf": "high",
+          "review_reasons": ["cross_check"],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "대장 조직 (구불결장), 내시경 생검",
+          "document_id": 2,
+          "key": "specimen",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2928,
+              "y": 0.3219
+            },
+            {
+              "x": 0.571,
+              "y": 0.3219
+            },
+            {
+              "x": 0.571,
+              "y": 0.3366
+            },
+            {
+              "x": 0.2928,
+              "y": 0.3366
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9885,
+          "doc_type": "pathology",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "대장 조직 (구불결장), 내시경 생검",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-21",
+          "id": 13,
+          "extract_conf": "high",
+          "review_reasons": ["cross_check"],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-21",
+          "document_id": 2,
+          "key": "report_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7244,
+              "y": 0.2436
+            },
+            {
+              "x": 0.8352,
+              "y": 0.243
+            },
+            {
+              "x": 0.8352,
+              "y": 0.2562
+            },
+            {
+              "x": 0.7245,
+              "y": 0.2566
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9987,
+          "doc_type": "pathology",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-21",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "김유정",
+          "id": 14,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 3,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7109,
+              "y": 0.1788
+            },
+            {
+              "x": 0.7645,
+              "y": 0.1786
+            },
+            {
+              "x": 0.7647,
+              "y": 0.1922
+            },
+            {
+              "x": 0.711,
+              "y": 0.1925
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9993,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "하람대학교병원",
+          "id": 15,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "하람대학교병원",
+          "document_id": 3,
+          "key": "issuer",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.3555,
+              "y": 0.0572
+            },
+            {
+              "x": 0.6377,
+              "y": 0.056
+            },
+            {
+              "x": 0.638,
+              "y": 0.0822
+            },
+            {
+              "x": 0.3557,
+              "y": 0.0834
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.996,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "하람대학교병원",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-10-02",
+          "id": 16,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-10-02",
+          "document_id": 3,
+          "key": "issued_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.135,
+              "y": 0.8782
+            },
+            {
+              "x": 0.2252,
+              "y": 0.8778
+            },
+            {
+              "x": 0.2252,
+              "y": 0.8891
+            },
+            {
+              "x": 0.1351,
+              "y": 0.8895
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9975,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-10-02",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 17,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 3,
+          "key": "admit_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2921,
+              "y": 0.3221
+            },
+            {
+              "x": 0.403,
+              "y": 0.3216
+            },
+            {
+              "x": 0.4031,
+              "y": 0.3349
+            },
+            {
+              "x": 0.2923,
+              "y": 0.3354
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9976,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-30",
+          "id": 18,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-30",
+          "document_id": 3,
+          "key": "discharge_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7023,
+              "y": 0.322
+            },
+            {
+              "x": 0.8127,
+              "y": 0.3216
+            },
+            {
+              "x": 0.8127,
+              "y": 0.3348
+            },
+            {
+              "x": 0.7024,
+              "y": 0.3353
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9973,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-30",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "9",
+          "id": 19,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "9",
+          "document_id": 3,
+          "key": "stay_days",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.2924,
+              "y": 0.3556
+            },
+            {
+              "x": 0.3252,
+              "y": 0.3555
+            },
+            {
+              "x": 0.3254,
+              "y": 0.3704
+            },
+            {
+              "x": 0.2926,
+              "y": 0.3706
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9884,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "9",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "C18.7",
+          "id": 20,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "C18.7",
+          "document_id": 3,
+          "key": "diagnosis_code",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7031,
+              "y": 0.2583
+            },
+            {
+              "x": 0.7594,
+              "y": 0.258
+            },
+            {
+              "x": 0.7594,
+              "y": 0.2698
+            },
+            {
+              "x": 0.7032,
+              "y": 0.2701
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9975,
+          "doc_type": "admission",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "C18.7",
+          "kcd_name": "구불결장의 악성 신생물",
+          "parse_evidence": null
+        },
+        {
+          "value": "김유정",
+          "id": 21,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 4,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "하람대학교병원",
+          "id": 22,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "하람대학교병원",
+          "document_id": 4,
+          "key": "issuer",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "하람대학교병원",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 23,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 4,
+          "key": "period_start",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-29",
+          "id": 24,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-29",
+          "document_id": 4,
+          "key": "period_end",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-29",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "8",
+          "id": 25,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "8",
+          "document_id": 4,
+          "key": "inpatient_days",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "8",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "281600",
+          "id": 26,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "281600",
+          "document_id": 4,
+          "key": "covered_copay",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "281600",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "5350400",
+          "id": 27,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "5350400",
+          "document_id": 4,
+          "key": "covered_nhis",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "5350400",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "560000",
+          "id": 28,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "560000",
+          "document_id": 4,
+          "key": "non_covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "560000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "6192000",
+          "id": 29,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "6192000",
+          "document_id": 4,
+          "key": "total",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "6192000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "841600",
+          "id": 30,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "841600",
+          "document_id": 4,
+          "key": "patient_total",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_receipt",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "841600",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "김유정",
+          "id": 31,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 5,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 32,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "period_start",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-29",
+          "id": 33,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-29",
+          "document_id": 5,
+          "key": "period_end",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-29",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "8",
+          "id": 34,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "8",
+          "document_id": 5,
+          "key": "inpatient_days",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "8",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "입원료(일반병실)",
+          "id": 35,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "입원료(일반병실)",
+          "document_id": 5,
+          "key": "items[0].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "입원료(일반병실)",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "AA-0101",
+          "id": 36,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "AA-0101",
+          "document_id": 5,
+          "key": "items[0].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "AA-0101",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "입원료",
+          "id": 37,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "입원료",
+          "document_id": 5,
+          "key": "items[0].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "입원료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 38,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[0].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "680000",
+          "id": 39,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "680000",
+          "document_id": 5,
+          "key": "items[0].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "680000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 40,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "items[0].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "일반혈액검사",
+          "id": 41,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "일반혈액검사",
+          "document_id": 5,
+          "key": "items[1].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "일반혈액검사",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "BB-2201",
+          "id": 42,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "BB-2201",
+          "document_id": 5,
+          "key": "items[1].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "BB-2201",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "검사료",
+          "id": 43,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "검사료",
+          "document_id": 5,
+          "key": "items[1].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "검사료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 44,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[1].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "90000",
+          "id": 45,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "90000",
+          "document_id": 5,
+          "key": "items[1].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "90000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 46,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "items[1].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "복부 CT(조영제)",
+          "id": 47,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "복부 CT(조영제)",
+          "document_id": 5,
+          "key": "items[2].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "복부 CT(조영제)",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "CC-3105",
+          "id": 48,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "CC-3105",
+          "document_id": 5,
+          "key": "items[2].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "CC-3105",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "영상진단료",
+          "id": 49,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "영상진단료",
+          "document_id": 5,
+          "key": "items[2].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "영상진단료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 50,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[2].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "220000",
+          "id": 51,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "220000",
+          "document_id": 5,
+          "key": "items[2].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "220000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 52,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "items[2].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "전신마취",
+          "id": 53,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "전신마취",
+          "document_id": 5,
+          "key": "items[3].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "전신마취",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "DD-4010",
+          "id": 54,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "DD-4010",
+          "document_id": 5,
+          "key": "items[3].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "DD-4010",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "마취료",
+          "id": 55,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "마취료",
+          "document_id": 5,
+          "key": "items[3].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "마취료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 56,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[3].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "450000",
+          "id": 57,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "450000",
+          "document_id": 5,
+          "key": "items[3].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "450000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-23",
+          "id": 58,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-23",
+          "document_id": 5,
+          "key": "items[3].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-23",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "복강경하 결장 부분절제술",
+          "id": 59,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "복강경하 결장 부분절제술",
+          "document_id": 5,
+          "key": "items[4].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "복강경하 결장 부분절제술",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "SS-7702",
+          "id": 60,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "SS-7702",
+          "document_id": 5,
+          "key": "items[4].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "SS-7702",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "surgery",
+          "id": 61,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "처치 및 수술료",
+          "document_id": 5,
+          "key": "items[4].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "surgery",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 62,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[4].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "3200000",
+          "id": 63,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "3200000",
+          "document_id": 5,
+          "key": "items[4].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "3200000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-23",
+          "id": 64,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-23",
+          "document_id": 5,
+          "key": "items[4].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-23",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "복강경 수술 재료",
+          "id": 65,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "복강경 수술 재료",
+          "document_id": 5,
+          "key": "items[5].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "복강경 수술 재료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "MM-5520",
+          "id": 66,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "MM-5520",
+          "document_id": 5,
+          "key": "items[5].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "MM-5520",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "치료재료대",
+          "id": 67,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "치료재료대",
+          "document_id": 5,
+          "key": "items[5].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "치료재료대",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 68,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[5].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "640000",
+          "id": 69,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "640000",
+          "document_id": 5,
+          "key": "items[5].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "640000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-23",
+          "id": 70,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-23",
+          "document_id": 5,
+          "key": "items[5].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-23",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "수액 · 항생제 주사",
+          "id": 71,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "수액 · 항생제 주사",
+          "document_id": 5,
+          "key": "items[6].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "수액 · 항생제 주사",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "EE-6012",
+          "id": 72,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "EE-6012",
+          "document_id": 5,
+          "key": "items[6].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "EE-6012",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "주사료",
+          "id": 73,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "주사료",
+          "document_id": 5,
+          "key": "items[6].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "주사료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 74,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[6].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "256000",
+          "id": 75,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "256000",
+          "document_id": 5,
+          "key": "items[6].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "256000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 76,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "items[6].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "원내 투약",
+          "id": 77,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "원내 투약",
+          "document_id": 5,
+          "key": "items[7].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "원내 투약",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "FF-1003",
+          "id": 78,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "FF-1003",
+          "document_id": 5,
+          "key": "items[7].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "FF-1003",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "투약 및 조제료",
+          "id": 79,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "투약 및 조제료",
+          "document_id": 5,
+          "key": "items[7].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "투약 및 조제료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 80,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 5,
+          "key": "items[7].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "96000",
+          "id": 81,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "96000",
+          "document_id": 5,
+          "key": "items[7].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "96000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 82,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "items[7].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2인실 차액",
+          "id": 83,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2인실 차액",
+          "document_id": 5,
+          "key": "items[8].name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2인실 차액",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "NN-9001",
+          "id": 84,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "NN-9001",
+          "document_id": 5,
+          "key": "items[8].code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "NN-9001",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "상급병실료 차액",
+          "id": 85,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "상급병실료 차액",
+          "document_id": 5,
+          "key": "items[8].category",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "상급병실료 차액",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "false",
+          "id": 86,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "False",
+          "document_id": 5,
+          "key": "items[8].covered",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "false",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "560000",
+          "id": 87,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "560000",
+          "document_id": 5,
+          "key": "items[8].amount",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "560000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-22",
+          "id": 88,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-22",
+          "document_id": 5,
+          "key": "items[8].date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "medical_detail",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-22",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "김유정",
+          "id": 89,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 6,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-30",
+          "id": 90,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-30",
+          "document_id": 6,
+          "key": "issued_date",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2026-09-30",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "카페시타빈정 500mg",
+          "id": 91,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "카페시타빈정 500mg",
+          "document_id": 6,
+          "key": "items[0].drug_name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "카페시타빈정 500mg",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2",
+          "id": 92,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2",
+          "document_id": 6,
+          "key": "items[0].per_day",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 93,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 6,
+          "key": "items[0].days",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "온단세트론정 8mg",
+          "id": 94,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "온단세트론정 8mg",
+          "document_id": 6,
+          "key": "items[1].drug_name",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "온단세트론정 8mg",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2",
+          "id": 95,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2",
+          "document_id": 6,
+          "key": "items[1].per_day",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "2",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 96,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 6,
+          "key": "items[1].days",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "C18.7",
+          "id": 97,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "C18.7",
+          "document_id": 6,
+          "key": "diagnosis_code",
+          "source_found": true,
+          "method": "data",
+          "bbox": null,
+          "confirmed_by": null,
+          "confidence_score": null,
+          "doc_type": "prescription",
+          "provenance": "silson24",
+          "source": "silson24",
+          "display_value": "C18.7",
+          "kcd_name": "구불결장의 악성 신생물",
+          "parse_evidence": null
+        },
+        {
+          "value": "김유정",
+          "id": 98,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "김유정",
+          "document_id": 7,
+          "key": "patient_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.32,
+              "y": 0.1788
+            },
+            {
+              "x": 0.3734,
+              "y": 0.1786
+            },
+            {
+              "x": 0.3735,
+              "y": 0.1923
+            },
+            {
+              "x": 0.3202,
+              "y": 0.1925
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.999,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "김유정",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "새솔약국",
+          "id": 99,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "새솔약국",
+          "document_id": 7,
+          "key": "issuer",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.4158,
+              "y": 0.0572
+            },
+            {
+              "x": 0.5774,
+              "y": 0.0564
+            },
+            {
+              "x": 0.5777,
+              "y": 0.0821
+            },
+            {
+              "x": 0.416,
+              "y": 0.0828
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.997,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "새솔약국",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "2026-09-30",
+          "id": 100,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "2026-09-30",
+          "document_id": 7,
+          "key": "issued_date",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7122,
+              "y": 0.1793
+            },
+            {
+              "x": 0.8063,
+              "y": 0.1789
+            },
+            {
+              "x": 0.8065,
+              "y": 0.1906
+            },
+            {
+              "x": 0.7123,
+              "y": 0.1911
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9942,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "2026-09-30",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "카페시타빈정 500mg",
+          "id": 101,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "카페시타빈정 500mg",
+          "document_id": 7,
+          "key": "items[0].drug_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0902,
+              "y": 0.2895
+            },
+            {
+              "x": 0.264,
+              "y": 0.2895
+            },
+            {
+              "x": 0.264,
+              "y": 0.304
+            },
+            {
+              "x": 0.0902,
+              "y": 0.304
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9895,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "카페시타빈정 500mg",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 102,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 7,
+          "key": "items[0].per_day",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5553,
+              "y": 0.2908
+            },
+            {
+              "x": 0.5769,
+              "y": 0.2907
+            },
+            {
+              "x": 0.577,
+              "y": 0.3013
+            },
+            {
+              "x": 0.5554,
+              "y": 0.3014
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9892,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 103,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 7,
+          "key": "items[0].days",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5553,
+              "y": 0.2908
+            },
+            {
+              "x": 0.5769,
+              "y": 0.2907
+            },
+            {
+              "x": 0.577,
+              "y": 0.3013
+            },
+            {
+              "x": 0.5554,
+              "y": 0.3014
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9911,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "210000",
+          "id": 104,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "210000",
+          "document_id": 7,
+          "key": "items[0].amount",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7009,
+              "y": 0.2906
+            },
+            {
+              "x": 0.7696,
+              "y": 0.2904
+            },
+            {
+              "x": 0.7698,
+              "y": 0.3027
+            },
+            {
+              "x": 0.701,
+              "y": 0.303
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9897,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "210000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 105,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 7,
+          "key": "items[0].covered",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0772,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.4105
+            },
+            {
+              "x": 0.0772,
+              "y": 0.4105
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9656,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": {
+            "value": true,
+            "text": "급여",
+            "element_id": 4,
+            "page": 1,
+            "coordinates": [
+              {
+                "x": 0.0772,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.4105
+              },
+              {
+                "x": 0.0772,
+                "y": 0.4105
+              }
+            ],
+            "basis": "Parse 표의 품명·구분 칸"
+          }
+        },
+        {
+          "value": "온단세트론정 8mg",
+          "id": 106,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "온단세트론정 8mg",
+          "document_id": 7,
+          "key": "items[1].drug_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0915,
+              "y": 0.3219
+            },
+            {
+              "x": 0.2434,
+              "y": 0.3219
+            },
+            {
+              "x": 0.2434,
+              "y": 0.3363
+            },
+            {
+              "x": 0.0915,
+              "y": 0.3363
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9781,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "온단세트론정 8mg",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 107,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 7,
+          "key": "items[1].per_day",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5551,
+              "y": 0.3233
+            },
+            {
+              "x": 0.5771,
+              "y": 0.3232
+            },
+            {
+              "x": 0.5772,
+              "y": 0.3339
+            },
+            {
+              "x": 0.5552,
+              "y": 0.334
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9892,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 108,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 7,
+          "key": "items[1].days",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5551,
+              "y": 0.3233
+            },
+            {
+              "x": 0.5771,
+              "y": 0.3232
+            },
+            {
+              "x": 0.5772,
+              "y": 0.3339
+            },
+            {
+              "x": 0.5552,
+              "y": 0.334
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9911,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "56000",
+          "id": 109,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "56000",
+          "document_id": 7,
+          "key": "items[1].amount",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7114,
+              "y": 0.3231
+            },
+            {
+              "x": 0.7694,
+              "y": 0.3229
+            },
+            {
+              "x": 0.7695,
+              "y": 0.3351
+            },
+            {
+              "x": 0.7115,
+              "y": 0.3353
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9898,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "56000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 110,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 7,
+          "key": "items[1].covered",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0772,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.4105
+            },
+            {
+              "x": 0.0772,
+              "y": 0.4105
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9656,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": {
+            "value": true,
+            "text": "급여",
+            "element_id": 4,
+            "page": 1,
+            "coordinates": [
+              {
+                "x": 0.0772,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.4105
+              },
+              {
+                "x": 0.0772,
+                "y": 0.4105
+              }
+            ],
+            "basis": "Parse 표의 품명·구분 칸"
+          }
+        },
+        {
+          "value": "조제료",
+          "id": 111,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "조제료",
+          "document_id": 7,
+          "key": "items[2].drug_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.091,
+              "y": 0.3552
+            },
+            {
+              "x": 0.1452,
+              "y": 0.3549
+            },
+            {
+              "x": 0.1454,
+              "y": 0.3676
+            },
+            {
+              "x": 0.0912,
+              "y": 0.3679
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.988,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "조제료",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 112,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 7,
+          "key": "items[2].per_day",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5552,
+              "y": 0.3559
+            },
+            {
+              "x": 0.5769,
+              "y": 0.3558
+            },
+            {
+              "x": 0.577,
+              "y": 0.3663
+            },
+            {
+              "x": 0.5553,
+              "y": 0.3664
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9892,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "14",
+          "id": 113,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14",
+          "document_id": 7,
+          "key": "items[2].days",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5552,
+              "y": 0.3559
+            },
+            {
+              "x": 0.5769,
+              "y": 0.3558
+            },
+            {
+              "x": 0.577,
+              "y": 0.3663
+            },
+            {
+              "x": 0.5553,
+              "y": 0.3664
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9911,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "18000",
+          "id": 114,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "18000",
+          "document_id": 7,
+          "key": "items[2].amount",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7118,
+              "y": 0.3557
+            },
+            {
+              "x": 0.7694,
+              "y": 0.3555
+            },
+            {
+              "x": 0.7695,
+              "y": 0.3677
+            },
+            {
+              "x": 0.7119,
+              "y": 0.368
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9898,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "18000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "true",
+          "id": 115,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "True",
+          "document_id": 7,
+          "key": "items[2].covered",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0772,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.4105
+            },
+            {
+              "x": 0.0772,
+              "y": 0.4105
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9657,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "true",
+          "kcd_name": null,
+          "parse_evidence": {
+            "value": true,
+            "text": "급여",
+            "element_id": 4,
+            "page": 1,
+            "coordinates": [
+              {
+                "x": 0.0772,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.4105
+              },
+              {
+                "x": 0.0772,
+                "y": 0.4105
+              }
+            ],
+            "basis": "Parse 표의 품명·구분 칸"
+          }
+        },
+        {
+          "value": "종합비타민정 (일반의약품)",
+          "id": 116,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "종합비타민정 (일반의약품)",
+          "document_id": 7,
+          "key": "items[3].drug_name",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0911,
+              "y": 0.3868
+            },
+            {
+              "x": 0.3126,
+              "y": 0.3868
+            },
+            {
+              "x": 0.3126,
+              "y": 0.4016
+            },
+            {
+              "x": 0.0911,
+              "y": 0.4016
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9864,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "종합비타민정 (일반의약품)",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "30",
+          "id": 117,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "30",
+          "document_id": 7,
+          "key": "items[3].per_day",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5548,
+              "y": 0.3884
+            },
+            {
+              "x": 0.577,
+              "y": 0.3883
+            },
+            {
+              "x": 0.5771,
+              "y": 0.3989
+            },
+            {
+              "x": 0.5549,
+              "y": 0.399
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9892,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "30",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "30",
+          "id": 118,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "30",
+          "document_id": 7,
+          "key": "items[3].days",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.5548,
+              "y": 0.3884
+            },
+            {
+              "x": 0.577,
+              "y": 0.3883
+            },
+            {
+              "x": 0.5771,
+              "y": 0.3989
+            },
+            {
+              "x": 0.5549,
+              "y": 0.399
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9911,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "30",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "15000",
+          "id": 119,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "15000",
+          "document_id": 7,
+          "key": "items[3].amount",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.7118,
+              "y": 0.3883
+            },
+            {
+              "x": 0.7694,
+              "y": 0.388
+            },
+            {
+              "x": 0.7695,
+              "y": 0.4003
+            },
+            {
+              "x": 0.7119,
+              "y": 0.4005
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9898,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "15000",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "false",
+          "id": 120,
+          "extract_conf": null,
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "False",
+          "document_id": 7,
+          "key": "items[3].covered",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.0772,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.2468
+            },
+            {
+              "x": 0.9223,
+              "y": 0.4105
+            },
+            {
+              "x": 0.0772,
+              "y": 0.4105
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9579,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "false",
+          "kcd_name": null,
+          "parse_evidence": {
+            "value": false,
+            "text": "비급여",
+            "element_id": 4,
+            "page": 1,
+            "coordinates": [
+              {
+                "x": 0.0772,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.2468
+              },
+              {
+                "x": 0.9223,
+                "y": 0.4105
+              },
+              {
+                "x": 0.0772,
+                "y": 0.4105
+              }
+            ],
+            "basis": "Parse 표의 품명·구분 칸"
+          }
+        },
+        {
+          "value": "14200",
+          "id": 121,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "14200",
+          "document_id": 7,
+          "key": "covered_copay",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.8527,
+              "y": 0.4344
+            },
+            {
+              "x": 0.9104,
+              "y": 0.4342
+            },
+            {
+              "x": 0.9105,
+              "y": 0.4462
+            },
+            {
+              "x": 0.8528,
+              "y": 0.4465
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9956,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "14200",
+          "kcd_name": null,
+          "parse_evidence": null
+        },
+        {
+          "value": "15000",
+          "id": 122,
+          "extract_conf": "high",
+          "review_reasons": [],
+          "page": 1,
+          "confirmed_value": null,
+          "raw_value": "15000",
+          "document_id": 7,
+          "key": "non_covered",
+          "source_found": true,
+          "method": "parse",
+          "bbox": [
+            {
+              "x": 0.8526,
+              "y": 0.4668
+            },
+            {
+              "x": 0.9104,
+              "y": 0.4666
+            },
+            {
+              "x": 0.9106,
+              "y": 0.4788
+            },
+            {
+              "x": 0.8527,
+              "y": 0.4791
+            }
+          ],
+          "confirmed_by": null,
+          "confidence_score": 0.9969,
+          "doc_type": "pharmacy_receipt",
+          "provenance": "upstage",
+          "source": "image",
+          "display_value": "15000",
+          "kcd_name": null,
+          "parse_evidence": null
+        }
+      ],
+      "open_issue_count": 5
+    },
+    {
+      "display_issues": [],
+      "reported_end": null,
+      "customer_name": "이가온",
+      "review_note": "",
+      "customer_id": "DEMO-C002",
+      "received_at": "2026-10-14T23:40:00Z",
+      "status": "auto_pass",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0477",
+      "policy_no": "L-2026-000002",
+      "claim_types": ["hospitalization", "surgery", "medical_expense"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0002",
+        "id": "DEMO-C002",
+        "name": "이가온",
+        "is_mock": true,
+        "birth_date": "1982-11-07"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C002",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000002",
+        "riders": ["hospitalization", "surgery", "medical_expense"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 4,
+      "required_count": 4,
+      "required": [
+        "admission",
+        "medical_detail",
+        "medical_receipt",
+        "surgery_cert"
+      ],
+      "documents": [],
+      "issues": [],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [
+        {
+          "id": 7,
+          "kind": "info",
+          "title": "진단서: 소액암 20% 기준 안내",
+          "doc_ids": [12],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "POLICY-C73",
+          "claim_id": "GA-2610-0471",
+          "detail": "가온 암진단특약 제2조 및 제4조 기준입니다. 실제 지급 여부와 금액은 지급 심사 담당자가 결정합니다.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": null,
+      "customer_name": "박가람",
+      "review_note": "",
+      "customer_id": "DEMO-C003",
+      "received_at": "2026-10-14T08:05:00Z",
+      "status": "auto_pass",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0471",
+      "policy_no": "L-2026-000003",
+      "claim_types": ["cancer_diagnosis"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0003",
+        "id": "DEMO-C003",
+        "name": "박가람",
+        "is_mock": true,
+        "birth_date": "1983-06-24"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C003",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000003",
+        "riders": ["cancer_diagnosis"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 2,
+      "required_count": 2,
+      "required": ["diagnosis", "pathology"],
+      "documents": [],
+      "issues": [
+        {
+          "id": 7,
+          "kind": "info",
+          "title": "소액암 20% 기준 안내",
+          "doc_ids": [12],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "POLICY-C73",
+          "claim_id": "GA-2610-0471",
+          "detail": "가온 암진단특약 제2조·제4조 기준입니다. 실제 지급 여부와 금액은 지급 심사 담당자가 결정합니다.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [
+        {
+          "id": 8,
+          "kind": "info",
+          "title": "진단서: 암 보장개시 전(90일 면책) 확인 안내",
+          "doc_ids": [14],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-06-WAIT",
+          "claim_id": "GA-2610-0466",
+          "detail": "가온 암진단특약 제5조에 따라 계약일 및 진단확정일 및 보장개시일을 지급 심사 담당자가 확인해 주세요.",
+          "field_keys": ["diagnosis_date"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": null,
+      "customer_name": "최새봄",
+      "review_note": "",
+      "customer_id": "DEMO-C004",
+      "received_at": "2026-10-14T06:22:00Z",
+      "status": "auto_pass",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0466",
+      "policy_no": "L-2026-000004",
+      "claim_types": ["cancer_diagnosis"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0004",
+        "id": "DEMO-C004",
+        "name": "최새봄",
+        "is_mock": true,
+        "birth_date": "1984-02-18"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2026-09-01",
+        "customer_id": "DEMO-C004",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000004",
+        "riders": ["cancer_diagnosis"],
+        "coverage_start": "2026-09-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 2,
+      "required_count": 2,
+      "required": ["diagnosis", "pathology"],
+      "documents": [],
+      "issues": [
+        {
+          "id": 8,
+          "kind": "info",
+          "title": "암 보장개시 전(90일 면책) 확인 안내",
+          "doc_ids": [14],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-06-WAIT",
+          "claim_id": "GA-2610-0466",
+          "detail": "가온 암진단특약 제5조에 따라 계약일·진단확정일·보장개시일을 지급 심사 담당자가 확인해 주세요.",
+          "field_keys": ["diagnosis_date"],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [],
+      "reported_end": null,
+      "customer_name": "정다온",
+      "review_note": "",
+      "customer_id": "DEMO-C005",
+      "received_at": "2026-10-14T02:48:00Z",
+      "status": "auto_pass",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0459",
+      "policy_no": "L-2026-000005",
+      "claim_types": ["medical_expense"],
+      "channel": ["app", "silson24"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0005",
+        "id": "DEMO-C005",
+        "name": "정다온",
+        "is_mock": true,
+        "birth_date": "1985-09-03"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C005",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000005",
+        "riders": ["medical_expense"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 3,
+      "required_count": 3,
+      "required": ["medical_detail", "medical_receipt", "prescription"],
+      "documents": [],
+      "issues": [],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [
+        {
+          "id": 9,
+          "kind": "excluded_item",
+          "title": "영수증 · 처방전: 종합비타민정 보상 여부",
+          "doc_ids": [22, 21],
+          "evidence": [
+            {
+              "source": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+              "article": "제4조 ③ 2호",
+              "text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다(다만, 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용은 보상하지 않습니다).\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+              "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+              "is_mock": false
+            },
+            {
+              "source": "가온생명 보상 업무 매뉴얼",
+              "article": "6장",
+              "text": "6. 실손 비급여 항목 확인\n다음 비급여 비용은 실손의료보험에서 보상하지 않습니다. 해당 항목이 보이면 **\"보상 제외 가능성\"**으로 표시하고 담당자가 확인합니다. 단정하지 않습니다.",
+              "source_path": "data/kb/gaon/10_claims_manual.md",
+              "is_mock": true
+            }
+          ],
+          "resolved_by": null,
+          "rule_id": "coverage",
+          "claim_id": "GA-2610-0452",
+          "detail": "종합비타민정은 처방전에 없는 일반의약품 및 비급여 항목으로 분류되어 보상 제외 가능성이 있습니다. 치료 목적 등 예외 여부를 확인하고, 필요하시다면 지급 심사로 이관할 때 메모를 함께 남겨 주세요. (실손 특별약관2 질병 비급여 제4조 ③ 2호)",
+          "field_keys": ["items[1].drug_name"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": null,
+      "customer_name": "한누리",
+      "review_note": "",
+      "customer_id": "DEMO-C006",
+      "received_at": "2026-10-13T07:30:00Z",
+      "status": "needs_review",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0452",
+      "policy_no": "L-2026-000006",
+      "claim_types": ["medical_expense"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0006",
+        "id": "DEMO-C006",
+        "name": "한누리",
+        "is_mock": true,
+        "birth_date": "1986-12-29"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C006",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000006",
+        "riders": ["medical_expense"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 4,
+      "required_count": 4,
+      "required": [
+        "medical_detail",
+        "medical_receipt",
+        "pharmacy_receipt",
+        "prescription"
+      ],
+      "documents": [],
+      "issues": [
+        {
+          "id": 9,
+          "kind": "excluded_item",
+          "title": "종합비타민정 (일반의약품) 보상 제외 가능성",
+          "doc_ids": [22, 21],
+          "evidence": [
+            {
+              "source": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+              "article": "제4조 ③ 2호",
+              "text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다(다만, 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용은 보상하지 않습니다).\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+              "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+              "is_mock": false
+            },
+            {
+              "source": "가온생명 보상 업무 매뉴얼",
+              "article": "6장",
+              "text": "6. 실손 비급여 항목 확인\n다음 비급여 비용은 실손의료보험에서 보상하지 않습니다. 해당 항목이 보이면 **\"보상 제외 가능성\"**으로 표시하고 담당자가 확인합니다. 단정하지 않습니다.",
+              "source_path": "data/kb/gaon/10_claims_manual.md",
+              "is_mock": true
+            }
+          ],
+          "resolved_by": null,
+          "rule_id": "coverage",
+          "claim_id": "GA-2610-0452",
+          "detail": "처방전에 없는 일반의약품·비급여 항목이에요. 치료 목적 등 예외 여부를 담당자가 확인해 주세요.",
+          "field_keys": ["items[1].drug_name"],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [],
+      "open_issue_count": 1
+    },
+    {
+      "display_issues": [
+        {
+          "id": 11,
+          "kind": "missing",
+          "title": "질병분류기호가 적힌 진단서 보완 필요",
+          "doc_ids": [23],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "REQ-diagnosis-code",
+          "claim_id": "GA-2610-0449",
+          "detail": "보완 요청이 필요합니다.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 10,
+          "kind": "format",
+          "title": "진단서: 질병분류기호 확인",
+          "doc_ids": [23],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "FIELD-diagnosis_code",
+          "claim_id": "GA-2610-0449",
+          "detail": "날짜 및 코드 및 금액의 형식을 확인해 주세요. 세분류가 빠졌을 수 있으니 원문과 같은지 확인해 주세요.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": null,
+      "customer_name": "김서연",
+      "review_note": "",
+      "customer_id": "DEMO-C007",
+      "received_at": "2026-10-13T05:37:00Z",
+      "status": "supplement",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0449",
+      "policy_no": "L-2026-000007",
+      "claim_types": ["cancer_diagnosis"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0007",
+        "id": "DEMO-C007",
+        "name": "김서연",
+        "is_mock": true,
+        "birth_date": "1987-04-12"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C007",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000007",
+        "riders": ["cancer_diagnosis"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 2,
+      "required_count": 2,
+      "required": ["diagnosis", "pathology"],
+      "documents": [],
+      "issues": [
+        {
+          "id": 10,
+          "kind": "format",
+          "title": "추출 항목 확인 필요: 질병분류기호",
+          "doc_ids": [23],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "FIELD-diagnosis_code",
+          "claim_id": "GA-2610-0449",
+          "detail": "날짜·코드·금액의 형식을 확인해 주세요.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null
+        },
+        {
+          "id": 11,
+          "kind": "missing",
+          "title": "질병분류기호가 적힌 진단서 보완 필요",
+          "doc_ids": [23],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "REQ-diagnosis-code",
+          "claim_id": "GA-2610-0449",
+          "detail": "발급 의료기관에서 질병분류기호가 적힌 진단서를 받아 주세요.",
+          "field_keys": ["diagnosis_code"],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [],
+      "open_issue_count": 2
+    },
+    {
+      "display_issues": [
+        {
+          "id": 12,
+          "kind": "mismatch",
+          "title": "진료비 영수증: 환자 이름 불일치",
+          "doc_ids": [25],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-05",
+          "claim_id": "GA-2610-0444",
+          "detail": "청구 고객과 문서의 환자 이름을 확인해 주세요.",
+          "field_keys": ["patient_name"],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": null,
+      "customer_name": "김서연",
+      "review_note": "",
+      "customer_id": "DEMO-C008",
+      "received_at": "2026-10-13T04:08:00Z",
+      "status": "needs_review",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0444",
+      "policy_no": "L-2026-000008",
+      "claim_types": ["medical_expense"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0008",
+        "id": "DEMO-C008",
+        "name": "김서연",
+        "is_mock": true,
+        "birth_date": "1988-08-26"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C008",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000008",
+        "riders": ["medical_expense"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 2,
+      "required_count": 2,
+      "required": ["medical_detail", "medical_receipt"],
+      "documents": [],
+      "issues": [
+        {
+          "id": 12,
+          "kind": "mismatch",
+          "title": "환자 이름 불일치",
+          "doc_ids": [25],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-05",
+          "claim_id": "GA-2610-0444",
+          "detail": "청구 고객과 문서의 환자 이름을 확인해 주세요.",
+          "field_keys": ["patient_name"],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [],
+      "open_issue_count": 1
+    },
+    {
+      "display_issues": [
+        {
+          "id": 13,
+          "kind": "mismatch",
+          "title": "입퇴원확인서 · 세부내역서: 입원일수 차이",
+          "doc_ids": [27, 29],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-02",
+          "claim_id": "GA-2610-0438",
+          "detail": "입퇴원확인서는 5일, 세부내역서는 3일로 2일 차이가 있습니다. 입원일수와 입원일 및 퇴원일을 원본에서 확인해 주세요. (질병입원일당특약 제5조)",
+          "field_keys": [
+            "stay_days",
+            "inpatient_days",
+            "admit_date",
+            "discharge_date"
+          ],
+          "status": "open",
+          "resolved_at": null,
+          "related_ids": []
+        }
+      ],
+      "reported_end": "2026-09-30",
+      "customer_name": "윤가온",
+      "review_note": "",
+      "customer_id": "DEMO-C009",
+      "received_at": "2026-10-13T02:46:00Z",
+      "status": "needs_review",
+      "step": 0,
+      "reported_start": "2026-09-22",
+      "id": "GA-2610-0438",
+      "policy_no": "L-2026-000009",
+      "claim_types": ["hospitalization", "medical_expense"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0009",
+        "id": "DEMO-C009",
+        "name": "윤가온",
+        "is_mock": true,
+        "birth_date": "1989-01-31"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2026-10-01",
+        "customer_id": "DEMO-C009",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000009",
+        "riders": ["hospitalization", "medical_expense"],
+        "coverage_start": "2026-10-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 3,
+      "required_count": 3,
+      "required": ["admission", "medical_detail", "medical_receipt"],
+      "documents": [],
+      "issues": [
+        {
+          "id": 13,
+          "kind": "mismatch",
+          "title": "입원 기간 불일치 확인 필요",
+          "doc_ids": [27, 29],
+          "evidence": [],
+          "resolved_by": null,
+          "rule_id": "CV-02",
+          "claim_id": "GA-2610-0438",
+          "detail": "입퇴원확인서 5일 · 세부내역서 3일",
+          "field_keys": [
+            "stay_days",
+            "inpatient_days",
+            "admit_date",
+            "discharge_date"
+          ],
+          "status": "open",
+          "resolved_at": null
+        }
+      ],
+      "fields": [],
+      "open_issue_count": 1
+    },
+    {
+      "display_issues": [],
+      "reported_end": null,
+      "customer_name": "서지우",
+      "review_note": "",
+      "customer_id": "DEMO-C010",
+      "received_at": "2026-10-13T01:23:00Z",
+      "status": "pending",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0433",
+      "policy_no": "L-2026-000010",
+      "claim_types": ["surgery"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0010",
+        "id": "DEMO-C010",
+        "name": "서지우",
+        "is_mock": true,
+        "birth_date": "1990-07-09"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2020-01-01",
+        "customer_id": "DEMO-C010",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000010",
+        "riders": ["medical_expense"],
+        "coverage_start": "2020-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 0,
+      "required_count": 1,
+      "required": ["surgery_cert"],
+      "documents": [],
+      "issues": [],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [],
+      "reported_end": null,
+      "customer_name": "이가온",
+      "review_note": "",
+      "customer_id": "DEMO-C002",
+      "received_at": "2026-10-13T00:51:00Z",
+      "status": "pending",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0428",
+      "policy_no": "L-2026-000002",
+      "claim_types": ["medical_expense"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0002",
+        "id": "DEMO-C002",
+        "name": "이가온",
+        "is_mock": true,
+        "birth_date": "1982-11-07"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C002",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000002",
+        "riders": ["hospitalization", "surgery", "medical_expense"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 0,
+      "required_count": 2,
+      "required": ["medical_detail", "medical_receipt"],
+      "documents": [],
+      "issues": [],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [],
+      "reported_end": null,
+      "customer_name": "박가람",
+      "review_note": "",
+      "customer_id": "DEMO-C003",
+      "received_at": "2026-10-13T00:16:00Z",
+      "status": "pending",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0423",
+      "policy_no": "L-2026-000003",
+      "claim_types": ["surgery"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0003",
+        "id": "DEMO-C003",
+        "name": "박가람",
+        "is_mock": true,
+        "birth_date": "1983-06-24"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C003",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000003",
+        "riders": ["cancer_diagnosis"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 0,
+      "required_count": 1,
+      "required": ["surgery_cert"],
+      "documents": [],
+      "issues": [],
+      "fields": [],
+      "open_issue_count": 0
+    },
+    {
+      "display_issues": [],
+      "reported_end": null,
+      "customer_name": "김서연",
+      "review_note": "",
+      "customer_id": "DEMO-C007",
+      "received_at": "2026-10-12T23:42:00Z",
+      "status": "pending",
+      "step": 0,
+      "reported_start": null,
+      "id": "GA-2610-0418",
+      "policy_no": "L-2026-000007",
+      "claim_types": ["outpatient"],
+      "channel": ["app"],
+      "assignee_id": 1,
+      "comparisons": [],
+      "customer": {
+        "contact": "000-0000-0007",
+        "id": "DEMO-C007",
+        "name": "김서연",
+        "is_mock": true,
+        "birth_date": "1987-04-12"
+      },
+      "policy": {
+        "product_name": "가온 든든 종합보장(가상)",
+        "contract_date": "2023-01-01",
+        "customer_id": "DEMO-C007",
+        "coverage_end": "2033-12-31",
+        "policy_no": "L-2026-000007",
+        "riders": ["cancer_diagnosis"],
+        "coverage_start": "2023-01-01",
+        "is_mock": true
+      },
+      "development_origin": null,
+      "submitted_count": 0,
+      "required_count": 1,
+      "required": ["outpatient"],
+      "documents": [],
+      "issues": [],
+      "fields": [],
+      "open_issue_count": 0
+    }
+  ],
+  "logs": [
+    {
+      "actor_id": 1,
+      "id": 32,
+      "detail": {
+        "field_id": 11,
+        "key": "pathology_result",
+        "before": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)",
+        "after": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)"
+      },
+      "claim_id": "GA-2610-0482",
+      "actor_type": "user",
+      "action": "field_confirm",
+      "created_at": "2026-10-16T10:49:56.761590Z"
+    }
+  ],
+  "answer": {
+    "answer": "김유정(GA-2610-0482) 고객님은 서류 7건을 제출했고, 추가로 받아야 할 서류가 1건 있습니다.\n\n추가 서류: 수술확인서\n세부내역서에 수술 기록(복강경하 결장 부분절제술)이 있지만 수술확인서가 제출되지 않았습니다. 보완 요청이 필요합니다.\n\n그 외 검토 사항은 다음과 같습니다.\n\n① 진단서: 질병분류기호 확인\n추출된 값(C18)이 입퇴원확인서 원문(C18.7)과 다릅니다. 세분류가 빠졌을 수 있으니 원문과 같은지 확인하고, 병리 진단명과도 함께 대조해 주세요.\n\n② 진단서 · 조직검사 결과지: 진단일과 병리 보고일 확인\n진단일(2026.09.18)이 병리 보고일(2026.09.21)보다 빠릅니다. 진단확정일은 병리 보고일 기준이므로 진료 기록으로 경위를 확인해 주세요. (암진단특약 제3조 ③)\n\n③ 영수증 · 처방전: 종합비타민정 보상 여부\n종합비타민정은 처방전에 없는 일반의약품 및 비급여 항목으로 분류되어 보상 제외 가능성이 있습니다. 치료 목적 등 예외 여부를 확인하고, 필요하시다면 지급 심사로 이관할 때 메모를 함께 남겨 주세요. (실손 특별약관2 질병 비급여 제4조 ③ 2호)\n\n④ 입퇴원확인서 · 세부내역서: 입원일수 차이\n입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 있습니다. 산정 방식 차이일 수 있어 불일치로 보지 않았습니다. (질병입원일당특약 제5조)\n\n수술확인서 보완 요청 문구를 작성해 드릴까요?",
+    "intent": "claim_check",
+    "citations": [
+      {
+        "source_kind": "업무 기준",
+        "coverage_section": "",
+        "authority_level": 4,
+        "chunk_id": "10_claims_manual/2장/row3",
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "2장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "is_mock": true,
+        "quote": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 수술비 | 수술확인서 | 수술명 · 수술일 · 수술 코드 | 질병수술비특약 제4조 |"
+      },
+      {
+        "source_kind": "업무 기준",
+        "coverage_section": "",
+        "authority_level": 4,
+        "chunk_id": "10_claims_manual/4장/row1",
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "4장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "is_mock": true,
+        "quote": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-01 진단일과 병리 보고일 | 진단서의 진단일이 조직검사 결과지의 보고일보다 빠르면 확인 필요 | 암 진단확정일은 병리 보고일 기준이므로(암진단특약 제3조 ③), 진료 기록으로 진단 경위를 확인합니다 |"
+      }
+    ],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 1
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 2
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 3
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 4
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 5
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 6
+      }
+    ],
+    "suggested_actions": [
+      {
+        "label": "보완 요청 작성",
+        "action": "draft_supplement:GA-2610-0482"
+      }
+    ],
+    "refused": false,
+    "display_answer": "김유정(GA-2610-0482) 고객님은 서류 7건을 제출했고, 추가로 받아야 할 서류가 1건 있습니다.\n\n추가 서류: 수술확인서\n세부내역서에 수술 기록(복강경하 결장 부분절제술)이 있지만 수술확인서가 제출되지 않았습니다. 보완 요청이 필요합니다.\n\n그 외 검토 사항은 다음과 같습니다.\n\n① 진단서: 질병분류기호 확인\n추출된 값(C18)이 입퇴원확인서 원문(C18.7)과 다릅니다. 세분류가 빠졌을 수 있으니 원문과 같은지 확인하고, 병리 진단명과도 함께 대조해 주세요.\n\n② 진단서 · 조직검사 결과지: 진단일과 병리 보고일 확인\n진단일(2026.09.18)이 병리 보고일(2026.09.21)보다 빠릅니다. 진단확정일은 병리 보고일 기준이므로 진료 기록으로 경위를 확인해 주세요. (암진단특약 제3조 ③)\n\n③ 영수증 · 처방전: 종합비타민정 보상 여부\n종합비타민정은 처방전에 없는 일반의약품 및 비급여 항목으로 분류되어 보상 제외 가능성이 있습니다. 치료 목적 등 예외 여부를 확인하고, 필요하시다면 지급 심사로 이관할 때 메모를 함께 남겨 주세요. (실손 특별약관2 질병 비급여 제4조 ③ 2호)\n\n④ 입퇴원확인서 · 세부내역서: 입원일수 차이\n입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 있습니다. 산정 방식 차이일 수 있어 불일치로 보지 않았습니다. (질병입원일당특약 제5조)\n\n수술확인서 보완 요청 문구를 작성해 드릴까요?",
+    "display_citations": [
+      {
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제3조 ③",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "source_kind": "약관",
+        "quote": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다."
+      },
+      {
+        "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+        "article": "제4조 ③ 2호",
+        "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+        "is_mock": false,
+        "source_kind": "약관",
+        "quote": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다(다만, 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용은 보상하지 않습니다).\n가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+        "coverage_section": "질병비급여"
+      },
+      {
+        "doc_name": "가온생명 질병입원일당특약 약관",
+        "article": "제5조",
+        "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+        "is_mock": true,
+        "source_kind": "약관",
+        "quote": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다.\n\n제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 1일 적게 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.\n\n제5조(입원일수 확인 기준)\n③ 입원일이나 퇴원일이 서로 다르거나, 일수 차이가 2일 이상이면 담당자가 의료기관에 확인합니다."
+      }
+    ],
+    "display_claim_refs": [
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 1,
+        "label": "수술확인서 누락"
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 2,
+        "label": "진단서: 질병분류기호 확인"
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 3,
+        "label": "진단서 · 조직검사 결과지: 진단일과 병리 보고일 확인"
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 6,
+        "label": "영수증 · 처방전: 종합비타민정 보상 여부"
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 5,
+        "label": "입퇴원확인서 · 세부내역서: 입원일수 차이"
+      }
+    ]
+  },
+  "letter": "안녕하세요. 김유정 고객님!\n가온생명입니다. 접수하신 보험금 청구 서류를 검토하던 중 추가로 필요한 서류가 있어 안내드립니다.\n\n[청구 접수 내용]\n청구번호: GA-2610-0482\n가입 상품: 가온 든든 종합보장(가상)\n청구 내용: 암 진단금, 입원일당, 실손\n접수일: 2026.10.15\n\n[추가로 필요한 서류: 총 1개]\n1. 수술확인서\n발급·준비처: 수술받으신 병원 원무과\n확인 사항: 수술명과 수술일이 기재된 수술확인서\n\n[제출 방법]\n서류가 준비되시면 가온생명 앱의 [서류 추가 제출] 메뉴에서 위 청구번호의 접수 건을 선택해 올려 주세요.\n이미 발급받은 서류가 있다면 안내된 기재 사항을 확인한 뒤 제출하실 수 있습니다. 아직 발급받지 않으셨다면 위 발급처에 문의해 주세요.\n사진으로 제출하실 때에는 서류의 네 모서리와 글자가 선명하게 보이도록 촬영해 주세요.\n\n제출해 주시면 담당자가 서류를 확인한 뒤 검토를 이어가겠습니다. 이번 안내는 서류 보완을 위한 것으로, 보험금 지급 여부와 금액은 별도 심사를 통해 안내드립니다.\n발급이나 제출 과정에서 궁금한 점이 있으시면 가온생명 앱의 문의 메뉴 또는 담당자에게 문의해 주세요.\n감사합니다. 가온생명 드림."
+}

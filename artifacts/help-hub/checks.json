@@ -1,0 +1,27 @@
+{
+  "menuSize": {
+    "width": 60,
+    "height": 60
+  },
+  "links": [
+    "가이드라인→기존 iframe 온보딩",
+    "업무 어시스턴트→/chat?claim=GA-2610-0482",
+    "데이터 출처→/data-sources"
+  ],
+  "filters": {
+    "public": 5,
+    "fictional": 7,
+    "demo": 2
+  },
+  "sourceBody": "silson-basic 표시 확인",
+  "escapeClosed": true,
+  "narrow": {
+    "button": {
+      "h": 60,
+      "w": 60
+    },
+    "grid": "335px",
+    "menuWithin": true,
+    "pageOverflow": false
+  }
+}

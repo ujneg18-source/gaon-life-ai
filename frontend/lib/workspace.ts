@@ -7,6 +7,7 @@ export type FieldRow = {
   value: string;
   display_value: string;
   raw_value: string;
+  confidence_score?: number | null;
   extract_conf: "high" | "low" | null;
   source_found: boolean;
   review_reasons: string[];
@@ -36,8 +37,23 @@ export type Issue = {
   doc_ids: number[];
   field_keys: string[];
   status: string;
+  related_ids?: number[];
+};
+export type ComparisonCell = {
+  document_id: number | null;
+  doc_name: string;
+  key: string;
+  value: string;
+};
+export type Comparison = {
+  title: string;
+  a: ComparisonCell;
+  b: ComparisonCell;
+  result: "match" | "mismatch" | "info" | "na";
 };
 export type Claim = {
+  comparisons: Comparison[];
+  display_issues: (Issue & { related_ids?: number[] })[];
   id: string;
   development_origin: string | null;
   customer_name: string;
@@ -123,6 +139,10 @@ export const fieldLabels: Record<string, string> = {
   period_end: "진료 종료일",
   inpatient_days: "입원 일수",
   covered_copay: "급여 본인부담",
+  covered_nhis: "공단 부담",
+  surgery_name: "수술명",
+  surgery_date: "수술일",
+  surgery_code: "수술 코드",
   non_covered: "비급여",
   total: "합계",
   patient_total: "환자부담 합계",
@@ -160,6 +180,12 @@ export function display(field: FieldRow) {
     : formatDatesInText(field.display_value);
 }
 export async function api<T>(url: string, init?: RequestInit): Promise<T> {
+  // 히든 안내 화면은 실수로 버튼이 실행돼도 실제 조회·저장을 요청하지 않는다.
+  if (
+    typeof window !== "undefined" &&
+    window.location.pathname.startsWith("/guide/")
+  )
+    throw new Error("사용 안내에서는 실제 업무 데이터를 변경하지 않아요.");
   const response = await fetch("/api" + url, {
     cache: "no-store",
     ...init,
@@ -179,4 +205,33 @@ export async function api<T>(url: string, init?: RequestInit): Promise<T> {
     );
   }
   return response.status === 204 ? (undefined as T) : response.json();
+}
+
+/** 규칙 식별자는 로그/접근성 이름에서도 담당자가 읽는 이름으로만 표시한다. */
+export function ruleLabel(code: string) {
+  return (
+    (
+      {
+        "CV-01": "진단일과 병리 보고일 비교",
+        "CV-02": "입원일수 비교",
+        "CV-03": "질병분류기호와 병리 진단명 비교",
+        "CV-04": "수술확인서 제출 확인",
+        "CV-05": "환자 정보 확인",
+        "CV-06": "보장 기간 확인",
+      } as Record<string, string>
+    )[code] ?? (code.startsWith("FIELD-") ? label(code.slice(6)) : "검토 항목")
+  );
+}
+
+/** 실제 숫자가 없을 때는 API의 high/low를 보존한다. 확률을 임의로 만들지 않는다. */
+export function confidenceDisplay(f: FieldRow): string {
+  if (f.method === "data") return "—";
+  const score = f.confidence_score;
+  if (score != null && Number.isFinite(score) && score >= 0 && score <= 100)
+    return `${Number((score <= 1 ? score * 100 : score).toFixed(1))}%`;
+  return f.extract_conf === "high"
+    ? "높음"
+    : f.extract_conf === "low"
+      ? "낮음"
+      : "—";
 }
