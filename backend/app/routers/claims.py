@@ -14,9 +14,12 @@ from app.models import (
     Document,
     DocumentStatus,
     Issue,
+    IssueKind,
     IssueStatus,
     ProcessJob,
     Role,
+    SupplementRequest,
+    SupplementStatus,
 )
 from app.services.pipeline import active_job, create_job, run_job
 from app.services.silson24 import attach_silson24
@@ -51,16 +54,34 @@ def upload_documents(
     session: SessionDep,
     request: Request,
     files: list[UploadFile],
+    background_tasks: BackgroundTasks,
 ):
     """한 청구의 업로드·전자 연결·처리 시작을 잠금으로 직렬화한다."""
     config = request.app.state.settings
+    job = None
     with locked(claim_lock_path(config, claim.id)):
         docs = save_uploads(session, claim, files, config, user.id)
+        waiting = session.exec(
+            select(SupplementRequest).where(
+                SupplementRequest.claim_id == claim.id,
+                SupplementRequest.status == SupplementStatus.SENT_MOCK,
+            )
+        ).first()
+        from pathlib import Path
+
+        from app.services.demo_samples import supplement_input
+
+        known = any(supplement_input(config, claim, Path(d.file_path)) for d in docs)
+        if waiting or known:
+            job = create_job(session, claim, user.id)
+            factory = getattr(request.app.state, "upstage_client_factory", UpstageClient)
+            background_tasks.add_task(run_job, request.app.state.engine, config, job.id, factory)
     return {
+        "job_id": job.id if job else None,
         "documents": [
             {"id": d.id, "doc_type": d.doc_type, "source": d.source, "status": d.status}
             for d in docs
-        ]
+        ],
     }
 
 
@@ -194,7 +215,11 @@ def claim_issues(claim: ClaimAccess, session: SessionDep):
 @router.post("/{claim_id}/submit")
 def submit_claim(claim: ClaimWrite, user: CurrentUser, session: SessionDep):
     if session.exec(
-        select(Issue).where(Issue.claim_id == claim.id, Issue.status == IssueStatus.OPEN)
+        select(Issue).where(
+            Issue.claim_id == claim.id,
+            Issue.status == IssueStatus.OPEN,
+            Issue.kind != IssueKind.INFO,
+        )
     ).first():
         raise HTTPException(409, "열린 이슈를 먼저 확인해 주세요.")
     docs = session.exec(select(Document).where(Document.claim_id == claim.id)).all()

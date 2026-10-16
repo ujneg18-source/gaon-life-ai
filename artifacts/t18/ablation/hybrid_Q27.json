@@ -1,0 +1,140 @@
+{
+  "id": "Q27",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제1조/0",
+      "parent_id": "01_cancer_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06959444789081887
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 수술을 받는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제1조/0",
+      "parent_id": "03_surgery_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.058448383505512916
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 입원하는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제1조/0",
+      "parent_id": "02_hospitalization_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.056259950788826174
+    }
+  ],
+  "trace": {
+    "question": "가온생명 치아보험 보장 내용 알려줘",
+    "rewritten": "가온생명 치아보험 보장 내용",
+    "candidate_ids": [
+      "01_cancer_rider/공통/제1조/0",
+      "00_product_summary/3장/text1",
+      "03_surgery_rider/공통/제1조/0",
+      "02_hospitalization_rider/공통/제1조/0",
+      "01_cancer_rider/공통/제5조/2",
+      "10_claims_manual/2장/row7",
+      "04_outpatient_rider/공통/제2조/0/3",
+      "02_hospitalization_rider/공통/제4조/0/3",
+      "10_claims_manual/4장/row6",
+      "03_surgery_rider/공통/제4조/0/3"
+    ],
+    "ranked_ids": [
+      "01_cancer_rider/공통/제1조/0",
+      "03_surgery_rider/공통/제1조/0",
+      "02_hospitalization_rider/공통/제1조/0",
+      "04_outpatient_rider/공통/제2조/0/3",
+      "10_claims_manual/2장/row7",
+      "10_claims_manual/4장/row6",
+      "02_hospitalization_rider/공통/제4조/0/3",
+      "03_surgery_rider/공통/제4조/0/3",
+      "01_cancer_rider/공통/제5조/2",
+      "00_product_summary/3장/text1"
+    ]
+  }
+}

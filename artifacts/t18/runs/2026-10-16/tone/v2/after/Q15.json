@@ -1,0 +1,214 @@
+{
+  "id": "Q15",
+  "type": "claim_check",
+  "question": "김유정 고객 수술확인서 왜 필요해?",
+  "expected_sources": [
+    {
+      "doc": "gaon/03_surgery_rider.md",
+      "article": "제5조"
+    }
+  ],
+  "answer_gist": "세부내역서에 복강경하 결장 부분절제술(수술 항목)이 있는데 수술확인서가 없음",
+  "acceptable_sources": [
+    {
+      "doc": "gaon/03_surgery_rider.md",
+      "article": "제5조"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "03_surgery_rider/공통/제5조/1"
+    ],
+    "answer": "GA-2610-0482 김유정 고객은 제출 7건, 필요 8건이에요. 수술확인서가 아직 제출되지 않았으니 제출 여부를 확인해 주세요. 질병분류기호는 추출한 값과 원문이 다른데 세분류가 빠져 있으니 원문 C18.7의 세분류를 확인해 주세요. 진단일이 2026-09-18이고 병리 보고일이 2026-09-21이라 진단일이 더 빠르고, 질병코드와 병리 진단명도 서로 맞는지 확인해 주세요. 입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 나는데 질병입원일당특약 제5조 ①을 보면 산정 방식 차이로 생길 수 있어요. 종합비타민정은 처방전에 없는 일반의약품이자 비급여 항목이라 보상 제외 가능성이 있으니 치료 목적 등 예외 여부를 담당자가 확인해 주세요. 세부내역서 수술 항목은 복강경하 결장 부분절제술이에요.",
+    "intent": "claim_check",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 3,
+        "chunk_id": "03_surgery_rider/공통/제5조/1",
+        "doc_name": "가온생명 질병수술비특약 약관",
+        "article": "제5조 ①",
+        "source_path": "data/kb/gaon/03_surgery_rider.md",
+        "is_mock": true,
+        "quote": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다."
+      }
+    ],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 1
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 2
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 3
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 4
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 5
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 6
+      }
+    ],
+    "suggested_actions": [
+      {
+        "label": "보완 요청 작성",
+        "action": "draft_supplement:GA-2610-0482"
+      }
+    ],
+    "refused": false
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ]
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 1.0,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 '세부내역서에 복강경하 결장 부분절제술(수술 항목)이 있으나 수술확인서가 없음'을 정확히 포함하고 있으며, 수술확인서 미제출 상태를 확인하고 제출을 요청하는 행동을 안내하고 있어 모순이 없습니다. 추가 정보는 핵심 요지와 충돌하지 않습니다. / 답변은 수술확인서가 아직 제출되지 않았음을 명시하고 제출 여부 확인을 요청하여, answer_gist의 핵심 사실(수술 항목 존재 및 수술확인서 누락)을 모두 포함하고 모순이 없습니다. 추가 정보는 핵심 요지와 충돌하지 않습니다. / 답변은 answer_gist의 핵심 사실인 '세부내역서에 복강경하 결장 부분절제술(수술 항목)이 있으나 수술확인서가 없음'을 정확히 포함하고 있으며, 수술확인서 미제출 상태를 확인해 달라는 요청 행동을 적절히 반영하고 있습니다. 핵심 사실 누락, 모순, 근거 없는 회피, 사실 오류 없이 요지를 충족하므로 1점으로 판정합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '세부내역서에 복강경하 결장 부분절제술(수술 항목)이 있으나 수술확인서가 없음'을 정확히 포함하고 있으며, 수술확인서 미제출 상태를 확인하고 제출을 요청하는 행동을 안내하고 있어 모순이 없습니다. 추가 정보는 핵심 요지와 충돌하지 않습니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 수술확인서가 아직 제출되지 않았음을 명시하고 제출 여부 확인을 요청하여, answer_gist의 핵심 사실(수술 항목 존재 및 수술확인서 누락)을 모두 포함하고 모순이 없습니다. 추가 정보는 핵심 요지와 충돌하지 않습니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '세부내역서에 복강경하 결장 부분절제술(수술 항목)이 있으나 수술확인서가 없음'을 정확히 포함하고 있으며, 수술확인서 미제출 상태를 확인해 달라는 요청 행동을 적절히 반영하고 있습니다. 핵심 사실 누락, 모순, 근거 없는 회피, 사실 오류 없이 요지를 충족하므로 1점으로 판정합니다."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 3,
+      "naturalness": 4,
+      "no_internal_terms": 3,
+      "conclusion_first": 2,
+      "reason": "자연스러움은 해요체로 완결된 문장이 이어지고 이유와 다음 행동이 연결되어 4점입니다. 내부 용어 없음은 GA-2610-0482, 제출/필요 건수, 특약 조항 번호, 질병분류기호 등 내부·업무 용어가 여러 개 섞여 있어 3점입니다. 결론 먼저는 첫 문장이 결론 대신 현황 나열로 시작해 질문의 핵심 답변이 뒤로 밀려 2점입니다."
+    },
+    "tone_violations": [
+      "sentence_count"
+    ]
+  },
+  "tone_trace": {
+    "before": "GA-2610-0482 · 김유정 고객은 제출 7 / 필요 8건이에요.\n• 누락 (CV-04): 수술확인서 미제출 · 수술확인서가 제출되었는지 확인해 주세요.\n• 확인 필요 (FIELD-diagnosis_code): 추출 항목 확인 필요: 질병분류기호 · 추출한 값과 원문이 같은지 확인해 주세요. 원문과 다름(세분류 누락)\n• 불일치 (CV-01): 진단일이 병리 보고일보다 빠름 · 진단일 2026-09-18 · 병리 보고일 2026-09-21\n• 불일치 (CV-03): 질병코드와 병리 진단 부합 확인 필요 · 질병코드와 병리 진단명이 서로 맞는지 확인해 주세요.\n• 안내 (CV-02): 1일 차이: 산정 방식 차이 가능 (질병입원일당특약 제5조) · 입퇴원확인서 9일 · 세부내역서 8일\n• 약관 대조 (coverage): 종합비타민정 (일반의약품) 보상 제외 가능성 · 처방전에 없는 일반의약품·비급여 항목이에요. 치료 목적 등 예외 여부를 담당자가 확인해 주세요.\n원문 질병분류기호 C18.7의 세분류를 확인해 주세요.\n세부내역서 수술 항목: 복강경하 결장 부분절제술",
+    "initial_violations": [
+      "internal_term",
+      "middle_dot_list",
+      "sentence_count"
+    ],
+    "attempts": [
+      {
+        "answer": "GA-2610-0482 김유정 고객은 제출 7건, 필요 8건이에요. 수술확인서가 아직 제출되지 않았으니 제출 여부를 확인해 주세요. 질병분류기호는 추출한 값과 원문이 다른데 세분류가 빠져 있으니 원문 C18.7의 세분류를 확인해 주세요. 진단일이 2026-09-18이고 병리 보고일이 2026-09-21이라 진단일이 더 빠르고, 질병코드와 병리 진단명도 서로 맞는지 확인해 주세요. 입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 나는데 질병입원일당특약 제5조 ①을 보면 산정 방식 차이로 생길 수 있어요. 종합비타민정은 처방전에 없는 일반의약품이자 비급여 항목이라 보상 제외 가능성이 있으니 치료 목적 등 예외 여부를 담당자가 확인해 주세요. 세부내역서 수술 항목은 복강경하 결장 부분절제술이에요.",
+        "violations": [
+          "sentence_count"
+        ],
+        "fact_guard_pass": true
+      },
+      {
+        "answer": "GA-2610-0482 김유정 고객은 제출 7건, 필요 8건이에요. 수술확인서가 아직 제출되지 않았으니 제출 여부를 확인해 주세요. 질병분류기호는 추출한 값과 원문이 다른데 세분류가 빠져 있으니 원문 C18.7의 세분류를 확인해 주세요. 진단일이 2026-09-18이고 병리 보고일이 2026-09-21이라 진단일이 더 빠르고, 질병코드와 병리 진단명도 서로 맞는지 확인해 주세요. 입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 나는데 질병입원일당특약 제5조 ①을 보면 산정 방식 차이로 생길 수 있어요. 종합비타민정은 처방전에 없는 일반의약품이자 비급여 항목이라 보상 제외 가능성이 있으니 치료 목적 등 예외 여부를 담당자가 확인해 주세요. 세부내역서 수술 항목은 복강경하 결장 부분절제술이에요.",
+        "violations": [
+          "sentence_count"
+        ],
+        "fact_guard_pass": true
+      }
+    ],
+    "remaining_violations": [
+      "sentence_count"
+    ]
+  }
+}

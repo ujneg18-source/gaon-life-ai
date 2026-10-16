@@ -1,0 +1,44 @@
+{
+  "id": "Q27",
+  "phase": "final",
+  "rubric": "old",
+  "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+  "grade": {
+    "score": 1,
+    "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 명확히 하여 모순이나 핵심 사실 누락이 없음. / 답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 명확히 전달했습니다. 핵심 사실 누락이나 모순이 없으며, 개별 지급 확정이나 지급액 계산 등 허용되지 않는 내용도 포함하지 않아 요지 충족 기준을 만족합니다. / 답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없음'을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 명확히 전달하여 핵심 사실 누락, 모순, 근거 없는 회피, 사실 오류가 없으므로 요지 충족 기준을 충족함.",
+    "votes": [
+      {
+        "score": 1,
+        "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 명확히 하여 모순이나 핵심 사실 누락이 없음."
+      },
+      {
+        "score": 1,
+        "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 명확히 전달했습니다. 핵심 사실 누락이나 모순이 없으며, 개별 지급 확정이나 지급액 계산 등 허용되지 않는 내용도 포함하지 않아 요지 충족 기준을 만족합니다."
+      },
+      {
+        "score": 1,
+        "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없음'을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 명확히 전달하여 핵심 사실 누락, 모순, 근거 없는 회피, 사실 오류가 없으므로 요지 충족 기준을 충족함."
+      }
+    ],
+    "unanimous": true
+  },
+  "response_meta": {
+    "model": "solar-pro4-260806",
+    "system_fingerprint": null,
+    "usage": {
+      "prompt_tokens": 246,
+      "completion_tokens": 66,
+      "total_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    }
+  }
+}

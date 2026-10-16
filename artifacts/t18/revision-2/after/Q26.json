@@ -1,0 +1,262 @@
+{
+  "id": "Q26",
+  "type": "item_coverage",
+  "question": "항암 주사에 쓴 비급여 약제는?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "article": "제4조",
+      "expected_address": "제4조 ③ 2호"
+    }
+  ],
+  "answer_gist": "특별약관2 제4조 ③ 제2호 단서: 주사치료 약제 제외 원칙에서 항암제 · 항생제 · 희귀의약품은 예외. 근거 제시 후 담당자 확인",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요",
+    "intent": "item_coverage",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n16. 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용",
+      "collection": "policy",
+      "coverage_section": "질병비급여",
+      "paragraph": "③",
+      "item": "16",
+      "node_id": "rider2/질병비급여/제4조/3/16",
+      "parent_id": "rider2/질병비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료",
+        "항암제",
+        "희귀의약품",
+        "암"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 16호",
+      "authority_level": 1,
+      "governs": [
+        "질병비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/질병비급여/제4조/3/16",
+      "embedding_version": "structure-v3",
+      "score": 0.07098620869112673
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n16. 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료대와 관련하여 소요된 비용",
+      "collection": "policy",
+      "coverage_section": "비급여자기공명영상진단",
+      "paragraph": "④",
+      "item": "16",
+      "node_id": "rider2/비급여자기공명영상진단/제4조/4/16",
+      "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료",
+        "항암제",
+        "희귀의약품",
+        "암"
+      ],
+      "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ④ 16호",
+      "authority_level": 1,
+      "governs": [
+        "비급여자기공명영상진단"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/16",
+      "embedding_version": "structure-v3",
+      "score": 0.07040450588837686
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n15. 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "15",
+      "node_id": "rider2/상해비급여/제4조/3/15",
+      "parent_id": "rider2/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료",
+        "항암제",
+        "희귀의약품",
+        "암"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 15호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/상해비급여/제4조/3/15",
+      "embedding_version": "structure-v3",
+      "score": 0.06959444789081887
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "항암 주사에 쓴 비급여 약제는?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+          "edition": "2026.08.28",
+          "article": "제4조",
+          "title": "제4조(보상하지 않는 사항)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+          "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n16. 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용",
+          "collection": "policy",
+          "coverage_section": "질병비급여",
+          "paragraph": "③",
+          "item": "16",
+          "node_id": "rider2/질병비급여/제4조/3/16",
+          "parent_id": "rider2/질병비급여/제4조/3",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [
+            "치료",
+            "항암제",
+            "희귀의약품",
+            "암"
+          ],
+          "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+          "address": "제4조 ③ 16호",
+          "authority_level": 1,
+          "governs": [
+            "질병비급여"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "rider2/질병비급여/제4조/3/16",
+          "embedding_version": "structure-v3",
+          "score": 0.07098620869112673
+        },
+        {
+          "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+          "edition": "2026.08.28",
+          "article": "제4조",
+          "title": "제4조(보상하지 않는 사항)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+          "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n15. 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용",
+          "collection": "policy",
+          "coverage_section": "상해비급여",
+          "paragraph": "③",
+          "item": "15",
+          "node_id": "rider2/상해비급여/제4조/3/15",
+          "parent_id": "rider2/상해비급여/제4조/3",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [
+            "치료",
+            "항암제",
+            "희귀의약품",
+            "암"
+          ],
+          "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+          "address": "제4조 ③ 15호",
+          "authority_level": 1,
+          "governs": [
+            "상해비급여"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "rider2/상해비급여/제4조/3/15",
+          "embedding_version": "structure-v3",
+          "score": 0.06959444789081887
+        },
+        {
+          "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+          "edition": "2026.08.28",
+          "article": "제3조",
+          "title": "제3조(보장종목별 보상내용)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+          "chunk_text": "제3조(보장종목별 보상내용)\n② 제1항의 주사료에서 항암제, 항생제(항진균제 포함), 희귀의약품을 위해 사용된 비급여 주사료는 제3조(보장종목별 보상내용) (1)상해비급여 또는 (2)질병비급여에서 보상합니다.",
+          "collection": "policy",
+          "coverage_section": "질병비급여",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "std_silson_rider1_severe_noncovered/질병비급여/제3조/2/revision1",
+          "parent_id": "std_silson_rider1_severe_noncovered/질병비급여/제3조",
+          "is_definition": false,
+          "refs": [
+            "제3조"
+          ],
+          "defined_terms": [
+            "주사료",
+            "항암제",
+            "희귀의약품",
+            "암"
+          ],
+          "paragraph_head": "",
+          "address": "제3조 ②",
+          "authority_level": 1,
+          "governs": [
+            "질병비급여"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_rider1_severe_noncovered/질병비급여/제3조/2/revision1",
+          "embedding_version": "structure-v3",
+          "score": 0.06263763151455835
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": 0.0,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": false,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "정답 요지(answer_gist)에는 특별약관2 제4조 ③ 제2호 단서에 따라 주사치료 약제 제외 원칙의 예외로 항암제, 항생제, 희귀의약품이 명시된다고 되어 있으며, 담당자 확인 절차를 안내하고 있다. 그러나 답변은 해당 근거를 확인하지 못했다는 취지로 약관의 예외 내용을 전혀 반영하지 않았고, 문제에서 요구하는 핵심 사실(필요 시 담당자 확인 안내)을 제시하지 않았으므로 핵심 사실 누락에 해당한다. 따라서 score=0이다."
+    }
+  }
+}

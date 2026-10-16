@@ -1,0 +1,67 @@
+{
+  "id": "Q27",
+  "type": "refusal",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 (치아보험 문서 없음)",
+  "dataset_sha256": "591d21d8a20f3cf54f2ac7f2db7c698e51a057ad0c414187456c345f10e31de7",
+  "response": {
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "## 제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "score": 0.938011202262603
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제8조",
+      "title": "제8조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "## 제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다.",
+      "collection": "policy",
+      "score": 0.833919838623858
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "## 제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 수술을 받는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "score": 0.8237832584145669
+    }
+  ],
+  "search_trace": [],
+  "error": null,
+  "metrics": {
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "질문은 가온생명 치아보험의 보장 내용을 요구했으나, answer_gist는 '관련 규정을 찾지 못했고 치아보험 문서가 없다'는 요지이고 answer도 같은 내용이다. 그러나 답변에서 '지원하는 문서 검토 업무 범위 밖'이라고 단정하는 행위는 주어진 요지에 없는 새로운 주장(업무 범위 외)을 추가한 것이며, 원본 데이터(질문과 요지)만으로는 해당 보험이 실제로 업무 범위에 포함되는지 여부를 확인할 수 없다. 따라서 핵심 사실 누락, 근거 없는 단정, 다른 질문 답변(범위 문제)에 해당하여 score=0이다."
+    }
+  }
+}

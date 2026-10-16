@@ -1,0 +1,59 @@
+{
+  "id": "Q27",
+  "type": "refusal",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 (치아보험 문서 없음)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "질문은 치아보험 보장 내용을 요청했으나, 답변과 요지 모두 관련 규정을 찾지 못했다고만 하고 구체적인 보장 내용(항목, 한도, 면책 등)을 전혀 제공하지 않아 핵심 사실 누락에 해당합니다. / 답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고 있습니다. 또한 해당 질문이 지원 문서 검토 업무 범위 밖임을 명확히 안내하여 모순이나 사실 오류 없이 요지를 충족합니다. / 답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 추가로 안내했을 뿐 모순이나 사실 오류가 없으므로 요지 충족 기준을 만족한다.",
+      "votes": [
+        {
+          "score": 0,
+          "reason": "질문은 치아보험 보장 내용을 요청했으나, 답변과 요지 모두 관련 규정을 찾지 못했다고만 하고 구체적인 보장 내용(항목, 한도, 면책 등)을 전혀 제공하지 않아 핵심 사실 누락에 해당합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고 있습니다. 또한 해당 질문이 지원 문서 검토 업무 범위 밖임을 명확히 안내하여 모순이나 사실 오류 없이 요지를 충족합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 추가로 안내했을 뿐 모순이나 사실 오류가 없으므로 요지 충족 기준을 만족한다."
+        }
+      ],
+      "unanimous": false
+    }
+  }
+}

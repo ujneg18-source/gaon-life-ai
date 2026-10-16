@@ -1,0 +1,35 @@
+[
+  {
+    "id": "Q08",
+    "category": "정답 문제",
+    "reason": "expected article does not match indexed article",
+    "expected": {
+      "doc": "gaon/00_product_summary.md",
+      "article": "2."
+    },
+    "available_articles": [
+      "1장",
+      "2장",
+      "3장"
+    ]
+  },
+  {
+    "id": "Q18",
+    "category": "정답 문제",
+    "reason": "expected article does not match indexed article",
+    "expected": {
+      "doc": "gaon/11_supplement_templates.md",
+      "article": "수술확인서"
+    },
+    "available_articles": [
+      "1장",
+      "2장",
+      "3장"
+    ]
+  },
+  {
+    "id": "Q20",
+    "category": "정답 문제",
+    "reason": "지급 결정 거절 규칙과 non-refusal 정답 충돌. 원본 점수에서는 그대로 실패 처리한다."
+  }
+]

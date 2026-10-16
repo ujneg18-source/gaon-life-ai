@@ -1,0 +1,232 @@
+{
+  "id": "Q23",
+  "type": "item_coverage",
+  "question": "진단서 발급비도 실손으로 청구돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "article": "제4조",
+      "expected_address": "제4조 ③ 5호"
+    }
+  ],
+  "answer_gist": "각종 증명료는 진료와 무관한 비용으로 보상하지 않음",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요",
+    "intent": "item_coverage",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비",
+      "collection": "policy",
+      "coverage_section": "비급여자기공명영상진단",
+      "paragraph": "④",
+      "item": "5",
+      "node_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+      "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ④ 5호",
+      "authority_level": 1,
+      "governs": [
+        "비급여자기공명영상진단"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+      "embedding_version": "structure-v3",
+      "score": 0.05322580645161291
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비",
+      "collection": "policy",
+      "coverage_section": "질병비급여",
+      "paragraph": "③",
+      "item": "5",
+      "node_id": "rider2/질병비급여/제4조/3/5",
+      "parent_id": "rider2/질병비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 5호",
+      "authority_level": 1,
+      "governs": [
+        "질병비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/질병비급여/제4조/3/5",
+      "embedding_version": "structure-v3",
+      "score": 0.048007654037504795
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "6장",
+      "title": "6. 실손 비급여 항목 확인",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "6. 실손 비급여 항목 확인\n| 항목 | 기준 | 근거 |\n| 진료와 무관한 비용 | TV시청료 · 전화료 · 각종 증명료, 임상적 소견과 무관한 검사비, 간병비 | 특별약관2 제4조 ③ 제5호 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/6장/row4",
+      "parent_id": "10_claims_manual/6장",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "6장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/6장/row4",
+      "embedding_version": "structure-v3",
+      "score": 0.052007602755999055
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "진단서 발급비도 실손으로 청구돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+          "edition": "2026.08.28",
+          "article": "제4조",
+          "title": "제4조(보상하지 않는 사항)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+          "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비",
+          "collection": "policy",
+          "coverage_section": "비급여자기공명영상진단",
+          "paragraph": "④",
+          "item": "5",
+          "node_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+          "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+          "address": "제4조 ④ 5호",
+          "authority_level": 1,
+          "governs": [
+            "비급여자기공명영상진단"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+          "embedding_version": "structure-v3",
+          "score": 0.05322580645161291
+        },
+        {
+          "doc_name": "가온생명 보상 업무 매뉴얼",
+          "edition": "2026.10 (가상)",
+          "article": "6장",
+          "title": "6. 실손 비급여 항목 확인",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/10_claims_manual.md",
+          "chunk_text": "6. 실손 비급여 항목 확인\n| 항목 | 기준 | 근거 |\n| 진료와 무관한 비용 | TV시청료 · 전화료 · 각종 증명료, 임상적 소견과 무관한 검사비, 간병비 | 특별약관2 제4조 ③ 제5호 |",
+          "collection": "manual",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "10_claims_manual/6장/row4",
+          "parent_id": "10_claims_manual/6장",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "6장",
+          "authority_level": 4,
+          "governs": [
+            "가온생명 보상 업무 매뉴얼"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "10_claims_manual/6장/row4",
+          "embedding_version": "structure-v3",
+          "score": 0.052007602755999055
+        },
+        {
+          "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+          "edition": "2026.08.28",
+          "article": "제4조",
+          "title": "제4조(보상하지 않는 사항)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+          "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비",
+          "collection": "policy",
+          "coverage_section": "질병비급여",
+          "paragraph": "③",
+          "item": "5",
+          "node_id": "rider2/질병비급여/제4조/3/5",
+          "parent_id": "rider2/질병비급여/제4조/3",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+          "address": "제4조 ③ 5호",
+          "authority_level": 1,
+          "governs": [
+            "질병비급여"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "rider2/질병비급여/제4조/3/5",
+          "embedding_version": "structure-v3",
+          "score": 0.048272077114427867
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": 1.0,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": false,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "answer_gist는 진단서 발급비(각종 증명료)가 진료와 무관한 비용이므로 실손보험에서 보상하지 않는다는 거절 취지를 명시하고 있으나, 답변은 '관련 규정을 찾지 못했다'며 근거 없는 회피로 응답해 핵심 사실과 정반대되는 태도를 보임. 핵심 사실 누락 및 근거 없는 회피에 해당하므로 0점."
+    }
+  }
+}

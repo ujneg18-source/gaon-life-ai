@@ -38,6 +38,7 @@ class ReviewDocument:
     fields: list[ExtractedField]
     status: DocumentStatus = DocumentStatus.EXTRACTED
     source_text: str = ""
+    source: str | None = None
 
 
 @dataclass
@@ -58,10 +59,17 @@ def required_documents(claim, required_rules, by_type, *, is_proxy=False):
             continue
         if conditions.get("is_proxy") and not is_proxy:
             continue
-        if conditions.get("has_pharmacy_claim") and not (
-            by_type.get("pharmacy_receipt") or by_type.get("prescription")
-        ):
-            continue
+        if conditions.get("has_pharmacy_claim"):
+            has_pharmacy = bool(by_type.get("pharmacy_receipt") or by_type.get("prescription"))
+            # 실손24의 통합 약제비가 진료 영수증/내역+처방전 3종으로 온 데모 경로만 예외다.
+            digital_only = bool(by_type) and all(
+                d.source == "silson24" for ds in by_type.values() for d in ds
+            )
+            if digital_only and by_type.get("prescription") and not by_type.get("pharmacy_receipt"):
+                required["prescription"] = rule.id
+                continue
+            if not has_pharmacy:
+                continue
         for code in rule.doc_types:
             required[code] = rule.id
     return required
@@ -126,7 +134,7 @@ def evaluate_claim(
                 field_keys=keys,
             )
         )
-        if rule.startswith("CV-"):
+        if rule.startswith("CV-") and kind != IssueKind.INFO:
             for doc in related:
                 for field in doc.fields:
                     if field.key in keys:
@@ -216,7 +224,7 @@ def evaluate_claim(
                         [diagnosis, pathology],
                         ["diagnosis_date", "report_date"],
                     )
-            if "CV-03" in enabled:
+            if "CV-03" in enabled and a.get("diagnosis_code"):
                 hints = config.KCD_PATHOLOGY_HINTS.get(a.get("diagnosis_code", ""))
                 text = str(b.get("pathology_result", "")).casefold()
                 specimen = str(b.get("specimen", "")).casefold()
@@ -240,14 +248,27 @@ def evaluate_claim(
         for admission in by_type.get("admission", []):
             for detail in by_type.get("medical_detail", []):
                 a, b = admission.values.get("stay_days"), detail.values.get("inpatient_days")
-                if isinstance(a, int) and isinstance(b, int) and a != b:
+                # 진료비 산정 기간(period_*)은 입퇴원 날짜와 다를 수 있어 직접 비교하지 않는다.
+                # 입퇴원 날짜가 명시된 경우에만 날짜 불일치를 우선하며 1일 차이는 안내로 분리한다.
+                dates_differ = any(
+                    admission.values.get(key)
+                    and detail.values.get(key)
+                    and admission.values[key] != detail.values[key]
+                    for key in ("admit_date", "discharge_date")
+                )
+                valid_days = isinstance(a, int) and isinstance(b, int)
+                if dates_differ or (valid_days and a != b):
+                    informational = not dates_differ and abs(a - b) == 1
                     issue(
-                        IssueKind.MISMATCH,
+                        IssueKind.INFO if informational else IssueKind.MISMATCH,
                         "CV-02",
-                        f"입원 일수 {a}일 vs {b}일",
-                        f"입퇴원확인서 {a}일 · 세부내역서 {b}일",
+                        "1일 차이: 산정 방식 차이 가능 (질병입원일당특약 제5조)"
+                        if informational
+                        else "입원 기간 불일치 확인 필요",
+                        f"입퇴원확인서 {a}일 · 세부내역서 {b}일"
+                        + (" · 입원일·퇴원일 자체가 다릅니다." if dates_differ else ""),
                         [admission, detail],
-                        ["stay_days", "inpatient_days"],
+                        ["stay_days", "inpatient_days", "admit_date", "discharge_date"],
                     )
     if "CV-05" in enabled:
         for doc in docs:
@@ -312,12 +333,58 @@ def evaluate_claim(
                             [doc],
                             ["period_start", "period_end", "admit_date", "discharge_date"],
                         )
+    # 약관의 안내/확인 과제만 만든다. 20%나 면책 표시는 실제 지급 결정이 아니다.
+    if "cancer_diagnosis" in claim.claim_types:
+        for diagnosis in by_type.get("diagnosis", []):
+            code = diagnosis.values.get("diagnosis_code")
+            if not code:
+                issue(
+                    IssueKind.MISSING,
+                    "REQ-diagnosis-code",
+                    "질병분류기호가 적힌 진단서 보완 필요",
+                    "발급 의료기관에서 질병분류기호가 적힌 진단서를 받아 주세요.",
+                    [diagnosis],
+                    ["diagnosis_code"],
+                )
+            if code in config.SMALL_CANCER_CODES:
+                issue(
+                    IssueKind.INFO,
+                    "POLICY-C73",
+                    f"소액암 {config.SMALL_CANCER_RATE}% 기준 안내",
+                    "가온 암진단특약 제2조·제4조 기준입니다. 실제 지급 여부와 금액은 지급 심사 담당자가 결정합니다.",
+                    [diagnosis],
+                    ["diagnosis_code"],
+                )
+            if policy and policy.contract_date and diagnosis.values.get("diagnosis_date"):
+                try:
+                    elapsed = (
+                        date.fromisoformat(diagnosis.values["diagnosis_date"])
+                        - policy.contract_date
+                    ).days
+                    waiting = (
+                        0 <= elapsed < config.CANCER_WAIT_DAYS
+                        and code not in config.SMALL_CANCER_CODES
+                    )
+                except (ValueError, TypeError):
+                    waiting = False
+                if waiting:
+                    issue(
+                        IssueKind.INFO,
+                        "CV-06-WAIT",
+                        f"암 보장개시 전({config.CANCER_WAIT_DAYS}일 면책) 확인 안내",
+                        "가온 암진단특약 제5조에 따라 계약일·진단확정일·보장개시일을 지급 심사 담당자가 확인해 주세요.",
+                        [diagnosis],
+                        ["diagnosis_date"],
+                    )
+    from app.services.coverage import coverage_issues
+
+    issues.extend(coverage_issues(claim, docs, config))
     if not review_settings.review_on_format:
         issues = [item for item in issues if item.kind != IssueKind.FORMAT]
     status = ClaimStatus.AUTO_PASS
     if any(i.kind == IssueKind.MISSING for i in issues):
         status = ClaimStatus.SUPPLEMENT
-    elif issues:
+    elif any(i.kind != IssueKind.INFO for i in issues):
         status = ClaimStatus.NEEDS_REVIEW
     return ReviewResult(sorted(required), issues, status)
 
@@ -361,6 +428,7 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
             " ".join(
                 element_text(el) for el in doc.raw_result.get("parse", {}).get("elements", [])
             ),
+            doc.source,
         )
         for doc in docs
     ]
@@ -403,7 +471,9 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
             old[fp].title = item.title
             session.add(old[fp])
     for fp, item in old.items():
-        if fp not in current and item.rule_id.startswith(("CV-", "REQ-", "FIELD-", "PIPELINE")):
+        if fp not in current and item.rule_id.startswith(
+            ("CV-", "REQ-", "FIELD-", "PIPELINE", "POLICY-", "coverage")
+        ):
             item.status = IssueStatus.RESOLVED
             session.add(item)
     for doc in inputs:
@@ -416,7 +486,7 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
         ClaimStatus.SUPPLEMENT
         if any(i.kind == IssueKind.MISSING for i in open_issues)
         else ClaimStatus.NEEDS_REVIEW
-        if open_issues
+        if any(i.kind != IssueKind.INFO for i in open_issues)
         else ClaimStatus.AUTO_PASS
     )
     report.status = claim.status

@@ -1,0 +1,1112 @@
+{
+  "is_mock": true,
+  "customers": [
+    {
+      "id": "DEMO-C001",
+      "name": "김유정",
+      "birth_date": "1988-05-20",
+      "contact": "000-0000-0001",
+      "is_mock": true,
+      "sample_id": "kim_yujeong",
+      "scenario": "기존 복합 청구",
+      "primary_claim_id": "GA-2610-0482",
+      "verification_mode": "live",
+      "expected_issues": [
+        {
+          "rule": "CV-01",
+          "kind": "mismatch"
+        },
+        {
+          "rule": "CV-02",
+          "kind": "info"
+        },
+        {
+          "rule": "CV-04",
+          "kind": "missing"
+        },
+        {
+          "rule": "coverage",
+          "kind": "excluded_item"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "01_diagnosis",
+          "source": "image",
+          "values": {
+            "doc_type": "diagnosis",
+            "patient_name": "김유정",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-02",
+            "diagnosis_code": "C18.7",
+            "diagnosis_name": "구불결장의 악성 신생물",
+            "diagnosis_date": "2026-09-18",
+            "onset_date": "2026-09-10"
+          }
+        },
+        {
+          "stem": "02_pathology",
+          "source": "image",
+          "values": {
+            "doc_type": "pathology",
+            "patient_name": "김유정",
+            "issuer": "하람대학교병원",
+            "specimen": "대장 조직 (구불결장), 내시경 생검",
+            "pathology_result": "Adenocarcinoma, moderately differentiated (중등도 분화 선암)",
+            "report_date": "2026-09-21"
+          }
+        },
+        {
+          "stem": "03_admission",
+          "source": "image",
+          "values": {
+            "doc_type": "admission",
+            "patient_name": "김유정",
+            "issuer": "하람대학교병원",
+            "admit_date": "2026-09-22",
+            "discharge_date": "2026-09-30",
+            "stay_days": 9,
+            "diagnosis_code": "C18.7"
+          }
+        },
+        {
+          "stem": "04_medical_receipt",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_receipt",
+            "source": "silson24",
+            "patient_name": "김유정",
+            "issuer": "하람대학교병원",
+            "period_start": "2026-09-22",
+            "period_end": "2026-09-29",
+            "inpatient_days": 8,
+            "covered_copay": 281600,
+            "covered_nhis": 5350400,
+            "non_covered": 560000,
+            "total": 6192000,
+            "patient_total": 841600
+          }
+        },
+        {
+          "stem": "05_medical_detail",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_detail",
+            "source": "silson24",
+            "patient_name": "김유정",
+            "period_start": "2026-09-22",
+            "period_end": "2026-09-29",
+            "inpatient_days": 8,
+            "items": [
+              {
+                "date": "2026-09-22",
+                "category": "입원료",
+                "code": "AA-0101",
+                "name": "입원료(일반병실)",
+                "covered": true,
+                "amount": 680000
+              },
+              {
+                "date": "2026-09-22",
+                "category": "검사료",
+                "code": "BB-2201",
+                "name": "일반혈액검사",
+                "covered": true,
+                "amount": 90000
+              },
+              {
+                "date": "2026-09-22",
+                "category": "영상진단료",
+                "code": "CC-3105",
+                "name": "복부 CT(조영제)",
+                "covered": true,
+                "amount": 220000
+              },
+              {
+                "date": "2026-09-23",
+                "category": "마취료",
+                "code": "DD-4010",
+                "name": "전신마취",
+                "covered": true,
+                "amount": 450000
+              },
+              {
+                "date": "2026-09-23",
+                "category": "처치 및 수술료",
+                "code": "SS-7702",
+                "name": "복강경하 결장 부분절제술",
+                "covered": true,
+                "amount": 3200000
+              },
+              {
+                "date": "2026-09-23",
+                "category": "치료재료대",
+                "code": "MM-5520",
+                "name": "복강경 수술 재료",
+                "covered": true,
+                "amount": 640000
+              },
+              {
+                "date": "2026-09-22",
+                "category": "주사료",
+                "code": "EE-6012",
+                "name": "수액 · 항생제 주사",
+                "covered": true,
+                "amount": 256000
+              },
+              {
+                "date": "2026-09-22",
+                "category": "투약 및 조제료",
+                "code": "FF-1003",
+                "name": "원내 투약",
+                "covered": true,
+                "amount": 96000
+              },
+              {
+                "date": "2026-09-22",
+                "category": "상급병실료 차액",
+                "code": "NN-9001",
+                "name": "2인실 차액",
+                "covered": false,
+                "amount": 560000
+              }
+            ]
+          }
+        },
+        {
+          "stem": "06_prescription",
+          "source": "silson24",
+          "values": {
+            "doc_type": "prescription",
+            "source": "silson24",
+            "patient_name": "김유정",
+            "issued_date": "2026-09-30",
+            "diagnosis_code": "C18.7",
+            "items": [
+              {
+                "drug_name": "카페시타빈정 500mg",
+                "per_day": 2,
+                "days": 14
+              },
+              {
+                "drug_name": "온단세트론정 8mg",
+                "per_day": 2,
+                "days": 14
+              }
+            ]
+          }
+        },
+        {
+          "stem": "07_pharmacy_receipt",
+          "source": "image",
+          "values": {
+            "doc_type": "pharmacy_receipt",
+            "patient_name": "김유정",
+            "issuer": "새솔약국",
+            "issued_date": "2026-09-30",
+            "items": [
+              {
+                "drug_name": "카페시타빈정 500mg",
+                "days": 14,
+                "amount": 210000,
+                "covered": true
+              },
+              {
+                "drug_name": "온단세트론정 8mg",
+                "days": 14,
+                "amount": 56000,
+                "covered": true
+              },
+              {
+                "drug_name": "조제료",
+                "days": 14,
+                "amount": 18000,
+                "covered": true
+              },
+              {
+                "drug_name": "종합비타민정 (일반의약품)",
+                "days": 30,
+                "amount": 15000,
+                "covered": false
+              }
+            ],
+            "covered_copay": 14200,
+            "non_covered": 15000
+          }
+        }
+      ],
+      "optional_model_issues": [
+        {
+          "rule": "FIELD-diagnosis_code",
+          "kind": "low_conf"
+        },
+        {
+          "rule": "CV-03",
+          "kind": "mismatch"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C002",
+      "name": "이가온",
+      "birth_date": "1982-11-07",
+      "contact": "000-0000-0002",
+      "is_mock": true,
+      "sample_id": "lee_gaon",
+      "scenario": "완결 서류",
+      "primary_claim_id": "GA-2610-0477",
+      "verification_mode": "live",
+      "expected_issues": [],
+      "documents": [
+        {
+          "stem": "03_admission",
+          "source": "image",
+          "values": {
+            "doc_type": "admission",
+            "patient_name": "이가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "admit_date": "2026-10-06",
+            "discharge_date": "2026-10-08",
+            "stay_days": 3,
+            "diagnosis_code": "K35.8"
+          }
+        },
+        {
+          "stem": "08_surgery_cert",
+          "source": "image",
+          "values": {
+            "doc_type": "surgery_cert",
+            "patient_name": "이가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "surgery_name": "복강경하 충수절제술",
+            "surgery_date": "2026-10-07",
+            "surgery_code": "DEMO-SS02"
+          }
+        },
+        {
+          "stem": "04_medical_receipt",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_receipt",
+            "patient_name": "이가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 3,
+            "covered_copay": 30000,
+            "non_covered": 0,
+            "patient_total": 30000,
+            "total": 30000,
+            "items": []
+          }
+        },
+        {
+          "stem": "05_medical_detail",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_detail",
+            "patient_name": "이가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 3,
+            "items": [
+              {
+                "name": "입원 진료비",
+                "code": "DEMO-01",
+                "category": "exam",
+                "covered": true,
+                "amount": 30000
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C003",
+      "name": "박가람",
+      "birth_date": "1983-06-24",
+      "contact": "000-0000-0003",
+      "is_mock": true,
+      "sample_id": "park_garam",
+      "scenario": "갑상선 소액암",
+      "primary_claim_id": "GA-2610-0471",
+      "verification_mode": "mock",
+      "expected_issues": [
+        {
+          "rule": "POLICY-C73",
+          "kind": "info"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "01_diagnosis",
+          "source": "image",
+          "values": {
+            "doc_type": "diagnosis",
+            "patient_name": "박가람",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "diagnosis_code": "C73",
+            "diagnosis_name": "갑상선의 악성 신생물",
+            "diagnosis_date": "2026-09-21"
+          }
+        },
+        {
+          "stem": "02_pathology",
+          "source": "image",
+          "values": {
+            "doc_type": "pathology",
+            "patient_name": "박가람",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "pathology_result": "Papillary thyroid carcinoma",
+            "specimen": "Thyroid",
+            "report_date": "2026-09-20"
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C004",
+      "name": "최새봄",
+      "birth_date": "1984-02-18",
+      "contact": "000-0000-0004",
+      "is_mock": true,
+      "sample_id": "choi_saebom",
+      "scenario": "90일 면책 기간",
+      "primary_claim_id": "GA-2610-0466",
+      "verification_mode": "mock",
+      "expected_issues": [
+        {
+          "rule": "CV-06-WAIT",
+          "kind": "info"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "01_diagnosis",
+          "source": "image",
+          "values": {
+            "doc_type": "diagnosis",
+            "patient_name": "최새봄",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "diagnosis_code": "C18.7",
+            "diagnosis_name": "구불결장의 악성 신생물",
+            "diagnosis_date": "2026-09-21"
+          }
+        },
+        {
+          "stem": "02_pathology",
+          "source": "image",
+          "values": {
+            "doc_type": "pathology",
+            "patient_name": "최새봄",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "pathology_result": "Adenocarcinoma",
+            "specimen": "Sigmoid colon",
+            "report_date": "2026-09-20"
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C005",
+      "name": "정다온",
+      "birth_date": "1985-09-03",
+      "contact": "000-0000-0005",
+      "is_mock": true,
+      "sample_id": "jung_daon",
+      "scenario": "실손24 통원·약제비",
+      "primary_claim_id": "GA-2610-0459",
+      "verification_mode": "mock",
+      "expected_issues": [],
+      "documents": [
+        {
+          "stem": "04_medical_receipt",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_receipt",
+            "patient_name": "정다온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 0,
+            "covered_copay": 30000,
+            "non_covered": 0,
+            "patient_total": 30000,
+            "total": 30000,
+            "items": []
+          }
+        },
+        {
+          "stem": "05_medical_detail",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_detail",
+            "patient_name": "정다온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 0,
+            "items": [
+              {
+                "name": "진료 및 약제비",
+                "code": "DEMO-01",
+                "category": "exam",
+                "covered": true,
+                "amount": 30000
+              }
+            ]
+          }
+        },
+        {
+          "stem": "06_prescription",
+          "source": "silson24",
+          "values": {
+            "doc_type": "prescription",
+            "patient_name": "정다온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "items": [
+              {
+                "drug_name": "가상치료정 10mg",
+                "days": 3,
+                "per_day": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C006",
+      "name": "한누리",
+      "birth_date": "1986-12-29",
+      "contact": "000-0000-0006",
+      "is_mock": true,
+      "sample_id": "han_nuri",
+      "scenario": "처방전 미기재 일반의약품",
+      "primary_claim_id": "GA-2610-0452",
+      "verification_mode": "live",
+      "expected_issues": [
+        {
+          "rule": "coverage",
+          "kind": "excluded_item"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "04_medical_receipt",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_receipt",
+            "patient_name": "한누리",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 0,
+            "covered_copay": 30000,
+            "non_covered": 0,
+            "patient_total": 30000,
+            "total": 30000,
+            "items": []
+          }
+        },
+        {
+          "stem": "05_medical_detail",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_detail",
+            "patient_name": "한누리",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 0,
+            "items": [
+              {
+                "name": "진료 및 약제비",
+                "code": "DEMO-01",
+                "category": "exam",
+                "covered": true,
+                "amount": 30000
+              }
+            ]
+          }
+        },
+        {
+          "stem": "06_prescription",
+          "source": "silson24",
+          "values": {
+            "doc_type": "prescription",
+            "patient_name": "한누리",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "items": [
+              {
+                "drug_name": "가상치료정 10mg",
+                "days": 3,
+                "per_day": 2
+              }
+            ]
+          }
+        },
+        {
+          "stem": "07_pharmacy_receipt",
+          "source": "image",
+          "values": {
+            "doc_type": "pharmacy_receipt",
+            "patient_name": "한누리",
+            "issuer": "새솔약국",
+            "issued_date": "2026-10-12",
+            "covered_copay": 3000,
+            "non_covered": 15000,
+            "items": [
+              {
+                "drug_name": "가상치료정 10mg",
+                "days": 3,
+                "amount": 3000,
+                "covered": true
+              },
+              {
+                "drug_name": "종합비타민정 (일반의약품)",
+                "days": 30,
+                "amount": 15000,
+                "covered": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C007",
+      "name": "김서연",
+      "birth_date": "1987-04-12",
+      "contact": "000-0000-0007",
+      "is_mock": true,
+      "sample_id": "kim_seoyeon_a",
+      "scenario": "질병분류기호 누락",
+      "primary_claim_id": "GA-2610-0449",
+      "verification_mode": "mock",
+      "expected_issues": [
+        {
+          "rule": "REQ-diagnosis-code",
+          "kind": "missing"
+        },
+        {
+          "rule": "FIELD-diagnosis_code",
+          "kind": "format"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "01_diagnosis",
+          "source": "image",
+          "values": {
+            "doc_type": "diagnosis",
+            "patient_name": "김서연",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "diagnosis_code": "",
+            "diagnosis_name": "구불결장의 악성 신생물",
+            "diagnosis_date": "2026-09-21"
+          }
+        },
+        {
+          "stem": "02_pathology",
+          "source": "image",
+          "values": {
+            "doc_type": "pathology",
+            "patient_name": "김서연",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "pathology_result": "Adenocarcinoma",
+            "specimen": "Sigmoid colon",
+            "report_date": "2026-09-20"
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C008",
+      "name": "김서연",
+      "birth_date": "1988-08-26",
+      "contact": "000-0000-0008",
+      "is_mock": true,
+      "sample_id": "kim_seoyeon_b",
+      "scenario": "환자 이름 불일치",
+      "primary_claim_id": "GA-2610-0444",
+      "verification_mode": "mock",
+      "expected_issues": [
+        {
+          "rule": "CV-05",
+          "kind": "mismatch"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "04_medical_receipt",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_receipt",
+            "patient_name": "가상 타인",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 3,
+            "covered_copay": 30000,
+            "non_covered": 0,
+            "patient_total": 30000,
+            "total": 30000,
+            "items": []
+          }
+        },
+        {
+          "stem": "05_medical_detail",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_detail",
+            "patient_name": "김서연",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 3,
+            "items": [
+              {
+                "name": "입원 진료비",
+                "code": "DEMO-01",
+                "category": "exam",
+                "covered": true,
+                "amount": 30000
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C009",
+      "name": "윤가온",
+      "birth_date": "1989-01-31",
+      "contact": "000-0000-0009",
+      "is_mock": true,
+      "sample_id": "yoon_gaon",
+      "scenario": "입원 2일 차이",
+      "primary_claim_id": "GA-2610-0438",
+      "verification_mode": "mock",
+      "expected_issues": [
+        {
+          "rule": "CV-02",
+          "kind": "mismatch"
+        }
+      ],
+      "documents": [
+        {
+          "stem": "03_admission",
+          "source": "image",
+          "values": {
+            "doc_type": "admission",
+            "patient_name": "윤가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "admit_date": "2026-10-06",
+            "discharge_date": "2026-10-10",
+            "stay_days": 5,
+            "diagnosis_code": "J18.9"
+          }
+        },
+        {
+          "stem": "04_medical_receipt",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_receipt",
+            "patient_name": "윤가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 3,
+            "covered_copay": 30000,
+            "non_covered": 0,
+            "patient_total": 30000,
+            "total": 30000,
+            "items": []
+          }
+        },
+        {
+          "stem": "05_medical_detail",
+          "source": "silson24",
+          "values": {
+            "doc_type": "medical_detail",
+            "patient_name": "윤가온",
+            "issuer": "하람대학교병원",
+            "issued_date": "2026-10-12",
+            "period_start": "2026-10-06",
+            "period_end": "2026-10-08",
+            "inpatient_days": 3,
+            "items": [
+              {
+                "name": "입원 진료비",
+                "code": "DEMO-01",
+                "category": "exam",
+                "covered": true,
+                "amount": 30000
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "DEMO-C010",
+      "name": "서지우",
+      "birth_date": "1990-07-09",
+      "contact": "000-0000-0010",
+      "is_mock": true,
+      "sample_id": "seo_jiwoo",
+      "scenario": "서류 미제출",
+      "primary_claim_id": "GA-2610-0433",
+      "verification_mode": "mock",
+      "expected_issues": [],
+      "documents": []
+    }
+  ],
+  "policies": [
+    {
+      "policy_no": "L-2026-000001",
+      "customer_id": "DEMO-C001",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "cancer_diagnosis",
+        "hospitalization",
+        "medical_expense",
+        "surgery",
+        "outpatient",
+        "disability",
+        "death"
+      ],
+      "coverage_start": "2020-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2020-01-01"
+    },
+    {
+      "policy_no": "L-2026-000002",
+      "customer_id": "DEMO-C002",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "hospitalization",
+        "surgery",
+        "medical_expense"
+      ],
+      "coverage_start": "2023-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2023-01-01"
+    },
+    {
+      "policy_no": "L-2026-000003",
+      "customer_id": "DEMO-C003",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "cancer_diagnosis"
+      ],
+      "coverage_start": "2023-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2023-01-01"
+    },
+    {
+      "policy_no": "L-2026-000004",
+      "customer_id": "DEMO-C004",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "cancer_diagnosis"
+      ],
+      "coverage_start": "2026-09-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2026-09-01"
+    },
+    {
+      "policy_no": "L-2026-000005",
+      "customer_id": "DEMO-C005",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "medical_expense"
+      ],
+      "coverage_start": "2023-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2023-01-01"
+    },
+    {
+      "policy_no": "L-2026-000006",
+      "customer_id": "DEMO-C006",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "medical_expense"
+      ],
+      "coverage_start": "2023-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2023-01-01"
+    },
+    {
+      "policy_no": "L-2026-000007",
+      "customer_id": "DEMO-C007",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "cancer_diagnosis"
+      ],
+      "coverage_start": "2023-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2023-01-01"
+    },
+    {
+      "policy_no": "L-2026-000008",
+      "customer_id": "DEMO-C008",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "medical_expense"
+      ],
+      "coverage_start": "2023-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2023-01-01"
+    },
+    {
+      "policy_no": "L-2026-000009",
+      "customer_id": "DEMO-C009",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "hospitalization",
+        "medical_expense"
+      ],
+      "coverage_start": "2026-10-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2026-10-01"
+    },
+    {
+      "policy_no": "L-2026-000010",
+      "customer_id": "DEMO-C010",
+      "product_name": "가온 든든 종합보장(가상)",
+      "riders": [
+        "medical_expense"
+      ],
+      "coverage_start": "2020-01-01",
+      "coverage_end": "2033-12-31",
+      "is_mock": true,
+      "contract_date": "2020-01-01"
+    }
+  ],
+  "claims": [
+    {
+      "id": "GA-2610-0482",
+      "customer_name": "김유정",
+      "policy_no": "L-2026-000001",
+      "claim_types": [
+        "cancer_diagnosis",
+        "hospitalization",
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-15T09:12:00+09:00",
+      "channel": [
+        "app",
+        "silson24"
+      ],
+      "step": 0,
+      "customer_id": "DEMO-C001"
+    },
+    {
+      "id": "GA-2610-0477",
+      "customer_name": "이가온",
+      "policy_no": "L-2026-000002",
+      "claim_types": [
+        "hospitalization",
+        "surgery",
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-15T08:40:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0,
+      "customer_id": "DEMO-C002"
+    },
+    {
+      "id": "GA-2610-0471",
+      "customer_name": "박가람",
+      "policy_no": "L-2026-000003",
+      "claim_types": [
+        "cancer_diagnosis"
+      ],
+      "received_iso": "2026-10-14T17:05:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0,
+      "customer_id": "DEMO-C003"
+    },
+    {
+      "id": "GA-2610-0466",
+      "customer_name": "최새봄",
+      "policy_no": "L-2026-000004",
+      "claim_types": [
+        "cancer_diagnosis"
+      ],
+      "received_iso": "2026-10-14T15:22:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0,
+      "customer_id": "DEMO-C004"
+    },
+    {
+      "id": "GA-2610-0459",
+      "customer_name": "정다온",
+      "policy_no": "L-2026-000005",
+      "claim_types": [
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-14T11:48:00+09:00",
+      "channel": [
+        "app",
+        "silson24"
+      ],
+      "step": 0,
+      "customer_id": "DEMO-C005"
+    },
+    {
+      "id": "GA-2610-0452",
+      "customer_name": "한누리",
+      "policy_no": "L-2026-000006",
+      "claim_types": [
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-13T16:30:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0,
+      "customer_id": "DEMO-C006"
+    },
+    {
+      "id": "GA-2610-0449",
+      "customer_id": "DEMO-C007",
+      "customer_name": "김서연",
+      "policy_no": "L-2026-000007",
+      "claim_types": [
+        "cancer_diagnosis"
+      ],
+      "received_iso": "2026-10-13T14:37:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0444",
+      "customer_id": "DEMO-C008",
+      "customer_name": "김서연",
+      "policy_no": "L-2026-000008",
+      "claim_types": [
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-13T13:08:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0438",
+      "customer_id": "DEMO-C009",
+      "customer_name": "윤가온",
+      "policy_no": "L-2026-000009",
+      "claim_types": [
+        "hospitalization",
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-13T11:46:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0,
+      "reported_start": "2026-09-22",
+      "reported_end": "2026-09-30"
+    },
+    {
+      "id": "GA-2610-0433",
+      "customer_id": "DEMO-C010",
+      "customer_name": "서지우",
+      "policy_no": "L-2026-000010",
+      "claim_types": [
+        "surgery"
+      ],
+      "received_iso": "2026-10-13T10:23:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0428",
+      "customer_id": "DEMO-C002",
+      "customer_name": "이가온",
+      "policy_no": "L-2026-000002",
+      "claim_types": [
+        "medical_expense"
+      ],
+      "received_iso": "2026-10-13T09:51:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0423",
+      "customer_id": "DEMO-C003",
+      "customer_name": "박가람",
+      "policy_no": "L-2026-000003",
+      "claim_types": [
+        "surgery"
+      ],
+      "received_iso": "2026-10-13T09:16:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0
+    },
+    {
+      "id": "GA-2610-0418",
+      "customer_id": "DEMO-C007",
+      "customer_name": "김서연",
+      "policy_no": "L-2026-000007",
+      "claim_types": [
+        "outpatient"
+      ],
+      "received_iso": "2026-10-13T08:42:00+09:00",
+      "channel": [
+        "app"
+      ],
+      "step": 0
+    }
+  ]
+}

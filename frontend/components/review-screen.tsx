@@ -13,6 +13,7 @@ import {
   CircleX,
   Pencil,
   X,
+  Info,
 } from "lucide-react";
 import {
   api,
@@ -291,13 +292,15 @@ function FieldCell({
       </td>
       <td>
         <span className="field-source">
-          {f.method === "data"
-            ? "실손24 데이터"
-            : f.parse_evidence
-              ? "Parse 표"
-              : f.method === "ocr"
-                ? "OCR"
-                : "Parse"}
+          {f.provenance === "mock"
+            ? "모의 데이터"
+            : f.method === "data"
+              ? "실손24 데이터"
+              : f.parse_evidence
+                ? "Parse 표"
+                : f.method === "ocr"
+                  ? "OCR"
+                  : "Parse"}
         </span>
         <small
           className={
@@ -453,7 +456,7 @@ export function ReviewScreen({
           <section className="panel results-panel">
             <div className="panel-heading">
               <h2>
-                누락 · 불일치 · 확인 필요{" "}
+                확인 사항 · 안내{" "}
                 <span className="muted">{allIssues.length}</span>
               </h2>
               <small>서류 간 교차검증 결과</small>
@@ -461,8 +464,18 @@ export function ReviewScreen({
             <div className="compact-issues">
               {allIssues.map((i) => (
                 <div key={i.id} className="compact-issue">
-                  <span className={i.kind === "missing" ? "bad" : "warn"}>
-                    {i.kind === "missing" ? (
+                  <span
+                    className={
+                      i.kind === "info"
+                        ? "muted"
+                        : i.kind === "missing"
+                          ? "bad"
+                          : "warn"
+                    }
+                  >
+                    {i.kind === "info" ? (
+                      <Info size={15} aria-label="안내" />
+                    ) : i.kind === "missing" ? (
                       <CircleX size={15} />
                     ) : (
                       <TriangleAlert size={15} />
@@ -470,6 +483,7 @@ export function ReviewScreen({
                   </span>
                   <div>
                     <strong title={i.detail}>
+                      {i.kind === "info" && "안내 · "}
                       {formatDatesInText(i.title).replace(
                         /diagnosis_code/g,
                         "질병분류기호",

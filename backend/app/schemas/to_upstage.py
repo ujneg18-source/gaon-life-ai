@@ -35,3 +35,33 @@ def to_extract_schema(model: type[BaseModel]) -> dict:
     ):
         raise ValueError("Extract 1단계 속성 타입 제약 위반")
     return schema
+
+
+def to_chat_schema(model: type[BaseModel]) -> dict:
+    """Solar strict 규약: 모든 키 required, nullable 단일 타입 배열, 모든 객체 extra 금지."""
+    schema = deepcopy(model.model_json_schema())
+
+    def visit(node):
+        if isinstance(node, list):
+            return [visit(v) for v in node]
+        if not isinstance(node, dict):
+            return node
+        result = {
+            k: visit(v)
+            for k, v in node.items()
+            if k
+            not in {"default", "format", "maxLength", "minLength", "maxItems", "minItems", "title"}
+        }
+        if "anyOf" in result:
+            choices = result.pop("anyOf")
+            nonnull = [v for v in choices if v.get("type") != "null"]
+            if len(nonnull) != 1 or "type" not in nonnull[0]:
+                raise ValueError("지원하지 않는 nullable 스키마")
+            result.update(nonnull[0])
+            result["type"] = [nonnull[0]["type"], "null"]
+        if result.get("type") == "object":
+            result["required"] = list(result.get("properties", {}))
+            result["additionalProperties"] = False
+        return result
+
+    return visit(schema)

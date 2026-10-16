@@ -1,0 +1,19 @@
+{
+  "customer": "정다온",
+  "sample_id": "jung_daon",
+  "claim_id": "GA-2610-0459",
+  "mode": "mock",
+  "variant": "png",
+  "photo_count": 0,
+  "status": "auto_pass",
+  "expected": [],
+  "actual": [],
+  "passed": true,
+  "optional_model_issues": 0,
+  "missing_issues": [],
+  "unexpected_issues": [],
+  "calls": 0,
+  "field_matches": 27,
+  "field_total": 27,
+  "field_mismatches": []
+}

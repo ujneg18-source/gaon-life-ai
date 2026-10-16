@@ -1,0 +1,144 @@
+{
+  "id": "Q03",
+  "question": "갑상선암도 암 진단금 100% 나와?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n③ **소액암**: 다음 질병을 말합니다.\n1. 갑상선의 악성신생물(C73)",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "1",
+      "node_id": "01_cancer_rider/공통/제2조/3/1",
+      "parent_id": "01_cancer_rider/공통/제2조/3",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "③ **소액암**: 다음 질병을 말합니다.",
+      "address": "제2조 ③ 1호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/3/1",
+      "embedding_version": "structure-v3",
+      "score": 0.031754032258064516
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제4조/0",
+      "parent_id": "01_cancer_rider/공통/제4조",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제4조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제4조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.04865990111891752
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n② 보장개시일 전날 이전에 암으로 진단확정된 경우 암진단보험금은 지급하지 않으며, 계약자는 이 특약을 무효로 할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제5조/2",
+      "parent_id": "01_cancer_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.0467592121191551
+    }
+  ],
+  "trace": {
+    "question": "갑상선암도 암 진단금 100% 나와?",
+    "rewritten": "갑상선암 암 진단금 지급률 및 보장개시일 면책 사유, 보험금을 지급하지 않는 사유, 필수서류 보완 및 교차검증 검토 규칙",
+    "candidate_ids": [
+      "10_claims_manual/2장/row1",
+      "01_cancer_rider/공통/제4조/0",
+      "01_cancer_rider/공통/제5조/2",
+      "10_claims_manual/4장/row1",
+      "01_cancer_rider/공통/제2조/3/1",
+      "01_cancer_rider/공통/제3조/1/3",
+      "std_silson_basic/상해급여/제4조/3/4",
+      "01_cancer_rider/공통/제2조/1",
+      "01_cancer_rider/공통/제7조/0",
+      "01_cancer_rider/공통/제3조/2"
+    ],
+    "ranked_ids": [
+      "01_cancer_rider/공통/제2조/3/1",
+      "01_cancer_rider/공통/제4조/0",
+      "01_cancer_rider/공통/제5조/2",
+      "10_claims_manual/2장/row1",
+      "10_claims_manual/4장/row1",
+      "01_cancer_rider/공통/제7조/0",
+      "01_cancer_rider/공통/제3조/1/3",
+      "01_cancer_rider/공통/제2조/1",
+      "01_cancer_rider/공통/제3조/2",
+      "std_silson_basic/상해급여/제4조/3/4"
+    ]
+  }
+}

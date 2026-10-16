@@ -1,0 +1,136 @@
+{
+  "id": "Q28",
+  "type": "refusal",
+  "question": "자동차 사고 과실비율 어떻게 정해?",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 / 업무 범위 밖",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n- 대리 청구: 위임장과 청구권자 인감증명서(또는 본인서명사실확인서)를 추가로 받습니다.\n- 재해(사고) 청구: 사고 사실을 증명하는 서류(교통사고 사실확인원 등)를 추가로 받습니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/text10",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/text10",
+      "embedding_version": "structure-v3",
+      "score": 0.05160526180339562
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 급여의료비에 대해서는 보상하지 않습니다.\n3. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해급여 제1항, 제2항 및 제4항부터 제8항에 따라 보상합니다.",
+      "collection": "policy",
+      "coverage_section": "상해급여",
+      "paragraph": "③",
+      "item": "3",
+      "node_id": "std_silson_basic/상해급여/제4조/3/3",
+      "parent_id": "std_silson_basic/상해급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 급여의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 3호",
+      "authority_level": 1,
+      "governs": [
+        "상해급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/상해급여/제4조/3/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06478053939714437
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n6. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해비급여 제1항부터 제5항에 따라 보상합니다.\n   7.「국민건강보험법」 제42조의 요양기관이 아닌 외국에 있는 의료기관에서 발생한 의료비",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "6",
+      "node_id": "rider2/상해비급여/제4조/3/6",
+      "parent_id": "rider2/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조",
+        "제42조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 6호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/상해비급여/제4조/3/6",
+      "embedding_version": "structure-v3",
+      "score": 0.06956845238095238
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "과실비율은 자동차보험 약관, 사고 사례, 관련 법원 판례 등에서 일반적으로 다루는 내용이다. 지원 문서가 일반 보험 약관일 가능성이 높은데, 답변과 정당 요지 모두 '규정을 찾지 못했다'거나 '업무 범위 밖'이라고만 하고 있어 실제 문서 내용이나 검토 결과를 전혀 반영하지 않았다. 문서 내 관련 규정이 존재함에도 누락하거나 근거 없이 회피한 경우에 해당하므로 요지 충족으로 보기 어렵다."
+    }
+  }
+}

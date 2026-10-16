@@ -1,0 +1,100 @@
+{
+  "id": "Q21",
+  "question": "김유정 고객 약제비 영수증에 보상 안 되는 거 있어?",
+  "recall": 0.5,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "6장",
+      "title": "6. 실손 비급여 항목 확인",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "6. 실손 비급여 항목 확인\n- **처방전에 없는 일반의약품**은 처방조제비가 아닙니다. 영수증 항목을 처방전과 대조합니다.\n- 영양제가 처방전에 있고 치료 목적이 진료 기록으로 확인되면 보상 대상일 수 있습니다. 이 판단은 담당자가 합니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/6장/text5",
+      "parent_id": "10_claims_manual/6장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "",
+      "address": "6장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/6장/text5",
+      "embedding_version": "structure-v3",
+      "score": 0.5627513756666214
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (약제비) | 약제비 계산서 · 영수증, 질병분류기호가 적힌 처방전 | 처방전에 없는 약은 처방조제비가 아님 | 기본형 실손의료보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row6",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row6",
+      "embedding_version": "structure-v3",
+      "score": 0.5588063964164167
+    },
+    {
+      "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다.\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+      "collection": "policy",
+      "coverage_section": "질병비급여",
+      "paragraph": "③",
+      "item": "2",
+      "node_id": "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/2",
+      "parent_id": "std_silson_rider1_severe_noncovered/질병비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 2호",
+      "authority_level": 1,
+      "governs": [
+        "질병비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/2",
+      "embedding_version": "structure-v3",
+      "score": 0.5512685200284317
+    }
+  ],
+  "trace": {}
+}

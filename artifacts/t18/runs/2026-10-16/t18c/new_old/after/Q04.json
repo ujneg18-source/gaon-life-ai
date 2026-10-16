@@ -1,0 +1,705 @@
+{
+  "id": "Q04",
+  "type": "policy_qa",
+  "question": "계약하고 두 달 만에 암 진단받으면 어떻게 돼?",
+  "expected_sources": [
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제2조"
+    },
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제5조"
+    }
+  ],
+  "answer_gist": "보장개시일(계약일부터 90일 지난 다음 날) 전 진단이라 암진단보험금 대상 아님. 소액암은 계약일부터 보장",
+  "acceptable_sources": [
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제2조"
+    },
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제5조"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "01_cancer_rider/공통/제4조/0",
+      "01_cancer_rider/공통/제2조/2"
+    ],
+    "answer": "계약일부터 보장개시일까지는 90일이 지나야 해서, 계약하고 두 달 만에 암 진단을 받으면 아직 보장개시일 전이에요. 이 특약은 보장개시일 이후 암으로 최초 진단확정되어야 암진단보험금을 지급하는데, 계약일부터 1년 미만에 진단확정되면 가입금액의 50%만 지급돼요. 다만 소액암은 계약일부터 보장되므로 소액암으로 최초 진단확정되면 가입금액의 20%가 지급될 수 있어요. 실제 지급 여부와 금액은 진단 시점과 암 종류에 따라 달라지므로 담당자가 최종 판단해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 3,
+        "chunk_id": "01_cancer_rider/공통/제4조/0",
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제4조",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다."
+      },
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 3,
+        "chunk_id": "01_cancer_rider/공통/제2조/2",
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제2조 ②",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제2조(용어의 정의)\n② **보장개시일**: 계약일부터 그날을 포함하여 90일이 지난 날의 다음 날을 말합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "01_cancer_rider/공통/제4조/0",
+        "01_cancer_rider/공통/제2조/2"
+      ],
+      "answer": "계약일부터 보장개시일까지는 90일이 지나야 해서, 계약하고 두 달 만에 암 진단을 받으면 아직 보장개시일 전이에요. 이 특약은 보장개시일 이후 암으로 최초 진단확정되어야 암진단보험금을 지급하는데, 계약일부터 1년 미만에 진단확정되면 가입금액의 50%만 지급돼요. 다만 소액암은 계약일부터 보장되므로 소액암으로 최초 진단확정되면 가입금액의 20%가 지급될 수 있어요. 실제 지급 여부와 금액은 진단 시점과 암 종류에 따라 달라지므로 담당자가 최종 판단해요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "01_cancer_rider/공통/제4조/0",
+        "node_id": "01_cancer_rider/공통/제4조/0",
+        "address": "제4조",
+        "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제1조/0",
+        "node_id": "01_cancer_rider/공통/제1조/0",
+        "address": "제1조",
+        "chunk_text": "제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제5조/2",
+        "node_id": "01_cancer_rider/공통/제5조/2",
+        "address": "제5조 ②",
+        "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n② 보장개시일 전날 이전에 암으로 진단확정된 경우 암진단보험금은 지급하지 않으며, 계약자는 이 특약을 무효로 할 수 있습니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제2조/1",
+        "node_id": "01_cancer_rider/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① **암**: 한국표준질병·사인분류(KCD)의 악성신생물(C00~C97) 가운데, 제3항의 소액암에 해당하는 질병을 뺀 질병을 말합니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제2조/2",
+        "node_id": "01_cancer_rider/공통/제2조/2",
+        "address": "제2조 ②",
+        "chunk_text": "제2조(용어의 정의)\n② **보장개시일**: 계약일부터 그날을 포함하여 90일이 지난 날의 다음 날을 말합니다."
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제4조/0",
+      "parent_id": "01_cancer_rider/공통/제4조",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제4조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제4조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.9659835614318049
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제1조/0",
+      "parent_id": "01_cancer_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.904344369051485
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n② 보장개시일 전날 이전에 암으로 진단확정된 경우 암진단보험금은 지급하지 않으며, 계약자는 이 특약을 무효로 할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제5조/2",
+      "parent_id": "01_cancer_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.9030079709889314
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n② **보장개시일**: 계약일부터 그날을 포함하여 90일이 지난 날의 다음 날을 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제2조/2",
+      "parent_id": "01_cancer_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제2조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.9025532471432214
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n② 제1항의 검사가 불가능한 경우에 한하여, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 이를 진단확정으로 인정할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/2",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료",
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.8934277049761435
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제7조",
+      "title": "제7조(보험금의 지급절차)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제7조/0",
+      "parent_id": "01_cancer_rider/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제7조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.8677009768552213
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/3",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.8643063146843151
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n① **암**: 한국표준질병·사인분류(KCD)의 악성신생물(C00~C97) 가운데, 제3항의 소액암에 해당하는 질병을 뺀 질병을 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제2조/1",
+      "parent_id": "01_cancer_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제2조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.8606882403887707
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n2. **진단서** (병명과 질병분류기호가 적힌 것)\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n3. **조직검사 결과지** (병리 진단과 보고일이 적힌 것). 조직검사가 불가능했다면 제3조 제2항의 기록\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n4. 신분증. 앱 청구는 앱 본인인증으로 대신합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "01_cancer_rider/공통/제6조/0/2",
+      "parent_id": "01_cancer_rider/공통/제6조/0",
+      "is_definition": false,
+      "refs": [
+        "제6조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.",
+      "address": "제6조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제6조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.8346461114995819
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제8조",
+      "title": "제8조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제8조/0",
+      "parent_id": "01_cancer_rider/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제8조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.8344625244181019
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [
+    {
+      "query": "계약하고 두 달 만에 암 진단받으면 어떻게 돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제4조",
+          "title": "제4조(보험금의 지급사유)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제4조/0",
+          "parent_id": "01_cancer_rider/공통/제4조",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [
+            "암",
+            "보장개시일",
+            "소액암"
+          ],
+          "paragraph_head": "",
+          "address": "제4조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제4조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.9659835614318049
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제1조",
+          "title": "제1조(목적)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제1조/0",
+          "parent_id": "01_cancer_rider/공통/제1조",
+          "is_definition": false,
+          "refs": [
+            "제1조"
+          ],
+          "defined_terms": [
+            "암"
+          ],
+          "paragraph_head": "",
+          "address": "제1조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제1조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.904344369051485
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(보험금을 지급하지 않는 사유)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n② 보장개시일 전날 이전에 암으로 진단확정된 경우 암진단보험금은 지급하지 않으며, 계약자는 이 특약을 무효로 할 수 있습니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제5조/2",
+          "parent_id": "01_cancer_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "암",
+            "보장개시일"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ②",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제5조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.9030079709889314
+        }
+      ]
+    }
+  ],
+  "context": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제4조/0",
+      "parent_id": "01_cancer_rider/공통/제4조",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제4조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제4조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.9659835614318049
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제1조/0",
+      "parent_id": "01_cancer_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.904344369051485
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n② 보장개시일 전날 이전에 암으로 진단확정된 경우 암진단보험금은 지급하지 않으며, 계약자는 이 특약을 무효로 할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제5조/2",
+      "parent_id": "01_cancer_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.9030079709889314
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 0.5,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.5,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 2,
+    "citation_pass": false,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "ablation 인용 평가: 요지 채점 미실행",
+      "votes": []
+    }
+  }
+}

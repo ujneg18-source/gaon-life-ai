@@ -1,0 +1,13 @@
+{
+  "refresh_clears_sessions": true,
+  "purple_shortcuts_removed": true,
+  "demo_reset_not_implemented": true,
+  "second_question_sessions": 1,
+  "issue_link_url": "http://127.0.0.1:3000/workspace/detail?claim=GA-2610-0482&issue=6#issue-6",
+  "third_question_sessions": 1,
+  "fourth_question_sessions": 1,
+  "relogin_clears_sessions": true,
+  "relogin_clears_answers": true,
+  "final_parser_cached_replay_sources": 3,
+  "first_question_sessions": 1
+}

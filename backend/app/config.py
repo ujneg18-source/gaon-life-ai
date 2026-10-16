@@ -4,10 +4,15 @@ from functools import lru_cache
 from pathlib import Path
 from secrets import token_urlsafe
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# BM25 표준 포화/길이 보정 계수와 동형 타 보험 중복을 줄이는 약한 출처 가중치다.
+TONE_ALLOWED_TERMS = ("이관", "지급 심사")
+BM25_K1 = 1.2
+BM25_B = 0.75
+RAG_PRIMARY_BOOST = 1.1
 
 
 class Settings(BaseSettings):
@@ -21,10 +26,142 @@ class Settings(BaseSettings):
     UPSTAGE_BASE_URL: str = "https://api.upstage.ai/v1"
     UPSTAGE_AGENT_ID: str = ""
     SOLAR_CHAT_MODEL: str = "solar-pro4"
+    EVAL_SEED: int = 42
+    EVAL_TEMPERATURE: float = 0.0
+    EVAL_MODEL: str = "solar-pro4-260806"
+    EVAL_OLD_REVISION: str = "6694f85"
+    EVAL_SNAPSHOT_PATH: Path = PROJECT_ROOT / "data/cache/t18c-2026-10-16"
+    SOLAR_SEED: int | None = None
+    SOLAR_TEMPERATURE: float | None = None
+    SOLAR_TOP_P: float | None = None
+    EVAL_WORKERS: int = Field(default=3, ge=1, le=3)
+    EVAL_JUDGE_MODEL: str = "solar-pro4"
+    EVAL_QUESTIONS_PATH: Path = PROJECT_ROOT / "data/eval/chat_questions.json"
+    EVAL_OUTPUT_PATH: Path = PROJECT_ROOT / "artifacts/t18"
     SOLAR_EMBED_QUERY_MODEL: str = "solar-embedding-2-query"
     SOLAR_EMBED_PASSAGE_MODEL: str = "solar-embedding-2-passage"
     DB_URL: str = f"sqlite:///{PROJECT_ROOT / 'data/gaon.db'}"
+    QDRANT_URL: str = ""
+    QDRANT_API_KEY: SecretStr = SecretStr("")
+    KB_PATH: Path = PROJECT_ROOT / "data/kb"
+    KB_COLLECTIONS: tuple[str, ...] = ("policy", "manual")
+    KB_CHUNK_MAX_CHARS: int = 1800
+    KB_STRUCTURE_PATH: Path = PROJECT_ROOT / "data/cache/kb_nodes.json"
+    KB_CONTEXT_LINKS: int = 2
+    RAG_DEFAULT_COVERAGE: str = "질병비급여"
+    RAG_MODE: str = "hybrid"
+    RAG_USE_LLM: bool = True
+    RAG_POOL_SIZE: int = 40
+    RAG_PRIMARY_SOURCES: tuple[str, ...] = (
+        "std_life_insurance.txt",
+        "std_silson_rider2_nonsevere_noncovered.txt",
+    )
+    RAG_CANDIDATES: int = 10
+    RAG_RRF_K: int = 60
+    RAG_EXACT_BOOST: float = 0.016
+    RAG_CACHE_SIZE: int = 256
+    RAG_DOCUMENT_TERMS: tuple[str, ...] = ("진단서", "처방전", "영수증", "수술확인서", "납입확인서")
+    KB_TOP_K: int = 3
+    KB_CANDIDATES: int = 12
+    KB_KEYWORD_LIMIT: int = 512
+    KB_MIN_SCORE: float = 0.20
+    KB_LEXICAL_BOOST: float = 0.10
+    KB_CHUNKS_PER_ARTICLE: int = 3
+    KB_TITLE_BOOST: float = 0.12
+    KB_CONTEXT_ARTICLES: int = 12
+    KB_TERM_BOOST: float = 0.08
+    KB_IDENTIFIER_BOOST: float = 0.25
+    EMBED_BATCH_SIZE: int = Field(default=100, ge=1, le=100)
+    EMBED_DIMENSIONS: int = 1024
+    CLAIM_FOCUS_PATTERNS: dict[str, str] = {
+        "code": r"질병코드|분류기호|세분류|뭐로.*읽",
+        "date": r"진단일.*보고일|진단일.*문제|병리.*날짜",
+        "stay": r"입원.*일수|하루.*차이",
+        "surgery": r"수술확인서.*왜|수술확인서.*필요",
+    }
+    CLAIM_FOCUS_RULES: dict[str, list[str]] = {
+        "code": ["FIELD-diagnosis_code"],
+        "date": ["CV-01"],
+        "stay": ["CV-02"],
+        "surgery": ["CV-04"],
+    }
+    CLAIM_RULE_SOURCES: dict[str, list[tuple[str, str, str]]] = {
+        "FIELD-diagnosis_code": [("10_claims_manual.md", "5장", "원문과 다름")],
+        "CV-01": [("01_cancer_rider.md", "제3조", "③"), ("10_claims_manual.md", "4장", "CV-01")],
+        "CV-02": [
+            ("02_hospitalization_rider.md", "제5조", "②"),
+            ("10_claims_manual.md", "4장", "CV-02"),
+        ],
+        "CV-03": [("10_claims_manual.md", "4장", "CV-03")],
+        "CV-04": [("03_surgery_rider.md", "제5조", "①")],
+        "CV-05": [("10_claims_manual.md", "4장", "CV-05")],
+        "CV-06": [("10_claims_manual.md", "4장", "CV-06")],
+    }
+    CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
+    # 실제 규칙의 근거를 표시하는 주소다. 고객/평가 질문별 문장은 설정하지 않는다.
+    CHAT_RULE_LABELS: dict[str, str] = {
+        "CV-01": "진단일과 병리 보고일 비교",
+        "CV-02": "입원일수 비교",
+        "CV-03": "질병분류기호와 병리 진단명 비교",
+        "CV-04": "수술확인서 제출 확인",
+        "CV-05": "환자 정보 일치 확인",
+        "CV-06": "보장 기간 확인",
+    }
+    CHAT_CITATION_ALIASES: dict[str, tuple[str, ...]] = {
+        "01_cancer_rider.md": ("암진단특약",),
+        "02_hospitalization_rider.md": ("질병입원일당특약",),
+        "03_surgery_rider.md": ("질병수술비특약",),
+        "std_silson_rider2_nonsevere_noncovered.txt": (
+            "실손 특별약관2",
+            "특약2 질병 비급여",
+            "특별약관2",
+        ),
+        "10_claims_manual.md": ("보상 업무 매뉴얼",),
+        "11_supplement_templates.md": ("보완 요청 표준 문구",),
+    }
+    CLAIM_REVIEW_LABELS: dict[str, str] = {
+        "FIELD-diagnosis_code": "질병분류기호",
+        "CV-01": "진단일과 병리 보고일",
+        "CV-03": "질병분류기호와 병리 진단명",
+        "coverage": "약제비 항목",
+        "CV-05": "환자 이름",
+        "CV-06": "보장 기간",
+    }
+    CLAIM_DISPLAY_SOURCES: dict[str, tuple[str, str, str, str]] = {
+        "CV-01": ("01_cancer_rider.md", "제3조", "③", "암진단특약 제3조 ③"),
+        "CV-02": ("02_hospitalization_rider.md", "제5조", "②", "질병입원일당특약 제5조"),
+        "coverage": (
+            "std_silson_rider2_nonsevere_noncovered.txt",
+            "제4조",
+            "영양제",
+            "실손 특별약관2 질병 비급여 제4조 ③ 2호",
+        ),
+    }
+    SOLAR_RESPONSE_CACHE: bool = False
+    SOLAR_USAGE_PATH: Path | None = None
+
+    @field_validator("SOLAR_USAGE_PATH", mode="before")
+    @classmethod
+    def optional_usage_path(cls, value):
+        return None if value == "" else value
+
+    SOLAR_EMBED_INPUT_USD_PER_MILLION: float = 0.02
+    SOLAR_INPUT_USD_PER_MILLION: float = 0.30
+    SOLAR_OUTPUT_USD_PER_MILLION: float = 1.20
+    SOLAR_STRUCTURED_ATTEMPTS: int = Field(default=2, ge=1, le=2)
+    CHAT_MAX_TURNS: int = 12
+    CHAT_MAX_TOOL_ROUNDS: int = 4
+    CHAT_MAX_MESSAGE: int = 2000
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
+    DEMO_SAMPLE_MOCKS: bool = True
+    SHOW_DEVELOPMENT_BADGES: bool = True
+    SAMPLES_ROOT: Path = PROJECT_ROOT / "data/samples"
+    DEMO_CUSTOMERS_PATH: Path = PROJECT_ROOT / "data/samples/customers.json"
+    DEMO_RESULTS_PATH: Path = PROJECT_ROOT / "data/cache/demo-results"
+    CANCER_WAIT_DAYS: int = 90
+    SMALL_CANCER_CODES: tuple[str, ...] = ("C73",)
+    SMALL_CANCER_RATE: int = 20
+    OTC_MARKERS: tuple[str, ...] = ("일반의약품", "비타민", "영양제")
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
     MOCK_SILSON24_PATH: Path = PROJECT_ROOT / "data/mock_silson24"
@@ -85,7 +222,11 @@ class Settings(BaseSettings):
         "other": "다른 유형에 속하지 않는 문서",
     }
     KCD_PATHOLOGY_HINTS: dict[str, dict[str, list[str]]] = {
-        "C18.7": {"result": ["adenocarcinoma", "선암", "악성"], "specimen": ["sigmoid", "구불결장"]}
+        "C18.7": {
+            "result": ["adenocarcinoma", "선암", "악성"],
+            "specimen": ["sigmoid", "구불결장"],
+        },
+        "C73": {"result": ["papillary", "carcinoma"], "specimen": ["thyroid", "갑상선"]},
     }
     CLAIM_TYPE_LABELS: dict[str, str] = {
         "cancer_diagnosis": "암 진단금",
@@ -129,7 +270,12 @@ class Settings(BaseSettings):
         "days": "일수",
         "per_day": "일일 횟수",
     }
-    KCD_DEMO_CODES: dict[str, str] = {"C18.7": "구불결장의 악성 신생물"}
+    KCD_DEMO_CODES: dict[str, str] = {
+        "C18.7": "구불결장의 악성 신생물",
+        "C73": "갑상선의 악성 신생물",
+        "K35.8": "기타 급성 충수염",
+        "J18.9": "상세불명 폐렴",
+    }
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False
     POLL_INTERVAL_SEC: float = Field(default=2, gt=0)

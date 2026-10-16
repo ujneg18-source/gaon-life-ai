@@ -1,0 +1,100 @@
+{
+  "id": "Q20",
+  "question": "김유정 고객 지급해도 돼?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 작성 원칙",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "1. 작성 원칙\n1. 첫 줄에 회사 이름과 고객 이름을 씁니다: `[가온생명] {고객명} 고객님,`\n2. 무엇이 빠졌는지 서류 이름으로 정확히 씁니다. 내부 용어(CV-04, 누락 이슈 등)는 쓰지 않습니다.\n3. **발급처**와 **제출 방법**을 꼭 씁니다.\n4. 지급 여부나 금액을 말하지 않습니다. \"제출해 주시면 심사를 이어서 진행하겠습니다\"로 맺습니다.\n5. 알림톡은 5줄 이내, 문자는 3줄 이내로 씁니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "11_supplement_templates/1장/text1",
+      "parent_id": "11_supplement_templates/1장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "1장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보완 요청 표준 문구"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "11_supplement_templates/1장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.5345869681399943
+    },
+    {
+      "doc_name": "가온생명 질병통원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/04_outpatient_rider.md",
+      "chunk_text": "제1조(보험금의 지급사유)\n피보험자가 보험기간 중 질병으로 진단확정되고 그 치료를 직접 목적으로 통원(외래 진료)한 경우, 통원 1회당 가입금액을 지급합니다. 하루에 여러 의료기관을 방문해도 1회로 봅니다. 연간 지급 한도는 30회입니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "04_outpatient_rider/공통/제1조/0",
+      "parent_id": "04_outpatient_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병통원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "04_outpatient_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.5061591279245586
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.\n2. 보험수익자가 고의로 피보험자를 해친 경우\n   다만, 그 보험수익자가 보험금의 일부 보험수익자인 경우에는 다른 보험수익자에 대한 보험금은 지급합니다. <개정 2014.12.26.>\n\n제5조(보험금을 지급하지 않는 사유)\n회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.\n3. 계약자가 고의로 피보험자를 해친 경우\n\n제5조(보험금을 지급하지 않는 사유)\n회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.\n1. 피보험자가 고의로 자신을 해친 경우\n     다만, 다음 중 어느 하나에 해당하면 보험금을 지급합니다.\n   가. 피보험자가 심신상실 등으로 자유로운 의사결정을 할 수 없는 상태에서 자신을 해친 경우\n       특히 그 결과 사망에 이르게 된 경우에는 재해사망보험금(약관에서 정한 재해사망보험금이 없는 경우에는 재해 이외의 원인으로 인한 사망보험금)을 지급합니다.\n  나. 계약의 보장개시일(부활(효력회복)계약의 경우는 부활(효력회복)청약일)부터 2년이 지난 후에 자살한 경우에는 재해 이외의 원인에 해당하는 사망보험금을 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "std_life_insurance/공통/제5조/0/2",
+      "parent_id": "std_life_insurance/공통/제5조/0",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.",
+      "address": "제5조 2호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제5조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.47756145261009403
+    }
+  ],
+  "trace": {}
+}

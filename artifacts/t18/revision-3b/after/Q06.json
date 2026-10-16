@@ -1,0 +1,310 @@
+{
+  "id": "Q06",
+  "type": "policy_qa",
+  "question": "입퇴원확인서랑 세부내역서 입원 일수가 하루 다르면 문제야?",
+  "expected_sources": [
+    {
+      "doc": "gaon/02_hospitalization_rider.md",
+      "article": "제5조"
+    },
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "4장"
+    }
+  ],
+  "answer_gist": "1일 차이는 산정 방식 차이일 수 있어 날짜 자체를 먼저 확인. 2일 이상이거나 날짜가 다르면 의료기관 확인",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "02_hospitalization_rider/공통/제5조/2"
+    ],
+    "answer": "입원일수 차이가 하루 정도라면 보통 큰 문제는 아니에요. 진료비 세부내역서는 퇴원일을 빼고 입원료 산정 일수를 계산하는 경우가 많아서 입퇴원확인서보다 1일 적게 나올 수 있거든요. 그래서 그 차이만으로는 서류 불일치로 보지 않고, 입원일과 퇴원일 자체가 서로 맞는지 먼저 확인해요. 진짜 문제는 입원일이나 퇴원일 날짜가 서로 다르거나 일수 차이가 2일 이상일 때이고, 그때는 담당자가 의료기관에 확인해요. 결국 최종 판단은 담당자가 해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 질병입원일당특약 약관",
+        "article": "제5조 ②",
+        "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+        "is_mock": true,
+        "quote": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "02_hospitalization_rider/공통/제5조/2"
+      ],
+      "answer": "입원일수 차이가 하루 정도라면 보통 큰 문제는 아니에요. 진료비 세부내역서는 퇴원일을 빼고 입원료 산정 일수를 계산하는 경우가 많아서 입퇴원확인서보다 1일 적게 나올 수 있거든요. 그래서 그 차이만으로는 서류 불일치로 보지 않고, 입원일과 퇴원일 자체가 서로 맞는지 먼저 확인해요. 진짜 문제는 입원일이나 퇴원일 날짜가 서로 다르거나 일수 차이가 2일 이상일 때이고, 그때는 담당자가 의료기관에 확인해요. 결국 최종 판단은 담당자가 해요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+        "node_id": "02_hospitalization_rider/공통/제5조/2",
+        "address": "제5조 ②",
+        "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다."
+      },
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제5조/3",
+        "node_id": "02_hospitalization_rider/공통/제5조/3",
+        "address": "제5조 ③",
+        "chunk_text": "제5조(입원일수 확인 기준)\n③ 입원일이나 퇴원일이 서로 다르거나, 일수 차이가 2일 이상이면 담당자가 의료기관에 확인합니다."
+      },
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제5조/1",
+        "node_id": "02_hospitalization_rider/공통/제5조/1",
+        "address": "제5조 ①",
+        "chunk_text": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다."
+      },
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제2조/1",
+        "node_id": "02_hospitalization_rider/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① **입원**: 의사가 피보험자의 질병 치료가 필요하다고 인정한 경우로서, 자택 등에서 치료가 곤란하여 의료법에 따른 병원 · 의원 또는 이와 같다고 인정되는 의료기관에 들어가 의사의 관리를 받으며 치료에 전념하는 것을 말합니다."
+      },
+      {
+        "chunk_id": "10_claims_manual/4장/row2",
+        "node_id": "10_claims_manual/4장/row2",
+        "address": "4장",
+        "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-02 입원 기간 | 입퇴원확인서와 세부내역서의 입원 일수 비교 | **1일 차이는 산정 방식 차이일 수 있습니다**(질병입원일당특약 제5조). 입원일 · 퇴원일이 같은지 먼저 보고, 2일 이상 차이나 날짜 자체가 다르면 의료기관에 확인합니다 |"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/2",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.0718402961396087
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-02 입원 기간 | 입퇴원확인서와 세부내역서의 입원 일수 비교 | **1일 차이는 산정 방식 차이일 수 있습니다**(질병입원일당특약 제5조). 입원일 · 퇴원일이 같은지 먼저 보고, 2일 이상 차이나 날짜 자체가 다르면 의료기관에 확인합니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row2",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row2",
+      "embedding_version": "structure-v3",
+      "score": 0.07125859333685881
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n③ 입원일이나 퇴원일이 서로 다르거나, 일수 차이가 2일 이상이면 담당자가 의료기관에 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/3",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06543059632528811
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "입퇴원확인서랑 세부내역서 입원 일수가 하루 다르면 문제야?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 질병입원일당특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(입원일수 확인 기준)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+          "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "02_hospitalization_rider/공통/제5조/2",
+          "parent_id": "02_hospitalization_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "입원",
+            "입원일수"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ②",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병입원일당특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.0718402961396087
+        },
+        {
+          "doc_name": "가온생명 보상 업무 매뉴얼",
+          "edition": "2026.10 (가상)",
+          "article": "4장",
+          "title": "4. 서류 간 교차검증 기준",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/10_claims_manual.md",
+          "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-02 입원 기간 | 입퇴원확인서와 세부내역서의 입원 일수 비교 | **1일 차이는 산정 방식 차이일 수 있습니다**(질병입원일당특약 제5조). 입원일 · 퇴원일이 같은지 먼저 보고, 2일 이상 차이나 날짜 자체가 다르면 의료기관에 확인합니다 |",
+          "collection": "manual",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "10_claims_manual/4장/row2",
+          "parent_id": "10_claims_manual/4장",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "입원"
+          ],
+          "paragraph_head": "",
+          "address": "4장",
+          "authority_level": 4,
+          "governs": [
+            "가온생명 보상 업무 매뉴얼"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "10_claims_manual/4장/row2",
+          "embedding_version": "structure-v3",
+          "score": 0.07125859333685881
+        },
+        {
+          "doc_name": "가온생명 질병입원일당특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(입원일수 확인 기준)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+          "chunk_text": "제5조(입원일수 확인 기준)\n③ 입원일이나 퇴원일이 서로 다르거나, 일수 차이가 2일 이상이면 담당자가 의료기관에 확인합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "③",
+          "item": "",
+          "node_id": "02_hospitalization_rider/공통/제5조/3",
+          "parent_id": "02_hospitalization_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "입원",
+            "입원일수"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ③",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병입원일당특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "02_hospitalization_rider/공통/제5조/3",
+          "embedding_version": "structure-v3",
+          "score": 0.06543059632528811
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실(1일 차이는 산정 방식 차이로 날짜 확인이 먼저 필요, 2일 이상 또는 날짜 상이 시 의료기관 확인, 최종 판단은 담당자)을 모두 포함하고 모순이 없음. 질문 취지에 맞게 1일 차이의 의미와 확인 절차를 적절히 안내함."
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "Q14",
+  "question": "김유정 고객 진단서 질병코드 뭐로 읽혔어?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n④ 질병의 분류는 진단확정 당시 시행 중인 한국표준질병·사인분류를 따릅니다. 질병분류기호는 **세분류(소수점 아래 자리)까지** 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "④",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제2조/4",
+      "parent_id": "01_cancer_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제2조 ④",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/4",
+      "embedding_version": "structure-v3",
+      "score": 0.5231791134175687
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "<부표 4>장",
+      "title": "<부표 4>",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "<부표 4>\n⑥ 한국표준질병ㆍ사인분류상의 (U00∼U99)에 해당하는 질병\n ※ 1. ( ) 안은 제8차 개정 한국표준질병ㆍ사인분류(통계청고시 제2020-175호, 2021.1.1. 시행)상의 분류번호이며, 제9차 개정 이후 상기 재해 이외에 추가로 위 1 및 2의 각 호에 해당하는 재해가 있는 경우에는 그 재해도 포함되는 것으로 합니다. <개정 2020.7.31.>\n2. 위 1. 보장대상이 되는 재해 ②에 해당하는 감염병은 보험사고 발생당시 시행중인 법률을 적용하며, 2. 보험금을 지급하지 않는 재해 ⑥에 해당하더라도 보장대상에서 제외하지 않습니다. <신설 2020.7.31.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "⑥",
+      "item": "2",
+      "node_id": "std_life_insurance/공통/<부표 4>장/6/2",
+      "parent_id": "std_life_insurance/공통/<부표 4>장/6",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "⑥ 한국표준질병ㆍ사인분류상의 (U00∼U99)에 해당하는 질병\n ※ 1. ( ) 안은 제8차 개정 한국표준질병ㆍ사인분류(통계청고시 제2020-175호, 2021.1.1. 시행)상의 분류번호이며, 제9차 개정 이후 상기 재해 이외에 추가로 위 1 및 2의 각 호에 해당하는 재해가 있는 경우에는 그 재해도 포함되는 것으로 합니다. <개정 2020.7.31.>",
+      "address": "<부표 4>장 ⑥ 2호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/<부표 4>장/6/2",
+      "embedding_version": "structure-v3",
+      "score": 0.5154169120479579
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제15조",
+      "title": "제15조(사기에 의한 계약)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제15조(사기에 의한 계약)\n계약자 또는 피보험자가 대리진단이나 약물사용을 통하여 진단절차를 통과하거나, 진단서를 위조 또는 변조하거나, 청약일 이전에 암 또는 사람면역결핍바이러스(HIV) 감염의 진단 확정을 받은 후 이를 숨기고 가입하는 등 사기에 의하여 계약이 성립되었음을 회사가 증명하는 경우에는 회사는 계약일부터 5년 이내(사기사실을 안 날부터 1개월 이내)에 계약을 취소할 수 있습니다. <개정 2015.11.30., 2021.7.1.>\n제6관 보험계약의 성립과 유지",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제15조/0",
+      "parent_id": "std_silson_basic/공통/제15조",
+      "is_definition": false,
+      "refs": [
+        "제15조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제15조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제15조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.4813028183835927
+    }
+  ],
+  "trace": {}
+}

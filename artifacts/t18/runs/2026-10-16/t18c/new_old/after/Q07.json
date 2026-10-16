@@ -1,0 +1,656 @@
+{
+  "id": "Q07",
+  "type": "policy_qa",
+  "question": "수술비 특약에서 수술로 안 보는 게 뭐야?",
+  "expected_sources": [
+    {
+      "doc": "gaon/03_surgery_rider.md",
+      "article": "제2조"
+    }
+  ],
+  "answer_gist": "흡인, 천자 등의 조치와 신경 차단은 수술이 아님",
+  "acceptable_sources": [
+    {
+      "doc": "gaon/03_surgery_rider.md",
+      "article": "제2조"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "03_surgery_rider/공통/제2조/0"
+    ],
+    "answer": "가온생명 질병수술비특약 약관 제2조(용어의 정의)에 따르면, 수술이란 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말해요. 그리고 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않는다고 정하고 있어요. 그래서 이 특약에서는 흡인·천자 같은 조치나 신경 차단은 수술로 보지 않아요. 구체적인 적용 여부는 담당자가 최종 판단해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 3,
+        "chunk_id": "03_surgery_rider/공통/제2조/0",
+        "doc_name": "가온생명 질병수술비특약 약관",
+        "article": "제2조",
+        "source_path": "data/kb/gaon/03_surgery_rider.md",
+        "is_mock": true,
+        "quote": "제2조(용어의 정의)\n**수술**: 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여, 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말합니다. 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "03_surgery_rider/공통/제2조/0"
+      ],
+      "answer": "가온생명 질병수술비특약 약관 제2조(용어의 정의)에 따르면, 수술이란 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말해요. 그리고 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않는다고 정하고 있어요. 그래서 이 특약에서는 흡인·천자 같은 조치나 신경 차단은 수술로 보지 않아요. 구체적인 적용 여부는 담당자가 최종 판단해요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "03_surgery_rider/공통/제1조/0",
+        "node_id": "03_surgery_rider/공통/제1조/0",
+        "address": "제1조",
+        "chunk_text": "제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 수술을 받는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다."
+      },
+      {
+        "chunk_id": "03_surgery_rider/공통/제6조/0",
+        "node_id": "03_surgery_rider/공통/제6조/0",
+        "address": "제6조",
+        "chunk_text": "제6조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다."
+      },
+      {
+        "chunk_id": "03_surgery_rider/공통/제5조/1",
+        "node_id": "03_surgery_rider/공통/제5조/1",
+        "address": "제5조 ①",
+        "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다."
+      },
+      {
+        "chunk_id": "03_surgery_rider/공통/제2조/0",
+        "node_id": "03_surgery_rider/공통/제2조/0",
+        "address": "제2조",
+        "chunk_text": "제2조(용어의 정의)\n**수술**: 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여, 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말합니다. 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다."
+      },
+      {
+        "chunk_id": "std_silson_rider1_severe_noncovered/공통/제2조/1",
+        "node_id": "std_silson_rider1_severe_noncovered/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① 이 특별약관1에서 사용하는 용어의 뜻은 다음과 같습니다.\n용 어 \n정  의\n3대 비급여\n「근골격계 이학요법치료·체외충격파치료」\n근골격계 이학요법치료\n「건강보험 행위 급여·비급여 목록표 및 급여 상대가치점수」 내 비급여 목록 중 근골격계 질환의 기능 개선 및 통증감소를 위하여 실시하는 치료행위 일체주)\n(예시 : FIMS(기능적근육내 자극치료), 신장분사치료, 도수치료, 증식치료, 비침습적 무통증 신호요법 등)\n주) 「건강보험 행위 급여·비급여 목록표 및 급여 상대가치점수」가 관련 법령 개정 또는 폐지 등으로 이학요법치료와 관련된 행위 비급여 목록이 삭제될 경우 삭제 전 가장 최근 발간된 내용을 기준으로 하며, 보건복지부, 건강보험심사평가원 또는 국민건강보험공단 등에서 이학요법치료를 법령 등에서 별도 정의하는 경우 해당 정의에 따를 수 있습니다.\n체외충격파\n치료\n체외에서 충격파를 병변에 가해 혈관 재형성을 돕고 건(힘줄) 및 뼈의 치유 과정을 자극하거나 재활성화 시켜 기능개선 및 통증감소를 위하여 실시하는 치료행위(체외충격파쇄석술은 제외)\n주사료\n주사료\n항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료대\n항암제\n식품의약품안전처가 「의약품등 분류번호에 관한 규정」에 따라 지정하는 ‘조직세포의 기능용 의약품’ 중 ‘종양용약’과 ‘조직세포의 치료 및 진단 목적제제’*\n* 향후 식품의약품안전처 예규인「의약품등 분류번호에 관한 규정」이 폐지되는 등의 사유가 발생하는 경우 약사법에 따른 의약품관리종합정보센터로 지정된 기관(건강보험심사평가원)에서 관리하는 「해부‧치료‧화학적 분류(ATC)」코드 등을 준용할 수 있으며, 분류기준 등이 변경되는 경우 치료시점의 분류기준에 따릅니다.\n항생제\n(항진균제 포함)\n식품의약품안전처가 「의약품등 분류번호에 관한 규정」에 따라 지정하는 ‘항병원생물성 의약품’ 중 ‘항생물질제제’, ‘화학요법제’ 및 ‘기생동물에 대한 의약품 중 항원충제’*\n* 향후 식품의약품안전처 예규인「의약품등 분류번호에 관한 규정」이 폐지되는 등의 사유가 발생하는 경우 약사법에 따른 의약품관리종합정보센터로 지정된 기관(건강보험심사평가원)에서 관리하는 「해부‧치료‧화학적 분류(ATC)」코드 등을 준용할 수 있으며, 분류기준 등이 변경되는 경우 치료시점의 분류기준에 따릅니다.\n희귀의약품\n식품의약품안전처장이「희귀의약품 지정에 관한 규정」에 따라 지정하는 의약품*\n*「희귀의약품 지정에 관한 규정」에 따른 희귀의약품 지정 항목이 변경되는 경우 치료시점의 희귀의약품 지정 항목에 따릅니다.\n자기공명영상진단\n자기공명영상 장치를 이용하여 고주파 등을 통한 신호의 차이를 영상화하여 조직의 구조를 분석하는 검사*(MRI/MRA)\n* 자기공명영상진단 결과를 다른 의료기관에서 판독하는 경우 포함 \n(보건복지부에서 고시하는 「건강보험 행위 급여ㆍ비급여 목록표 및 급여 상대가치점수」상의 MRI/MRA 범주에 따름)\n산정특례 대상 질환\n「본인일부부담금 산정특례에 관한 기준(보건복지부 고시)」제4조부터 제5조의3까지에 따른 산정특례 대상인 질환주)(암, 뇌혈관질환, 심장질환, 희귀질환, 중증난치질환, 중증화상, 중증외상, 결핵, 잠복결핵 등)\n주)「본인일부부담금 산정특례에 관한 기준」제4조부터 제5조의3이 관련 법규 개정 등으로 삭제될 경우 삭제 전 가장 최근 고시된 내용을 기준으로 하며, 삭제 이후 보건복지부, 건강보험심사평가원 또는 국민건강보험공단 등에서 희귀질환, 중증난치 질환 등을 법규 등에서 별도 정의하는 경우 해당 정의에 따를 수 있습니다.\n암질환·뇌혈관질환·심장질환·중증화상·중증외상\n「본인일부부담금 산정특례에 관한 기준」 제4조([별표3]중증질환자 산정특례 대상)에 따른 질환\n희귀질환\n「본인일부부담금 산정특례에 관한 기준」 제5조([별표4]희귀질환자 산정특례 대상)에 따른 질환\n중증난치질환\n「본인일부부담금 산정특례에 관한 기준」 제5조([별표4의2]중증난치질환자 산정특례 대상)에 따른 질환\n결핵·잠복결핵\n「본인일부부담금 산정특례에 관한 기준」 제5조의2([별표5]시행령 별표2 제3호 가목 3)에 따른 결핵질환의 적용 범위)에 따른 질환\n산정특례 대상 질환으로 인한 치료\n산정특례 대상 질환에 대한 치료 및 해당 질환과 의학적으로 인과관계가 분명하다고 인정되는 합병증에 대한 치료(다만 산정특례 대상 질환의 치료가 종료된 상태에서 합병증만을 치료중인 경우는 제외합니다.)\n<산정특례 대상 질환 치료에 미해당하는 치료의 예시>\n -항암수술 후에 암 조직이 없는 상태에서 재발방지 목적으로 이루어지는 호르몬 치료 등(단, 항암목적의 호르몬치료 및 방사능치료는 산정특례 대상 질환 치료에 해당)\n -혈액암 환자 중 조혈모세포이식 후 완전관해지만 면역억제제를 복용하고 있는 경우, 간암으로 간이식술 후 재발 없이 외래에서 추적관찰하면서 면역억제제를 복용하고 있는 경우\n -암, 뇌혈관질환, 심장질환, 희귀질환, 중증난치질환, 중증화상, 중증외상, 결핵, 잠복결핵 등 치료가 완료된 상태에서 신체 기능회복 및 개선 목적으로 이루어지는 근골격계 이학요법치료 등\n입원의료비\n입원실료, 입원제비용, 입원수술비, 비급여 병실료\n보장대상의료비\n실제 부담액 - 보장제외금액*\n* 제3관 회사가 보장하지 않는 사항에 따른 금액 및 비급여 병실료 중 회사가 보장하지 않는 금액\n상급병실료 차액\n상급병상을 이용함에 따라 요양급여 대상인 입원료 외에 추가로 부담하는 입원실 이용 비용"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 수술을 받는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제1조/0",
+      "parent_id": "03_surgery_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.961701125283371
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제6조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제6조/0",
+      "parent_id": "03_surgery_rider/공통/제6조",
+      "is_definition": false,
+      "refs": [
+        "제6조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제6조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제6조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.9574528022034018
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.9449990510785653
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n**수술**: 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여, 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말합니다. 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제2조/0",
+      "parent_id": "03_surgery_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제2조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제2조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.9156099365371546
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n② 수술확인서의 수술일은 진료비 세부내역서의 수술 항목 일자와 맞아야 합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/2",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.9099893426455554
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제3조(보험금의 지급사유)\n보험기간 중 질병으로 진단확정되고 그 치료를 직접 목적으로 수술을 받은 경우, 수술 1회당 가입금액을 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제3조/0",
+      "parent_id": "03_surgery_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제3조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제3조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.9074912078097398
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제4조(보험금의 청구)\n\n2. **수술확인서** (병명 또는 질병분류기호, 수술명, 수술일, 수술 코드가 적힌 것). 수술명과 수술일이 적힌 진단서나 수술기록지로 대신할 수 있습니다.\n\n제4조(보험금의 청구)\n\n1. 청구서(앱 청구는 앱 입력으로 대신)\n\n제4조(보험금의 청구)\n\n3. 신분증(앱 청구는 앱 본인인증으로 대신)",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "03_surgery_rider/공통/제4조/0/2",
+      "parent_id": "03_surgery_rider/공통/제4조/0",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제4조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제4조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.902587511631742
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제6조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제6조/0",
+      "parent_id": "02_hospitalization_rider/공통/제6조",
+      "is_definition": false,
+      "refs": [
+        "제6조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제6조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제6조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.7297584487633562
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제8조",
+      "title": "제8조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제8조/0",
+      "parent_id": "01_cancer_rider/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제8조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.7116232837993546
+    },
+    {
+      "doc_name": "가온생명 질병통원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/04_outpatient_rider.md",
+      "chunk_text": "제3조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "04_outpatient_rider/공통/제3조/0",
+      "parent_id": "04_outpatient_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제3조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병통원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "04_outpatient_rider/공통/제3조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.7046637829310991
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [
+    {
+      "query": "수술비 특약에서 수술로 안 보는 게 뭐야?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 질병수술비특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제1조",
+          "title": "제1조(목적)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/03_surgery_rider.md",
+          "chunk_text": "제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 수술을 받는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "03_surgery_rider/공통/제1조/0",
+          "parent_id": "03_surgery_rider/공통/제1조",
+          "is_definition": false,
+          "refs": [
+            "제1조"
+          ],
+          "defined_terms": [
+            "치료",
+            "수술"
+          ],
+          "paragraph_head": "",
+          "address": "제1조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병수술비특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "03_surgery_rider/공통/제1조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.961701125283371
+        },
+        {
+          "doc_name": "가온생명 질병수술비특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제6조",
+          "title": "제6조(준용규정)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/03_surgery_rider.md",
+          "chunk_text": "제6조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "03_surgery_rider/공통/제6조/0",
+          "parent_id": "03_surgery_rider/공통/제6조",
+          "is_definition": false,
+          "refs": [
+            "제6조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제6조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병수술비특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "03_surgery_rider/공통/제6조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.9574528022034018
+        },
+        {
+          "doc_name": "가온생명 질병수술비특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(수술 사실 확인 기준)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/03_surgery_rider.md",
+          "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "03_surgery_rider/공통/제5조/1",
+          "parent_id": "03_surgery_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "수술"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ①",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병수술비특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "03_surgery_rider/공통/제5조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.9449990510785653
+        }
+      ]
+    }
+  ],
+  "context": [
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제1조(목적)\n이 특약은 피보험자가 질병 치료를 위해 수술을 받는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제1조/0",
+      "parent_id": "03_surgery_rider/공통/제1조",
+      "is_definition": false,
+      "refs": [
+        "제1조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제1조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제1조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.961701125283371
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제6조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제6조/0",
+      "parent_id": "03_surgery_rider/공통/제6조",
+      "is_definition": false,
+      "refs": [
+        "제6조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제6조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제6조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.9574528022034018
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.9449990510785653
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 0.0,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.0,
+    "hit_at_3": false,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "ablation 인용 평가: 요지 채점 미실행",
+      "votes": []
+    }
+  }
+}

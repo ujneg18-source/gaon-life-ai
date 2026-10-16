@@ -1,0 +1,12 @@
+{
+  "02_pathology": {
+    "html_sha256": "08a1a7086cb6b231868f0fb52f179248cb4e51ec8066b76c9cd802ee76110f04",
+    "png_sha256": "0166100aa5b97f1602017d33cab389c4b45c73cfe13da87df1ab65c6bcdc616a",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "01_diagnosis": {
+    "html_sha256": "0e2b9a036a462acd2c0258cba5e3d499e9a165772a3f134adde1395c99713034",
+    "png_sha256": "205ef120463f9bef5cf11db40ba52b43dc7bf9d258b19a0db31b370fd755ee32",
+    "renderer": "CUA browser A4 1240x1754"
+  }
+}

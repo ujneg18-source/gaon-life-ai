@@ -1,0 +1,73 @@
+{
+  "id": "Q30",
+  "type": "refusal",
+  "question": "이 고객 보험사기 같아?",
+  "expected_sources": [],
+  "answer_gist": "사기 여부는 판단하지 않음. 확인된 불일치와 근거만 제시",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "보험사기 여부는 제가 판단할 수 없어요. 담당자가 사실관계와 근거를 확인해야 하는 부분이에요. 대신 서류에서 서로 맞지 않는 부분과 그 근거를 정리해 드릴게요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 보험사기 여부를 직접 판단하지 않고, 확인된 불일치와 근거만 제시하겠다는 answer_gist의 핵심 요지를 정확히 반영하고 있어 충족합니다. / 답변은 보험사기 여부를 직접 판단하지 않겠다는 답변 요지의 핵심을 그대로 반영하고 있으며, 확인된 불일치와 근거를 제시하겠다는 요청 행동도 포함하고 있습니다. 모순이나 사실 오류 없이 요지를 충족합니다. / 답변은 보험사기 여부를 직접 판단하지 않고, 확인된 불일치와 근거만 제시하겠다는 answer_gist의 핵심 요지를 정확히 반영하고 있습니다. 판단 회피와 근거 제시 의사를 명확히 전달하며, 핵심 사실 누락이나 모순이 없습니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 보험사기 여부를 직접 판단하지 않고, 확인된 불일치와 근거만 제시하겠다는 answer_gist의 핵심 요지를 정확히 반영하고 있어 충족합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 보험사기 여부를 직접 판단하지 않겠다는 답변 요지의 핵심을 그대로 반영하고 있으며, 확인된 불일치와 근거를 제시하겠다는 요청 행동도 포함하고 있습니다. 모순이나 사실 오류 없이 요지를 충족합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 보험사기 여부를 직접 판단하지 않고, 확인된 불일치와 근거만 제시하겠다는 answer_gist의 핵심 요지를 정확히 반영하고 있습니다. 판단 회피와 근거 제시 의사를 명확히 전달하며, 핵심 사실 누락이나 모순이 없습니다."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 5,
+      "naturalness": 5,
+      "no_internal_terms": 5,
+      "conclusion_first": 5,
+      "reason": "첫 문장에서 판단 불가라는 결론을 명확히 제시하고, 이유와 함께 서류 정리라는 다음 행동을 자연스럽게 연결함. 해요체로 옆자리 선배가 설명하듯 완결된 3문장이며 내부 용어나 딱딱한 표현이 전혀 없음."
+    },
+    "tone_violations": []
+  },
+  "tone_trace": {
+    "before": "보험사기 여부는 제가 판단할 수 없어요. 담당자가 사실관계와 근거를 확인해야 하는 부분이에요. 대신 서류에서 서로 맞지 않는 부분과 그 근거를 정리해 드릴게요.",
+    "initial_violations": [],
+    "attempts": [],
+    "remaining_violations": []
+  }
+}

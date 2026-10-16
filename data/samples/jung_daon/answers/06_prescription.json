@@ -1,0 +1,13 @@
+{
+  "doc_type": "prescription",
+  "patient_name": "정다온",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "items": [
+    {
+      "drug_name": "가상치료정 10mg",
+      "days": 3,
+      "per_day": 2
+    }
+  ]
+}

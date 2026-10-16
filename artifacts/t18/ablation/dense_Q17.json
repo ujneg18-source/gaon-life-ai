@@ -1,0 +1,106 @@
+{
+  "id": "Q17",
+  "question": "김유정 고객 진단일이랑 병리 보고일 왜 문제야?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/3",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.5507043332459326
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-01 진단일과 병리 보고일 | 진단서의 진단일이 조직검사 결과지의 보고일보다 빠르면 확인 필요 | 암 진단확정일은 병리 보고일 기준이므로(암진단특약 제3조 ③), 진료 기록으로 진단 경위를 확인합니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row1",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.49660896991853626
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제12조",
+      "title": "제12조(계약 전 알릴 의무)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제12조(계약 전 알릴 의무)\n계약자 또는 피보험자는 청약할 때(진단계약의 경우에는 건강진단을 할 때를 말합니다) 청약서에서 질문한 사항에 대하여 알고 있는 사실을 반드시 사실대로 알려야(상법에 따른\"고지의무\"와 같으며, 이하 \"계약 전 알릴 의무\"라 합니다) 합니다. 다만, 진단계약의 경우 「의료법」 제3조(의료기관)에 따른 종합병원이나 병원에서 직장 또는 개인이 실시한 건강진단서 사본 등 건강상태를 판단할 수 있는 자료로 건강진단을 대신할 수 있습니다. <개정 2015.11.30.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제12조/0",
+      "parent_id": "std_silson_basic/공통/제12조",
+      "is_definition": false,
+      "refs": [
+        "제12조",
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제12조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제12조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.48955231831571844
+    }
+  ],
+  "trace": {}
+}

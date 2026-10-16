@@ -1,0 +1,41 @@
+{
+  "customer": "김서연",
+  "sample_id": "kim_seoyeon_a",
+  "claim_id": "GA-2610-0449",
+  "mode": "mock",
+  "variant": "png",
+  "photo_count": 0,
+  "status": "supplement",
+  "expected": [
+    {
+      "rule": "REQ-diagnosis-code",
+      "kind": "missing",
+      "count": 1
+    },
+    {
+      "rule": "FIELD-diagnosis_code",
+      "kind": "format",
+      "count": 1
+    }
+  ],
+  "actual": [
+    {
+      "rule": "FIELD-diagnosis_code",
+      "kind": "format",
+      "count": 1
+    },
+    {
+      "rule": "REQ-diagnosis-code",
+      "kind": "missing",
+      "count": 1
+    }
+  ],
+  "passed": true,
+  "optional_model_issues": 0,
+  "missing_issues": [],
+  "unexpected_issues": [],
+  "calls": 0,
+  "field_matches": 12,
+  "field_total": 12,
+  "field_mismatches": []
+}

@@ -1,0 +1,17 @@
+{
+  "06_prescription": {
+    "html_sha256": "d26dd6dc82fb7b2c090a84d85aa033a4143e3d83fa50a2659e1d15005259f6fe",
+    "png_sha256": "41b2ea9613c57b6a61a99db4dff42f36a354be866cb06c54bbf514d864b20dfe",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "05_medical_detail": {
+    "html_sha256": "bf519901cfc346a3aac08ec65279b2608efff69509f81d47faf48eaebe28e4a4",
+    "png_sha256": "1b616f5772a463f2d955459e5fef7da97a3dd6dc2a9b11cc24e9322ee0367d78",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "04_medical_receipt": {
+    "html_sha256": "af80f1c418f4e6073275671599b6d88f7d420e889b6fa131f8b8417537ffad24",
+    "png_sha256": "e05b70ec456ec80c7d2acf8e40d03cb363b5b5acf96ba7f8e2b1e01e3ae368a7",
+    "renderer": "CUA browser A4 1240x1754"
+  }
+}

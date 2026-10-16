@@ -1,0 +1,325 @@
+{
+  "id": "Q05",
+  "type": "policy_qa",
+  "question": "입원 일수는 어떻게 세?",
+  "expected_sources": [
+    {
+      "doc": "gaon/02_hospitalization_rider.md",
+      "article": "제2조"
+    },
+    {
+      "doc": "gaon/02_hospitalization_rider.md",
+      "article": "제5조"
+    }
+  ],
+  "answer_gist": "입원일과 퇴원일을 모두 포함. 세부내역서는 1일 적을 수 있음",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "02_hospitalization_rider/공통/제2조/2",
+      "02_hospitalization_rider/공통/제5조/1"
+    ],
+    "answer": "입원일수는 입원한 날부터 퇴원한 날까지로 세고, 입원일과 퇴원일을 모두 포함해서 계산해요. 실제 확인은 입퇴원확인서의 입원일과 퇴원일을 기준으로 하고, 진료비 세부내역서의 입원료 산정 일수가 퇴원일을 빼서 1일 적게 나오는 경우가 있어도 그날 자체가 서로 맞는지만 본다고 해요. 그래서 최종 입원일수는 입퇴원확인서 기준으로 정해진다 보면 돼요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 질병입원일당특약 약관",
+        "article": "제2조 ②",
+        "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+        "is_mock": true,
+        "quote": "제2조(용어의 정의)\n② **입원일수**: 입원한 날부터 퇴원한 날까지, **입원일과 퇴원일을 모두 포함한** 날수를 말합니다."
+      },
+      {
+        "doc_name": "가온생명 질병입원일당특약 약관",
+        "article": "제5조 ①",
+        "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+        "is_mock": true,
+        "quote": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "02_hospitalization_rider/공통/제2조/2",
+        "02_hospitalization_rider/공통/제5조/1"
+      ],
+      "answer": "입원일수는 입원한 날부터 퇴원한 날까지로 세고, 입원일과 퇴원일을 모두 포함해서 계산해요. 실제 확인은 입퇴원확인서의 입원일과 퇴원일을 기준으로 하고, 진료비 세부내역서의 입원료 산정 일수가 퇴원일을 빼서 1일 적게 나오는 경우가 있어도 그날 자체가 서로 맞는지만 본다고 해요. 그래서 최종 입원일수는 입퇴원확인서 기준으로 정해진다 보면 돼요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제2조/2",
+        "node_id": "02_hospitalization_rider/공통/제2조/2",
+        "address": "제2조 ②",
+        "chunk_text": "제2조(용어의 정의)\n② **입원일수**: 입원한 날부터 퇴원한 날까지, **입원일과 퇴원일을 모두 포함한** 날수를 말합니다."
+      },
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제5조/1",
+        "node_id": "02_hospitalization_rider/공통/제5조/1",
+        "address": "제5조 ①",
+        "chunk_text": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다."
+      },
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+        "node_id": "02_hospitalization_rider/공통/제5조/2",
+        "address": "제5조 ②",
+        "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다."
+      },
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제2조/1",
+        "node_id": "02_hospitalization_rider/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① **입원**: 의사가 피보험자의 질병 치료가 필요하다고 인정한 경우로서, 자택 등에서 치료가 곤란하여 의료법에 따른 병원 · 의원 또는 이와 같다고 인정되는 의료기관에 들어가 의사의 관리를 받으며 치료에 전념하는 것을 말합니다."
+      },
+      {
+        "chunk_id": "00_product_summary/1장/row3",
+        "node_id": "00_product_summary/1장/row3",
+        "address": "1장",
+        "chunk_text": "1. 상품 구성\n| 구분 | 이름 | 특약 코드 | 약관 문서 |\n| 선택특약 | 질병입원일당특약 | `HOSP_DAILY` | `02_hospitalization_rider.md` |"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n② **입원일수**: 입원한 날부터 퇴원한 날까지, **입원일과 퇴원일을 모두 포함한** 날수를 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제2조/2",
+      "parent_id": "02_hospitalization_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제2조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제2조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.06586140359844612
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/1",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.07097697531330531
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/2",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.07098620869112673
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "입원 일수는 어떻게 세?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 질병입원일당특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제2조",
+          "title": "제2조(용어의 정의)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+          "chunk_text": "제2조(용어의 정의)\n② **입원일수**: 입원한 날부터 퇴원한 날까지, **입원일과 퇴원일을 모두 포함한** 날수를 말합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "02_hospitalization_rider/공통/제2조/2",
+          "parent_id": "02_hospitalization_rider/공통/제2조",
+          "is_definition": true,
+          "refs": [
+            "제2조"
+          ],
+          "defined_terms": [
+            "입원",
+            "입원일수"
+          ],
+          "paragraph_head": "",
+          "address": "제2조 ②",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병입원일당특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "02_hospitalization_rider/공통/제2조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.06586140359844612
+        },
+        {
+          "doc_name": "가온생명 질병입원일당특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(입원일수 확인 기준)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+          "chunk_text": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "02_hospitalization_rider/공통/제5조/1",
+          "parent_id": "02_hospitalization_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "입원",
+            "입원일수"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ①",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병입원일당특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "02_hospitalization_rider/공통/제5조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.07097697531330531
+        },
+        {
+          "doc_name": "가온생명 질병입원일당특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(입원일수 확인 기준)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+          "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "02_hospitalization_rider/공통/제5조/2",
+          "parent_id": "02_hospitalization_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "입원",
+            "입원일수"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ②",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병입원일당특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.07098620869112673
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 2,
+    "citation_total": 2,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "answer_gist의 핵심 사실인 '입원일과 퇴원일 모두 포함' 및 '세부내역서는 1일 적게 표기될 수 있음'을 모두 포함하고 있으며, 입퇴원확인서 기준으로 최종 입원일수를 확정한다는 점이 gists의 요지와 일치함. 추가 설명은 있으나 모순이나 누락이 없어 점수 기준을 충족함."
+    }
+  }
+}

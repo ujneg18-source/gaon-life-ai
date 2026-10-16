@@ -1,0 +1,105 @@
+{
+  "id": "Q27",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "2장",
+      "title": "2. 공통 사항 (주계약 · 모든 특약)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/2장/row1",
+      "parent_id": "00_product_summary/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/2장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.6271194288080764
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "1장",
+      "title": "1. 상품 구성",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "1. 상품 구성\n| 구분 | 이름 | 특약 코드 | 약관 문서 |\n| 주계약 | 가온 건강플러스보험 (사망 보장) | `MAIN_DEATH` | 생명보험 표준약관 준용 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/1장/row1",
+      "parent_id": "00_product_summary/1장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "1장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/1장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.619665114461951
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "3장",
+      "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "3. 가온생명 앱 청구 (가상 운영 규칙)\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/3장/text1",
+      "parent_id": "00_product_summary/3장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "3장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/3장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.6149748004101001
+    }
+  ],
+  "trace": {}
+}

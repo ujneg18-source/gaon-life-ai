@@ -1,0 +1,138 @@
+{
+  "id": "Q07",
+  "question": "수술비 특약에서 수술로 안 보는 게 뭐야?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n**수술**: 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여, 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말합니다. 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제2조/0",
+      "parent_id": "03_surgery_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제2조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제2조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06385716940064767
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.06827042285470909
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제4조(보험금의 청구)\n\n2. **수술확인서** (병명 또는 질병분류기호, 수술명, 수술일, 수술 코드가 적힌 것). 수술명과 수술일이 적힌 진단서나 수술기록지로 대신할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "03_surgery_rider/공통/제4조/0/2",
+      "parent_id": "03_surgery_rider/공통/제4조/0",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제4조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제4조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.0625753376091791
+    }
+  ],
+  "trace": {
+    "question": "수술비 특약에서 수술로 안 보는 게 뭐야?",
+    "rewritten": "수술비 특약 수술 제외 항목",
+    "candidate_ids": [
+      "03_surgery_rider/공통/제1조/0",
+      "03_surgery_rider/공통/제5조/1",
+      "03_surgery_rider/공통/제6조/0",
+      "03_surgery_rider/공통/제5조/2",
+      "03_surgery_rider/공통/제2조/0",
+      "03_surgery_rider/공통/제3조/0",
+      "00_product_summary/1장/row4",
+      "03_surgery_rider/공통/제4조/0/2",
+      "rider2/공통/제4조/0/2",
+      "std_silson_rider1_severe_noncovered/공통/제4조/0/2"
+    ],
+    "ranked_ids": [
+      "03_surgery_rider/공통/제2조/0",
+      "03_surgery_rider/공통/제5조/1",
+      "03_surgery_rider/공통/제4조/0/2",
+      "03_surgery_rider/공통/제1조/0",
+      "03_surgery_rider/공통/제6조/0",
+      "03_surgery_rider/공통/제5조/2",
+      "03_surgery_rider/공통/제3조/0",
+      "00_product_summary/1장/row4",
+      "rider2/공통/제4조/0/2",
+      "std_silson_rider1_severe_noncovered/공통/제4조/0/2"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "doc_type": "surgery_cert",
+  "patient_name": "이가온",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "surgery_name": "복강경하 충수절제술",
+  "surgery_date": "2026-10-07",
+  "surgery_code": "DEMO-SS02"
+}

@@ -1,0 +1,125 @@
+{
+  "id": "Q25",
+  "question": "호르몬 주사 비용은?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n3. 호르몬 투여, 보신용 투약, 의약외품과 관련하여 소요된 비용",
+      "collection": "policy",
+      "coverage_section": "질병비급여",
+      "paragraph": "③",
+      "item": "3",
+      "node_id": "rider2/질병비급여/제4조/3/3",
+      "parent_id": "rider2/질병비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 3호",
+      "authority_level": 1,
+      "governs": [
+        "질병비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/질병비급여/제4조/3/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06902281746031746
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n3. 호르몬 투여, 보신용 투약, 의약외품과 관련하여 소요된 비용",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "3",
+      "node_id": "rider2/상해비급여/제4조/3/3",
+      "parent_id": "rider2/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 3호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/상해비급여/제4조/3/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06743589743589744
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n3. 호르몬 투여, 보신용 투약, 의약외품과 관련하여 소요된 비용",
+      "collection": "policy",
+      "coverage_section": "비급여자기공명영상진단",
+      "paragraph": "④",
+      "item": "3",
+      "node_id": "rider2/비급여자기공명영상진단/제4조/4/3",
+      "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ④ 3호",
+      "authority_level": 1,
+      "governs": [
+        "비급여자기공명영상진단"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06939890710382515
+    }
+  ],
+  "trace": {
+    "question": "호르몬 주사 비용은?",
+    "rewritten": "호르몬 주사 비용",
+    "candidate_ids": [
+      "rider2/비급여자기공명영상진단/제4조/4/3",
+      "rider2/질병비급여/제4조/3/3",
+      "rider2/상해비급여/제4조/3/3",
+      "10_claims_manual/6장/row3",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/4/3",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/3",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/3",
+      "rider2/공통/제2조/1",
+      "rider2/공통/제4조/0/3",
+      "std_silson_basic/질병급여/제4조/3/3"
+    ],
+    "ranked_ids": [
+      "rider2/질병비급여/제4조/3/3",
+      "rider2/상해비급여/제4조/3/3",
+      "rider2/비급여자기공명영상진단/제4조/4/3",
+      "10_claims_manual/6장/row3",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/3",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/3",
+      "rider2/공통/제2조/1",
+      "rider2/공통/제4조/0/3",
+      "std_silson_basic/질병급여/제4조/3/3",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/4/3"
+    ]
+  }
+}

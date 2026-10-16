@@ -1,0 +1,334 @@
+{
+  "id": "Q03",
+  "type": "policy_qa",
+  "question": "갑상선암도 암 진단금 100% 나와?",
+  "expected_sources": [
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제2조"
+    },
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제4조"
+    }
+  ],
+  "answer_gist": "C73은 소액암이라 가입금액의 20%. 단정하지 말고 약관 기준 안내",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "01_cancer_rider/공통/제4조/0",
+      "01_cancer_rider/공통/제2조/3/1"
+    ],
+    "answer": "이 특약에서는 갑상선암(갑상선의 악성신생물 C73)을 소액암으로 정하고 있어서, 암 진단금 100%가 아니라 가입금액의 20%가 지급돼요. 소액암은 계약일부터 보장이 시작되고, 일반 암처럼 보장개시일 이후 1년 미만 감액(50%) 규정은 따로 적용되지 않아요. 정확한 지급 금액과 조건은 가입 수량과 최종 진단 내용에 따라 담당자가 확인해 드려요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제4조",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다."
+      },
+      {
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제2조 ③ 1호",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제2조(용어의 정의)\n③ **소액암**: 다음 질병을 말합니다.\n1. 갑상선의 악성신생물(C73)"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "01_cancer_rider/공통/제4조/0",
+        "01_cancer_rider/공통/제2조/3/1"
+      ],
+      "answer": "이 특약에서는 갑상선암(갑상선의 악성신생물 C73)을 소액암으로 정하고 있어서, 암 진단금 100%가 아니라 가입금액의 20%가 지급돼요. 소액암은 계약일부터 보장이 시작되고, 일반 암처럼 보장개시일 이후 1년 미만 감액(50%) 규정은 따로 적용되지 않아요. 정확한 지급 금액과 조건은 가입 수량과 최종 진단 내용에 따라 담당자가 확인해 드려요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "01_cancer_rider/공통/제4조/0",
+        "node_id": "01_cancer_rider/공통/제4조/0",
+        "address": "제4조",
+        "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제2조/3/1",
+        "node_id": "01_cancer_rider/공통/제2조/3/1",
+        "address": "제2조 ③ 1호",
+        "chunk_text": "제2조(용어의 정의)\n③ **소액암**: 다음 질병을 말합니다.\n1. 갑상선의 악성신생물(C73)"
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제2조/1",
+        "node_id": "01_cancer_rider/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① **암**: 한국표준질병·사인분류(KCD)의 악성신생물(C00~C97) 가운데, 제3항의 소액암에 해당하는 질병을 뺀 질병을 말합니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제2조/2",
+        "node_id": "01_cancer_rider/공통/제2조/2",
+        "address": "제2조 ②",
+        "chunk_text": "제2조(용어의 정의)\n② **보장개시일**: 계약일부터 그날을 포함하여 90일이 지난 날의 다음 날을 말합니다."
+      },
+      {
+        "chunk_id": "00_product_summary/2장/row3",
+        "node_id": "00_product_summary/2장/row3",
+        "address": "2장",
+        "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 지급 기한 | 서류 접수 후 3영업일 이내. 조사 · 확인이 필요하면 10영업일 이내 | 생명보험 표준약관 제8조 ① |"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제4조/0",
+      "parent_id": "01_cancer_rider/공통/제4조",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제4조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제4조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.0657481134530315
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n③ **소액암**: 다음 질병을 말합니다.\n1. 갑상선의 악성신생물(C73)",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "1",
+      "node_id": "01_cancer_rider/공통/제2조/3/1",
+      "parent_id": "01_cancer_rider/공통/제2조/3",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "③ **소액암**: 다음 질병을 말합니다.",
+      "address": "제2조 ③ 1호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/3/1",
+      "embedding_version": "structure-v3",
+      "score": 0.0701316884280594
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n① **암**: 한국표준질병·사인분류(KCD)의 악성신생물(C00~C97) 가운데, 제3항의 소액암에 해당하는 질병을 뺀 질병을 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제2조/1",
+      "parent_id": "01_cancer_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제2조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.045351751207729475
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [
+    {
+      "query": "갑상선암도 암 진단금 100% 나와?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제4조",
+          "title": "제4조(보험금의 지급사유)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제4조/0",
+          "parent_id": "01_cancer_rider/공통/제4조",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [
+            "암",
+            "보장개시일",
+            "소액암"
+          ],
+          "paragraph_head": "",
+          "address": "제4조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제4조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.0657481134530315
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제2조",
+          "title": "제2조(용어의 정의)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제2조(용어의 정의)\n③ **소액암**: 다음 질병을 말합니다.\n1. 갑상선의 악성신생물(C73)",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "③",
+          "item": "1",
+          "node_id": "01_cancer_rider/공통/제2조/3/1",
+          "parent_id": "01_cancer_rider/공통/제2조/3",
+          "is_definition": true,
+          "refs": [
+            "제2조"
+          ],
+          "defined_terms": [
+            "암",
+            "소액암"
+          ],
+          "paragraph_head": "③ **소액암**: 다음 질병을 말합니다.",
+          "address": "제2조 ③ 1호",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제2조/3/1",
+          "embedding_version": "structure-v3",
+          "score": 0.0701316884280594
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제2조",
+          "title": "제2조(용어의 정의)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제2조(용어의 정의)\n① **암**: 한국표준질병·사인분류(KCD)의 악성신생물(C00~C97) 가운데, 제3항의 소액암에 해당하는 질병을 뺀 질병을 말합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제2조/1",
+          "parent_id": "01_cancer_rider/공통/제2조",
+          "is_definition": true,
+          "refs": [
+            "제2조"
+          ],
+          "defined_terms": [
+            "암",
+            "소액암"
+          ],
+          "paragraph_head": "",
+          "address": "제2조 ①",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제2조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.045351751207729475
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 2,
+    "citation_total": 2,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "답변은 계약의 일반 약관 범위(소액암 분류, 가입금액 20% 지급, 일반 암과의 감액 규정 차이)만을 안내했고, 개별 가입자의 지급 확정이나 지급 금액을 단정하지 않아 원칙상 적절하다. 그러나 정답 요지인 ‘약관의 기준을 안내하되 단정하지 말라’는 핵심 요청을 충족하지 못하고, 지급 금액(가입금액 20%)을 확정적으로 서술했다. 개별 지급 확정이나 정확한 지급액 계산을 하지 말라는 기준을 위반했으므로 0으로 평가한다."
+    }
+  }
+}

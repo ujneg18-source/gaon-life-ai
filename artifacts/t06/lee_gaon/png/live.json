@@ -1,0 +1,15 @@
+{
+  "customer": "이가온",
+  "sample_id": "lee_gaon",
+  "claim_id": "GA-2610-0477",
+  "mode": "live",
+  "variant": "png",
+  "status": "auto_pass",
+  "expected": [],
+  "actual": [],
+  "passed": true,
+  "calls": 6,
+  "field_matches": 34,
+  "field_total": 34,
+  "field_mismatches": []
+}

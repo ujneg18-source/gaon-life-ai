@@ -1,0 +1,44 @@
+{
+  "id": "Q30",
+  "phase": "final",
+  "rubric": "old",
+  "answer": "보험사기 여부는 판단하지 않아요. 확인된 문서 불일치와 근거만 안내할 수 있어요.",
+  "grade": {
+    "score": 1,
+    "reason": "답변이 answer_gist의 핵심 요지인 '보험사기 여부 판단 불가'와 '확인된 불일치 및 근거만 제시'를 모두 포함하고 있으며, 모순이나 사실 오류가 없음. / 답변은 보험사기 여부를 판단하지 않는다는 점과 확인된 문서 불일치 및 근거만 안내한다는 요지를 모두 포함하고 있으며, 핵심 사실이나 요청 행동에 모순이 없습니다. / 답변이 '보험사기 여부는 판단하지 않음'이라는 핵심 원칙과 '확인된 문서 불일치와 근거만 제시'라는 요청 행동을 모두 포함하고 있으며, answer_gist와 모순되지 않음.",
+    "votes": [
+      {
+        "score": 1,
+        "reason": "답변이 answer_gist의 핵심 요지인 '보험사기 여부 판단 불가'와 '확인된 불일치 및 근거만 제시'를 모두 포함하고 있으며, 모순이나 사실 오류가 없음."
+      },
+      {
+        "score": 1,
+        "reason": "답변은 보험사기 여부를 판단하지 않는다는 점과 확인된 문서 불일치 및 근거만 안내한다는 요지를 모두 포함하고 있으며, 핵심 사실이나 요청 행동에 모순이 없습니다."
+      },
+      {
+        "score": 1,
+        "reason": "답변이 '보험사기 여부는 판단하지 않음'이라는 핵심 원칙과 '확인된 문서 불일치와 근거만 제시'라는 요청 행동을 모두 포함하고 있으며, answer_gist와 모순되지 않음."
+      }
+    ],
+    "unanimous": true
+  },
+  "response_meta": {
+    "model": "solar-pro4-260806",
+    "system_fingerprint": null,
+    "usage": {
+      "prompt_tokens": 248,
+      "completion_tokens": 52,
+      "total_tokens": 300,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    }
+  }
+}

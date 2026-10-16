@@ -1,0 +1,146 @@
+{
+  "id": "Q27",
+  "type": "refusal",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 (치아보험 문서 없음)",
+  "dataset_sha256": "591d21d8a20f3cf54f2ac7f2db7c698e51a057ad0c414187456c345f10e31de7",
+  "response": {
+    "answer": "관련 규정을 찾지 못했어요",
+    "intent": "policy_qa",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제1조",
+      "title": "제1조(목적)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "## 제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+      "collection": "policy",
+      "score": 0.898011202262603
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "3장",
+      "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "## 3. 가온생명 앱 청구 (가상 운영 규칙)\n\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+      "collection": "policy",
+      "score": 0.8443352550640634
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제8조",
+      "title": "제8조(준용규정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "## 제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다.",
+      "collection": "policy",
+      "score": 0.7631733761637896
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "가온생명 치아보험 보장 내용 약관",
+      "collection": "policy",
+      "hits": [
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제1조",
+          "title": "제1조(목적)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "## 제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+          "collection": "policy",
+          "score": 0.9253196321906567
+        },
+        {
+          "doc_name": "가온 건강플러스보험 상품 개요",
+          "edition": "2026.01 (가상)",
+          "article": "3장",
+          "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/00_product_summary.md",
+          "chunk_text": "## 3. 가온생명 앱 청구 (가상 운영 규칙)\n\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+          "collection": "policy",
+          "score": 0.8326109241200326
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제8조",
+          "title": "제8조(준용규정)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "## 제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다.",
+          "collection": "policy",
+          "score": 0.8091496953713047
+        }
+      ]
+    },
+    {
+      "query": "가온생명 치아보험 보장 내용 알려줘",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제1조",
+          "title": "제1조(목적)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "## 제1조(목적)\n이 특약은 보험계약자와 가온생명(이하 '회사') 사이에 피보험자가 암으로 진단확정되는 위험을 보장하기 위하여 주계약에 덧붙여 체결합니다.",
+          "collection": "policy",
+          "score": 0.898011202262603
+        },
+        {
+          "doc_name": "가온 건강플러스보험 상품 개요",
+          "edition": "2026.01 (가상)",
+          "article": "3장",
+          "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/00_product_summary.md",
+          "chunk_text": "## 3. 가온생명 앱 청구 (가상 운영 규칙)\n\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+          "collection": "policy",
+          "score": 0.8443352550640634
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제8조",
+          "title": "제8조(준용규정)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "## 제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다.",
+          "collection": "policy",
+          "score": 0.7631733761637896
+        }
+      ]
+    }
+  ],
+  "error": null,
+  "metrics": {
+    "intent_correct": false,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": false,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 요지를 그대로 충족하고 있으며, 모순이나 잘못된 정보 제공이 없어 점수 기준을 만족합니다."
+    }
+  }
+}

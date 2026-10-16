@@ -1,0 +1,128 @@
+{
+  "id": "Q16",
+  "question": "김서연 고객 청구 확인해줘",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-06 보장 기간 | 진료 · 진단 날짜가 계약의 보장 기간 안인지 | 기간 밖이면 해당 특약 보험금 대상이 아닙니다. 계약 정보를 다시 확인합니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row6",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row6",
+      "embedding_version": "structure-v3",
+      "score": 0.03200204813108039
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 사망 | 사망진단서(시체검안서), 가족관계증명서, 기본증명서 | 보험수익자 확인 | 생명보험 표준약관 제7조 · 제11조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row8",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제11조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row8",
+      "embedding_version": "structure-v3",
+      "score": 0.03177805800756621
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.015873015873015872
+    }
+  ],
+  "trace": {
+    "question": "김서연 고객 청구 확인해줘",
+    "rewritten": "보험 보상 청구 검토 필수서류 교차검증",
+    "candidate_ids": [
+      "11_supplement_templates/2장/text1",
+      "11_supplement_templates/3장/text1",
+      "11_supplement_templates/1장/text1",
+      "10_claims_manual/4장/row6",
+      "10_claims_manual/2장/row8",
+      "03_surgery_rider/공통/제5조/1",
+      "std_illness_injury/공통/제28조/2",
+      "10_claims_manual/5장/row3",
+      "std_life_insurance/공통/제7조/1/3",
+      "std_silson_basic/공통/제23조/3"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/4장/row6",
+      "10_claims_manual/2장/row8",
+      "03_surgery_rider/공통/제5조/1",
+      "11_supplement_templates/2장/text1",
+      "11_supplement_templates/1장/text1",
+      "11_supplement_templates/3장/text1",
+      "std_life_insurance/공통/제7조/1/3",
+      "10_claims_manual/5장/row3",
+      "std_illness_injury/공통/제28조/2",
+      "std_silson_basic/공통/제23조/3"
+    ]
+  }
+}

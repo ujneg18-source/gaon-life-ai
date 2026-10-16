@@ -1,0 +1,136 @@
+{
+  "id": "Q17",
+  "question": "김유정 고객 진단일이랑 병리 보고일 왜 문제야?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/3",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.04841188524590164
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-01 진단일과 병리 보고일 | 진단서의 진단일이 조직검사 결과지의 보고일보다 빠르면 확인 필요 | 암 진단확정일은 병리 보고일 기준이므로(암진단특약 제3조 ③), 진료 기록으로 진단 경위를 확인합니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row1",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.06504494976203068
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n3. **조직검사 결과지** (병리 진단과 보고일이 적힌 것). 조직검사가 불가능했다면 제3조 제2항의 기록",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "3",
+      "node_id": "01_cancer_rider/공통/제6조/0/3",
+      "parent_id": "01_cancer_rider/공통/제6조/0",
+      "is_definition": false,
+      "refs": [
+        "제6조",
+        "제3조 제2항"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.",
+      "address": "제6조 3호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제6조/0/3",
+      "embedding_version": "structure-v3",
+      "score": 0.04623878536922015
+    }
+  ],
+  "trace": {
+    "question": "김유정 고객 진단일이랑 병리 보고일 왜 문제야?",
+    "rewritten": "진단일 및 병리 보고일 불일치 시 보험금 지급 제한 사유와 필수 제출 서류·교차검증 기준은 무엇인가",
+    "candidate_ids": [
+      "10_claims_manual/4장/row1",
+      "01_cancer_rider/공통/제3조/3",
+      "01_cancer_rider/공통/제6조/0/3",
+      "std_life_insurance/공통/제4조/3",
+      "std_silson_basic/공통/제24조/3/3",
+      "10_claims_manual/5장/row4",
+      "std_silson_basic/공통/제12조/0",
+      "std_life_insurance/공통/제15조/0",
+      "11_supplement_templates/2장/text1",
+      "std_life_insurance/공통/제13조/0"
+    ],
+    "ranked_ids": [
+      "01_cancer_rider/공통/제3조/3",
+      "10_claims_manual/4장/row1",
+      "01_cancer_rider/공통/제6조/0/3",
+      "10_claims_manual/5장/row4",
+      "11_supplement_templates/2장/text1",
+      "std_silson_basic/공통/제24조/3/3",
+      "std_silson_basic/공통/제12조/0",
+      "std_life_insurance/공통/제4조/3",
+      "std_life_insurance/공통/제15조/0",
+      "std_life_insurance/공통/제13조/0"
+    ]
+  }
+}

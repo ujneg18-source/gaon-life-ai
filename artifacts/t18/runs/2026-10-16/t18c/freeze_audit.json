@@ -1,0 +1,6 @@
+{
+  "runtime_code_unchanged_after_holdout": true,
+  "holdout_questions_and_gold_hash_unchanged_after_freeze": true,
+  "holdout_completed_once": true,
+  "freeze_commit": "8da75c9"
+}

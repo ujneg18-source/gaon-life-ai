@@ -1,0 +1,275 @@
+{
+  "id": "Q02",
+  "type": "policy_qa",
+  "question": "암 진단확정은 어떤 검사로 해야 인정돼?",
+  "expected_sources": [
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제3조"
+    }
+  ],
+  "answer_gist": "병리 · 임상병리 전문의가 조직검사, 미세바늘흡인검사, 혈액검사 결과로 진단. 불가능하면 진단 · 치료 기록으로 인정 가능",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "01_cancer_rider/공통/제3조/2"
+    ],
+    "answer": "암 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 아래 검사 중 하나의 결과를 기초로 내린 진단이어야 해요.\n\n- 조직(fixed tissue)검사\n- 미세바늘흡인검사(fine needle aspiration)\n- 혈액(hemic system)검사\n\n다만 1항의 검사가 불가능한 경우에 한해, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 진단확정으로 인정할 수 있어요. 어떤 검사로 인정할지는 최종적으로 담당자가 확인한다고 안내드릴게요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제3조 ②",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "② 제1항의 검사가 불가능한 경우에 한하여, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 이를 진단확정으로 인정할 수 있습니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n① 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 합니다.\n1. 조직(fixed tissue)검사",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "1",
+      "node_id": "01_cancer_rider/공통/제3조/1/1",
+      "parent_id": "01_cancer_rider/공통/제3조/1",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "① 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 합니다.",
+      "address": "제3조 ① 1호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/1/1",
+      "embedding_version": "structure-v3",
+      "score": 0.07126782671468022
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n② 제1항의 검사가 불가능한 경우에 한하여, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 이를 진단확정으로 인정할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/2",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료",
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.07099500925436279
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/3",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06851917907361456
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "암 진단확정은 어떤 검사로 해야 인정돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제3조",
+          "title": "제3조(암의 진단확정)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제3조(암의 진단확정)\n① 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 합니다.\n1. 조직(fixed tissue)검사",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "1",
+          "node_id": "01_cancer_rider/공통/제3조/1/1",
+          "parent_id": "01_cancer_rider/공통/제3조/1",
+          "is_definition": false,
+          "refs": [
+            "제3조"
+          ],
+          "defined_terms": [
+            "암",
+            "소액암"
+          ],
+          "paragraph_head": "① 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 합니다.",
+          "address": "제3조 ① 1호",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제3조/1/1",
+          "embedding_version": "structure-v3",
+          "score": 0.07126782671468022
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제3조",
+          "title": "제3조(암의 진단확정)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제3조(암의 진단확정)\n② 제1항의 검사가 불가능한 경우에 한하여, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 이를 진단확정으로 인정할 수 있습니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제3조/2",
+          "parent_id": "01_cancer_rider/공통/제3조",
+          "is_definition": false,
+          "refs": [
+            "제3조"
+          ],
+          "defined_terms": [
+            "치료",
+            "암"
+          ],
+          "paragraph_head": "",
+          "address": "제3조 ②",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제3조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.07099500925436279
+        },
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제3조",
+          "title": "제3조(암의 진단확정)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "③",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제3조/3",
+          "parent_id": "01_cancer_rider/공통/제3조",
+          "is_definition": false,
+          "refs": [
+            "제3조"
+          ],
+          "defined_terms": [
+            "암"
+          ],
+          "paragraph_head": "",
+          "address": "제3조 ③",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제3조/3",
+          "embedding_version": "structure-v3",
+          "score": 0.06851917907361456
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist에 명시된 핵심 검사 종류(조직검사, 미세바늘흡인검사, 혈액검사)와 진단 주체를 정확히 포함하고 있으며, 해당 검사들로 진단이 불가능한 경우 진단·치료 기록으로 대체 인정할 수 있다는 조건도 누락 없이 반영했습니다. '담당자 최종 확인'이라는 실무 안내가 추가되었으나 기존 요지와 모순되지 않으므로 요지 충족 기준을 만족합니다."
+    }
+  }
+}

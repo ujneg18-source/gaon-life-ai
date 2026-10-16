@@ -1,0 +1,131 @@
+{
+  "id": "Q08",
+  "question": "보험금은 서류 내고 며칠 안에 지급돼?",
+  "recall": 0.5,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제7조",
+      "title": "제7조(보험금의 지급절차)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제7조/0",
+      "parent_id": "01_cancer_rider/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제7조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.03686412315930389
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제8조/1",
+      "parent_id": "std_life_insurance/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.04662098272696287
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제8조/1",
+      "parent_id": "std_silson_basic/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.03926230114365509
+    }
+  ],
+  "trace": {
+    "question": "보험금은 서류 내고 며칠 안에 지급돼?",
+    "rewritten": "보험금 지급 소요 기간",
+    "candidate_ids": [
+      "std_life_insurance/공통/제8조/3/2",
+      "std_illness_injury/공통/제8조/2/1",
+      "std_illness_injury/공통/< 부표 9-1 >장/0/3",
+      "std_life_insurance/공통/제8조/1",
+      "std_life_insurance/공통/제8조/2",
+      "std_life_insurance/공통/< 부 표 4-1 >장/0/3",
+      "std_illness_injury/공통/제8조/1",
+      "std_silson_basic/공통/제8조/1",
+      "std_silson_basic/공통/제8조/2/1",
+      "01_cancer_rider/공통/제7조/0"
+    ],
+    "ranked_ids": [
+      "01_cancer_rider/공통/제7조/0",
+      "std_life_insurance/공통/제8조/1",
+      "std_silson_basic/공통/제8조/1",
+      "std_illness_injury/공통/제8조/1",
+      "std_life_insurance/공통/제8조/2",
+      "std_life_insurance/공통/제8조/3/2",
+      "std_illness_injury/공통/제8조/2/1",
+      "std_silson_basic/공통/제8조/2/1",
+      "std_life_insurance/공통/< 부 표 4-1 >장/0/3",
+      "std_illness_injury/공통/< 부표 9-1 >장/0/3"
+    ]
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "id": "Q08",
+  "type": "policy_qa",
+  "question": "보험금은 서류 내고 며칠 안에 지급돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제8조"
+    },
+    {
+      "doc": "gaon/00_product_summary.md",
+      "article": "2장"
+    }
+  ],
+  "answer_gist": "접수 후 3영업일, 조사 필요 시 10영업일. 지연 시 지급예정일은 원칙적으로 30영업일 이내",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "std_life_insurance/공통/제8조/1"
+    ],
+    "answer": "네, 회사는 제7조에서 정한 청구 서류를 접수한 날부터 3영업일 이내에 보험금을 지급해요. 다만 보험금 지급사유의 조사나 확인이 필요한 경우에는 접수 후 10영업일 이내에 지급한다고 되어 있어요. 서류를 접수하면 접수증을 드리고 문자메시지 등으로도 알려드려요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "생명보험 표준약관",
+        "article": "제8조 ①",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "std_life_insurance/공통/제8조/1"
+      ],
+      "answer": "네, 회사는 제7조에서 정한 청구 서류를 접수한 날부터 3영업일 이내에 보험금을 지급해요. 다만 보험금 지급사유의 조사나 확인이 필요한 경우에는 접수 후 10영업일 이내에 지급한다고 되어 있어요. 서류를 접수하면 접수증을 드리고 문자메시지 등으로도 알려드려요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "std_life_insurance/공통/제8조/1",
+        "node_id": "std_life_insurance/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      },
+      {
+        "chunk_id": "std_illness_injury/공통/제8조/1",
+        "node_id": "std_illness_injury/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다."
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제8조/1",
+        "node_id": "std_silson_basic/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>"
+      },
+      {
+        "chunk_id": "std_life_insurance/공통/제7조/1/1",
+        "node_id": "std_life_insurance/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n1. 청구서(회사양식)"
+      },
+      {
+        "chunk_id": "std_illness_injury/공통/제7조/1/1",
+        "node_id": "std_illness_injury/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n1. 청구서(회사 양식)"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제8조/1",
+      "parent_id": "std_life_insurance/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.04662098272696287
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_illness_injury/공통/제8조/1",
+      "parent_id": "std_illness_injury/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.03958378223084105
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제8조/1",
+      "parent_id": "std_silson_basic/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.03926230114365509
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "보험금은 서류 내고 며칠 안에 지급돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "생명보험 표준약관",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_life_insurance.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "std_life_insurance/공통/제8조/1",
+          "parent_id": "std_life_insurance/공통/제8조",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제8조 ①",
+          "authority_level": 1,
+          "governs": [
+            "생명보험 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_life_insurance/공통/제8조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.04662098272696287
+        },
+        {
+          "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_illness_injury.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "std_illness_injury/공통/제8조/1",
+          "parent_id": "std_illness_injury/공통/제8조",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제8조 ①",
+          "authority_level": 1,
+          "governs": [
+            "질병·상해보험 표준약관(손해보험 회사용)"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_illness_injury/공통/제8조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.03958378223084105
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "std_silson_basic/공통/제8조/1",
+          "parent_id": "std_silson_basic/공통/제8조",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제8조 ①",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제8조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.03926230114365509
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.5,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변이 answer_gist에 명시된 핵심 사실(접수 후 3영업일, 조사 필요 시 10영업일, 지연 시 30영업일 이내 지급예정일)을 모두 포함하고 있으며, 모순이나 근거 없는 지급 확정/금액 계산도 없음. 접수증 안내 등 관련 세부 정보는 요지 충족에 위배되지 않으므로 채점 기준상 충족됨."
+    }
+  }
+}

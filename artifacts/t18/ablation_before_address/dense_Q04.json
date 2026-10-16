@@ -1,0 +1,105 @@
+{
+  "id": "Q04",
+  "question": "계약하고 두 달 만에 암 진단받으면 어떻게 돼?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제15조",
+      "title": "제15조(사기에 의한 계약)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제15조(사기에 의한 계약)\n계약자 또는 피보험자가 대리진단, 약물사용을 수단으로 진단절차를 통과하거나 진단서 위ㆍ변조 또는 청약일 이전에 암 또는 인간면역결핍바이러스(HIV) 감염의 진단 확정을 받은 후 이를 숨기고 가입하는 등의 뚜렷한 사기의사에 의하여 계약이 성립되었음을 회사가 증명하는 경우에는 보장개시일부터 5년 이내(사기사실을 안 날부터는 1개월 이내)에 계약을 취소할 수 있습니다.\n제4관 보험계약의 성립과 유지",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제15조/0",
+      "parent_id": "std_life_insurance/공통/제15조",
+      "is_definition": false,
+      "refs": [
+        "제15조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제15조",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제15조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.6483345333263357
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제17조",
+      "title": "제17조(사기에 의한 계약)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제17조(사기에 의한 계약)\n계약자 또는 피보험자가 대리진단, 약물사용을 수단으로 진단절차를 통과하거나 진단서 위·변조 또는 청약일 이전에 암 또는 인간면역결핍바이러스(HIV) 감염의 진단 확정을 받은 후 이를 숨기고 가입하는 등 사기에 의하여 계약이 성립되었음을 회사가 증명하는 경우에는 계약일부터 5년 이내(사기사실을 안 날부터 1개월 이내)에 계약을 취소할 수 있습니다.\n제4관  보험계약의 성립과 유지",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_illness_injury/공통/제17조/0",
+      "parent_id": "std_illness_injury/공통/제17조",
+      "is_definition": false,
+      "refs": [
+        "제17조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제17조",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제17조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.6393470000257282
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제15조",
+      "title": "제15조(사기에 의한 계약)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제15조(사기에 의한 계약)\n계약자 또는 피보험자가 대리진단이나 약물사용을 통하여 진단절차를 통과하거나, 진단서를 위조 또는 변조하거나, 청약일 이전에 암 또는 사람면역결핍바이러스(HIV) 감염의 진단 확정을 받은 후 이를 숨기고 가입하는 등 사기에 의하여 계약이 성립되었음을 회사가 증명하는 경우에는 회사는 계약일부터 5년 이내(사기사실을 안 날부터 1개월 이내)에 계약을 취소할 수 있습니다. <개정 2015.11.30., 2021.7.1.>\n제6관 보험계약의 성립과 유지",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제15조/0",
+      "parent_id": "std_silson_basic/공통/제15조",
+      "is_definition": false,
+      "refs": [
+        "제15조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제15조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제15조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.6373284496929683
+    }
+  ],
+  "trace": {}
+}

@@ -15,6 +15,7 @@ export type FieldRow = {
   bbox: { x: number; y: number }[] | null;
   confirmed_by: number | null;
   confirmed_value: string | null;
+  provenance: string;
   doc_type: string;
   kcd_name: string | null;
   parse_evidence: { text: string; basis: string } | null;
@@ -38,6 +39,7 @@ export type Issue = {
 };
 export type Claim = {
   id: string;
+  development_origin: string | null;
   customer_name: string;
   policy_no: string;
   claim_types: string[];
@@ -55,6 +57,7 @@ export type Claim = {
   policy: {
     product_name: string;
     riders: string[];
+    contract_date: string | null;
     coverage_start: string;
     coverage_end: string;
   } | null;
@@ -147,6 +150,7 @@ export function reason(text: string) {
   );
 }
 export function display(field: FieldRow) {
+  if (!field.display_value || field.display_value === "null") return "미기재";
   return field.key.endsWith(".covered")
     ? field.display_value === "true"
       ? "급여"

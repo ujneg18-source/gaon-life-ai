@@ -1,0 +1,59 @@
+{
+  "id": "Q19",
+  "type": "claim_check",
+  "question": "오늘 내가 검토할 청구 몇 건이야?",
+  "expected_sources": [],
+  "answer_gist": "로그인 담당자 배정 범위 안의 검토 필요 · 보완 요청 건수 요약 (데이터 기준)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "현재 배정된 검토 필요 3건, 보완 요청 2건으로 검토 대상은 총 5건이에요. 접수일로 제한하지 않은 현재 배정 현황이에요.",
+    "intent": "claim_check",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist가 요구하는 '로그인 담당자 배정 범위 안의 검토 필요·보완 요청 건수 요약'을 정확히 반영하여 검토 필요 3건, 보완 요청 2건, 총 5건으로 요약했고, 배정 현황 기준이라는 점도 명시하여 핵심 사실과 요청 행동을 모두 충족하며 모순이 없다. / 답변은 answer_gist에서 요구하는 '로그인 담당자 배정 범위 안의 검토 필요·보완 요청 건수 요약'을 정확히 반영하고 있습니다. 검토 필요 3건, 보완 요청 2건, 총 5건이라는 핵심 수치를 모두 포함하고 있으며, 접수일 제한 없이 현재 배정 현황을 기준으로 한다는 점도 명시되어 있어 모순이나 누락이 없습니다. / 답변은 answer_gist에서 요구한 '로그인 담당자 배정 범위 안의 검토 필요·보완 요청 건수 요약'을 구체적으로 제시(검토 필요 3건, 보완 요청 2건, 총 5건)하고 배정 현황 기준임을 명시하여 핵심 사실과 요청 행동을 모두 충족하며 모순이 없음.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist가 요구하는 '로그인 담당자 배정 범위 안의 검토 필요·보완 요청 건수 요약'을 정확히 반영하여 검토 필요 3건, 보완 요청 2건, 총 5건으로 요약했고, 배정 현황 기준이라는 점도 명시하여 핵심 사실과 요청 행동을 모두 충족하며 모순이 없다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist에서 요구하는 '로그인 담당자 배정 범위 안의 검토 필요·보완 요청 건수 요약'을 정확히 반영하고 있습니다. 검토 필요 3건, 보완 요청 2건, 총 5건이라는 핵심 수치를 모두 포함하고 있으며, 접수일 제한 없이 현재 배정 현황을 기준으로 한다는 점도 명시되어 있어 모순이나 누락이 없습니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist에서 요구한 '로그인 담당자 배정 범위 안의 검토 필요·보완 요청 건수 요약'을 구체적으로 제시(검토 필요 3건, 보완 요청 2건, 총 5건)하고 배정 현황 기준임을 명시하여 핵심 사실과 요청 행동을 모두 충족하며 모순이 없음."
+        }
+      ],
+      "unanimous": true
+    }
+  }
+}

@@ -56,6 +56,8 @@ def create_supplement(claim: ClaimWrite, user: CurrentUser, session: SessionDep,
     data = detail(session, claim, config)
     submitted = {d["doc_type"] for d in data["documents"] if d["status"] == "extracted"}
     codes = sorted(set(data["required"]) - submitted)
+    if any(i.rule_id == "REQ-diagnosis-code" for i in missing):
+        codes = sorted(set(codes) | {"diagnosis"})
     if not missing or not codes:
         raise HTTPException(409, "요청할 미제출 필수 서류가 없습니다.")
     active = session.exec(

@@ -1,0 +1,30 @@
+"""가상 서류 공통 A4 HTML. 값과 정답은 호출자가 전달해 서식 간 드리프트를 막는다."""
+
+from html import escape
+
+CSS = '\n*{box-sizing:border-box}\nbody{margin:0;background:#fff;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1f2a44}\n.page{width:1240px;height:1754px;padding:90px 96px;position:relative;background:#fff}\n.sample{position:absolute;top:36px;right:44px;border:3px solid #c0392b;color:#c0392b;font-weight:700;font-size:22px;padding:6px 14px;letter-spacing:.06em;transform:rotate(3deg)}\n.hosp{text-align:center;color:#1f3c88}\n.hosp .n{font-size:46px;font-weight:700;letter-spacing:.12em}\n.hosp .e{font-size:17px;letter-spacing:.18em;margin-top:4px}\nh1{text-align:center;font-size:44px;letter-spacing:.5em;margin:34px 0 26px;color:#1f3c88}\ntable{width:100%;border-collapse:collapse;font-size:23px}\ntd,th{border:2px solid #2b4a9a;padding:12px 14px;vertical-align:middle}\nth{background:#eef2fb;font-weight:500;color:#1f3c88;white-space:nowrap}\n.r{text-align:right;font-variant-numeric:tabular-nums}\n.c{text-align:center}\n.big{font-size:27px;font-weight:700}\n.note{font-size:21px;line-height:1.7;margin-top:22px}\n.foot{position:absolute;left:96px;right:96px;bottom:90px;font-size:22px;line-height:1.7}\n.seal{display:inline-block;width:96px;height:96px;border:4px solid rgba(200,30,40,.75);color:rgba(200,30,40,.8);border-radius:8px;text-align:center;font-weight:700;font-size:20px;line-height:1.25;padding-top:14px;vertical-align:middle;margin-left:16px;transform:rotate(-6deg)}\n.stamp-round{position:absolute;width:150px;height:150px;border:5px solid rgba(200,30,40,.55);border-radius:50%;color:rgba(200,30,40,.6);font-weight:700;font-size:24px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;transform:rotate(-14deg);pointer-events:none}\n.small{font-size:19px;color:#4a5878}\n'
+
+
+def page(title, body, issuer="하람대학교병원"):
+    """기존 김유정 서류와 같은 1240×1754·색·글꼴·SAMPLE 표시를 사용한다."""
+    return f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{escape(title)}</title><style>{CSS}</style></head><body><div class="page"><div class="sample">SAMPLE · 가상 데이터</div><div class="hosp"><div class="n">{escape(issuer)}</div><div class="e">FICTIONAL MEDICAL DOCUMENT</div></div><h1>{escape(title)}</h1>{body}</div></body></html>'
+
+
+def surgery_html(values, birth):
+    """수술 일자·코드를 JSON과 같은 값으로 인쇄하며 실제 의사/기관 번호는 만들지 않는다."""
+    labels = {
+        "patient_name": "환자 성명",
+        "surgery_name": "수술명",
+        "surgery_date": "수술일",
+        "surgery_code": "수술 코드",
+        "issued_date": "발행일",
+    }
+    rows = "".join(
+        f"<tr><th>{label}</th><td>{escape(str(values[key]))}</td></tr>"
+        for key, label in labels.items()
+    )
+    return page(
+        "수 술 확 인 서",
+        f'<table>{rows}<tr><th>생년월일</th><td>{escape(birth)}</td></tr></table><p class="note">위 환자가 본원에서 위 수술을 받았음을 확인합니다.</p><div class="foot">의사: 정민호 (가상 · 제00000호)<br>발행 기관: {escape(values["issuer"])}<span class="seal">가상<br>의료기관<br>확인</span></div>',
+        values["issuer"],
+    )

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { formatDate, formatDateTime } from "@/lib/dates";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CircleCheck,
   CircleX,
@@ -100,6 +100,11 @@ export function Inbox() {
                   <td>
                     <strong>{c.customer_name}</strong>
                     <small>{formatDate(c.customer?.birth_date)}</small>
+                    {c.development_origin && (
+                      <small className="development-origin">
+                        개발 검증 · {c.development_origin}
+                      </small>
+                    )}
                   </td>
                   <td>
                     {c.claim_types.map((t) => typeLabels[t] ?? t).join(" · ")}
@@ -114,7 +119,11 @@ export function Inbox() {
                     {c.open_issue_count
                       ? `확인할 사항 ${c.open_issue_count}건`
                       : c.submitted_count
-                        ? "열린 이슈 없음"
+                        ? c.issues.some(
+                            (i) => i.status === "open" && i.kind === "info",
+                          )
+                          ? "서류 확인 완료 · 안내 확인"
+                          : "지급 심사 이관 가능"
                         : "서류 접수 대기"}
                   </td>
                 </tr>
@@ -168,13 +177,22 @@ export function ClaimDetail({
   claimId: string;
   readOnly: boolean;
 }) {
+  const params = useSearchParams();
+  const requestedIssue = params.get("issue");
   const resource = useResource<Claim>("/claims/" + claimId);
   const { data: c, error } = resource;
   const [localStep, setStep] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [note, setNote] = useState<string | null>(null);
-  const step = localStep ?? c?.step ?? 0;
+  const step = localStep ?? (requestedIssue ? 2 : (c?.step ?? 0));
+  useEffect(() => {
+    // 챗봇 근거에서 이동한 이슈만 데이터 로드 후 화면 가운데로 보여준다.
+    if (c && requestedIssue)
+      document
+        .getElementById(`issue-${requestedIssue}`)
+        ?.scrollIntoView({ block: "center" });
+  }, [c, requestedIssue]);
   async function move(value: number) {
     setMessage("");
     if (!readOnly) {
@@ -208,12 +226,40 @@ export function ClaimDetail({
     const form = new FormData();
     Array.from(files).forEach((file) => form.append("files", file));
     try {
-      await api("/claims/" + claimId + "/documents", {
-        method: "POST",
-        body: form,
-      });
+      const uploaded = await api<{ job_id: string | null }>(
+        "/claims/" + claimId + "/documents",
+        {
+          method: "POST",
+          body: form,
+        },
+      );
+      // 보완 회신은 자동 재검토가 끝난 뒤 화면을 갱신해 이전 누락 상태가 남지 않게 한다.
+      if (uploaded.job_id) {
+        setMessage("보완 서류를 검토하고 있어요.");
+        let finished = false;
+        for (let attempt = 0; attempt < 120; attempt++) {
+          const status = await api<{ state: string }>(
+            `/claims/${claimId}/process/status?job_id=${uploaded.job_id}`,
+          );
+          if (status.state === "failed")
+            throw new Error("보완 서류 처리 결과를 확인해 주세요.");
+          if (status.state === "done") {
+            finished = true;
+            break;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
+        if (!finished)
+          throw new Error(
+            "검토가 진행 중이에요. 잠시 후 화면을 새로고침해 주세요.",
+          );
+      }
       resource.reload();
-      setMessage("서류를 첨부했어요.");
+      setMessage(
+        uploaded.job_id
+          ? "보완 서류를 접수하고 재검토했어요."
+          : "서류를 첨부했어요.",
+      );
     } catch (e) {
       setMessage((e as Error).message);
     } finally {
@@ -221,7 +267,10 @@ export function ClaimDetail({
     }
   }
   if (!c) return <LoadState error={error} />;
-  const open = c.issues.filter((i) => i.status === "open");
+  const open = c.issues.filter((i) => i.status === "open" && i.kind !== "info");
+  const notices = c.issues.filter(
+    (i) => i.status === "open" && i.kind === "info",
+  );
   return (
     <>
       <PageTitle
@@ -229,6 +278,14 @@ export function ClaimDetail({
         description={`${c.id}  ·  첨부 서류 ${c.submitted_count}개  ·  ${formatDate(c.customer?.birth_date)}`}
       />
       <div className="detail-meta">
+        {c.policy?.contract_date && (
+          <span>계약일 {formatDate(c.policy.contract_date)}</span>
+        )}
+        {c.development_origin && (
+          <span className="development-origin">
+            개발 검증 · {c.development_origin}
+          </span>
+        )}
         <Status status={c.status} />
         <span>{c.policy?.product_name}</span>
         <span>
@@ -421,7 +478,11 @@ export function ClaimDetail({
             </thead>
             <tbody>
               {c.issues
-                .filter((i) => i.kind === "mismatch")
+                .filter(
+                  (i) =>
+                    i.status === "open" &&
+                    ["mismatch", "info"].includes(i.kind),
+                )
                 .map((i) => (
                   <tr key={i.id}>
                     <td>{i.title}</td>
@@ -474,7 +535,7 @@ export function ClaimDetail({
             <h2>남은 확인 사항 {open.length}건</h2>
             <ul className="issue-summary">
               {open.map((i) => (
-                <li key={i.id}>
+                <li key={i.id} id={`issue-${i.id}`}>
                   <strong>{i.title}</strong>
                   <p>{i.detail}</p>
                   <Link
@@ -487,6 +548,12 @@ export function ClaimDetail({
               ))}
             </ul>
             {!open.length && <p className="good">열린 이슈가 없어요.</p>}
+            {notices.map((i) => (
+              <div key={i.id} id={`issue-${i.id}`} className="info-notice">
+                <strong>ⓘ 안내 · {i.title}</strong>
+                <p>{i.detail}</p>
+              </div>
+            ))}
           </section>
           <section className="panel">
             <h2>담당자 메모</h2>

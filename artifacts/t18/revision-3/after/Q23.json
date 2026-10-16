@@ -1,0 +1,291 @@
+{
+  "id": "Q23",
+  "type": "item_coverage",
+  "question": "진단서 발급비도 실손으로 청구돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "article": "제4조",
+      "expected_address": "제4조 ③ 5호"
+    }
+  ],
+  "answer_gist": "각종 증명료는 진료와 무관한 비용으로 보상하지 않음",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "rider2/비급여자기공명영상진단/제4조/4/5"
+    ],
+    "answer": "네, 진단서 발급비는 진료와 무관한 각종 비용(각종 증명료 등)에 들어가서 실손으로 청구되지 않아요. 관련 특약 제4조④ 5호에서 보상하지 않는 비급여로 정해져 있어서, 실손의료비 보장에서는 진단서 발급비 자체는 보상 대상이 아니에요.",
+    "intent": "item_coverage",
+    "citations": [
+      {
+        "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+        "article": "제4조 ④ 5호",
+        "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+        "is_mock": false,
+        "quote": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "rider2/비급여자기공명영상진단/제4조/4/5"
+      ],
+      "answer": "네, 진단서 발급비는 진료와 무관한 각종 비용(각종 증명료 등)에 들어가서 실손으로 청구되지 않아요. 관련 특약 제4조④ 5호에서 보상하지 않는 비급여로 정해져 있어서, 실손의료비 보장에서는 진단서 발급비 자체는 보상 대상이 아니에요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "00_product_summary/2장/row1",
+        "node_id": "00_product_summary/2장/row1",
+        "address": "2장",
+        "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |"
+      },
+      {
+        "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+        "node_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+        "address": "제4조 ④ 5호",
+        "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비"
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/2",
+        "node_id": "std_silson_basic/공통/제7조/2",
+        "address": "제7조 ②",
+        "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>"
+      },
+      {
+        "chunk_id": "rider2/비급여자기공명영상진단/제4조/1/1",
+        "node_id": "rider2/비급여자기공명영상진단/제4조/1/1",
+        "address": "제4조 ① 1호",
+        "chunk_text": "제4조(보상하지 않는 사항)\n① 회사는 다음의 사유로 인하여 생긴 비급여 의료비는 보상하지 않습니다.\n1. 피보험자가 고의로 자신을 해친 경우. 다만, 피보험자가 심신상실 등으로 자유로운 의사결정을 할 수 없는 상태에서 자신을 해친 사실이 증명된 경우에는 제3조(보장종목별 보상내용)에 따라 보상합니다."
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/1/1",
+        "node_id": "std_silson_basic/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n1. 청구서 (회사 양식)"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비",
+      "collection": "policy",
+      "coverage_section": "비급여자기공명영상진단",
+      "paragraph": "④",
+      "item": "5",
+      "node_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+      "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ④ 5호",
+      "authority_level": 1,
+      "governs": [
+        "비급여자기공명영상진단"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+      "embedding_version": "structure-v3",
+      "score": 0.052150537634408606
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제7조/2",
+      "parent_id": "std_silson_basic/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조 ②",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.05230263002378037
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "2장",
+      "title": "2. 공통 사항 (주계약 · 모든 특약)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/2장/row1",
+      "parent_id": "00_product_summary/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/2장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.047669428334714166
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "진단서 발급비도 실손으로 청구돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+          "edition": "2026.08.28",
+          "article": "제4조",
+          "title": "제4조(보상하지 않는 사항)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+          "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n5. 진료와 무관한 각종 비용(TV시청료, 전화료, 각종 증명료 등을 말합니다), 의사의 임상적 소견과 관련이 없는 검사비용, 간병비",
+          "collection": "policy",
+          "coverage_section": "비급여자기공명영상진단",
+          "paragraph": "④",
+          "item": "5",
+          "node_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+          "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+          "is_definition": false,
+          "refs": [
+            "제4조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+          "address": "제4조 ④ 5호",
+          "authority_level": 1,
+          "governs": [
+            "비급여자기공명영상진단"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/5",
+          "embedding_version": "structure-v3",
+          "score": 0.052150537634408606
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제7조",
+          "title": "제7조(보험금의 청구)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "std_silson_basic/공통/제7조/2",
+          "parent_id": "std_silson_basic/공통/제7조",
+          "is_definition": false,
+          "refs": [
+            "제7조",
+            "제3조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제7조 ②",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제7조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.05230263002378037
+        },
+        {
+          "doc_name": "가온 건강플러스보험 상품 개요",
+          "edition": "2026.01 (가상)",
+          "article": "2장",
+          "title": "2. 공통 사항 (주계약 · 모든 특약)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/00_product_summary.md",
+          "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "00_product_summary/2장/row1",
+          "parent_id": "00_product_summary/2장",
+          "is_definition": false,
+          "refs": [
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "2장",
+          "authority_level": 2,
+          "governs": [
+            "가온 건강플러스보험 상품 개요"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "00_product_summary/2장/row1",
+          "embedding_version": "structure-v3",
+          "score": 0.047669428334714166
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": 0.0,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 1,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 진단서 발급비가 진료와 무관한 각종 증명료에 해당하여 실손의료비에서 보상하지 않는다는 answer_gist의 핵심 내용을 정확히 포함하고 있으며, 모순되는 내용도 없습니다. 관련 특약 조항을 근거로 제시한 점도 적절합니다. 개별 지급 확정이나 지급액 계산을 하지 않았으므로 지침에도 부합합니다."
+    }
+  }
+}

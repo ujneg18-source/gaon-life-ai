@@ -12,6 +12,7 @@ from app.models import (
     Document,
     ExtractedField,
     Issue,
+    IssueKind,
     IssueStatus,
     KcdCode,
     Policy,
@@ -41,6 +42,7 @@ def review_input(session, doc):
         ],
         doc.status,
         " ".join(element_text(el) for el in doc.raw_result.get("parse", {}).get("elements", [])),
+        doc.source,
     )
 
     # 확정값을 읽기 전용 입력에도 반영해 필수 서류 집계와 재검사 결과가 같게 한다.
@@ -87,6 +89,7 @@ def detail(session: Session, claim: Claim, config):
                 {
                     **f.model_dump(mode="json"),
                     "doc_type": doc.doc_type,
+                    "provenance": doc.provenance,
                     "source": doc.source,
                     "display_value": f.confirmed_value
                     if f.confirmed_value is not None
@@ -104,6 +107,20 @@ def detail(session: Session, claim: Claim, config):
         **claim.model_dump(mode="json"),
         "customer": customer.model_dump(mode="json") if customer else None,
         "policy": policy.model_dump(mode="json") if policy else None,
+        "development_origin": (
+            "실제 API + mock"
+            if any(d.provenance == "upstage" for d in docs)
+            and any(d.provenance == "mock" for d in docs)
+            else "실제 API"
+            if any(d.provenance == "upstage" for d in docs)
+            else "mock"
+            if any(d.provenance == "mock" for d in docs)
+            else "실손24 모의"
+            if docs and all(d.provenance == "silson24" for d in docs)
+            else "미처리"
+        )
+        if config.SHOW_DEVELOPMENT_BADGES
+        else None,
         "submitted_count": len(docs),
         "required_count": len(report.required),
         "required": report.required,
@@ -112,6 +129,7 @@ def detail(session: Session, claim: Claim, config):
                 "id": d.id,
                 "doc_type": d.doc_type,
                 "source": d.source,
+                "provenance": d.provenance,
                 "status": d.status,
                 "page_size": d.page_size,
             }
@@ -119,5 +137,7 @@ def detail(session: Session, claim: Claim, config):
         ],
         "issues": [i.model_dump(mode="json") for i in issues],
         "fields": fields,
-        "open_issue_count": sum(i.status == IssueStatus.OPEN for i in issues),
+        "open_issue_count": sum(
+            i.status == IssueStatus.OPEN and i.kind != IssueKind.INFO for i in issues
+        ),
     }

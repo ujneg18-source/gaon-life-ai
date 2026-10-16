@@ -1,0 +1,137 @@
+{
+  "id": "Q06",
+  "question": "입퇴원확인서랑 세부내역서 입원 일수가 하루 다르면 문제야?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-02 입원 기간 | 입퇴원확인서와 세부내역서의 입원 일수 비교 | **1일 차이는 산정 방식 차이일 수 있습니다**(질병입원일당특약 제5조). 입원일 · 퇴원일이 같은지 먼저 보고, 2일 이상 차이나 날짜 자체가 다르면 의료기관에 확인합니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row2",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row2",
+      "embedding_version": "structure-v3",
+      "score": 0.06530936012691699
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/2",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.06478053939714437
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n③ 입원일이나 퇴원일이 서로 다르거나, 일수 차이가 2일 이상이면 담당자가 의료기관에 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/3",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06023561844457367
+    }
+  ],
+  "trace": {
+    "question": "입퇴원확인서랑 세부내역서 입원 일수가 하루 다르면 문제야?",
+    "rewritten": "입원일수 불일치 시 입퇴원확인서와 세부내역서 간 차이 검증 및 필수서류 제출 기준, 보험금 지급 검토 규칙",
+    "candidate_ids": [
+      "10_claims_manual/4장/row2",
+      "02_hospitalization_rider/공통/제5조/2",
+      "02_hospitalization_rider/공통/제5조/1",
+      "10_claims_manual/2장/row2",
+      "02_hospitalization_rider/공통/제5조/3",
+      "02_hospitalization_rider/공통/제4조/0/2",
+      "00_product_summary/3장/text1",
+      "03_surgery_rider/공통/제5조/2",
+      "11_supplement_templates/2장/text1",
+      "03_surgery_rider/공통/제5조/1"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/4장/row2",
+      "02_hospitalization_rider/공통/제5조/2",
+      "02_hospitalization_rider/공통/제5조/3",
+      "02_hospitalization_rider/공통/제5조/1",
+      "10_claims_manual/2장/row2",
+      "02_hospitalization_rider/공통/제4조/0/2",
+      "11_supplement_templates/2장/text1",
+      "03_surgery_rider/공통/제5조/2",
+      "03_surgery_rider/공통/제5조/1",
+      "00_product_summary/3장/text1"
+    ]
+  }
+}

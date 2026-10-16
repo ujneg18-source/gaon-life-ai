@@ -1,0 +1,75 @@
+{
+  "id": "Q28",
+  "question": "자동차 사고 과실비율 어떻게 정해?",
+  "before": {
+    "used_chunk_ids": [],
+    "answer": "이 질문은 제가 도와드릴 수 있는 문서 검토 업무 범위 밖이에요. 관련 규정도 찾지 못했어요. 보험 청구 서류나 약관에 관한 질문을 주시면 확인해 드릴게요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "after": {
+    "used_chunk_ids": [],
+    "answer": "이 질문은 제가 도와드릴 수 있는 문서 검토 업무 범위 밖이에요. 관련 규정도 찾지 못했어요. 보험 청구 서류나 약관에 관한 질문을 주시면 확인해 드릴게요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "before_metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정 미확인'과 '업무 범위 밖'을 모두 포함하고 있으며, 모순 없이 일관되게 전달하고 있습니다. 보험 서류 검토라는 역할 범위를 벗어난 질문임을 정중히 안내하고, 관련 서류나 약관 질문을 유도하는 답변으로 요지를 충족합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정 미확인'과 '업무 범위 밖'을 모두 포함하고 있으며, 모순 없이 일관되게 전달하고 있습니다. 보험 서류 검토라는 역할 범위를 벗어난 질문임을 정중히 안내하고, 관련 서류나 약관 질문을 유도하는 답변으로 요지를 충족합니다."
+        }
+      ],
+      "unanimous": true
+    }
+  },
+  "after_metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정 미확인'과 '업무 범위 밖'을 모두 포함하고 있으며, 모순 없이 일관되게 전달하고 있습니다. 보험 서류 검토라는 역할 범위를 벗어난 질문임을 정중히 안내하고, 관련 서류나 약관 질문을 유도하는 답변으로 요지를 충족합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정 미확인'과 '업무 범위 밖'을 모두 포함하고 있으며, 모순 없이 일관되게 전달하고 있습니다. 보험 서류 검토라는 역할 범위를 벗어난 질문임을 정중히 안내하고, 관련 서류나 약관 질문을 유도하는 답변으로 요지를 충족합니다."
+        }
+      ],
+      "unanimous": true
+    }
+  },
+  "patterns": []
+}

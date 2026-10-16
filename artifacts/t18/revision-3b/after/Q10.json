@@ -1,0 +1,307 @@
+{
+  "id": "Q10",
+  "type": "policy_qa",
+  "question": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+  "expected_sources": [
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "2장"
+    },
+    {
+      "doc": "policy/std_silson_basic.txt",
+      "article": "제7조"
+    }
+  ],
+  "answer_gist": "항목 구분이 되는 법정 서식 진료비 계산서 · 영수증이 필요. 납입확인서는 받지 않음",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "std_silson_basic/공통/제7조/1/2",
+      "10_claims_manual/2장/row5"
+    ],
+    "answer": "실손 청구에서는 진료비 납입확인서보다 치료비 항목이 구분돼 보이는 진료비 계산서·영수증(법정 서식 영수증)과 진료비 세부산정내역을 기본적으로 함께 제출해요. 진료비 납입확인서는 업무 기준에서 받지 않는 서류라서 청구 서류로 인정되기 어렵고, 사고증명서는 국내 의료기관에서 발급한 것이어야 해요. 정확한 제출 가능 여부는 해당 특약과 회사의 안내를 확인해 보시는 게 좋고, 담당 심사 쪽에 그대로 내도 되는지 최종 확인하시는 게 안전해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+        "article": "제7조 ① 2호",
+        "source_path": "data/kb/policy/std_silson_basic.txt",
+        "is_mock": false,
+        "quote": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>"
+      },
+      {
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "2장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "is_mock": true,
+        "quote": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "std_silson_basic/공통/제7조/1/2",
+        "10_claims_manual/2장/row5"
+      ],
+      "answer": "실손 청구에서는 진료비 납입확인서보다 치료비 항목이 구분돼 보이는 진료비 계산서·영수증(법정 서식 영수증)과 진료비 세부산정내역을 기본적으로 함께 제출해요. 진료비 납입확인서는 업무 기준에서 받지 않는 서류라서 청구 서류로 인정되기 어렵고, 사고증명서는 국내 의료기관에서 발급한 것이어야 해요. 정확한 제출 가능 여부는 해당 특약과 회사의 안내를 확인해 보시는 게 좋고, 담당 심사 쪽에 그대로 내도 되는지 최종 확인하시는 게 안전해요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제2조/1",
+        "node_id": "02_hospitalization_rider/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① **입원**: 의사가 피보험자의 질병 치료가 필요하다고 인정한 경우로서, 자택 등에서 치료가 곤란하여 의료법에 따른 병원 · 의원 또는 이와 같다고 인정되는 의료기관에 들어가 의사의 관리를 받으며 치료에 전념하는 것을 말합니다."
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/1/2",
+        "node_id": "std_silson_basic/공통/제7조/1/2",
+        "address": "제7조 ① 2호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>"
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/2",
+        "node_id": "std_silson_basic/공통/제7조/2",
+        "address": "제7조 ②",
+        "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>"
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/1/1",
+        "node_id": "std_silson_basic/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n1. 청구서 (회사 양식)"
+      },
+      {
+        "chunk_id": "10_claims_manual/2장/row5",
+        "node_id": "10_claims_manual/2장/row5",
+        "address": "2장",
+        "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row5",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.08784029613960868
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_silson_basic/공통/제7조/1/2",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.061040959252971136
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제7조/2",
+      "parent_id": "std_silson_basic/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조 ②",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.029437229437229435
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 보상 업무 매뉴얼",
+          "edition": "2026.10 (가상)",
+          "article": "2장",
+          "title": "2. 청구 유형별 필수 서류",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/10_claims_manual.md",
+          "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+          "collection": "manual",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "10_claims_manual/2장/row5",
+          "parent_id": "10_claims_manual/2장",
+          "is_definition": false,
+          "refs": [
+            "제7조"
+          ],
+          "defined_terms": [
+            "입원"
+          ],
+          "paragraph_head": "",
+          "address": "2장",
+          "authority_level": 4,
+          "governs": [
+            "가온생명 보상 업무 매뉴얼"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "10_claims_manual/2장/row5",
+          "embedding_version": "structure-v3",
+          "score": 0.08784029613960868
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제7조",
+          "title": "제7조(보험금의 청구)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "2",
+          "node_id": "std_silson_basic/공통/제7조/1/2",
+          "parent_id": "std_silson_basic/공통/제7조/1",
+          "is_definition": false,
+          "refs": [
+            "제7조"
+          ],
+          "defined_terms": [
+            "치료",
+            "입원"
+          ],
+          "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+          "address": "제7조 ① 2호",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제7조/1/2",
+          "embedding_version": "structure-v3",
+          "score": 0.061040959252971136
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제7조",
+          "title": "제7조(보험금의 청구)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "",
+          "node_id": "std_silson_basic/공통/제7조/2",
+          "parent_id": "std_silson_basic/공통/제7조",
+          "is_definition": false,
+          "refs": [
+            "제7조",
+            "제3조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제7조 ②",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제7조/2",
+          "embedding_version": "structure-v3",
+          "score": 0.029437229437229435
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 2,
+    "citation_total": 2,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 '항목 구분 가능한 법정 서식 진료비 계산서·영수증 필요'과 '진료비 납입확인서는 받지 않음'을 모두 포함하고 있으며, 납입확인서로는 인정받기 어렵다는 점을 명확히 전달했다. 개별 지급 확정이나 지급액을 계산하거나 단정하는 내용도 없다. 다만 심사 확인 전에 지급 가능 여부를 심리적으로 암시할 수 있는 표현은 없고, 최종 확인은 정식 심사 안내를 통해 하라는 안내로 마무리되어 불필요한 지급 확약도 없으므로 정답 요지를 충족한다."
+    }
+  }
+}

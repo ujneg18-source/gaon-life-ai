@@ -1,0 +1,94 @@
+{
+  "id": "Q16",
+  "type": "claim_check",
+  "question": "김서연 고객 청구 확인해줘",
+  "expected_sources": [],
+  "answer_gist": "동명이인 2명 → 생년월일 · 청구번호 목록을 보여주고 선택 요청 (needs_choice)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "같은 이름의 청구가 여러 건이라서 청구번호를 하나 골라 주셔야 해요. 김서연 님 이름으로 GA-2610-0449, GA-2610-0444, GA-2610-0418 이렇게 세 건이 보이는데, 생년월일이 1987년 4월 12일인 건과 1988년 8월 26일인 건이 섞여 있어요. 그래서 어떤 청구인지 정확히 구분하려면 청구번호를 선택해 주셔야 해요. 지금 바로 처리할 청구번호를 알려 주시면 그 건으로 이어서 확인해 드릴게요.",
+    "intent": "claim_check",
+    "citations": [],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0449",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0444",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0418",
+        "issue_id": null
+      }
+    ],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 동명이인 2명 이상 존재, 생년월일(1987-04-12, 1988-08-26) 및 청구번호(GA-2610-0449, GA-2610-0444, GA-2610-0418) 목록 제시, 청구번호 선택 요청이라는 answer_gist의 핵심 사실과 행동을 모두 포함하고 있으며 모순이 없다. / answer_gist의 핵심 사실(동명이인 2명 존재, 생년월일 및 청구번호 목록 제시, 선택을 요청)과 필요한 행동(청구번호 선택 요청)을 모두 포함하고 있으며, 모순되는 내용이 없으므로 기준을 충족합니다. / 답변은 동명이인 2명 이상(실제 3건 제시)이 존재함을 알리고, 생년월일(1987년 4월 12일, 1988년 8월 26일)과 청구번호(GA-2610-0449, GA-2610-0444, GA-2610-0418) 목록을 구체적으로 제시한 뒤, 정확한 구분을 위해 청구번호 선택을 요청하고 있어 answer_gist의 핵심 사실 및 요청 행동을 모두 충족하며 모순이 없습니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 동명이인 2명 이상 존재, 생년월일(1987-04-12, 1988-08-26) 및 청구번호(GA-2610-0449, GA-2610-0444, GA-2610-0418) 목록 제시, 청구번호 선택 요청이라는 answer_gist의 핵심 사실과 행동을 모두 포함하고 있으며 모순이 없다."
+        },
+        {
+          "score": 1,
+          "reason": "answer_gist의 핵심 사실(동명이인 2명 존재, 생년월일 및 청구번호 목록 제시, 선택을 요청)과 필요한 행동(청구번호 선택 요청)을 모두 포함하고 있으며, 모순되는 내용이 없으므로 기준을 충족합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 동명이인 2명 이상(실제 3건 제시)이 존재함을 알리고, 생년월일(1987년 4월 12일, 1988년 8월 26일)과 청구번호(GA-2610-0449, GA-2610-0444, GA-2610-0418) 목록을 구체적으로 제시한 뒤, 정확한 구분을 위해 청구번호 선택을 요청하고 있어 answer_gist의 핵심 사실 및 요청 행동을 모두 충족하며 모순이 없습니다."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 5,
+      "naturalness": 5,
+      "no_internal_terms": 5,
+      "conclusion_first": 5,
+      "reason": "자연스러움: 옆자리 선배가 설명하는 듯한 해요체로 완결된 4문장이며, 이유(동일 이름 다수 청구, 생년월일 혼재)와 다음 행동(청구번호 제공 요청)이 자연스럽게 이어짐. 내부 용어 없음: 청구번호는 고객 문의 맥락에서 자연스럽게 사용된 식별자로 내부 코드나 snake_case, 정규화 용어 없이 일상어로만 설명됨. 결론 먼저: 첫 문장에서 '청구번호를 하나 골라 주셔야 해요'라고 질문의 결론과 필요한 조치를 먼저 제시하고, 이후 이유와 다음 행동을 연결함."
+    },
+    "tone_violations": []
+  },
+  "tone_trace": {
+    "before": "같은 이름의 청구가 여러 건이에요. 청구번호를 선택해 주세요.\nGA-2610-0449 · 김서연 · 생년월일 1987-04-12\nGA-2610-0444 · 김서연 · 생년월일 1988-08-26\nGA-2610-0418 · 김서연 · 생년월일 1987-04-12",
+    "initial_violations": [
+      "middle_dot_list"
+    ],
+    "attempts": [
+      {
+        "answer": "같은 이름의 청구가 여러 건이라서 청구번호를 하나 골라 주셔야 해요. 김서연 님 이름으로 GA-2610-0449, GA-2610-0444, GA-2610-0418 이렇게 세 건이 보이는데, 생년월일이 1987년 4월 12일인 건과 1988년 8월 26일인 건이 섞여 있어요. 그래서 어떤 청구인지 정확히 구분하려면 청구번호를 선택해 주셔야 해요. 지금 바로 처리할 청구번호를 알려 주시면 그 건으로 이어서 확인해 드릴게요.",
+        "violations": [],
+        "fact_guard_pass": true
+      }
+    ],
+    "remaining_violations": []
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "id": "Q05",
+  "question": "입원 일수는 어떻게 세?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n② **입원일수**: 입원한 날부터 퇴원한 날까지, **입원일과 퇴원일을 모두 포함한** 날수를 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제2조/2",
+      "parent_id": "02_hospitalization_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제2조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제2조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.06748363835583986
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n① 입원일수는 입퇴원확인서의 입원일 · 퇴원일로 계산합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/1",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.07154944473823376
+    },
+    {
+      "doc_name": "가온생명 질병입원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(입원일수 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/02_hospitalization_rider.md",
+      "chunk_text": "제5조(입원일수 확인 기준)\n② 진료비 세부내역서의 입원료 산정 일수는 퇴원일을 빼고 계산하는 경우가 많아, 입퇴원확인서보다 **1일 적게** 나올 수 있습니다. 이 차이만으로는 서류 불일치로 보지 않고, 입원일 · 퇴원일 자체가 서로 맞는지 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "02_hospitalization_rider/공통/제5조/2",
+      "parent_id": "02_hospitalization_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "입원",
+        "입원일수"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병입원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "02_hospitalization_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.07042253982943433
+    }
+  ],
+  "trace": {
+    "question": "입원 일수는 어떻게 세?",
+    "rewritten": "입원 일수 계산 기준",
+    "candidate_ids": [
+      "02_hospitalization_rider/공통/제5조/1",
+      "02_hospitalization_rider/공통/제5조/3",
+      "02_hospitalization_rider/공통/제5조/2",
+      "10_claims_manual/4장/row2",
+      "02_hospitalization_rider/공통/제2조/2",
+      "02_hospitalization_rider/공통/제3조/0",
+      "rider2/공통/제5조/4",
+      "rider2/상해비급여/제3조/1",
+      "rider2/질병비급여/제3조/1",
+      "rider2/비급여자기공명영상진단/제3조/4"
+    ],
+    "ranked_ids": [
+      "02_hospitalization_rider/공통/제2조/2",
+      "02_hospitalization_rider/공통/제5조/1",
+      "02_hospitalization_rider/공통/제5조/2",
+      "02_hospitalization_rider/공통/제5조/3",
+      "10_claims_manual/4장/row2",
+      "02_hospitalization_rider/공통/제3조/0",
+      "rider2/상해비급여/제3조/1",
+      "rider2/질병비급여/제3조/1",
+      "rider2/비급여자기공명영상진단/제3조/4",
+      "rider2/공통/제5조/4"
+    ]
+  }
+}

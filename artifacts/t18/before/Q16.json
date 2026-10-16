@@ -1,0 +1,80 @@
+{
+  "id": "Q16",
+  "type": "claim_check",
+  "question": "김서연 고객 청구 확인해줘",
+  "expected_sources": [],
+  "answer_gist": "동명이인 2명 → 생년월일 · 청구번호 목록을 보여주고 선택 요청 (needs_choice)",
+  "dataset_sha256": "591d21d8a20f3cf54f2ac7f2db7c698e51a057ad0c414187456c345f10e31de7",
+  "response": {
+    "answer": "같은 이름의 청구가 여러 건이에요. 청구번호를 선택해 주세요.\nGA-2610-0449 · 김서연 · 생년월일 1987-04-12\nGA-2610-0444 · 김서연 · 생년월일 1988-08-26\nGA-2610-0418 · 김서연 · 생년월일 1987-04-12",
+    "intent": "claim_check",
+    "citations": [],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0449",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0444",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0418",
+        "issue_id": null
+      }
+    ],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "3장",
+      "title": "3. 문자(SMS) 짧은 문구",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "## 3. 문자(SMS) 짧은 문구\n[가온생명] {고객명} 고객님, 보험금 청구에 {서류명}이(가) 필요합니다. {발급처}에서 발급받아 앱 [서류 추가 제출]로 올려 주세요.",
+      "collection": "manual",
+      "score": 0.5022540028002572
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차) ① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>\n\n⑤ 계약자, 피보험자 또는 보험수익자는 제14조(알릴 의무 위반의 효과) 및 제2항의 보험금 지급사유조사와 관련하여 의료기관 및 국민건강보험공단, 경찰서 등 관공서에 대한 회사의 서면에 의한 조사요청에 동의하여야 합니다. 다만 정당한 사유없이 이에 동의하지 않을 경우에는 사실확인이 끝날 때까지 회사는 보험금 지급지연에 따른 이자를 지급하지 않습니다. <개정 2014.12.26., 2015.11.30., 2021.7.1.>\n",
+      "collection": "policy",
+      "score": 0.49122930593254566
+    },
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 작성 원칙",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "## 1. 작성 원칙\n1. 첫 줄에 회사 이름과 고객 이름을 씁니다: `[가온생명] {고객명} 고객님,`\n2. 무엇이 빠졌는지 서류 이름으로 정확히 씁니다. 내부 용어(CV-04, 누락 이슈 등)는 쓰지 않습니다.\n3. **발급처**와 **제출 방법**을 꼭 씁니다.\n4. 지급 여부나 금액을 말하지 않습니다. \"제출해 주시면 심사를 이어서 진행하겠습니다\"로 맺습니다.\n5. 알림톡은 5줄 이내, 문자는 3줄 이내로 씁니다.",
+      "collection": "manual",
+      "score": 0.48903687163115683
+    }
+  ],
+  "search_trace": [],
+  "error": null,
+  "metrics": {
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "동명이인 2명(김서연) 존재하여 생년월일과 청구번호 목록을 제시하며 선택을 요청하는 needs_choice 요지를 정확히 반영했습니다. 핵심 사실과 요청 행동을 모두 포함했고 모순도 없습니다."
+    }
+  }
+}

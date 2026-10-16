@@ -100,4 +100,37 @@ npm run start
 .venv/bin/python -m pytest -m live tests/test_live_engine.py -q
 ```
 
-이번 묶음의 API 입력 페이지 예약 합계는 12/30이다. `data/cache/_budget.json`과 `.pending`은 중복 과금 방지 상태이므로 임의로 지우지 않는다. 결과는 `data/evaluations/<입력폴더>/<내용지문>/`에 보관한다.
+T-11 당시 API 입력 페이지 예약은 12/30이었고, T-06 신규 실측 후 현재 합계는 21/30이다. `data/cache/_budget.json`과 `.pending`은 중복 과금 방지 상태이므로 임의로 지우지 않는다. 결과는 `data/evaluations/<입력폴더>/<내용지문>/`에 보관한다.
+
+## 챗봇·지식 인덱스 명령 (T-15~17)
+backend/에서 실행한다. 실제 회사 약관 data/kb/reference/는 커밋·인덱싱 금지. HWP Parse 없음.
+```bash
+uv run python -m app.scripts.build_index
+# 원문 변경 후 로컬 Qdrant 서버를 종료한 상태에서 컬렉션을 다시 만들 때만:
+uv run python -m app.scripts.build_index --rebuild
+# 실제 Solar 호출 검증 (일반 pytest와 분리):
+uv run python -m app.scripts.chat_smoke
+```
+일반 pytest는 LLM/임베딩 mock이며 실제 HTTP를 금지한다. 로컬 Qdrant는 프로세스 하나만 열 수 있다. 실제 챗봇 검증에는 USE_CACHED_RESULTS=false와 설정된 키가 필요하다. 대화 기록은 메모리만 사용하며 실제 smoke 평가 원문은 명시적 산출물 artifacts/t16/에 저장한다.
+
+## 고객별 시연 데이터 (T-05~06)
+고객/계약/청구는 data/samples/customers.json만 수정한다. data/seed/demo.json은 규칙 전용이다.
+```bash
+cd backend
+uv run python -m scripts.samples.gen_claim --customer all
+uv run python -m verify_samples --folder data/samples/lee_gaon
+uv run python -m verify_samples --folder data/samples/han_nuri --cached
+uv run python -m scripts.seed --demo
+# 사진이 있는 앱 서류만 교체:
+uv run python -m scripts.seed --demo --use-photo
+```
+공통 생성기 PNG 재렌더링에는 `uv run playwright install chromium`이 필요하다. 기존 파일 해시가 맞으면 재캡처하지 않는다. 이번 신규 실제 호출은 C002/C006에만 수행했고 김유정은 캐시 재생했다. 기본 verify는 정답 기반 mock이며 OCR 정확도 실측으로 보고하면 안 된다. --live는 실제 호출, --cached는 네트워크 금지다. SHOW_DEVELOPMENT_BADGES=false면 화면 개발 표시는 숨기되 DB provenance는 보존한다.
+
+## T-18 평가
+backend/에서 `uv run python -m app.scripts.eval_chat --out artifacts/t18/` 실행. 수정 후 `--phase after`로 별도 저장한다. 동일 phase의 질문별 체크포인트를 재사용하며 정답 해시가 바뀌면 새 결과 폴더가 필요하다. 이번 세션에서 가상 질문/고객·청구/서류 맥락/공개·가상 약관의 Upstage 전송을 사용자가 명시 승인해 실측을 마쳤다. Q08/Q18 source 라벨 수정으로 정답 해시가 바뀌었으므로 다음 실행은 `--out artifacts/t18/revision-2`처럼 새 폴더를 쓴다. `uv run python -m app.scripts.eval_extract`는 기존 캐시만 재생한다. 실제 API65항목과 전자 mock 포함190항목을 구분한다.
+
+## T-18b 구조 인덱스·평가 재현
+- `uv run python -m app.scripts.chunk_report`는 네트워크 없이 문서별 조각 수/길이를 `artifacts/t18/chunk_report.md`에 기록한다.
+- `uv run python -m app.scripts.eval_retrieval`는 청킹-only(legacy 점수 고정), dense 참고, hybrid 검색 ablation이다. 결과 경로를 재사용하면 기존 문항 체크포인트를 읽으므로 다른 코드 버전 평가 시 이전 ablation 폴더를 보존하고 새 폴더를 쓴다.
+- `uv run python -m app.scripts.eval_chat --out artifacts/t18/<새실험명> --phase after`로 새 라운드를 만든다. 정답은 CHANGELOG의 근거 있는 오류만 고친다. used_chunk_ids의 실제 조각에서 인용을 만들며 조/호 단위 점수를 함께 남긴다.
+- `uv run python -m app.scripts.chat_smoke --out artifacts/t18/<새시연명>`은 DB·인덱스 스냅샷에서 필수4문항을 실행한다. 인덱스 재생성은 로컬 Qdrant 소유 프로세스를 종료한 뒤 한 프로세스에서 수행한다.

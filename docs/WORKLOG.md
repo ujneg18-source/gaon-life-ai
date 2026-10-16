@@ -1,8 +1,110 @@
+## 2026-10-16 · T-18 · 답변 본문 목록을 실제 글머리표로 표시
+- 관련 요구사항: FR-28~35
+- 한 일: 답변 표시에서 연속된 `- ` 줄을 ul/li로 묶고 disc 글머리표를 적용했다. 일반 문단·번호 제목·조항 강조와 API 원문은 그대로 보존했다.
+- 바뀐 파일: frontend/components/chat-screen.tsx, frontend/app/globals.css, docs/{WORKLOG,06_eval_plan}.md, artifacts/t18/ui-bullets/
+- 확인 방법: 프론트 lint/type/포맷·next build --webpack 통과. CUA Playwright로 지급 거절 답변의 UL/LI3개와 list-style-type=disc 확인, bullet_list.jpg 캡처. 외부 Upstage 추가 호출0회.
+- 남은 문제 · 질문: 없음.
+
+## 2026-10-16 · T-18 · 시연 근거 패널·이슈 링크·거절 목록 마무리
+- 관련 요구사항: FR-28~35, NFR-08
+- 한 일: 본문 인용 순서의 display_citations와 실제 언급 이슈만 담는 display_claim_refs를 별도 조립했다. 평가용 citations/claim_refs/KB는 보존하며 패널은 원문, 답변 카드는 문서명과 조항 요약만 표시한다. 매뉴얼 표는 머리글:값 줄, 내부 규칙 코드는 담당자용 이름으로 화면에서만 바꾼다.
+  청구 맥락의 지급 거절은 남은 항목 목록과 필수 이관 안내로 고정했다. 실제 원문 서류명, 중복 괄호 제거, 조항 표기 통일과 보장종목 구분을 반영했다. 보라색 질문 바로가기 막대를 제거했다. 사용자 추가 지시에 따라 demo_reset/초기화 버튼은 만들지 않고 새로고침/재로그인 초기화만 검증했다.
+- 바뀐 파일: backend/app/agent/{display,graph,claim_answer}.py, backend/app/{config.py,schemas/chat.py}, backend/tests/test_chat.py, frontend/components/chat-screen.tsx, frontend/app/globals.css, docs/{06_eval_plan,implementation_objects,WORKLOG}.md, TODO.md, artifacts/t18/ui-final/
+- 확인 방법: pytest119 passed/live1 제외, Ruff/포맷, 프론트 lint/type/format, next build --webpack 통과. CUA Playwright 시연4질문/첫 질문 최종 근거 재확인, 이슈6 상세 이동, 새로고침/재로그인 빈 목록 확인. 캡처6장은 artifacts/t18/ui-final/. 외부 Upstage 호출0, 응답 캐시9회, 추가 추정$0.
+- 남은 문제 · 질문: 없음(요청 범위). demo_reset은 다음 P4에서 구현 예정. 기존 DB의 옛 이슈 근거는 수정하지 않고 현재 KB와 본문의 명확한 보장종목으로 화면만 연결한다. 평가/홀드아웃은 재실행하지 않았으며 새 성능 수치를 주장하지 않는다. 진단서 C18과 비교되는 C18.7의 실제 원문 출처는 입퇴원확인서다.
+
+## 2026-10-16 · T-18 · 시연 답변 형식과 문단 표시 마무리
+- 관련 요구사항: FR-28~35, NFR-08
+- 한 일: 청구 검토 합쇼체·실데이터 기반 결론/누락/번호 항목/제안, 코드 원인 병합과 우선순위, 안내 명시를 구현했다. 다른 의도는 기본 용어를 살리고 내부 용어·문장 중간의 명사형 종결을 검사한다. 지급/개인정보 거절은 직접 근거1개와 대안/남은 항목을 제시한다. 기본 비활성의 가상 평가 응답 캐시와 호출/토큰 장부를 추가했다. React 안전한 문단·굵은 제목·연한 근거를 적용했다.
+- 바뀐 파일: backend/app/agent/{claim_answer,graph,tone,solar}.py, config.py, scripts/{eval_presentation,report_solar_usage}.py, tests/{test_chat,test_tone}.py, .env.example, frontend/components/chat-screen.tsx, frontend/app/globals.css, artifacts/t18/presentation/와시연PNG/원문, docs/{06_eval_plan,decisions,implementation_objects,WORKLOG}.md, docs/deliverables/테스트결과보고서.md, TODO.md
+- 확인 방법: pytest113 passed/live1 제외·Ruff/포맷·프론트 lint/type·Webpack 빌드 통과. 관련21문항 동일 rubric 각1회: 거절100/요지100 유지, 잔존 패턴0/21. CUA Playwright로 시연4개 실제실행·4장+하단/초안 추가 캡처, DOM8문단/제목5개/10px/근거 색 확인. HTTP48(성공47·중단1), 로컬 캐시18, 정가 추정$0.011188. 추가 문서API0페이지. 홀드아웃 미사용.
+- 남은 문제 · 질문: 엄격 인용86.36→81.82%로 무하락 목표는 미달이다. 새 매뉴얼9장 필수 인용과 Q29 빈 정답의 충돌, 지급 근거2→1개 제한 영향을 그대로 공개했다. Q08/Q26은 기존 실행의 생성 변동을 기록만 했다. 요지 단회는 비용 절약 선택이며 과거3회 점수와 혼동하지 않는다. 중단1회 비용은 평균 추정, 실제 콘솔 차감액 미확인. 긴 답변은 화면 스크롤이 필요하며 하단 추가 캡처를 남겼다.
+
+## 2026-10-16 · T-18 · 자연스러운 해요체와 말투 회귀 검증
+- 관련 요구사항: FR-28~35, NFR-08
+- 한 일: 사실/근거 확정 뒤 본문만 문장화하는 tone 노드, 독립 예시3쌍, 패턴 검사/1회 재생성/잔존 유형 로그를 추가했다. 숫자 소실·새 지급 확정은 되돌리고 인용·의도·거절·버튼은 보존한다. Solar1~5점 문체 평가와 개발30/시연4의 전후 원문, 같은 실행 초안의 대응 채점도 보존했다. 정답/요지 rubric/검색/안전 가드는 변경하지 않았고 홀드아웃은 재실행하지 않았다.
+- 바뀐 파일: backend/app/agent/{graph,tone}.py, scripts/{eval_chat,eval_tone,eval_tone_pair,tone_grade,chat_smoke}.py, tests/{test_chat,test_tone}.py, data/eval/CHANGELOG.md, docs/{implementation_objects,decisions,06_eval_plan,WORKLOG}.md, docs/deliverables/테스트결과보고서.md, TODO.md, artifacts/t18/tone_before_after.md와runs/2026-10-16/tone/
+- 확인 방법: pytest108 passed/live1 제외·Ruff/포맷 통과. 최종 개발30: 의도100/엄격 인용89.47/거절100/요지100%, 금지표현0/호출오류0. 이전 답변 말투3.87→4.07/5, 같은 실행 초안3.90→4.07·패턴60→80%·요지96.67→100·인용/거절 동일. 시연12검사 통과. 백엔드 재시작/health ok.
+- 남은 문제 · 질문: 이전 별도 실행 엄격 인용92.11→89.47%로 무하락 목표는 미달이다. 같은 실행에서는 인용을 바꾸지 않으며 Q08 인용 수 감소/Q26 정의 조문 추가를 분리 공개했다. 문체 패턴6/30과 시연P1의7문장 잔존은1회 재생성 후 로그만 남겼다. 자연어 의미 보존은 수치 가드만으로 증명할 수 없고 Solar 점수도 변동하므로 완전한 품질 보장을 주장하지 않는다.
+
+## 2026-10-16 · T-18 · 홀드아웃1회·회귀 감사·ADR 최종 결과
+- 관련 요구사항: FR-28~35, NFR-08, T-18c
+- 한 일: 동결8da75c9 이후 홀드아웃16문항을1회 실행하고 답변당3회 채점 다수결을 기록했다. 원점수·실패 원문·10%p 격차를 보존했고 홀드아웃 결과로 코드/rubric/정답/허용 근거를 바꾸지 않았다. 호 인용 계산기의 doc_name 단위 분모 문제는 재호출 없는 별도 감사로 공개했다. H01은 이 집계 범위 문제만 있고 기본 지표를 통과한다.
+  ADR-01에 실제 옛 조각 실패, 계층/준용/하이브리드 결정과2×2·개발/홀드아웃·한계를 남겼다. T18b 보고서를 별도 보존하고 최종 보고서와 평가 계획을 추가 갱신했다.
+- 바뀐 파일: artifacts/t18/holdout/, artifacts/t18/runs/2026-10-16/t18c/{holdout,holdout_failures,dev_holdout_comparison,fine_scope_audit,freeze_audit}, docs/{decisions,06_eval_plan,WORKLOG}.md, docs/deliverables/테스트결과보고서*.md, TODO.md
+- 확인 방법: 개발100/93.75/92.11/100/96.67%, 홀드아웃93.75/75/78.95/100/87.50%(의도/recall/엄격 인용/거절/요지). 런타임·정답 해시 불변, completed 1회. pytest94 passed/live1 제외·Ruff/포맷·프론트 lint/type/format, next build --webpack 성공. 필수4+영양제5답변/실제 카드 표시 확인.
+- 남은 문제 · 질문: 홀드아웃 검색·엄격 인용 격차는 과적합 가능성이다. H08 고객명 정규식 오인, H15/H16 거절 근거/세부 설명 누락을 수정하지 않고 공개했다. 호 인용 원점수72.73%와 주소 범위 검산8/8을 병기하며 주 지표78.95%는 그대로다. 실제 약관/큰 독립 평가·사람 채점과 새 홀드아웃이 필요하다. seed의 서버 적용 보장은 미확인. File Search 선택 비교 미실행.
+
+## 2026-10-16 · T-18 · 통제 평가·채점 보정과 홀드아웃 전 동결
+- 관련 요구사항: FR-28~35, NFR-08, T-18c
+- 한 일: 사용자 홀드아웃16문항을 먼저1f55549로 커밋했다. 구/신 rubric 원문과 제한적 acceptable_sources의 문항별 근거를 CHANGELOG에 보존했고 엄격 기준은 유지했다. 기존30답변을 같은 모델/요청 seed/설정으로 구·신 rubric 각각3회 재채점, 1→0 네 문항의 두 답변/컨텍스트/판정 사유를 분석했다.
+  청구 조회는 DB+실행 규칙 근거로 고정하고 일반 RAG를 제거했다. Q24 후속 행동 누락, Q26 항 중복 제거/단서 소실 및 발급비 서류명 오부스트를 개발 셋에서 보완했다. 옛 kb.py의 별도492조각 컬렉션과 현재1005조각을 복제 인덱스에서2×2 평가했다. 카드 출처 종류/보장종목·호 주소도 표시했다.
+- 바뀐 파일: backend/app/agent, schemas/chat.py, services/coverage.py, scripts/eval_chat.py·eval_protocol.py·regrade_t18c.py, config.py, tests, frontend/components/chat-screen.tsx, data/eval, .env.example, artifacts/t18/runs/2026-10-16/t18c
+- 확인 방법: pytest94 passed/live1 deselected, Ruff·포맷·프론트 lint/type/format 통과. next build --webpack 성공. 개발30문항 의도100/recall(a,b)93.75/엄격 인용92.11/거절100/요지96.67%, 호 recall/인용100/100(4문항). 필수4+영양제 질문 검증 통과. 모든 새 실행의 모델/요청 seed42/온도0 동일; 공식 API의 seed 적용 보장은 미확인이라 완전 결정성을 주장하지 않는다.
+- 남은 문제 · 질문: freeze_before_holdout.json으로 코드/정답 해시를 고정했다. 홀드아웃은 다음 단계에서1회만 실행하며 그 결과로 코드·rubric·허용 근거를 변경하지 않는다. 과거 무seed 점수와 통제 재채점 차이를 알고리즘 효과로 혼동하지 않는다.
+
+## 2026-10-16 · T-18 · 챗봇 품질 개선 2라운드
+- 관련 요구사항: FR-30~35, T-15~18
+- 한 일: 코드 수정 전에 실패24개를 검색/의도/생성/인용/도구/정답/채점으로 분류했다. 구조 트리·부모 JSON·정의/참조·규범 위계·준용, RRF/BM25/재작성/재정렬, 사용 ID 최대2개 인용을 구현했다.
+  지급 결정 선행 가드, 정상 조회 오거절 방지, Pydantic 도구 최대1회 재시도와 비밀값 없는 오류 로그, 진단명 원문 대조를 보완했다. Q20 및 원본에 있는 병리 한국어 병기 정답 오류는 CHANGELOG에 남기고 모든 이전 실행/실패를 보존했다.
+- 바뀐 파일: backend/app/agent/{kb,rag,graph,guardrails,tools,solar}.py, app/config.py, schemas/chat.py, services/{coverage,normalize,source_evidence}.py, scripts/{eval_chat,eval_retrieval,legacy_search,chunk_report,eval_extract,chat_smoke}.py, tests, .env.example, data/eval, 김유정 병리 정답/manifest, artifacts/t18, docs/06_eval_plan.md, deliverables/테스트결과보고서.md, implementation_objects.md, decisions.md, AGENTS.md, TODO.md
+- 확인 방법: pytest89 passed/live1 deselected·Ruff/포맷 통과. 실제 최종30문항: 의도100%, recall@3 89.58%, 인용75%, 거절100%, 요지83.33%; 금지표현0/호출오류0. 별도 동일 인덱스 ablation 청킹-only60.42/dense62.50/hybrid91.67%. 호 단위 recall/인용75/75 (4문항). 필수4질문 및 준용 인용 실측 통과. 추출 캐시64/65, 정밀도/재현율100/100이나 원본 정답 수정 효과로 구분. 프론트 lint/typecheck/format 통과.
+- 남은 문제 · 질문: 최종 미달14문항 원문/채점/사람 검토를 remaining_failures.md에 남겼다. 중간 요지93.33%보다 최종83.33%가 낮아졌으며 최고값을 최종으로 고르지 않았다. 프론트 배포 빌드는 Turbopack CSS 워커 소켓 EPERM으로 미확인. 계약별 보장종목/법률 충돌 쌍 holdout/독립 사람 평가가 필요하다. 일반적인 충돌 자동 판정기는 구현하지 않았다.
+
 # 작업 기록
 
 새 기록은 맨 위에 추가한다. 형식은 `AGENTS.md`의 "작업 기록" 참고.
 
 ---
+
+## 2026-10-16 · T-18 · 챗봇30문항 전후 평가와 캐시 추출 검수 평가
+- 관련 요구사항: NFR-08, FR-28~35
+- 한 일: 평가기·고정 rubric·정답 해시·스냅샷·문항별 체크포인트·검색 trace/오류 기록을 추가했다. 명시 전송 승인 후 동일30문항 before/after_v1/after를 모두 보존하고 검색/의도/생성/정답4범주 실패 원문을 정리했다. 일반 질문 분기·권한 내 배정 집계·전체 품목 대조·거절 문구·인용 검증·검색 보강/중복 제거·짧은 특약 문맥을 보완했다. 실제 API65항목과 전자 mock 포함190항목을 분리했다. Q08/Q18 source 라벨만 수정한 재채점을 별도로 남겼다.
+- 바뀐 파일: app/scripts/{eval_chat,eval_extract}.py, agent/{graph,rag,solar,tools}.py, config.py, tests/{test_eval,test_chat,test_rag}.py, .env.example, frontend/components/chat-screen.tsx, data/eval/chat_questions.json, artifacts/t18/, docs/06_eval_plan.md, docs/deliverables/테스트결과보고서.md, docs/decisions.md, docs/implementation_objects.md, TODO.md, AGENTS.md
+- 확인 방법: pytest71 passed/live1 제외·Ruff/포맷·프론트 lint/type/format 통과. 원본 정답 intent63.33→86.67%, recall60.42→66.67%, 인용33.33→45%, 거절90→86.67%, Solar 요지26.67→53.33%. 중간 요지73.33%에서 퇴행도 그대로 기록. 실제 PNG7장63/65·검수TP1/FP0/FN1/TN63, 추가 추출 호출0. 후속3문항과 Q22진단1문항은 전체점수에 섞지 않았다.
+- 남은 문제 · 질문: Q04 의미상 오안내를 Solar가 통과시킨 채점 한계, Q10 운영기준 충돌, Q22 간헐적 도구 오류, Q27/28 채점 오판 후보를 보고서에 명시했다. 자동 금지표현0건을 안전성 보장으로 해석하지 않는다. File Search 미실행. 배포빌드는 Turbopack 보조 포트 권한 오류/대체 Webpack 정체로 성공 미확인, 임시 설정 원복. 기존 실행 서버 검토함13건 정상 응답을 브라우저에서 확인했다.
+
+## 2026-10-16 · T-06 · 고객 10명 시연 세트와 출처 검증
+- 관련 요구사항: FR-05, FR-06, FR-14, FR-15
+- 한 일: customers.json 단일 원본·공통 HTML/PNG/정답 생성기·10고객/13청구/29서류 시드·폴더별 검증 CLI를 구현했다. 상태를 엔진에서 계산하고 C73/90일 안내·코드 미기재 보완·처방 없는 OTC 대조를 추가했다. 계약일과 보장일을 분리하고 실제/mock 출처와 숨김 설정, 고객별 원본 연결, 사진 선택/fallback을 제공했다. 김유정 기존7장·동명이인·복수청구는 보존했다.
+- 바뀐 파일: backend/scripts/samples/{gen_claim,render,seed_samples,verify_samples}.py, scripts/seed.py, backend/app/{models,db,config}.py, services/{rules,coverage,workspace,normalize,silson24}.py, routers/{review,supplements}.py, tests/test_demo_samples.py, data/samples/, data/mock_silson24/, frontend/components/{claim-screens,review-screen}.tsx, frontend/lib/workspace.ts, docs/03_data_design.md, docs/prompts/gpt_image_photo.md, docs/deliverables/T05-T06_시연데이터검증.md, TODO.md, artifacts/t06/
+- 확인 방법: 백엔드62 passed/live1 제외·Ruff/포맷, 프론트 lint/typecheck/format/build 통과. 10고객 mock 기대 이슈10/10; 신규 실제 C002/C006 3장·9호출, 전체 정규화74/74. 김유정 캐시114/116·알려진추가2이슈 명시; 재생 전부0호출. CUA 신규22장 A4 캡처·인박스4상태·원본 비교100%와 두 이미지 로딩 확인. 생성기 direct/module 및 변경 없는 재실행 확인.
+- 남은 문제 · 질문: GPT 사진4장은 사용자 제작 예정이며 사진 OCR 실측은 미진행. 신규 API 비용 추정 $0.162~0.282(VAT 별도), 실제 콘솔 차감액 미확인. 실측값·정답 mock을 혼동하지 않도록 보고서에 분리했다.
+
+## 2026-10-16 · T-05 · 수술확인서와 보완 회신 흐름
+- 관련 요구사항: FR-06, FR-13, FR-25
+- 한 일: 기존 A4 HTML 토큰을 공통 모듈로 분리하고 보완 회신용 수술확인서 HTML/PNG/정답 JSON을 supplement/에 만들었다. 최초 김유정 7장에는 추가하지 않았다. 회신 업로드 시 새 서류만 처리하고 기존 원본/확정값은 보존하며 CV-04 해소·회신 완료·이력을 연결했다. 데모 모의 입력은 제공 파일의 정확한 해시와 고객 일치 시만 허용하고 표시/모드 설정을 추가했다.
+- 바뀐 파일: backend/scripts/samples/{common,gen_supplement}.py, services/demo_samples.py, services/pipeline.py, routers/claims.py, config.py, frontend/components/claim-screens.tsx, data/samples/kim_yujeong/supplement/, .env.example
+- 확인 방법: pytest56 passed/live1 제외; 보완 생성→모의 발송→회신 업로드→CV-04 해소→needs_review→중복 방지와 확정값 보존 통합 테스트. CUA로 기존 1240×1754 HTML 캡처. lint/typecheck 통과. 실제 API 추가0.
+- 남은 문제 · 질문: T-06 고객별 공통 생성기·시드·검증 진행.
+
+## 2026-10-16 · T-17 · 챗봇 화면과 청구 맥락 연결
+- 관련 요구사항: FR-28~34
+- 한 일: polish 토큰으로 대화 목록·질문 바로가기·중앙 대화·입력창·근거 패널을 연결했다. 답변 아래 문서명/조항/인용문·가상 표시, 청구별 이슈 상세 앵커, 자동 claim_id, 생성 단계 안내, 편집/복사 가능한 보완 초안과 액션을 제공한다. CV-02 안내를 차단 이슈와 구분해 표시한다. 처방전 자체가 없으면 약품 부재를 단정하지 않도록 대조 경계를 보완하고 모델/스키마 오류는 안전한 503으로 처리한다.
+- 바뀐 파일: frontend/components/chat-screen.tsx, claim-screens.tsx, review-screen.tsx, workspace-shell.tsx, frontend/app/(protected)/chat/page.tsx, globals.css, backend/app/{routers/chat.py,services/coverage.py}, backend/tests/test_chat.py, TODO.md, docs/06_eval_plan.md, docs/deliverables/T15-T17_챗봇검증.md, artifacts/t17/
+- 확인 방법: pytest55 passed/live1 제외, Ruff·포맷 통과. 프론트 lint/typecheck/format/date1/build 통과. CUA Playwright로 필수 질문1~4 실제 실행/캡처, 초안 수정·복사 버튼 성공·액션·이슈1 상세 이동·청구 맥락 자동 전달·가로 넘침 없음 확인. 실제 policy_qa도 암진단특약 제3조를 인용해 응답했다. 프로토타입 SCR-20의 3열·대화/근거 구조와 현재 polish 색/글꼴을 유지하고, pill 대신 아이콘/글자로 가상 여부·안내를 표시했다.
+- 남은 문제 · 질문: 서버형 Qdrant 실제 접속과 평가30문항 전체 점수는 미검증(T-18). 대화 기록은 현재 화면 메모리이며 새로고침/재진입 시 사라진다. JSON 응답 방식은 이번 사용자 명세를 따른다.
+
+## 2026-10-16 · T-16 · LangGraph 도구와 근거 답변
+- 관련 요구사항: FR-15, FR-28~33
+- 한 일: Solar strict 의도 5종→검증된 도구 호출→근거 답변 그래프와 JSON POST /api/chat을 추가했다. 읽기 도구 6종은 배정 권한을 재검사하고 조회 이력만 남긴다. 약품명 괄호 설명을 정규화해 실제 영수증 항목과 처방전을 대조하며 지급 판단은 거절한다. 근거 없는 질문은 지정 문구로 응답하고 표준 보완 문구에만 고객명을 채운다. 임베딩 외 대화 응답은 디스크에 보존하지 않는다.
+- 바뀐 파일: backend/app/agent/{graph,tools,solar}.py, app/schemas/{chat,to_upstage}.py, app/services/coverage.py, app/routers/chat.py, app/main.py, app/scripts/chat_smoke.py, tests/test_chat.py, tests/test_rules.py, docs/implementation_objects.md, AGENTS.md
+- 확인 방법: 전체 pytest 54 passed/live1 제외. 실제 chat_smoke 4질문과 기대10항목 모두 통과(7/8, CV-04/CV-01/세분류/CV-02 안내/액션/비타민 근거/초안/거절). artifacts/t16/chat_smoke.json에 실제 원문. 병렬 도구 전부 실행·권한·extra 인자·잘린 JSON·근거 없음·대화 미저장도 mock 테스트.
+- 남은 문제 · 질문: 자동 청구 저장 이슈와 별개로 약관 대조 도구는 현재 입력의 규정 근거와 가능성만 반환한다. 실제 지급 판단은 범위 밖. T-17 화면 검증 진행.
+
+## 2026-10-16 · T-15 · 조항 인덱싱과 CV-02 안내 분리
+- 관련 요구사항: FR-14, FR-28
+- 한 일: 허용 목록의 TXT/가상 MD만 조·항/매뉴얼 절로 분할하고 payload 전체를 보존했다. Solar passage/query 구분·100개 배치·내용 캐시, Qdrant 서버/로컬 설정, CLI를 구현했다. CV-02 1일 차이는 info로 분리해 차단하지 않고 2일 이상/실제 입퇴원일 차이는 불일치로 유지했다. 기대값·평가 질문을 동기화했다.
+- 바뀐 파일: backend/app/agent/{kb,rag,solar}.py, app/scripts/build_index.py, config.py, models.py, services/rules.py, services/workspace.py, routers/claims.py, tests/test_rag.py, tests/test_rules.py, .env.example, pyproject.toml, uv.lock, data/eval/, data/samples/kim_yujeong/answers/_claim.json
+- 확인 방법: pytest 기존+CV 44 passed / live 1 제외; RAG+규칙 7 passed. 실제 인덱싱 policy479/manual13, 2질문 모두 top-3 목표 조항 적중(특약2 제4조, 암진단특약 제3조 각각2위). artifacts/t15/retrieval.json. HWP Parse 0, reference 미포함.
+- 남은 문제 · 질문: T-16 챗봇·화면 연결 진행. 긴 항/상품 개요 분할과 dense 후보 단어 가중치는 decisions.md에 기록.
+
+## 2026-10-16 · T-15 · 지식 베이스 문서와 평가 질문 추가
+- 관련 요구사항: FR-28
+- 한 일: feat/chatbot 생성 전 polish/ui-1의 main 포함을 확인했다. 공개 표준약관·가온 가상 특약/매뉴얼·평가 질문을 추가하고 실제 회사 약관 reference/는 Git과 인덱싱 대상에서 제외한다. HWP는 보관만 하며 이번에는 Parse하지 않는다.
+- 바뀐 파일: .gitignore, data/kb/README.md, data/kb/policy/, data/kb/gaon/, data/eval/chat_questions.json
+- 확인 방법: git diff --cached --name-only로 reference/ 미포함 확인. 평가 JSON 30문항 파싱 확인.
+- 남은 문제 · 질문: 인덱싱·검색 검증은 T-15 구현 커밋에서 진행.
 
 ## 2026-10-16 · polish-1 · 비교 기본 비율 복원 · 이동·강조 유지
 - 관련 요구사항: FR-22

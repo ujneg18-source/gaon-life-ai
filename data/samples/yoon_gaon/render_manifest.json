@@ -1,0 +1,17 @@
+{
+  "03_admission": {
+    "html_sha256": "2651cca89a926ea8292f4e55aa4aadd4e43aaf6ff81a9969fef08e0cb9c434d1",
+    "png_sha256": "8ce3237293cb44afb63349e50e097559e35006b3760874c6710ee8db61a3878d",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "05_medical_detail": {
+    "html_sha256": "6015c7c22b25b77968f01548459e92d49b055737c1287e98e0fa7aefacd49860",
+    "png_sha256": "f00130daa3af05618911a908c8d1bbdfb09738ab94265b56ded12ed0c60dec88",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "04_medical_receipt": {
+    "html_sha256": "ccf15c4dce2de1f1539b0ce59330431acd6244177514bd712fdc4a2ee1d5d2f8",
+    "png_sha256": "9a39407cb3391e090baf9f111f1476b3f25858fff8ecdd84bc15c13101889063",
+    "renderer": "CUA browser A4 1240x1754"
+  }
+}

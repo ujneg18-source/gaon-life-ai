@@ -1,0 +1,104 @@
+"""답변의 사실·권한과 분리한 말투 규칙. 검사 실패는 한 번만 재생성한다."""
+
+import re
+
+from pydantic import BaseModel, ConfigDict
+
+from app.config import TONE_ALLOWED_TERMS, get_settings
+
+# 평가 질문/답변은 예시에 넣지 않는다. 아래는 별도로 만든 가상 업무 표현이다.
+TONE_PROMPT = """옆자리 선배 심사자가 설명하듯 정확하고 자연스러운 해요체로 써 주세요.
+첫 문장은 결론, 그다음은 이유, 마지막은 담당자가 할 일 순서예요.
+완결된 문장 3~6개로 답하고, 독립된 항목이 3개 이상일 때만 목록을 써요.
+명사형 종결, 조사 생략, 화살표(→), 가운뎃점(·) 나열을 쓰지 마세요.
+CV-01~06, snake_case, 정규화, 스키마 같은 내부 용어는 서류 이름과 일상어로 풀어 써요. 이슈의 업무상 의미와 사실은 빠뜨리지 마세요.
+약관은 '해당 특별약관 제N조 N항 N호를 보면 …'처럼 문장에 자연스럽게 넣고 번호만 나열하지 마세요. 매뉴얼은 '업무 기준'이라고 불러요.
+지급 심사, 이관, 보완 요청, 비급여, 진단확정, 보장개시일, 특약, 입원일수, 질병분류기호는 보험 업무 기본 용어이므로 그대로 사용하세요. 선택 행동은 필요하시다면 ~해 주세요로 권해요.
+준용, 소멸시효 완성 같은 어려운 법률 표현만 처음 한 번 풀어서 설명하되 근거에 없는 뜻·날짜·조건을 만들지 마세요.
+개별 지급 여부·금액을 확정하지 말고 가능성과 확인할 일을 부드럽게 설명해요.
+거절할 때도 이유와 가능한 대안을 함께 말해요. 거절을 철회하거나 조회 권한을 넓히지 마세요.
+원문 인용문/근거 카드와 API 메타데이터는 바꾸지 않고 답변 본문의 말투만 바꿔요.
+예시1 나쁜 표현: '추가 파일 접수 후 재확인 필요.'
+예시1 좋은 표현: '추가 파일이 들어오면 내용을 다시 확인하면 돼요. 지금은 마지막 페이지가 없어 전체 내용을 확인하기 어려워요. 빠진 페이지를 먼저 받아 주세요.'
+예시2 나쁜 표현: '검토 대기 → 부서 이관·담당 배정.'
+예시2 좋은 표현: '이 서류는 담당 부서의 검토가 필요해요. 현재 팀에서는 확인할 수 없는 내용이 포함돼 있어요. 담당 부서로 넘기고 검토할 분을 지정해 주세요.'
+예시3 나쁜 표현: 'schema 오류, attachment_id 확인.'
+예시3 좋은 표현: '첨부 파일을 아직 열 수 없어요. 파일 정보가 올바르게 저장되지 않았어요. 파일을 다시 첨부해 주세요.'
+"""
+
+
+class ToneAnswer(BaseModel):
+    """말투 모델에는 본문 하나만 허용해 인용·의도·버튼을 바꿀 수 없게 한다."""
+
+    model_config = ConfigDict(extra="forbid")
+    answer: str
+
+
+def violations(text, intent="policy_qa"):
+    """문체의 확실한 패턴만 검출한다. KCD/조문/소수점은 내부 코드로 오인하지 않는다."""
+    found = []
+    if re.search(r"\bCV-0\d\b|\b[a-zA-Z]+(?:_[a-zA-Z0-9]+)+\b|FIELD-[\w.-]+|정규화|스키마", text):
+        found.append("internal_term")
+    if "→" in text:
+        found.append("arrow")
+    # 제목 줄은 서류 이름 나열일 때만 허용한다. 본문에서는 하나의 가운뎃점도 검사한다.
+    document_names = set(get_settings().UPSTAGE_DOC_CLASSES.values()) | {
+        "영수증",
+        "세부내역서",
+        "조직검사 결과지",
+        "진단서",
+        "입퇴원확인서",
+        "처방전",
+    }
+
+    def document_heading(line):
+        match = re.match(r"^[①-⑳] ([^:]+):", line)
+        return (
+            intent == "claim_check"
+            and match
+            and all(name.strip() in document_names for name in match.group(1).split("·"))
+        )
+
+    body = "\n".join(line for line in text.splitlines() if not document_heading(line))
+    if "·" in body:
+        found.append("middle_dot_list")
+    # 명사로 끝나는 경고/항목을 잡되 '필요해요' 같은 정상 서술은 허용한다.
+    body = "\n".join(
+        line
+        for line in body.splitlines()
+        if not (
+            intent == "claim_check"
+            and (line.startswith("추가 서류:") or re.match(r"^[①-⑳] ", line))
+        )
+    )
+    noun_body = "\n".join(
+        line for line in body.splitlines() if line.strip(" .") not in TONE_ALLOWED_TERMS
+    )
+    if re.search(
+        r"(?:필요|확인|누락|불일치|완료|대기|대상|가능성|없음|있음|요청|판단|예정|오류|불가|가능|미제출|처리|검토)(?:[.!。](?=\s|$)|(?=\n|$))",
+        noun_body,
+    ):
+        found.append("noun_ending")
+    sentences = re.findall(r"[^\n]+?(?:[.!?。](?!\d)|$)", text)
+    if intent != "claim_check" and not 3 <= len(sentences) <= 6:
+        found.append("sentence_count")
+    return found
+
+
+def protected_numbers(text):
+    """기존 사실 숫자의 소실을 막는다. 내부 규칙/청구 식별자는 본문에서 없애도 된다."""
+    text = re.sub(r"\bCV-0\d\b|\bGA-\d+-\d+\b", "", text)
+    # 같은 수치의 자연어 표현은 소실로 오인하지 않는다. 업무 날짜/수량은 그대로 보호한다.
+    text = re.sub(r"하루|한\s*(?:건|장|번|개)", "1", text)
+    text = re.sub(r"이틀|두\s*(?:건|장|번|개)", "2", text)
+    return {str(int(n)) for n in re.findall(r"\d+", text)}
+
+
+def payment_assertion(text):
+    """말투 재생성이 기존 지급 단정 금지 규칙을 우회하지 못하게 한다."""
+    return bool(
+        re.search(
+            r"지급\s*(?:됩니다|가능합니다)|(?:지급액|지급금액)\s*(?:은|는|:)?\s*[\d,]+\s*(?:만)?원|[\d,]+\s*(?:만\s*)?원(?:을|이)?\s*(?:받아요|받습니다|지급해|지급하|지급돼|지급되)",
+            text,
+        )
+    )

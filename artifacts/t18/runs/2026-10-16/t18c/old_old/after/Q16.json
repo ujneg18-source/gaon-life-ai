@@ -1,0 +1,58 @@
+{
+  "id": "Q16",
+  "type": "claim_check",
+  "question": "김서연 고객 청구 확인해줘",
+  "expected_sources": [],
+  "answer_gist": "동명이인 2명 → 생년월일 · 청구번호 목록을 보여주고 선택 요청 (needs_choice)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "같은 이름의 청구가 여러 건이에요. 청구번호를 선택해 주세요.\nGA-2610-0449 · 김서연 · 생년월일 1987-04-12\nGA-2610-0444 · 김서연 · 생년월일 1988-08-26\nGA-2610-0418 · 김서연 · 생년월일 1987-04-12",
+    "intent": "claim_check",
+    "citations": [],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0449",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0444",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0418",
+        "issue_id": null
+      }
+    ],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "ablation 인용 평가: 요지 채점 미실행",
+      "votes": []
+    }
+  }
+}

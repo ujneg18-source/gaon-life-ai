@@ -1,0 +1,20 @@
+{
+  "patient_name": "윤가온",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "period_start": "2026-10-06",
+  "period_end": "2026-10-08",
+  "inpatient_days": 3,
+  "items": [
+    {
+      "name": "입원 진료비",
+      "code": "DEMO-01",
+      "category": "exam",
+      "covered": true,
+      "amount": 30000
+    }
+  ],
+  "doc_type": "medical_detail",
+  "is_mock": true,
+  "claim_id": "GA-2610-0438"
+}

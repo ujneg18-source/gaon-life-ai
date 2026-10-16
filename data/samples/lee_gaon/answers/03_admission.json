@@ -1,0 +1,10 @@
+{
+  "doc_type": "admission",
+  "patient_name": "이가온",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "admit_date": "2026-10-06",
+  "discharge_date": "2026-10-08",
+  "stay_days": 3,
+  "diagnosis_code": "K35.8"
+}

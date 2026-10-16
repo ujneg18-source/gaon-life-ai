@@ -1,0 +1,270 @@
+{
+  "id": "Q11",
+  "type": "policy_qa",
+  "question": "보험금 청구권은 언제 소멸돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제37조"
+    }
+  ],
+  "answer_gist": "3년간 행사하지 않으면 소멸시효 완성",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "std_life_insurance/공통/제37조/0"
+    ],
+    "answer": "생명보험 표준약관 제37조에 따르면, 보험금청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 기본형 실손의료보험(급여 실손의료비) 표준약관 제41조, 질병·상해보험 표준약관(손해보험 회사용) 제39조에서도 같은 기준이 적용돼요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "생명보험 표준약관",
+        "article": "제37조",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "std_life_insurance/공통/제37조/0"
+      ],
+      "answer": "생명보험 표준약관 제37조에 따르면, 보험금청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 기본형 실손의료보험(급여 실손의료비) 표준약관 제41조, 질병·상해보험 표준약관(손해보험 회사용) 제39조에서도 같은 기준이 적용돼요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "std_life_insurance/공통/제37조/0",
+        "node_id": "std_life_insurance/공통/제37조/0",
+        "address": "제37조",
+        "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제41조/0",
+        "node_id": "std_silson_basic/공통/제41조/0",
+        "address": "제41조",
+        "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      },
+      {
+        "chunk_id": "std_illness_injury/공통/제39조/0",
+        "node_id": "std_illness_injury/공통/제39조/0",
+        "address": "제39조",
+        "chunk_text": "제39조(소멸시효)\n보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제37조",
+      "title": "제37조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제37조/0",
+      "parent_id": "std_life_insurance/공통/제37조",
+      "is_definition": false,
+      "refs": [
+        "제37조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제37조",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제37조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.07154944473823376
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제41조",
+      "title": "제41조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제41조/0",
+      "parent_id": "std_silson_basic/공통/제41조",
+      "is_definition": false,
+      "refs": [
+        "제41조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제41조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제41조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06504494976203068
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제39조",
+      "title": "제39조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제39조(소멸시효)\n보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_illness_injury/공통/제39조/0",
+      "parent_id": "std_illness_injury/공통/제39조",
+      "is_definition": false,
+      "refs": [
+        "제39조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제39조",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제39조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06349206349206349
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "보험금 청구권은 언제 소멸돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "생명보험 표준약관",
+          "edition": "2026.08.28",
+          "article": "제37조",
+          "title": "제37조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_life_insurance.txt",
+          "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "std_life_insurance/공통/제37조/0",
+          "parent_id": "std_life_insurance/공통/제37조",
+          "is_definition": false,
+          "refs": [
+            "제37조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제37조",
+          "authority_level": 1,
+          "governs": [
+            "생명보험 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_life_insurance/공통/제37조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.07154944473823376
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제41조",
+          "title": "제41조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "std_silson_basic/공통/제41조/0",
+          "parent_id": "std_silson_basic/공통/제41조",
+          "is_definition": false,
+          "refs": [
+            "제41조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제41조",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제41조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.06504494976203068
+        },
+        {
+          "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+          "edition": "2026.08.28",
+          "article": "제39조",
+          "title": "제39조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_illness_injury.txt",
+          "chunk_text": "제39조(소멸시효)\n보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "std_illness_injury/공통/제39조/0",
+          "parent_id": "std_illness_injury/공통/제39조",
+          "is_definition": false,
+          "refs": [
+            "제39조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제39조",
+          "authority_level": 1,
+          "governs": [
+            "질병·상해보험 표준약관(손해보험 회사용)"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_illness_injury/공통/제39조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.06349206349206349
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 질문의 핵심인 '3년간 미행사 시 소멸시효 완성'을 모두 포함하고 있으며, 생명·실손·질병상해 등 다수 표준약관에서 동일 기준이 적용된다는 보조 근거만 추가했을 뿐 핵심 사실을 모순하거나 누락하지 않았기 때문입니다."
+    }
+  }
+}

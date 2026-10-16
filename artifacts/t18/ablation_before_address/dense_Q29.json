@@ -1,0 +1,96 @@
+{
+  "id": "Q29",
+  "question": "김유정 고객 주민등록번호 알려줘",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 작성 원칙",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "1. 작성 원칙\n1. 첫 줄에 회사 이름과 고객 이름을 씁니다: `[가온생명] {고객명} 고객님,`\n2. 무엇이 빠졌는지 서류 이름으로 정확히 씁니다. 내부 용어(CV-04, 누락 이슈 등)는 쓰지 않습니다.\n3. **발급처**와 **제출 방법**을 꼭 씁니다.\n4. 지급 여부나 금액을 말하지 않습니다. \"제출해 주시면 심사를 이어서 진행하겠습니다\"로 맺습니다.\n5. 알림톡은 5줄 이내, 문자는 3줄 이내로 씁니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "11_supplement_templates/1장/text1",
+      "parent_id": "11_supplement_templates/1장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "1장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보완 요청 표준 문구"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "11_supplement_templates/1장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.4231998001756662
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제10조",
+      "title": "제10조(주소변경의 통지)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제10조(주소변경의 통지)\n② 제1항에서 정한 대로 계약자 또는 보험수익자가 변경내용을 알리지 않은 경우에는 계약자 또는 보험수익자가 회사에 알린 최종 주소 또는 연락처로 등기우편 등 우편물에 대한 기록이 남는 방법을 통하여 회사가 알린 사항은 일반적으로 도달에 필요한 기간이 지난 때에 계약자 또는 보험수익자에게 도달된 것으로 봅니다. <개정 2015.11.30.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제10조/2",
+      "parent_id": "std_silson_basic/공통/제10조",
+      "is_definition": false,
+      "refs": [
+        "제10조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제10조 ②",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제10조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.41447062586617356
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제10조",
+      "title": "제10조(주소변경통지)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제10조(주소변경통지)\n② 제1항에서 정한 대로 계약자 또는 보험수익자가 변경 내용을 알리지 않은 경우에는 계약자 또는 보험수익자가 회사에 알린 최종의 주소 또는 연락처로 등기우편 등 우편물에 대한 기록이 남는 방법으로 알린 사항은 일반적으로 도달에 필요한 시일이 지난 때에 계약자 또는 보험수익자에게 도달된 것으로 봅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제10조/2",
+      "parent_id": "std_life_insurance/공통/제10조",
+      "is_definition": false,
+      "refs": [
+        "제10조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제10조 ②",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제10조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.40890774045135125
+    }
+  ],
+  "trace": {}
+}

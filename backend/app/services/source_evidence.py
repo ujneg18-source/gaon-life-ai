@@ -74,3 +74,17 @@ def pharmacy_evidence(values: dict, parsed: dict, canonical) -> dict:
                 "basis": "Parse 표의 품명·구분 칸",
             }
     return evidence
+
+
+def added_diagnosis_words(value: str, source: str) -> bool:
+    """공백·괄호 차이는 허용하되 새 번역/수식어는 원문 존재를 요구한다."""
+    import unicodedata
+
+    normalize = lambda text: re.sub(
+        r"[\s()（）]+", "", unicodedata.normalize("NFKC", text).casefold()
+    )
+    if not value or normalize(value) in normalize(source):
+        return False
+    words = re.findall(r"[a-zA-Z]+|[가-힣]+", value)
+    # 문서 전체에 같은 낱말이 있더라도 연속된 진단명을 찾지 못하면 확인을 요구한다.
+    return bool(words)

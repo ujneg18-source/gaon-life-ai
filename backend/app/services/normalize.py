@@ -11,9 +11,9 @@ from typing import Any
 from pydantic import ValidationError
 from sqlmodel import Session
 
-from app.models import ExtractedField, FieldMethod, KcdCode
+from app.models import Confidence, ExtractedField, FieldMethod, KcdCode
 from app.schemas.documents import DOCUMENT_SCHEMAS, CommonDoc
-from app.services.source_evidence import longer_code, pharmacy_evidence
+from app.services.source_evidence import added_diagnosis_words, longer_code, pharmacy_evidence
 
 
 def additional_values(message: dict) -> dict:
@@ -287,6 +287,13 @@ def normalize_document(
         ):
             found = False
             reasons.append("원문과 다름(세분류 누락)")
+        if (
+            not is_data
+            and key in {"diagnosis_name", "pathology_result"}
+            and added_diagnosis_words(str(value), " ".join(element_text(el) for el, _ in elements))
+        ):
+            found = False
+            reasons.append("원문과 다름(번역·보정 의심)")
         if confidence == "low":
             reasons.append("low_conf")
         if not found:
@@ -301,7 +308,7 @@ def normalize_document(
                 if not isinstance(value, str)
                 else value,
                 raw_value="" if raw_value is None else str(raw_value),
-                extract_conf=confidence,
+                extract_conf=Confidence(confidence) if confidence else None,
                 source_found=found,
                 review_reasons=reasons,
                 method=FieldMethod.DATA if is_data else FieldMethod.PARSE,

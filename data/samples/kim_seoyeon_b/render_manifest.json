@@ -1,0 +1,12 @@
+{
+  "05_medical_detail": {
+    "html_sha256": "56c6d7eed74077f2568f197ee2c9c242b0a0686d3b6890a7b67169b2db9f9d34",
+    "png_sha256": "7f577e3fd3af7bcd2a1c713e5dc9e6b0faa01a83c34b5881afdf3732cc49b213",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "04_medical_receipt": {
+    "html_sha256": "326e4f0cefca5f4b049ea4e06373e8892adac5db0dd93baa71de7e4e565c89fe",
+    "png_sha256": "2ccd335fdb8e0bfb3b0cfe9b829ad74ea431b1581baf01855cbfbeb0368d4cf3",
+    "renderer": "CUA browser A4 1240x1754"
+  }
+}

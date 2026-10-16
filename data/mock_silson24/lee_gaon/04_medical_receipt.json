@@ -1,0 +1,16 @@
+{
+  "patient_name": "이가온",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "period_start": "2026-10-06",
+  "period_end": "2026-10-08",
+  "inpatient_days": 3,
+  "covered_copay": 30000,
+  "non_covered": 0,
+  "total": 30000,
+  "patient_total": 30000,
+  "items": [],
+  "doc_type": "medical_receipt",
+  "is_mock": true,
+  "claim_id": "GA-2610-0477"
+}

@@ -1,0 +1,204 @@
+{
+  "id": "Q14",
+  "type": "claim_check",
+  "question": "김유정 고객 진단서 질병코드 뭐로 읽혔어?",
+  "expected_sources": [
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "5장"
+    }
+  ],
+  "answer_gist": "추출 C18, 원문 C18.7 → 원문과 다름(세분류 누락)으로 확인 필요. 원본 위치 확인 권유",
+  "acceptable_sources": [
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "5장"
+    },
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제2조"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "10_claims_manual/5장/row2"
+    ],
+    "answer": "GA-2610-0482 김유정 고객은 제출 7건, 필요 8건이에요. 먼저 수술확인서가 빠졌는지 확인해 주세요. 진단서 추출 질병코드는 C18인데 원문 질병분류기호는 C18.7이라 세분류가 누락됐어요. 추출한 값과 원문이 같은지 원본 위치를 열어 확인해 주세요. 진단일이 2026-09-18이고 병리 보고일이 2026-09-21이라 진단일이 더 빨라요. 질병코드와 병리 진단명이 서로 맞는지도 함께 확인해 주세요. 입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 나는데 질병입원일당특약 제5조 산정 방식 차이일 수 있어요. 종합비타민정은 처방전에 없는 일반의약품이라 보상 제외 가능성이 있어요. 치료 목적 등 예외 여부는 담당자가 확인해 주세요. 원문 질병분류기호 C18.7의 세분류도 확인해 주세요.",
+    "intent": "claim_check",
+    "citations": [
+      {
+        "source_kind": "업무 기준",
+        "coverage_section": "",
+        "authority_level": 4,
+        "chunk_id": "10_claims_manual/5장/row2",
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "5장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "is_mock": true,
+        "quote": "5. AI가 \"확인 필요\"로 올리는 경우\n| 이유 | 뜻 | 담당자 할 일 |\n| 원문과 다름 | 추출한 값이 원문 글자와 다름 (예: 원문 C18.7, 추출 C18 → 세분류 누락) | 원본 위치를 열어 올바른 값으로 고칩니다 |"
+      }
+    ],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 1
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 2
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 3
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 4
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 5
+      },
+      {
+        "claim_id": "GA-2610-0482",
+        "issue_id": 6
+      }
+    ],
+    "suggested_actions": [
+      {
+        "label": "보완 요청 작성",
+        "action": "draft_supplement:GA-2610-0482"
+      }
+    ],
+    "refused": false
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "5장",
+      "title": "5. AI가 \"확인 필요\"로 올리는 경우",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "5. AI가 \"확인 필요\"로 올리는 경우\n| 이유 | 뜻 | 담당자 할 일 |\n| 원문과 다름 | 추출한 값이 원문 글자와 다름 (예: 원문 C18.7, 추출 C18 → 세분류 누락) | 원본 위치를 열어 올바른 값으로 고칩니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/5장/row2",
+      "parent_id": "10_claims_manual/5장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "5장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": []
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "5장",
+      "title": "5. AI가 \"확인 필요\"로 올리는 경우",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "5. AI가 \"확인 필요\"로 올리는 경우\n| 이유 | 뜻 | 담당자 할 일 |\n| 원문과 다름 | 추출한 값이 원문 글자와 다름 (예: 원문 C18.7, 추출 C18 → 세분류 누락) | 원본 위치를 열어 올바른 값으로 고칩니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/5장/row2",
+      "parent_id": "10_claims_manual/5장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "5장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": []
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 1.0,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 질문의 핵심인 진단서 추출 질병코드(C18)와 원문 질병분류기호(C18.7)의 불일치 및 세분류 누락 사실을 정확히 포함하고 있으며, 원문 위치 확인 권유라는 필요한 조치도 제시하고 있어 answer_gist의 요지를 모두 충족함. / 답변은 질문의 핵심인 진단서 질병코드 추출값(C18)과 원문값(C18.7)을 모두 포함하고, 세분류 누락으로 원문과 다르므로 원본 위치 확인이 필요하다는 gist의 핵심 사실 및 요청 행동을 정확히 반영함. 다른 질문 답변, 근거 없는 회피, 사실 오류 없이 gist와 일치함. / 답변은 질문의 핵심인 진단서 질병코드(C18)와 원문(C18.7)의 불일치 및 세분류 누락 사실을 모두 포함하고 있으며, 원문 위치 확인과 세분류 확인을 권유하는 필요한 행동을 제시함. 핵심 사실 누락이나 모순이 없으므로 요지 충족.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 질문의 핵심인 진단서 추출 질병코드(C18)와 원문 질병분류기호(C18.7)의 불일치 및 세분류 누락 사실을 정확히 포함하고 있으며, 원문 위치 확인 권유라는 필요한 조치도 제시하고 있어 answer_gist의 요지를 모두 충족함."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 질문의 핵심인 진단서 질병코드 추출값(C18)과 원문값(C18.7)을 모두 포함하고, 세분류 누락으로 원문과 다르므로 원본 위치 확인이 필요하다는 gist의 핵심 사실 및 요청 행동을 정확히 반영함. 다른 질문 답변, 근거 없는 회피, 사실 오류 없이 gist와 일치함."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 질문의 핵심인 진단서 질병코드(C18)와 원문(C18.7)의 불일치 및 세분류 누락 사실을 모두 포함하고 있으며, 원문 위치 확인과 세분류 확인을 권유하는 필요한 행동을 제시함. 핵심 사실 누락이나 모순이 없으므로 요지 충족."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 3,
+      "naturalness": 3,
+      "no_internal_terms": 3,
+      "conclusion_first": 2,
+      "reason": "첫 문장이 질문의 결론(질병코드)이 아니라 서류 건수/누락 안내로 시작해 결론 먼저가 약함. 'GA-2610-0482', '제출 7건/필요 8건', '원본 위치', '질병입원일당특약 제5조' 등 내부 코드·업무 용어가 섞여 있고, '확인해 주세요' 반복과 명사형 종결이 남아 자연스러움도 보통 수준."
+    },
+    "tone_violations": [
+      "sentence_count"
+    ]
+  },
+  "tone_trace": {
+    "before": "GA-2610-0482 · 김유정 고객은 제출 7 / 필요 8건이에요.\n• 누락 (CV-04): 수술확인서 미제출 · 수술확인서가 제출되었는지 확인해 주세요.\n• 확인 필요 (FIELD-diagnosis_code): 추출 항목 확인 필요: 질병분류기호 · 추출한 값과 원문이 같은지 확인해 주세요. 원문과 다름(세분류 누락)\n• 불일치 (CV-01): 진단일이 병리 보고일보다 빠름 · 진단일 2026-09-18 · 병리 보고일 2026-09-21\n• 불일치 (CV-03): 질병코드와 병리 진단 부합 확인 필요 · 질병코드와 병리 진단명이 서로 맞는지 확인해 주세요.\n• 안내 (CV-02): 1일 차이: 산정 방식 차이 가능 (질병입원일당특약 제5조) · 입퇴원확인서 9일 · 세부내역서 8일\n• 약관 대조 (coverage): 종합비타민정 (일반의약품) 보상 제외 가능성 · 처방전에 없는 일반의약품·비급여 항목이에요. 치료 목적 등 예외 여부를 담당자가 확인해 주세요.\n원문 질병분류기호 C18.7의 세분류를 확인해 주세요.\n진단서 추출 질병코드는 C18이에요. 원본 위치를 열어 확인해 주세요.",
+    "initial_violations": [
+      "internal_term",
+      "middle_dot_list",
+      "sentence_count"
+    ],
+    "attempts": [
+      {
+        "answer": "GA-2610-0482 김유정 고객은 제출 7건, 필요 8건이에요. 먼저 수술확인서가 빠졌는지 확인하고, 진단서 질병코드가 원문 질병분류기호와 같은지 살펴봐야 해요. 진단일이 병리 보고일보다 빠른 점과 질병코드와 병리 진단명이 서로 맞는지도 함께 확인해 주세요. 입퇴원확인서와 세부내역서의 입원일수 차이는 질병입원일당특약 제5조에 따라 산정 방식이 다를 수 있어요. 처방전에 없는 종합비타민정 같은 일반의약품이나 비급여 항목은 보상에서 제외될 수 있으니, 치료 목적 등 예외 여부를 담당자가 확인해 주세요. 원문 질병분류기호 C18.7의 세분류를 확인하고, 진단서 추출 질병코드 C18과 원본 위치를 열어 비교해 주세요.",
+        "violations": [],
+        "fact_guard_pass": false
+      },
+      {
+        "answer": "GA-2610-0482 김유정 고객은 제출 7건, 필요 8건이에요. 먼저 수술확인서가 빠졌는지 확인해 주세요. 진단서 추출 질병코드는 C18인데 원문 질병분류기호는 C18.7이라 세분류가 누락됐어요. 추출한 값과 원문이 같은지 원본 위치를 열어 확인해 주세요. 진단일이 2026-09-18이고 병리 보고일이 2026-09-21이라 진단일이 더 빨라요. 질병코드와 병리 진단명이 서로 맞는지도 함께 확인해 주세요. 입퇴원확인서는 9일, 세부내역서는 8일로 1일 차이가 나는데 질병입원일당특약 제5조 산정 방식 차이일 수 있어요. 종합비타민정은 처방전에 없는 일반의약품이라 보상 제외 가능성이 있어요. 치료 목적 등 예외 여부는 담당자가 확인해 주세요. 원문 질병분류기호 C18.7의 세분류도 확인해 주세요.",
+        "violations": [
+          "sentence_count"
+        ],
+        "fact_guard_pass": true
+      }
+    ],
+    "remaining_violations": [
+      "sentence_count"
+    ]
+  }
+}

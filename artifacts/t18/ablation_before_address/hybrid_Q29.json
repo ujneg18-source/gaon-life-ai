@@ -1,0 +1,123 @@
+{
+  "id": "Q29",
+  "question": "김유정 고객 주민등록번호 알려줘",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "9장",
+      "title": "9. 개인정보",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "9. 개인정보\n- 신분증 · 통장 사본의 번호는 화면과 기록에서 가립니다.\n- 담당자는 배정된 청구만 봅니다. 모든 조회는 검토 이력에 남습니다.\n- 계약 · 보험금 지급 목적 외에는 개인정보를 쓰지 않습니다. (생명보험 표준약관 제41조)",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/9장/text1",
+      "parent_id": "10_claims_manual/9장",
+      "is_definition": false,
+      "refs": [
+        "제41조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "9장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/9장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.06020681952782798
+    },
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 작성 원칙",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "1. 작성 원칙\n1. 첫 줄에 회사 이름과 고객 이름을 씁니다: `[가온생명] {고객명} 고객님,`\n2. 무엇이 빠졌는지 서류 이름으로 정확히 씁니다. 내부 용어(CV-04, 누락 이슈 등)는 쓰지 않습니다.\n3. **발급처**와 **제출 방법**을 꼭 씁니다.\n4. 지급 여부나 금액을 말하지 않습니다. \"제출해 주시면 심사를 이어서 진행하겠습니다\"로 맺습니다.\n5. 알림톡은 5줄 이내, 문자는 3줄 이내로 씁니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "11_supplement_templates/1장/text1",
+      "parent_id": "11_supplement_templates/1장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "1장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보완 요청 표준 문구"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "11_supplement_templates/1장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.050897892793830085
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n3. 신분증(주민등록증이나 운전면허증 등 사진이 붙은 정부기관 발행 신분증, 본인이 아닌 경우에는 본인의 인감증명서, 본인서명사실확인서 또는 안전성과 신뢰성이 확보된 전자적 수단을 활용한 보험수익자 의사표시의 확인방법 포함) <개정 2018.3.2., 2024.12.20.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "3",
+      "node_id": "std_life_insurance/공통/제7조/1/3",
+      "parent_id": "std_life_insurance/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.",
+      "address": "제7조 ① 3호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제7조/1/3",
+      "embedding_version": "structure-v3",
+      "score": 0.04699921216503524
+    }
+  ],
+  "trace": {
+    "question": "김유정 고객 주민등록번호 알려줘",
+    "rewritten": "주민등록번호조회기준",
+    "candidate_ids": [
+      "10_claims_manual/9장/text1",
+      "11_supplement_templates/1장/text1",
+      "std_life_insurance/공통/제7조/1/3",
+      "std_silson_basic/공통/제7조/1/3",
+      "std_life_insurance/공통/<부표 4>장/6/2",
+      "std_life_insurance/공통/제4조/1/2",
+      "rider2/공통/제2조/1",
+      "std_silson_basic/공통/제26조/3/revision1",
+      "std_illness_injury/공통/제4조/1/2",
+      "rider2/비급여자기공명영상진단/제3조/1/2027"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/9장/text1",
+      "11_supplement_templates/1장/text1",
+      "std_life_insurance/공통/제7조/1/3",
+      "std_silson_basic/공통/제7조/1/3",
+      "std_life_insurance/공통/<부표 4>장/6/2",
+      "std_life_insurance/공통/제4조/1/2",
+      "rider2/공통/제2조/1",
+      "std_silson_basic/공통/제26조/3/revision1",
+      "std_illness_injury/공통/제4조/1/2",
+      "rider2/비급여자기공명영상진단/제3조/1/2027"
+    ]
+  }
+}

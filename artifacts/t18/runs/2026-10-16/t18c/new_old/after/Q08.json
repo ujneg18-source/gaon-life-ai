@@ -1,0 +1,632 @@
+{
+  "id": "Q08",
+  "type": "policy_qa",
+  "question": "보험금은 서류 내고 며칠 안에 지급돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제8조"
+    },
+    {
+      "doc": "gaon/00_product_summary.md",
+      "article": "2장"
+    }
+  ],
+  "answer_gist": "접수 후 3영업일, 조사 필요 시 10영업일. 지연 시 지급예정일은 원칙적으로 30영업일 이내",
+  "acceptable_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제8조"
+    },
+    {
+      "doc": "gaon/00_product_summary.md",
+      "article": "2장"
+    },
+    {
+      "doc": "gaon/01_cancer_rider.md",
+      "article": "제7조"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "std_life_insurance/공통/제8조/1"
+    ],
+    "answer": "회사는 제7조에서 정한 서류를 접수한 날부터 3영업일 이내에 보험금을 지급해요. 다만 보험금 지급사유의 조사나 확인이 필요한 경우에는 접수 후 10영업일 이내에 지급해요. 접수하면 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 알려드려요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 1,
+        "chunk_id": "std_life_insurance/공통/제8조/1",
+        "doc_name": "생명보험 표준약관",
+        "article": "제8조 ①",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "std_life_insurance/공통/제8조/1"
+      ],
+      "answer": "회사는 제7조에서 정한 서류를 접수한 날부터 3영업일 이내에 보험금을 지급해요. 다만 보험금 지급사유의 조사나 확인이 필요한 경우에는 접수 후 10영업일 이내에 지급해요. 접수하면 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 알려드려요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "std_life_insurance/공통/제8조/1",
+        "node_id": "std_life_insurance/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      },
+      {
+        "chunk_id": "std_illness_injury/공통/제8조/1",
+        "node_id": "std_illness_injury/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다."
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제8조/1",
+        "node_id": "std_silson_basic/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>"
+      },
+      {
+        "chunk_id": "std_life_insurance/공통/제7조/1/1",
+        "node_id": "std_life_insurance/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n1. 청구서(회사양식)"
+      },
+      {
+        "chunk_id": "std_illness_injury/공통/제7조/1/1",
+        "node_id": "std_illness_injury/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n1. 청구서(회사 양식)"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제8조/1",
+      "parent_id": "std_life_insurance/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.8004448015513123
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_illness_injury/공통/제8조/1",
+      "parent_id": "std_illness_injury/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.7809323000865144
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제8조/1",
+      "parent_id": "std_silson_basic/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.7801541801049561
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n2. 분쟁조정신청\n\n제8조(보험금의 지급절차)\n③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n1. 소송제기\n\n제8조(보험금의 지급절차)\n③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "2",
+      "node_id": "std_life_insurance/공통/제8조/3/2",
+      "parent_id": "std_life_insurance/공통/제8조/3",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.",
+      "address": "제8조 ③ 2호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/3/2",
+      "embedding_version": "structure-v3",
+      "score": 0.7764475015239529
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n② 제1항에도 불구하고 회사는 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내의 금액을 지급하는 제도를 말합니다)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다. <개정 2015.11.30., 2021.7.1.>\n2. 분쟁조정 신청\n\n제8조(보험금의 지급절차)\n② 제1항에도 불구하고 회사는 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내의 금액을 지급하는 제도를 말합니다)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다. <개정 2015.11.30., 2021.7.1.>\n1. 소송제기\n\n제8조(보험금의 지급절차)\n② 제1항에도 불구하고 회사는 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내의 금액을 지급하는 제도를 말합니다)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다. <개정 2015.11.30., 2021.7.1.>\n4. 외국에서 발생한 보험사고에 대한 조사",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "2",
+      "node_id": "std_silson_basic/공통/제8조/2/2",
+      "parent_id": "std_silson_basic/공통/제8조/2",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "② 제1항에도 불구하고 회사는 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내의 금액을 지급하는 제도를 말합니다)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다. <개정 2015.11.30., 2021.7.1.>",
+      "address": "제8조 ② 2호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/2/2",
+      "embedding_version": "structure-v3",
+      "score": 0.7643665556071653
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n1. 소송제기\n\n제8조(보험금의 지급절차)\n② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우\n\n제8조(보험금의 지급절차)\n② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n4. 해외에서 발생한 보험사고에 대한 조사",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "1",
+      "node_id": "std_illness_injury/공통/제8조/2/1",
+      "parent_id": "std_illness_injury/공통/제8조/2",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.",
+      "address": "제8조 ② 1호",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제8조/2/1",
+      "embedding_version": "structure-v3",
+      "score": 0.7591043319729553
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제7조",
+      "title": "제7조(보험금의 지급절차)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제7조/0",
+      "parent_id": "01_cancer_rider/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제7조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.732817158326936
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n④ 회사는 제1항에서 정한 지급기일 내에 보험금을 지급하지 않았을 때(제2항에서 정한 지급예정일을 통지한 경우를 포함합니다)에는 그 다음 날부터 지급일까지의 기간에 대하여 <붙임2>에서 정한 이율로 계산한 금액을 보험금에 더하여 지급합니다. 다만, 계약자, 피보험자 또는 보험수익자에게 책임이 있는 사유로 지급이 지연된 경우에는 그 기간에 대한 이자는 지급하지 않습니다. <개정 2014.12.26., 2015.11.30.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "④",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제8조/4",
+      "parent_id": "std_silson_basic/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ④",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/4",
+      "embedding_version": "structure-v3",
+      "score": 0.7108607221055278
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "< 부 표 4-1 >장",
+      "title": "< 부 표 4-1 >",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "< 부 표 4-1 >\n보험금을 지급할 때의 적립이율 계산(제8조 제2항 및 제32조 제2항 관련)\n구    분\n 기     간\n지 급 이 자\n사망보험금, 장해보험금, 입원급여금\n(제3조 제3호에서 제5호)\n지급기일의 다음 날부터 30일 이내 기간\n보험계약대출이율\n지급기일의 31일이후부터 60일이내 기간\n보험계약대출이율+ 가산이율(4.0%)\n지급기일의 61일이후부터 90일이내 기간\n보험계약대출이율+ 가산이율(6.0%)\n지급기일의 91일이후 기간\n보험계약대출이율+ 가산이율(8.0%)\n중도보험금 \n(제3조 제1호)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n보험기간 만기일 이내\n평균공시이율\n보험기간 만기 이후\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n 만기보험금\n(제3조 제2호)\n및 \n 해약환급금\n(제32조 제1항)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n  주) 1. 중도보험금 및 만기보험금은 회사가 보험금의 지급시기 도래 7일 이전에 지급할 사유와 금액을 알리지 않은 경우, 지급사유가 발생한 날의 다음 날부터 청구일까지의 기간은 평균공시이율을 적용한 이자를 지급합니다.\n3. 계약자 등의 책임 있는 사유로 보험금 지급이 지연된 때에는 그 해당기간에 대한 이자는 지급되지 않을 수 있습니다. 다만, 회사는 계약자 등이 분쟁조정을 신청했다는 사유만으로 이자지급을 거절하지 않습니다.<단서신설 2020.7.31.>\n\n< 부 표 4-1 >\n보험금을 지급할 때의 적립이율 계산(제8조 제2항 및 제32조 제2항 관련)\n구    분\n 기     간\n지 급 이 자\n사망보험금, 장해보험금, 입원급여금\n(제3조 제3호에서 제5호)\n지급기일의 다음 날부터 30일 이내 기간\n보험계약대출이율\n지급기일의 31일이후부터 60일이내 기간\n보험계약대출이율+ 가산이율(4.0%)\n지급기일의 61일이후부터 90일이내 기간\n보험계약대출이율+ 가산이율(6.0%)\n지급기일의 91일이후 기간\n보험계약대출이율+ 가산이율(8.0%)\n중도보험금 \n(제3조 제1호)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n보험기간 만기일 이내\n평균공시이율\n보험기간 만기 이후\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n 만기보험금\n(제3조 제2호)\n및 \n 해약환급금\n(제32조 제1항)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n  주) 1. 중도보험금 및 만기보험금은 회사가 보험금의 지급시기 도래 7일 이전에 지급할 사유와 금액을 알리지 않은 경우, 지급사유가 발생한 날의 다음 날부터 청구일까지의 기간은 평균공시이율을 적용한 이자를 지급합니다.\n7. 보험사가 해지권을 행사하는 경우 위 표의 ‘청구일’은 보험사의 해지 의사표시(서면, 전자우편, 휴대전화 문자메시지 또는 이에 준하는 전자적 의사표시 포함)가 보험계약자 또는 그의 대리인에게 도달한 날로 봅니다.<신설 2024.12.20.>\n\n< 부 표 4-1 >\n보험금을 지급할 때의 적립이율 계산(제8조 제2항 및 제32조 제2항 관련)\n구    분\n 기     간\n지 급 이 자\n사망보험금, 장해보험금, 입원급여금\n(제3조 제3호에서 제5호)\n지급기일의 다음 날부터 30일 이내 기간\n보험계약대출이율\n지급기일의 31일이후부터 60일이내 기간\n보험계약대출이율+ 가산이율(4.0%)\n지급기일의 61일이후부터 90일이내 기간\n보험계약대출이율+ 가산이율(6.0%)\n지급기일의 91일이후 기간\n보험계약대출이율+ 가산이율(8.0%)\n중도보험금 \n(제3조 제1호)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n보험기간 만기일 이내\n평균공시이율\n보험기간 만기 이후\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n 만기보험금\n(제3조 제2호)\n및 \n 해약환급금\n(제32조 제1항)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n  주) 1. 중도보험금 및 만기보험금은 회사가 보험금의 지급시기 도래 7일 이전에 지급할 사유와 금액을 알리지 않은 경우, 지급사유가 발생한 날의 다음 날부터 청구일까지의 기간은 평균공시이율을 적용한 이자를 지급합니다.\n5. 가산이율 적용시 제8조(보험금의 지급절차) 제3항 각 호의 어느 하나에 해당되는 사유로 지연된 경우에는 해당기간에 대하여 가산이율을 적용하지 않습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "3",
+      "node_id": "std_life_insurance/공통/< 부 표 4-1 >장/0/3",
+      "parent_id": "std_life_insurance/공통/< 부 표 4-1 >장/0",
+      "is_definition": false,
+      "refs": [
+        "제8조 제2항",
+        "제32조 제2항",
+        "제3조",
+        "제32조 제1항"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "보험금을 지급할 때의 적립이율 계산(제8조 제2항 및 제32조 제2항 관련)\n구    분\n 기     간\n지 급 이 자\n사망보험금, 장해보험금, 입원급여금\n(제3조 제3호에서 제5호)\n지급기일의 다음 날부터 30일 이내 기간\n보험계약대출이율\n지급기일의 31일이후부터 60일이내 기간\n보험계약대출이율+ 가산이율(4.0%)\n지급기일의 61일이후부터 90일이내 기간\n보험계약대출이율+ 가산이율(6.0%)\n지급기일의 91일이후 기간\n보험계약대출이율+ 가산이율(8.0%)\n중도보험금 \n(제3조 제1호)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n보험기간 만기일 이내\n평균공시이율\n보험기간 만기 이후\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n 만기보험금\n(제3조 제2호)\n및 \n 해약환급금\n(제32조 제1항)\n지급사유가 발생한 날의 다음 날부터 청구일까지의 기간\n1년 이내 : 평균공시이율의  50%\n1년 초과기간: 평균공시이율의 40%\n<개정 2022.2.16.>\n청구일의 다음 날부터 지급일까지의 기간\n보험계약대출이율\n  주) 1. 중도보험금 및 만기보험금은 회사가 보험금의 지급시기 도래 7일 이전에 지급할 사유와 금액을 알리지 않은 경우, 지급사유가 발생한 날의 다음 날부터 청구일까지의 기간은 평균공시이율을 적용한 이자를 지급합니다.",
+      "address": "< 부 표 4-1 >장 3호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/< 부 표 4-1 >장/0/3",
+      "embedding_version": "structure-v3",
+      "score": 0.7004467276430724
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n② 회사는 제3조(보험금의 지급사유) 제1호 또는 제2호에 해당하는 보험금의 지급시기가 되면 지급시기 7일 이전에 그 사유와 회사가 지급하여야 할 금액을 계약자 또는 보험수익자에게 알려드리며, 제1항에 따라 보험금을 지급할 때 보험금 지급일까지의 기간에 대한 이자는 <부표 4-1> ‘보험금을 지급할 때의 적립이율 계산’과 같이 계산합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제8조/2",
+      "parent_id": "std_life_insurance/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ②",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.6999894595542643
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [
+    {
+      "query": "보험금은 서류 내고 며칠 안에 지급돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "생명보험 표준약관",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_life_insurance.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "std_life_insurance/공통/제8조/1",
+          "parent_id": "std_life_insurance/공통/제8조",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제8조 ①",
+          "authority_level": 1,
+          "governs": [
+            "생명보험 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_life_insurance/공통/제8조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.8004448015513123
+        },
+        {
+          "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_illness_injury.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "std_illness_injury/공통/제8조/1",
+          "parent_id": "std_illness_injury/공통/제8조",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제8조 ①",
+          "authority_level": 1,
+          "governs": [
+            "질병·상해보험 표준약관(손해보험 회사용)"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_illness_injury/공통/제8조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.7809323000865144
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "std_silson_basic/공통/제8조/1",
+          "parent_id": "std_silson_basic/공통/제8조",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제8조 ①",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제8조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.7801541801049561
+        }
+      ]
+    }
+  ],
+  "context": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제8조/1",
+      "parent_id": "std_life_insurance/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.8004448015513123
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_illness_injury/공통/제8조/1",
+      "parent_id": "std_illness_injury/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.7809323000865144
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. <개정 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제8조/1",
+      "parent_id": "std_silson_basic/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ①",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.7801541801049561
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 0.5,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.5,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "ablation 인용 평가: 요지 채점 미실행",
+      "votes": []
+    }
+  }
+}

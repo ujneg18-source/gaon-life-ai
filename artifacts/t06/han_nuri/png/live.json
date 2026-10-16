@@ -1,0 +1,27 @@
+{
+  "customer": "한누리",
+  "sample_id": "han_nuri",
+  "claim_id": "GA-2610-0452",
+  "mode": "live",
+  "variant": "png",
+  "status": "needs_review",
+  "expected": [
+    {
+      "rule": "coverage",
+      "kind": "excluded_item",
+      "count": 1
+    }
+  ],
+  "actual": [
+    {
+      "rule": "coverage",
+      "kind": "excluded_item",
+      "count": 1
+    }
+  ],
+  "passed": true,
+  "calls": 3,
+  "field_matches": 40,
+  "field_total": 40,
+  "field_mismatches": []
+}

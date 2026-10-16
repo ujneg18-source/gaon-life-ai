@@ -1,0 +1,69 @@
+{
+  "id": "Q12",
+  "question": "신뢰도가 높게 나왔는데 왜 확인 필요로 올라와?",
+  "response": {
+    "used_chunk_ids": [
+      "10_claims_manual/5장/text5"
+    ],
+    "answer": "신뢰도가 높아도 AI가 추출한 값이 원문 글자와 다르면 확인 필요로 올라가요. AI의 확신은 정확도를 보장하지 않기 때문이에요. 그래서 원문과 다른 부분이 있으면 원본 위치를 열어 올바른 값으로 고치는 확인 절차를 거치게 돼요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "업무 기준",
+        "coverage_section": "",
+        "authority_level": 4,
+        "chunk_id": "10_claims_manual/5장/text5",
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "5장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "is_mock": true,
+        "quote": "5. AI가 \"확인 필요\"로 올리는 경우\n- 신뢰도가 높아도 원문과 다르면 확인 필요로 둡니다. AI의 확신은 정확도를 보장하지 않습니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "metrics": {
+    "recall_article_at_3": 1.0,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 '원문과 추출값이 다르면 신뢰도와 무관하게 확인 필요'와 'AI의 확신은 정확도를 보장하지 않음'을 모두 포함하고 있으며, 모순이나 사실 오류가 없습니다. 문체 차이만 있을 뿐 요지를 충실히 충족합니다. / 답변은 answer_gist의 핵심 내용인 '원문과 추출값이 다르면 신뢰도와 무관하게 확인 필요'와 'AI의 확신은 정확도를 보장하지 않음'을 모두 포함하고 있으며, 모순되는 내용이 없습니다. 원문과 다른 경우 확인 절차를 거친다는 추가 설명도 gist의 취지에 부합합니다. / 답변은 answer_gist의 핵심 사실인 '원문과 추출값이 다르면 신뢰도와 무관하게 확인 필요'와 'AI의 확신은 정확도를 보장하지 않음'을 모두 포함하고 있으며, 모순되는 내용이 없습니다. 신뢰도 수치와 무관하게 원문 불일치 시 확인 절차가 필요하다는 요지를 정확히 전달하고 있어 기준을 충족합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '원문과 추출값이 다르면 신뢰도와 무관하게 확인 필요'와 'AI의 확신은 정확도를 보장하지 않음'을 모두 포함하고 있으며, 모순이나 사실 오류가 없습니다. 문체 차이만 있을 뿐 요지를 충실히 충족합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 '원문과 추출값이 다르면 신뢰도와 무관하게 확인 필요'와 'AI의 확신은 정확도를 보장하지 않음'을 모두 포함하고 있으며, 모순되는 내용이 없습니다. 원문과 다른 경우 확인 절차를 거친다는 추가 설명도 gist의 취지에 부합합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '원문과 추출값이 다르면 신뢰도와 무관하게 확인 필요'와 'AI의 확신은 정확도를 보장하지 않음'을 모두 포함하고 있으며, 모순되는 내용이 없습니다. 신뢰도 수치와 무관하게 원문 불일치 시 확인 절차가 필요하다는 요지를 정확히 전달하고 있어 기준을 충족합니다."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 5,
+      "naturalness": 5,
+      "no_internal_terms": 5,
+      "conclusion_first": 5,
+      "reason": "해요체로 옆자리 선배가 설명하듯 자연스럽고 완결된 3문장이며 이유와 다음 행동이 매끄럽게 이어집니다. 규칙 코드나 내부 표기 없이 일상어로만 설명했고, 첫 문장에서 질문의 결론을 바로 제시한 뒤 이유와 확인 절차를 자연스럽게 연결했습니다."
+    },
+    "tone_violations": []
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "id": "Q01",
+  "question": "암 진단금 청구할 때 필수 서류가 뭐야?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 암 진단금 | 진단서, 조직검사 결과지 | 진단서에 질병분류기호(세분류까지). 소액암 여부 확인 | 암진단특약 제3조 · 제6조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row1",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제3조",
+        "제6조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.06456494325346784
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n3. **조직검사 결과지** (병리 진단과 보고일이 적힌 것). 조직검사가 불가능했다면 제3조 제2항의 기록",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "3",
+      "node_id": "01_cancer_rider/공통/제6조/0/3",
+      "parent_id": "01_cancer_rider/공통/제6조/0",
+      "is_definition": false,
+      "refs": [
+        "제6조",
+        "제3조 제2항"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.",
+      "address": "제6조 3호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제6조/0/3",
+      "embedding_version": "structure-v3",
+      "score": 0.03125
+    },
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 서류별 문구",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "2. 서류별 문구\n### 수술확인서\n[가온생명] {고객명} 고객님, 보험금 청구 서류 중 **수술확인서**가 확인되지 않아 안내드립니다.\n수술받으신 병원 원무과에서 수술명과 수술일이 적힌 수술확인서를 발급받아, 가온생명 앱의 [서류 추가 제출]로 올려 주세요.\n제출해 주시면 심사를 이어서 진행하겠습니다.\n\n### 조직검사 결과지\n[가온생명] {고객명} 고객님, 암 진단보험금 청구에 필요한 **조직검사 결과지**가 확인되지 않아 안내드립니다.\n진단받으신 병원 원무과(또는 병리과)에서 발급받아, 가온생명 앱의 [서류 추가 제출]로 올려 주세요.\n제출해 주시면 심사를 이어서 진행하겠습니다.\n\n### 입퇴원확인서\n[가온생명] {고객명} 고객님, 입원보험금 청구에 필요한 **입퇴원확인서**가 확인되지 않아 안내드립니다.\n입원하셨던 병원 원무과에서 병명과 입원 · 퇴원일이 적힌 확인서를 발급받아, 가온생명 앱의 [서류 추가 제출]로 올려 주세요.\n제출해 주시면 심사를 이어서 진행하겠습니다.\n\n### 진단서 (질병분류기호 누락)\n[가온생명] {고객명} 고객님, 제출하신 진단서에 **질병분류기호**가 보이지 않아 안내드립니다.\n진단받으신 병원에서 질병분류기호가 적힌 진단서를 다시 발급받아, 가온생명 앱의 [서류 추가 제출]로 올려 주세요.\n제출해 주시면 심사를 이어서 진행하겠습니다.\n\n### 처방전 (약제비 청구)\n[가온생명] {고객명} 고객님, 약제비 청구에 필요한 **질병분류기호가 적힌 처방전**이 확인되지 않아 안내드립니다.\n처방받으신 병원에서 처방전 사본을 발급받아, 가온생명 앱의 [서류 추가 제출]로 올려 주세요.\n제출해 주시면 심사를 이어서 진행하겠습니다.\n\n### 서류가 흐리거나 잘린 경우\n[가온생명] {고객명} 고객님, 제출하신 **{서류명}**의 일부 내용이 잘 보이지 않아 다시 요청드립니다.\n밝은 곳에서 서류 전체가 나오도록 다시 촬영해, 가온생명 앱의 [서류 추가 제출]로 올려 주세요.\n제출해 주시면 심사를 이어서 진행하겠습니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "11_supplement_templates/2장/text1",
+      "parent_id": "11_supplement_templates/2장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [
+        "암",
+        "입원",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보완 요청 표준 문구"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "11_supplement_templates/2장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.06121313555112303
+    }
+  ],
+  "trace": {
+    "question": "암 진단금 청구할 때 필수 서류가 뭐야?",
+    "rewritten": "암 진단금 청구 시 필수서류 보완 교차검증 기준 및 문서 제출 요건 검색",
+    "candidate_ids": [
+      "10_claims_manual/2장/row1",
+      "11_supplement_templates/2장/text1",
+      "10_claims_manual/4장/row1",
+      "01_cancer_rider/공통/제6조/0/3",
+      "10_claims_manual/3장/text1",
+      "10_claims_manual/7장/text1",
+      "10_claims_manual/8장/text1",
+      "10_claims_manual/5장/row4",
+      "10_claims_manual/1장/text1",
+      "std_silson_basic/공통/제7조/1/2"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/2장/row1",
+      "01_cancer_rider/공통/제6조/0/3",
+      "11_supplement_templates/2장/text1",
+      "10_claims_manual/3장/text1",
+      "10_claims_manual/4장/row1",
+      "10_claims_manual/7장/text1",
+      "10_claims_manual/8장/text1",
+      "10_claims_manual/1장/text1",
+      "10_claims_manual/5장/row4",
+      "std_silson_basic/공통/제7조/1/2"
+    ]
+  }
+}

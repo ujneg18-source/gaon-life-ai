@@ -1,0 +1,81 @@
+{
+  "id": "Q02",
+  "question": "암 진단확정은 어떤 검사로 해야 인정돼?",
+  "response": {
+    "used_chunk_ids": [
+      "01_cancer_rider/공통/제3조/1/1",
+      "01_cancer_rider/공통/제3조/1/2"
+    ],
+    "answer": "가온생명 암진단특약 약관 제3조 ①에 따르면, 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 해요. 인정되는 검사는 1. 조직(fixed tissue)검사, 2. 미세바늘흡인검사(fine needle aspiration), 3. 혈액(hemic system)검사예요. 이 세 가지 중 하나의 검사 결과를 바탕으로 전문의가 진단해야 진단확정으로 인정돼요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 3,
+        "chunk_id": "01_cancer_rider/공통/제3조/1/1",
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제3조 ① 1호",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제3조(암의 진단확정)\n① 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 합니다.\n1. 조직(fixed tissue)검사"
+      },
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 3,
+        "chunk_id": "01_cancer_rider/공통/제3조/1/2",
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제3조 ① 2호",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제3조(암의 진단확정)\n① 암과 소액암의 진단확정은 해부병리 또는 임상병리 전문의 자격을 가진 의사가 다음 검사 중 하나의 결과를 기초로 내린 진단이어야 합니다.\n2. 미세바늘흡인검사(fine needle aspiration)"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "metrics": {
+    "recall_article_at_3": 1.0,
+    "citation_correct_acceptable": 2,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 2,
+    "citation_total": 2,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 해부병리·임상병리 전문의의 진단, 인정되는 검사(조직검사, 미세바늘흡인검사, 혈액검사)를 모두 포함하고 있으며, 조직검사가 불가능한 경우 진단·치료 기록으로 인정 가능하다는 내용은 약관상 일반 기준 안내로 볼 수 있어 핵심 사실 누락, 모순, 사실 오류가 없으므로 요지를 충족합니다. / 답변은 정답 요지의 핵심 사실(해부병리·임상병리 전문의의 진단, 조직검사·미세바늘흡인검사·혈액검사 결과 기초)을 모두 포함하고 있으며, 요지에 언급된 '불가능 시 진단·치료 기록 인정' 부분은 누락되었으나 이는 답변의 오류나 모순이 아닌 추가 정보 생략에 해당하므로 채점 기준상 1점으로 판정합니다. / 답변은 answer_gist의 핵심 내용인 병리·임상병리 전문의의 진단, 인정되는 검사 종류(조직검사, 미세바늘흡인검사, 혈액검사)를 모두 포함하고 있으며, answer_gist에 언급된 '불가능 시 진단·치료 기록으로 인정 가능' 부분은 누락되었으나 이는 핵심 사실이나 요청 행동의 누락으로 보기 어렵고 모순도 없으므로 요지 충족으로 판정합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 해부병리·임상병리 전문의의 진단, 인정되는 검사(조직검사, 미세바늘흡인검사, 혈액검사)를 모두 포함하고 있으며, 조직검사가 불가능한 경우 진단·치료 기록으로 인정 가능하다는 내용은 약관상 일반 기준 안내로 볼 수 있어 핵심 사실 누락, 모순, 사실 오류가 없으므로 요지를 충족합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 정답 요지의 핵심 사실(해부병리·임상병리 전문의의 진단, 조직검사·미세바늘흡인검사·혈액검사 결과 기초)을 모두 포함하고 있으며, 요지에 언급된 '불가능 시 진단·치료 기록 인정' 부분은 누락되었으나 이는 답변의 오류나 모순이 아닌 추가 정보 생략에 해당하므로 채점 기준상 1점으로 판정합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 병리·임상병리 전문의의 진단, 인정되는 검사 종류(조직검사, 미세바늘흡인검사, 혈액검사)를 모두 포함하고 있으며, answer_gist에 언급된 '불가능 시 진단·치료 기록으로 인정 가능' 부분은 누락되었으나 이는 핵심 사실이나 요청 행동의 누락으로 보기 어렵고 모순도 없으므로 요지 충족으로 판정합니다."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 4,
+      "naturalness": 4,
+      "no_internal_terms": 4,
+      "conclusion_first": 3,
+      "reason": "해요체로 자연스럽고 완결된 문장이지만 약관 조항 인용이 다소 딱딱하게 느껴집니다. 약관 조항 인용은 내부 용어가 아니지만, '해부병리 또는 임상병리 전문의' 같은 약관 표현을 일상어로 한 번 더 풀어주지 않아 4점입니다. 첫 문장이 약관 조항 인용으로 시작해 질문에 대한 직접적인 결론(어떤 검사인지)이 바로 드러나지 않아 결론 먼저 점수가 3점입니다."
+    },
+    "tone_violations": []
+  }
+}
