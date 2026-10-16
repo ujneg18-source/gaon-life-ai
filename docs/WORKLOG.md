@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19x · 브랜치 병합과 캐시 기반 시연 리허설
+- 관련 요구사항: FR-01~05, FR-07, FR-13~15, FR-18~27, FR-28~34, NFR-06~07, NFR-10
+- 한 일: PR #1과 feat/demo-polish를 main에 순서대로 병합(충돌 없음)하고 feat/demo-ready를 만들었다. DB 백업 후 시드·회신 상태 복원/인덱스·캐시 존재 검사 CLI와 관리자 확인 버튼을 추가했다. 프론트 revision으로 채팅/안내 상태를 초기화한다.
+  시연 외부 요청 3초 한도·동일 지문 캐시 대체·실제 전송 시도 장부를 추가했다. 기본 대화 비저장과 budget/pending·홀드아웃·평가·안전·디자인·문구를 유지했다. 1440×900 전체 촬영 E2E와 관리자 확인/취소 테스트, 장면 캡처16개와 구간별 시간을 기록했다.
+- 바뀐 파일: backend/app/services/demo_reset.py, backend/app/scripts/demo_reset.py, backend/app/routers/demo.py, backend/app/services/demo_deadline.py, backend/app/services/upstage.py, backend/app/agent/solar.py, backend/app/config.py, backend/app/main.py, backend/tests/test_demo_ready.py, frontend/components/demo-session-boundary.tsx, frontend/lib/demo-session.ts, frontend/app/(protected)/layout.tsx, frontend/components/operations-screens.tsx, frontend/e2e/, frontend/playwright.config.ts, frontend/package*.json, .env.example, .gitignore, docs/demo_rehearsal.md, artifacts/demo/
+- 확인 방법: pytest147/live1제외·Ruff check/format·프론트 lint/typecheck/format/e2e-format/Webpack 통과. E2E2개 통과(19.2초), 콘솔0개, 실제 Upstage0회. 기존 캐시2040개 삭제/변경0, 최종 DB 고객10/청구13/서류29/보완요청0·김유정step0/빈 메모. 상세 시간·백업 경로·PNG 목록은 docs/demo_rehearsal.md와 artifacts/demo/report.json에 기록.
+- 남은 문제 · 질문: 새 질문의 정확한 요청 캐시가 없으면 별도 준비 실행이 필요하다(타 요청 답변을 조작해 대신하지 않음). 로컬 Qdrant는 단일 백엔드만 허용한다. 기존 개발 lint 의존성 npm audit high5건은 주요 버전 하향 없이 남겨 두었다.
+
 ## 2026-10-16 · T-19w · 메인 카드 설명 문구와 두 줄 구분
 - 관련 요구사항: FR-04~05, SCR-02
 - 한 일: 업무 어시스턴트 설명을 ‘약관, 심사 기준, 업무 절차를 물어보면 / 관련된 근거 문서와 함께 답해 드려요’로 바꿨다. 워크스페이스 설명을 ‘청구 서류 분석부터 누락 불일치 확인 보완요청까지 / 한곳에서 처리해요’로 바꿨다. 요청한 위치에 명시적 줄바꿈을 넣고 실제 메인과 온보딩에서 같은 컴포넌트를 사용한다.

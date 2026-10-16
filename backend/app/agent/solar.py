@@ -7,7 +7,8 @@ from datetime import UTC, datetime
 
 import httpx
 
-from app.services.upstage import locked
+from app.services.demo_deadline import cached_deadline, record_attempt
+from app.services.upstage import atomic_json, locked
 
 
 class Solar:
@@ -26,7 +27,7 @@ class Solar:
                 if value is not None:
                     body[key] = value
         # 기본은 대화 비저장이다. 사용자가 요청한 가상 평가/시연만 명시적으로 응답 캐시를 켠다.
-        if path == config.SOLAR_CHAT_PATH and config.SOLAR_RESPONSE_CACHE:
+        if path == config.SOLAR_CHAT_PATH and (config.SOLAR_RESPONSE_CACHE or config.DEMO_MODE):
             fingerprint = hashlib.sha256(
                 json.dumps(
                     {"base": config.UPSTAGE_BASE_URL, "body": body},
@@ -40,12 +41,13 @@ class Solar:
                 if cache.exists():
                     result = json.loads(cache.read_text())
                     self.record_usage(path, body, result, "cache_hit")
-                    return result
+                    if self._cacheable(path, result):
+                        return result
                 if config.USE_CACHED_RESULTS:
                     raise RuntimeError("저장된 LLM 응답이 없어요.")
-                result = self._request(path, body)
-                if result.get("choices", [{}])[0].get("finish_reason") == "stop":
-                    cache.write_text(json.dumps(result, ensure_ascii=False))
+                result = self._cached_request(path, body, cache)
+                if config.SOLAR_RESPONSE_CACHE and self._cacheable(path, result):
+                    atomic_json(cache, result)
                 return result
         if path != "/embeddings":
             if config.USE_CACHED_RESULTS:
@@ -61,9 +63,39 @@ class Solar:
                 return json.loads(cache.read_text())
             if config.USE_CACHED_RESULTS:
                 raise RuntimeError("저장된 임베딩이 없어요.")
-            result = self._request(path, body)
-            cache.write_text(json.dumps(result, ensure_ascii=False))
+            result = self._cached_request(path, body, cache)
+            atomic_json(cache, result)
             return result
+
+    def _cacheable(self, path, result):
+        if path != self.config.SOLAR_CHAT_PATH:
+            return isinstance(result.get("data"), list)
+        try:
+            choice = result["choices"][0]
+            json.loads(choice["message"]["content"])
+            return choice.get("finish_reason") == "stop"
+        except (ValueError, KeyError, IndexError, TypeError):
+            return False
+
+    def _cached_request(self, path, body, cache):
+        def fallback():
+            if not cache.is_file():
+                return None
+            try:
+                result = json.loads(cache.read_text())
+                return result if self._cacheable(path, result) else None
+            except (ValueError, KeyError, IndexError):
+                return None
+
+        def request():
+            result = self._request(path, body)
+            if (
+                path != self.config.SOLAR_CHAT_PATH or self.config.SOLAR_RESPONSE_CACHE
+            ) and self._cacheable(path, result):
+                atomic_json(cache, result)
+            return result
+
+        return cached_deadline(self.config, request, fallback, path)
 
     def _request(self, path, body):
         """인증 헤더·실패 본문은 예외와 로그에 섞지 않는다."""
@@ -72,6 +104,7 @@ class Solar:
             with httpx.Client(
                 timeout=config.UPSTAGE_TIMEOUT_SEC, transport=self.transport
             ) as client:
+                record_attempt(config, path)
                 response = client.post(
                     config.UPSTAGE_BASE_URL.rstrip("/") + path,
                     headers={

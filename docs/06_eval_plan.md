@@ -333,3 +333,5 @@ HTTP 요청 48회: 성공 응답 47회, 중단 1회. 로컬 응답 캐시 18회 
 수신 토큰 정가 비용 $0.01097740, 중단1회를 같은 채점 호출 평균 비용으로 추정한 합계 **$0.011188**. Solar Pro4 입력$0.30/출력$1.20, Embed2 입력$0.02(각100만 토큰) 정가 기준이다. [공식 가격](https://www.upstage.ai/pricing/api)을 확인했다. 프로모션/서버 캐시 할인/VAT/실제 콘솔 차감액은 반영하지 않았으며 실제 청구액으로 단정하지 않는다. 추가 Document AI 페이지 호출은0이다.
 
 usage_summary.json/usage.jsonl에 토큰과 분류별 호출을 보존한다. 정상 서비스에서는 캐시/장부를 기본으로 켜지 않으며, 이번 실행 서버만 가상 시연 설정을 사용했다.
+
+| T-19x | DB 백업/초기화·캐시 보존·3초 경계·관리자 확인·촬영 동선 | pytest147/live1 제외·Ruff·lint/type/format/Webpack 통과, E2E2/콘솔0·Upstage0, 캐시2040 보존, reset30초 이내 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check; next build --webpack; playwright test --reporter=line | 2026-10-16 |

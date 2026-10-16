@@ -23,3 +23,6 @@ test-results/
 data/uploads/
 data/locks/
 data/kb/reference/
+
+data/backup/
+data/demo-state.json
