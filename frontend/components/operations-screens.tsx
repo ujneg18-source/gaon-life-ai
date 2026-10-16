@@ -45,6 +45,12 @@ function MessageEditor({
     [channel, setChannel] = useState(row.channel),
     [feedback, setFeedback] = useState(""),
     [busy, setBusy] = useState(false);
+  const [sourceMessage, setSourceMessage] = useState(row.message);
+  // 같은 초안 ID를 재생성해도 서버의 새 문구를 반영하고 발송 피드백은 유지한다.
+  if (sourceMessage !== row.message) {
+    setSourceMessage(row.message);
+    setMessage(row.message);
+  }
   const locked = readOnly || row.status !== "draft";
   async function save(send = false) {
     setBusy(true);
@@ -142,19 +148,25 @@ export function SupplementScreen({
   readOnly: boolean;
 }) {
   const router = useRouter();
-  const resource = useResource<Supplement[]>("/supplements"),
-    claims = useResource<ClaimList>("/claims");
+  const [choice, setChoice] = useState(claimId ?? "");
+  const resource = useResource<Supplement[]>(
+      `/supplements?claim_id=${encodeURIComponent(choice)}`,
+    ),
+    claims = useResource<ClaimList>("/claims"),
+    currentClaim = useResource<Claim>(`/claims/${encodeURIComponent(choice)}`);
   const [selected, setSelected] = useState<number | null>(null),
-    [choice, setChoice] = useState(claimId ?? ""),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false);
-  if (!resource.data || !claims.data)
-    return <LoadState error={resource.error ?? claims.error} />;
-  const rows = resource.data;
-  const row =
-    rows.find((r) => r.id === selected) ??
-    rows.find((r) => r.claim_id === claimId) ??
-    (claimId ? undefined : rows[0]);
+  if (!resource.data || !claims.data || !currentClaim.data)
+    return (
+      <LoadState error={resource.error ?? claims.error ?? currentClaim.error} />
+    );
+  // 선택이 바뀌는 순간 이전 고객의 요청과 편집기를 표시하지 않는다.
+  const rows = resource.data.filter((r) => r.claim_id === choice);
+  const missing = currentClaim.data.display_issues.filter(
+    (i) => i.kind === "missing",
+  );
+  const row = rows.find((r) => r.id === selected) ?? rows[0];
   async function create() {
     if (!choice) return;
     setBusy(true);
@@ -166,7 +178,7 @@ export function SupplementScreen({
       setChoice(r.claim_id);
       router.replace(`/workspace/supplement?claim=${r.claim_id}`);
       resource.reload();
-      setMessage("누락 서류로 초안을 만들었어요.");
+      setMessage("챗봇과 같은 기준으로 안내 문자를 생성했어요.");
     } catch (e) {
       setMessage((e as Error).message);
     } finally {
@@ -186,7 +198,17 @@ export function SupplementScreen({
             <select
               aria-label="보완 청구 선택"
               value={choice}
-              onChange={(e) => setChoice(e.target.value)}
+              onChange={(e) => {
+                const next = e.target.value;
+                setChoice(next);
+                setSelected(null);
+                setMessage("");
+                router.replace(
+                  next
+                    ? `/workspace/supplement?claim=${encodeURIComponent(next)}`
+                    : "/workspace/supplement",
+                );
+              }}
             >
               <option value="">청구를 선택해 주세요</option>
               {claims.data.items.map((c) => (
@@ -198,11 +220,31 @@ export function SupplementScreen({
           </label>
           <button
             className="btn"
-            disabled={readOnly || busy || !choice}
+            disabled={
+              readOnly ||
+              busy ||
+              !choice ||
+              !missing.length ||
+              row?.status === "sent_mock"
+            }
             onClick={create}
           >
-            누락 서류로 초안 만들기
+            {busy ? "안내 문자 생성 중…" : "안내 문자 생성"}
           </button>
+          <section className="panel missing-documents" aria-label="누락 서류">
+            <h3>누락 서류</h3>
+            {missing.length ? (
+              <ul>
+                {missing.map((i) => (
+                  <li key={i.id}>
+                    {i.title.replace(/\s*(?:누락|미제출)$/, "")}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="muted small">현재 누락된 필수 서류가 없어요.</p>
+            )}
+          </section>
           {message && (
             <p role="status" className="small">
               {message}
@@ -241,7 +283,9 @@ export function SupplementScreen({
           />
         ) : (
           <section className="panel empty-message">
-            청구를 선택하고 누락 서류로 안내 초안을 만들어 주세요.
+            {missing.length
+              ? "안내 문자 생성을 누르면 이 고객의 누락 서류를 반영한 초안이 나와요."
+              : "현재 고객에게 추가로 요청할 필수 서류가 없어요."}
           </section>
         )}
       </div>

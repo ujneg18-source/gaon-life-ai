@@ -80,45 +80,61 @@ def test_admin_flags_rules_reinspection_and_reopen(client):
     assert client.put("/api/rules/required-docs", json=[]).status_code == 403
 
 
-def test_solar_template_cache_and_model_response(client):
+def test_supplement_uses_chatbot_template_and_regenerates_stale_draft(client, monkeypatch):
+    """별도 Solar 문구 대신 챗봇의 실제 누락 조회/템플릿 결과와 완전히 일치해야 한다."""
     import httpx
-    from pydantic import SecretStr
 
-    from app.services.supplement import draft_message
+    from app.agent.tools import Tools
+    from app.models import User
+    from app.services.supplement import SupplementTemplates
 
-    config = client.app.state.settings.model_copy(
-        update={"UPSTAGE_API_KEY": SecretStr("test"), "USE_CACHED_RESULTS": False}
-    )
-    calls = []
+    def no_solar(*args, **kwargs):
+        raise AssertionError("안내 문자 생성에서 외부 LLM을 호출하면 안 된다")
 
-    def respond(request):
-        calls.append(request)
-        return httpx.Response(
-            200,
-            json={
-                "choices": [
-                    {"message": {"content": "김가상 고객님, DEMO-1 건 수술확인서를 제출해 주세요."}}
-                ]
-            },
+    base, _data = prepare(client)
+    monkeypatch.setattr(httpx.Client, "post", no_solar)
+    # TestClient.post도 httpx를 상속하므로 API 자체는 transport가 아닌 request로 실행한다.
+    response = client.request("POST", base + "/supplements")
+    assert response.status_code == 200
+    row = response.json()
+    with Session(client.app.state.engine) as session:
+        user = session.get(User, 1)
+        config = client.app.state.settings
+        expected = Tools(session, user, config, SupplementTemplates(config)).draft_supplement(
+            row["claim_id"], []
         )
+    assert row["message"] == expected["draft_text"]
+    assert row["message_source"] == "chatbot_template"
+    assert "수술받으신 병원 원무과" in row["message"]
+    assert "편리한 제출" not in row["message"] and "이미 발급받으신" not in row["message"]
+    assert (
+        client.patch(
+            f"/api/supplements/{row['id']}", json={"message": "이전 안내 문구"}
+        ).status_code
+        == 200
+    )
+    refreshed = client.request("POST", base + "/supplements").json()
+    assert refreshed["id"] == row["id"]
+    assert refreshed["message"] == expected["draft_text"]
 
-    transport = httpx.MockTransport(respond)
+
+def test_supplement_list_is_scoped_to_selected_claim(client):
+    """다른 고객으로 전환하면 이전 고객의 초안이 목록/편집기에 섞이지 않는다."""
+    base, _data = prepare(client)
+    created = client.post(base + "/supplements").json()
+    others = [
+        row for row in client.get("/api/claims").json()["items"] if row["id"] != created["claim_id"]
+    ]
+    other = others[0]
+    assert client.get("/api/supplements", params={"claim_id": other["id"]}).json() == []
+    own = client.get("/api/supplements", params={"claim_id": created["claim_id"]}).json()
+    assert len(own) == 1 and own[0]["customer_name"] == created["customer_name"]
+    assert client.post(f"/api/claims/{other['id']}/supplements").status_code == 409
+    with Session(client.app.state.engine) as session:
+        claim = session.get(Claim, created["claim_id"])
+        claim.assignee_id = 2
+        session.add(claim)
+        session.commit()
     assert (
-        draft_message(config, "김가상", "DEMO-1", ["수술확인서"], transport=transport)[1] == "solar"
+        client.get("/api/supplements", params={"claim_id": created["claim_id"]}).status_code == 403
     )
-    assert (
-        draft_message(config, "김가상", "DEMO-1", ["수술확인서"], transport=transport)[1]
-        == "solar_cached"
-    )
-    assert len(calls) == 1
-    assert (
-        draft_message(
-            config.model_copy(update={"USE_CACHED_RESULTS": True}),
-            "이가상",
-            "DEMO-2",
-            ["수술확인서"],
-            transport=transport,
-        )[1]
-        == "standard_template"
-    )
-    assert len(calls) == 1

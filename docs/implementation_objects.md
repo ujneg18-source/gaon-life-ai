@@ -145,3 +145,9 @@
 - `tours.ts`는 네 화면의 단계 데이터, `OnboardingTour`는 마스크·위치·키보드·localStorage 실패 처리를 맡는다. 투어가 없는 화면에는 작동하지 않는 안내 버튼을 남기지 않는다.
 - `Original`은 비교 원본에도 재사용한다. 기본값은 추출 좌표만 사용하며 좌표가 없으면 이미지와 위치 정보 없음만 표시한다. 문서2페이지의 좌표는 그 페이지에서 시작한다. 모달은 Esc·Tab 제한과 초점 복원을 지원한다.
 - 인박스는 URL로 필터/페이지를 보존하고 sessionStorage에 해당 URL/스크롤을 저장한다. 출처는 `SHOW_DEV_BADGE` 기본false, `DEMO_MODE`에서 항상 숨기며 DB provenance는 유지한다.
+
+## T-19l 보완 안내 공통 객체
+- `SupplementTemplates`: KB_PATH의 기존 파서 결과 중 보완 표준 문구를 조회하는 로컬 어댑터다. 원문/평가셋/인덱스를 수정하지 않고 Qdrant·임베딩·LLM도 열지 않는다.
+- `claim_supplement_draft`: 챗봇의 Tools.draft_supplement(claim_id, [])를 호출한다. 고객 권한과 저장된 누락 이슈를 동일하게 읽고 같은 고객명/템플릿 문구를 반환한다.
+- 보완 API: GET /api/supplements?claim_id=...는 권한 범위와 선택 청구를 모두 검사한다. POST /api/claims/{id}/supplements는 요청할 실제 누락이 있을 때만 초안을 생성/미발송 초안 재생성한다. 이미 발송된 요청은 덮어쓰지 않는다.
+- `SupplementScreen`: 선택 청구별 응답 URL을 사용하며 응답 URL이 바뀌면 이전 고객을 로딩 상태 뒤로 숨긴다. 카드/편집기에도 선택 청구 필터를 적용한다. 새 서버 문구는 같은 초안 ID여도 편집기에 반영하고 모의 발송 피드백은 유지한다.
