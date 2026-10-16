@@ -2427,3 +2427,43 @@ p {
     padding: 12px 16px 6px;
   }
 }
+
+/* 오른쪽 두 카드가 행 높이를 정하고 원본 뷰어는 그 높이를 채운다.
+   이미지 자체의 종횡비·배율은 바꾸지 않아 자동 확대를 피한다. */
+.review-viewer-slot {
+  position: relative;
+  min-width: 0;
+  min-height: 700px;
+}
+.review-viewer-slot > .viewer-panel {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+@media (max-width: 1100px) {
+  .review-viewer-slot {
+    min-height: 620px;
+  }
+}
+
+/* 안내 본문은 키보드로도 누를 수 있는 서류 이동 버튼이다. 확인 액션과 분리한다. */
+.compact-issue > .issue-open {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.compact-issue > .issue-open:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.review-issues-card .compact-issue.issue-active {
+  border-color: var(--accent);
+}

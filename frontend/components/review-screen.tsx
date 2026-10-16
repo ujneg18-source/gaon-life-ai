@@ -3,7 +3,7 @@ import Link from "next/link";
 import { formatDatesInText } from "@/lib/dates";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { referenceForm } from "@/lib/reference-form";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   ZoomIn,
   ZoomOut,
@@ -325,6 +325,7 @@ export function ReviewScreen({
   readOnly: boolean;
 }) {
   const params = useSearchParams();
+  const router = useRouter();
   const resource = useResource<Claim>(`/claims/${claimId}`),
     { data: c, error } = resource;
   // 비교 진입도 기존 맞춤 비율(100%)로 시작한다. 대상 이동·강조와 수동 확대는 유지한다.
@@ -349,6 +350,22 @@ export function ReviewScreen({
   const fields = c.fields.filter((f) =>
     docs.some((d) => d.id === f.document_id),
   );
+  // 안내의 실제 문서 ID와 필드 키만 사용한다. 누락 서류는 원본 대신 보완 화면으로 연결한다.
+  function openIssue(i: Issue) {
+    if (i.kind === "missing") {
+      router.push(`/workspace/supplement?claim=${claimId}`);
+      return;
+    }
+    const target = c!.documents.find((d) => i.doc_ids.includes(d.id));
+    if (!target) {
+      setMessage("연결된 원본 서류가 없어요. 제출 서류를 확인해 주세요.");
+      return;
+    }
+    setDoc(target.id);
+    setCompare(i);
+    setSelected(null);
+    // 배율은 사용자가 고른 값 그대로 유지한다.
+  }
   async function resolve(i: Issue) {
     try {
       for (const id of [i.id, ...(i.related_ids ?? [])])
@@ -389,61 +406,63 @@ export function ReviewScreen({
         </div>
       ) : (
         <div className="review-grid">
-          <section className="panel viewer-panel" data-tour="review-original">
-            <div className="panel-heading">
-              <h2>{comparing ? "원본 비교" : "원본 서류"}</h2>
-              <div className="viewer-tools">
-                <button
-                  aria-label="축소"
-                  disabled={zoom <= 60}
-                  onClick={() => setZoom((z) => z - 20)}
-                >
-                  <ZoomOut size={16} />
-                </button>
-                <span className="mono">{zoom}%</span>
-                <button
-                  aria-label="확대"
-                  disabled={zoom >= 400}
-                  onClick={() => setZoom((z) => z + 20)}
-                >
-                  <ZoomIn size={16} />
-                </button>
-                {comparing && (
+          <div className="review-viewer-slot">
+            <section className="panel viewer-panel" data-tour="review-original">
+              <div className="panel-heading">
+                <h2>{comparing ? "원본 비교" : "원본 서류"}</h2>
+                <div className="viewer-tools">
                   <button
-                    aria-label="비교 닫기"
-                    onClick={() => {
-                      setCompare(null);
-                      window.history.replaceState(
-                        null,
-                        "",
-                        `?claim=${claimId}`,
-                      );
-                    }}
+                    aria-label="축소"
+                    disabled={zoom <= 60}
+                    onClick={() => setZoom((z) => z - 20)}
                   >
-                    <X size={16} />
+                    <ZoomOut size={16} />
                   </button>
-                )}
+                  <span className="mono">{zoom}%</span>
+                  <button
+                    aria-label="확대"
+                    disabled={zoom >= 400}
+                    onClick={() => setZoom((z) => z + 20)}
+                  >
+                    <ZoomIn size={16} />
+                  </button>
+                  {comparing && (
+                    <button
+                      aria-label="비교 닫기"
+                      onClick={() => {
+                        setCompare(null);
+                        window.history.replaceState(
+                          null,
+                          "",
+                          `?claim=${claimId}`,
+                        );
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className={comparing ? "originals comparing" : "originals"}>
-              {docs.map((d) => (
-                <Original
-                  key={`${d.id}-${comparing ? issue.id : "single"}`}
-                  doc={d}
-                  fields={c.fields.filter((f) => f.document_id === d.id)}
-                  selected={selected}
-                  select={setSelected}
-                  zoom={zoom}
-                  focusKeys={comparing ? issue.field_keys : []}
-                />
-              ))}
-            </div>
-            <div className="viewer-legend">
-              <span className="ok">□ 추출 위치</span>
-              <span className="warn">□ 확인 필요</span>
-              <span>항목을 누르면 원문 위치가 강조돼요.</span>
-            </div>
-          </section>
+              <div className={comparing ? "originals comparing" : "originals"}>
+                {docs.map((d) => (
+                  <Original
+                    key={`${d.id}-${issue?.id ?? "single"}`}
+                    doc={d}
+                    fields={c.fields.filter((f) => f.document_id === d.id)}
+                    selected={selected}
+                    select={setSelected}
+                    zoom={zoom}
+                    focusKeys={issue?.field_keys ?? []}
+                  />
+                ))}
+              </div>
+              <div className="viewer-legend">
+                <span className="ok">□ 추출 위치</span>
+                <span className="warn">□ 확인 필요</span>
+                <span>항목을 누르면 원문 위치가 강조돼요.</span>
+              </div>
+            </section>
+          </div>
           <div className="review-results-stack">
             <section
               className="panel results-panel normalization-card"
@@ -501,7 +520,10 @@ export function ReviewScreen({
               </div>
               <div className="compact-issues">
                 {allIssues.map((i) => (
-                  <div key={i.id} className="compact-issue">
+                  <div
+                    key={i.id}
+                    className={`compact-issue ${issue?.id === i.id ? "issue-active" : ""}`}
+                  >
                     <span
                       className={
                         i.kind === "info"
@@ -519,8 +541,14 @@ export function ReviewScreen({
                         <TriangleAlert size={15} />
                       )}
                     </span>
-                    <div>
-                      <strong title={i.detail}>
+                    <button
+                      className="issue-open"
+                      type="button"
+                      onClick={() => openIssue(i)}
+                      aria-label={`${i.title} ${i.kind === "missing" ? "보완 처리" : "관련 서류 보기"}`}
+                      aria-pressed={issue?.id === i.id}
+                    >
+                      <strong>
                         {i.kind === "info" && "안내 · "}
                         {formatDatesInText(i.title).replace(
                           /diagnosis_code/g,
@@ -532,7 +560,7 @@ export function ReviewScreen({
                           .replace(/not_in_source/g, "원문 불일치")
                           .replace(/surgery_cert/g, "수술확인서")}
                       </small>
-                    </div>
+                    </button>
                     <div className="issue-actions">
                       {i.kind === "missing" && (
                         <Link href={`/workspace/supplement?claim=${claimId}`}>
@@ -541,10 +569,7 @@ export function ReviewScreen({
                       )}
                       {i.doc_ids.length === 2 && (
                         <button
-                          onClick={() => {
-                            setCompare(i);
-                            setZoom(100);
-                          }}
+                          onClick={() => openIssue(i)}
                           aria-label={`${i.title} 원본 비교`}
                         >
                           <Columns2 size={14} />
