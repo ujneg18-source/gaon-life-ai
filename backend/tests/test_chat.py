@@ -42,6 +42,14 @@ class FakeKB:
 class FakeSolar:
     def structured(self, messages, schema, name):
         text = messages[-1]["content"]
+        if name == "tone_answer":
+            import json
+            import re
+
+            # 업무 사실은 그대로 두고 내부 코드만 제거하는 말투 모델 대역이다.
+            answer = json.loads(text)["fact_answer"]
+            answer = re.sub(r"\s*\(CV-0\d\)", "", answer)
+            return {"answer": answer.replace(" · ", ", ")}
         intent = (
             "item_coverage"
             if "종합비타민정" in text
@@ -109,9 +117,10 @@ def test_four_demo_answers(client):
     ]
     first, second, third, fourth = answers
     assert "제출 7 / 필요 8" in first["answer"]
-    assert "CV-04" in first["answer"] and "CV-01" in first["answer"]
+    assert "수술확인서" in first["answer"] and "진단일" in first["answer"]
+    assert "CV-" not in first["answer"]
     assert "C18.7" in first["answer"] and "세분류" in first["answer"]
-    assert "안내 (CV-02)" in first["answer"]
+    assert "1일 차이" in first["answer"]
     assert first["suggested_actions"][0]["label"] == "보완 요청 작성"
     assert "보상 제외 가능성" in second["answer"] and "처방전에 없음" in second["answer"]
     assert any(

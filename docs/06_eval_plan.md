@@ -69,7 +69,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-17 | 실제 질문4·근거/가상 표시·편집 초안·액션·청구 이슈 링크·맥락·로딩 | 통과: pytest55/live1 제외; 프론트 lint/type/format/date1/build, 브라우저 실제4질문·연결 검증 | pytest -q; ruff; npm run lint/typecheck/format:check/build; Node dates; CUA Playwright 캡처 artifacts/t17/ | 2026-10-16 |
 | T-05 | 수술확인서·회신 자동 검토·CV-04 해소·회신완료·확정값/중복 보존 | pytest56 통과/live1 제외; lint/typecheck 통과; 추가 API0 | pytest -q; npm run lint/typecheck; CUA A4 캡처 | 2026-10-16 |
 | T-06 | 고객10·청구13·서류29·4상태·동명이인·출처·사진 선택·90일 경계·폴더 검증·실측 | pytest62/live1 제외, Ruff/포맷·프론트 lint/type/format/build 통과; mock10/10, 신규실측74/74·3장9호출, 캐시0호출 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check/build; python -m verify_samples --folder … [--cached]; CUA 캡처 artifacts/t06/ | 2026-10-16 |
-| T-18 | T-18c 2×2·rubric 구/신 재채점·회귀·동결 홀드아웃16·필수5질문·카드·배포 빌드 | pytest94/live1 제외·Ruff/포맷·프론트 lint/type/format 통과. 개발 의도100/recall93.75/엄격인용92.11/거절100/요지96.67; 홀드아웃93.75/75/78.95/100/87.5. Webpack 빌드 성공. 호 집계 감사와 실패 원문 별도 | pytest -q; ruff check/format; eval_chat --questions data/eval/holdout_questions.json --out artifacts/t18/holdout/ --once --judge-repeats 3; regrade_t18c; npm run lint/typecheck/format:check; npx next build --webpack | 2026-10-16 |
+| T-18 | T-18c 통제/홀드아웃 기록 유지 + 말투 전후 개발30/시연4/동일 초안 검증 | pytest108/live1 제외·Ruff/포맷 통과. 말투3.87→4.07, 같은 초안3.90→4.07·인용89.47 유지·거절100 유지·요지96.67→100. 이전 실행 인용92.11→89.47은 미달 공개. 잔존 문체6/30 | pytest -q; ruff check/format; eval_chat --out artifacts/t18/runs/2026-10-16/tone/v2 --phase after --tone --workers 2; eval_tone; eval_tone_pair | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 
@@ -191,3 +191,67 @@ dense 참고를 청킹-only라고 보고하지 않는다. legacy는 기존 점�
 필수4문항+영양제 답변과 근거 주소는 artifacts/t18/demo_answers.md, 실제 카드 캡처는 dated citation_cards.png. pytest94 passed/live1 deselected, Ruff/포맷 및 프론트 lint/type/format 통과, next build --webpack 성공. File Search 비교는 선택 항목으로 미실행.
 
 ADR-01과 전체 결과는 docs/decisions.md, docs/deliverables/테스트결과보고서.md. T18b 이전 보고서는 테스트결과보고서_T18b.md로 보존했다.
+
+## T-18 말투 후속 검증
+
+# 답변 말투 개선 검증 (2026-10-16)
+
+## 범위와 방법
+
+기능/거절 가드/검색/근거 선택/요지 rubric/평가 정답은 유지했다. 사실과 인용을 먼저 확정한 뒤 ToneAnswer(answer 하나)로 본문만 생성한다. 위반하면1회 재생성하고 남은 위반은 유형만 로그에 남긴다. 수치 소실과 새 지급 확정은 거부한다. 고정 거절문은 이유와 대안이 있는3문장으로 썼다. 예시3쌍은 개발 질문을 사용하지 않았다.
+
+Solar snapshot solar-pro4-260806, 요청 seed42/온도0/top_p1을 유지했다. 서버 seed 적용은 보장되지 않으므로 별도 실행의 검색/생성/채점 변동을 말투 효과로 단정하지 않는다. 홀드아웃은 재실행하거나 수정하지 않았다.
+
+## 별도 실행 비교
+
+| 실행 | 말투 평균/5 | 의도 | recall(a/b) | 엄격 인용 | 거절 | 요지3회 다수결 | 금지 표현 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 기존 T-18c 답변 | 3.87 | 100.00% | 93.75%/93.75% | 92.11% | 100.00% | 96.67% | 0 |
+| 말투 v1 · 보존 | 4.20 | 100.00% | 93.75%/93.75% | 89.74% | 100.00% | 93.33% | 0 |
+| 말투 v2 · 최종 | 4.07 | 100.00% | 93.75%/91.67% | 89.47% | 100.00% | 100.00% | 0 |
+
+**기존 별도 실행 대비 엄격 인용 무하락 조건은 미달이다.** 92.11→89.47%(-2.63%p). Q08은 올바른 인용2개에서1개, Q26은 정답 조항 외 정의 조문1개가 추가돼35/38에서34/38이 됐다. Q04의 두 번째 조항 선택도 바뀌었지만 엄격 정답 개수는 같았다. 검색/생성 단계의 변동이며 말투 단계에서 인용을 고친 것은 아니다. 정답·허용 기준을 바꾸거나 최고 점수를 고르지 않았다.
+
+## 같은 실행의 말투 전후 대응 비교
+
+외부 실행 변동을 분리하려고 v2의 동일 사실 초안을 별도로3회 요지 채점했다. 메타데이터는 말투 노드가 바꾸지 않으므로 그대로 대조했다. 이는 이전92.11%를 대체하는 새 기준이 아니라 원인 분리용 보조 실험이다.
+
+| 지표 | 사실 초안 | 말투 처리 후 |
+|---|---:|---:|
+| 말투 평균/5 | 3.90 | 4.07 |
+| 자연스러움/5 | 3.90 | 4.13 |
+| 내부 용어 없음/5 | 4.07 | 4.13 |
+| 결론 먼저/5 | 3.83 | 4.17 |
+| 패턴 통과율 | 60.00% | 80.00% |
+| 엄격 인용 | 89.47% | 89.47% |
+| 거절 | 100.00% | 100.00% |
+| 요지 | 96.67% | 100.00% |
+
+이 대응 비교에서는 인용/거절이 유지되고 요지는 개선됐다. 본문 내부 코드/CV/snake_case 잔존은0/30이다. 다만 전부 문체 지침을 만족한 것은 아니다.
+
+## 남은 패턴 위반
+
+| 문항 | 재생성1회 후 남은 유형 |
+|---|---|
+| Q08 | middle_dot_list |
+| Q09 | middle_dot_list |
+| Q11 | sentence_count |
+| Q15 | sentence_count |
+| Q17 | sentence_count |
+| Q26 | middle_dot_list |
+
+남은6문항은 추가 생성이나 임의 잘라내기를 하지 않았다. 명사형 종결 검사는 휴리스틱이며 완전한 한국어 형태소 판정기가 아니다. Solar 문체 평가는 단회이고 요지는3회 다수결이므로, 문체 평균의 작은 차이를 확정적인 개선 효과로 해석하지 않는다.
+
+## 필수 시연4문항
+
+baseline-demo-v2/checks.json의12개 의미/근거/거절 검사가 모두 통과했다. 고객 서류7/8, 수술확인서 누락, 진단일/보고일, 세분류, 입원일수1일 안내, 보완 버튼, 처방전 대조와 가능성 표현, 호 인용, 보완 템플릿, 지급 판단 거절을 확인했다. 전후 원문은 artifacts/t18/tone_before_after.md. 시연P1도7문장으로 남아 별도 로그를 보존했다.
+
+## 검증과 산출물
+
+pytest108 passed/live1 deselected, Ruff/포맷 통과. 별도 프론트 변경 없음. 기존localhost 백엔드를 재시작하고 /health 응답ok 확인. 기존T-18c/홀드아웃 산출물은 유지했다.
+
+- v1/, v2/: 개발30문항 원본, 요지3회 판정, 문체 점수/사유, 생성 전후 trace.
+- v1/source_snapshot/: 첫 생성 방식의 소스.
+- baseline-demo-v1/, baseline-demo-v2/: 이전 답변 말투 채점과 필수 시연 전후.
+- v2/paired_before/, paired_comparison.json: 동일 초안 대응 검증.
+- 기존 요지 rubric은 그대로이며 보조 말투 rubric만 CHANGELOG에 추가했다.

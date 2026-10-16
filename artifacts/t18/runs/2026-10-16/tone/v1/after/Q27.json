@@ -1,0 +1,73 @@
+{
+  "id": "Q27",
+  "type": "refusal",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 (치아보험 문서 없음)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "이 질문은 제가 도와드릴 수 있는 문서 검토 업무 범위 밖이에요. 관련 규정도 찾지 못했어요. 보험 청구 서류나 약관에 관한 질문을 주시면 확인해 드릴게요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변 gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 답변에서도 동일하게 전달하고 있어 핵심 사실 누락, 모순, 사실 오류가 없음. 또한 답변 범위를 벗어난 질문임을 정중히 안내하고 관련 서류나 약관 질문을 요청하는 후속 조치도 gist의 취지에 부합함. / 답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 포함하고 있습니다. 또한 문서 검토 업무 범위를 벗어난 질문임을 밝히고, 보험 청구 서류나 약관 관련 질문을 요청하는 행동도 gist의 취지에 부합합니다. 핵심 사실 누락이나 모순이 없으므로 기준을 충족합니다. / 질문은 특정 보험사(가온생명)의 치아보험 보장 내용을 요청했으나, 답변 gist는 '관련 규정을 찾지 못했다(치아보험 문서 없음)'고만 서술하여 실제 보장 내용이나 약관 기준에 대한 정보가 전혀 포함되지 않았습니다. 또한 답변 본문은 문서 검토 업무 범위 밖이라는 점을 언급하며 회피성 응답을 하고 있어, 질문의 핵심 요청(보장 내용 안내)을 충족하지 못했습니다. 핵심 사실 누락 및 질문 의도와 다른 응답에 해당하므로 0점으로 판정합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변 gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 답변에서도 동일하게 전달하고 있어 핵심 사실 누락, 모순, 사실 오류가 없음. 또한 답변 범위를 벗어난 질문임을 정중히 안내하고 관련 서류나 약관 질문을 요청하는 후속 조치도 gist의 취지에 부합함."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 포함하고 있습니다. 또한 문서 검토 업무 범위를 벗어난 질문임을 밝히고, 보험 청구 서류나 약관 관련 질문을 요청하는 행동도 gist의 취지에 부합합니다. 핵심 사실 누락이나 모순이 없으므로 기준을 충족합니다."
+        },
+        {
+          "score": 0,
+          "reason": "질문은 특정 보험사(가온생명)의 치아보험 보장 내용을 요청했으나, 답변 gist는 '관련 규정을 찾지 못했다(치아보험 문서 없음)'고만 서술하여 실제 보장 내용이나 약관 기준에 대한 정보가 전혀 포함되지 않았습니다. 또한 답변 본문은 문서 검토 업무 범위 밖이라는 점을 언급하며 회피성 응답을 하고 있어, 질문의 핵심 요청(보장 내용 안내)을 충족하지 못했습니다. 핵심 사실 누락 및 질문 의도와 다른 응답에 해당하므로 0점으로 판정합니다."
+        }
+      ],
+      "unanimous": false
+    },
+    "tone": {
+      "score": 3,
+      "naturalness": 3,
+      "no_internal_terms": 5,
+      "conclusion_first": 3,
+      "reason": "자연스러움은 해요체를 사용했지만 '관련 규정도 찾지 못했어요' 같은 표현이 다소 딱딱하고, 이유-다음 행동 연결이 매끄럽지 않아 3점입니다. 내부 용어는 전혀 없어 5점입니다. 결론 먼저는 첫 문장이 범위 밖임을 밝히지만 질문의 핵심(가온생명 치아보험 보장 내용)에 대한 직접적인 결론이 아니라 업무 범위 거절에 가까워 3점입니다."
+    },
+    "tone_violations": []
+  },
+  "tone_trace": {
+    "before": "이 질문은 제가 도와드릴 수 있는 문서 검토 업무 범위 밖이에요. 관련 규정도 찾지 못했어요. 보험 청구 서류나 약관에 관한 질문을 주시면 확인해 드릴게요.",
+    "initial_violations": [],
+    "attempts": [],
+    "remaining_violations": []
+  }
+}

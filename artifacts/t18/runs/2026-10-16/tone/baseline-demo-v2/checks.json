@@ -1,0 +1,14 @@
+{
+  "7_8": true,
+  "missing_surgery": true,
+  "diagnosis_dates": true,
+  "subcode": true,
+  "one_day_info": true,
+  "draft_action": true,
+  "vitamin_uncertain": true,
+  "prescription_missing": true,
+  "vitamin_citation": true,
+  "draft_template": true,
+  "refused": true,
+  "no_internal_codes": true
+}

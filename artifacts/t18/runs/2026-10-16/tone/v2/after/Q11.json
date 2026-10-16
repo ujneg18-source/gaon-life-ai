@@ -1,0 +1,756 @@
+{
+  "id": "Q11",
+  "type": "policy_qa",
+  "question": "보험금 청구권은 언제 소멸돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제37조"
+    }
+  ],
+  "answer_gist": "3년간 행사하지 않으면 소멸시효 완성",
+  "acceptable_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제37조"
+    },
+    {
+      "doc": "gaon/00_product_summary.md",
+      "article": "2장"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "std_life_insurance/공통/제37조/0"
+    ],
+    "answer": "보험금 청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 생명보험 표준약관 제37조에 따른 거예요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 1,
+        "chunk_id": "std_life_insurance/공통/제37조/0",
+        "doc_name": "생명보험 표준약관",
+        "article": "제37조",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "std_life_insurance/공통/제37조/0"
+      ],
+      "answer": "보험금 청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 생명보험 표준약관 제37조에 따른 거예요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "00_product_summary/2장/row5",
+        "node_id": "00_product_summary/2장/row5",
+        "address": "2장",
+        "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 청구권 소멸시효 | 3년 | 생명보험 표준약관 제37조 |"
+      },
+      {
+        "chunk_id": "00_product_summary/2장/row1",
+        "node_id": "00_product_summary/2장/row1",
+        "address": "2장",
+        "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |"
+      },
+      {
+        "chunk_id": "std_life_insurance/공통/제37조/0",
+        "node_id": "std_life_insurance/공통/제37조/0",
+        "address": "제37조",
+        "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제41조/0",
+        "node_id": "std_silson_basic/공통/제41조/0",
+        "address": "제41조",
+        "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>"
+      },
+      {
+        "chunk_id": "std_life_insurance/공통/제7조/1/4",
+        "node_id": "std_life_insurance/공통/제7조/1/4",
+        "address": "제7조 ① 4호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n4. 기타 보험수익자가 보험금 수령에 필요하여 제출하는 서류"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제37조",
+      "title": "제37조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제37조/0",
+      "parent_id": "std_life_insurance/공통/제37조",
+      "is_definition": false,
+      "refs": [
+        "제37조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제37조",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제37조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.07154944473823376,
+      "search_group": [
+        "data/kb/policy/std_life_insurance.txt",
+        "",
+        "제37조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제41조",
+      "title": "제41조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제41조/0",
+      "parent_id": "std_silson_basic/공통/제41조",
+      "is_definition": false,
+      "refs": [
+        "제41조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제41조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제41조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06504494976203068,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제41조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "2장",
+      "title": "2. 공통 사항 (주계약 · 모든 특약)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 청구권 소멸시효 | 3년 | 생명보험 표준약관 제37조 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/2장/row5",
+      "parent_id": "00_product_summary/2장",
+      "is_definition": false,
+      "refs": [
+        "제37조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.06378472222222223,
+      "search_group": [
+        "data/kb/gaon/00_product_summary.md",
+        "",
+        "2장",
+        ""
+      ]
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제39조",
+      "title": "제39조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제39조(소멸시효)\n보험금청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_illness_injury/공통/제39조/0",
+      "parent_id": "std_illness_injury/공통/제39조",
+      "is_definition": false,
+      "refs": [
+        "제39조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제39조",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제39조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06349206349206349,
+      "search_group": [
+        "data/kb/policy/std_illness_injury.txt",
+        "",
+        "제39조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제22조",
+      "title": "제22조(계약의 소멸)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제22조(계약의 소멸)\n피보험자의 사망으로 인하여 이 약관에서 규정하는 보험금 지급사유가 더 이상 발생할 수 없는 경우에는 이 계약은 그때부터 효력이 없습니다. 이때 사망을 보험금 지급사유로 하지 않는 경우에는 ‘보험료 및 해약환급금 산출방법서’에서 정하는 바에 따라 회사가 적립한 사망 당시의 계약자적립액을 지급합니다.<개정 2023.6.26.>\n【계약자적립액】장래의 해약환급금 등을 지급하기 위하여 계약자가 납입한 보험료 중 일정액을 기준으로 보험료 및 해약환급금 산출방법서에서 정한 방법에 따라 계산한 금액을 말합니다. \n제5관 보험료의 납입",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제22조/0",
+      "parent_id": "std_life_insurance/공통/제22조",
+      "is_definition": false,
+      "refs": [
+        "제22조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제22조",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제22조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.05784679089026915,
+      "search_group": [
+        "data/kb/policy/std_life_insurance.txt",
+        "",
+        "제22조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제22조",
+      "title": "제22조(계약의 소멸)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제22조(계약의 소멸)\n피보험자가 사망하여 이 약관에서 규정하는 보험금 지급사유가 더 이상 발생할 수 없는 경우에는 이 계약은 그 때부터 효력이 없습니다. <개정 2015.11.30.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제22조/0",
+      "parent_id": "std_silson_basic/공통/제22조",
+      "is_definition": false,
+      "refs": [
+        "제22조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제22조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제22조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.0599478952420129,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제22조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(특별약관의 소멸)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제8조(특별약관의 소멸)\n피보험자의 사망으로 인하여 이 특별약관에서 규정하는 보험금 지급사유가 더 이상 발생할 수 없는 경우에는 이 계약은 그 때부터 효력이 없습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "rider2/공통/제8조/0",
+      "parent_id": "rider2/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조",
+      "authority_level": 1,
+      "governs": [
+        "실손의료보험 특별약관2(비중증 비급여 실손의료비)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/공통/제8조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.0620444290177022,
+      "search_group": [
+        "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+        "",
+        "제8조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(특별약관의 소멸)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+      "chunk_text": "제8조(특별약관의 소멸)\n피보험자의 사망으로 인하여 이 특별약관에서 규정하는 보험금 지급사유가 더 이상 발생할 수 없는 경우에는 이 계약은 그 때부터 효력이 없습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_rider1_severe_noncovered/공통/제8조/0",
+      "parent_id": "std_silson_rider1_severe_noncovered/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조",
+      "authority_level": 1,
+      "governs": [
+        "실손의료보험 특별약관1(중증 비급여 실손의료비)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_rider1_severe_noncovered/공통/제8조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.05750273822562979,
+      "search_group": [
+        "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+        "",
+        "제8조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n4. 기타 보험수익자가 보험금 수령에 필요하여 제출하는 서류",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "4",
+      "node_id": "std_life_insurance/공통/제7조/1/4",
+      "parent_id": "std_life_insurance/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.",
+      "address": "제7조 ① 4호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제7조/1/4",
+      "embedding_version": "structure-v3",
+      "score": 0.05850960632864021,
+      "search_group": [
+        "data/kb/policy/std_life_insurance.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n4. 그 밖에 보험수익자가 보험금 수령에 필요하여 제출하는 서류",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "4",
+      "node_id": "std_silson_basic/공통/제7조/1/4",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 4호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/4",
+      "embedding_version": "structure-v3",
+      "score": 0.05399782831813652,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [
+    {
+      "query": "보험금 청구권은 언제 소멸돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "생명보험 표준약관",
+          "edition": "2026.08.28",
+          "article": "제37조",
+          "title": "제37조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_life_insurance.txt",
+          "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "std_life_insurance/공통/제37조/0",
+          "parent_id": "std_life_insurance/공통/제37조",
+          "is_definition": false,
+          "refs": [
+            "제37조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제37조",
+          "authority_level": 1,
+          "governs": [
+            "생명보험 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_life_insurance/공통/제37조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.07154944473823376,
+          "search_group": [
+            "data/kb/policy/std_life_insurance.txt",
+            "",
+            "제37조",
+            ""
+          ]
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제41조",
+          "title": "제41조(소멸시효)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "std_silson_basic/공통/제41조/0",
+          "parent_id": "std_silson_basic/공통/제41조",
+          "is_definition": false,
+          "refs": [
+            "제41조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제41조",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제41조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.06504494976203068,
+          "search_group": [
+            "data/kb/policy/std_silson_basic.txt",
+            "",
+            "제41조",
+            ""
+          ]
+        },
+        {
+          "doc_name": "가온 건강플러스보험 상품 개요",
+          "edition": "2026.01 (가상)",
+          "article": "2장",
+          "title": "2. 공통 사항 (주계약 · 모든 특약)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/00_product_summary.md",
+          "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 청구권 소멸시효 | 3년 | 생명보험 표준약관 제37조 |",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "00_product_summary/2장/row5",
+          "parent_id": "00_product_summary/2장",
+          "is_definition": false,
+          "refs": [
+            "제37조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "2장",
+          "authority_level": 2,
+          "governs": [
+            "가온 건강플러스보험 상품 개요"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "00_product_summary/2장/row5",
+          "embedding_version": "structure-v3",
+          "score": 0.06378472222222223,
+          "search_group": [
+            "data/kb/gaon/00_product_summary.md",
+            "",
+            "2장",
+            ""
+          ]
+        }
+      ]
+    }
+  ],
+  "context": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제37조",
+      "title": "제37조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제37조(소멸시효)\n보험금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_life_insurance/공통/제37조/0",
+      "parent_id": "std_life_insurance/공통/제37조",
+      "is_definition": false,
+      "refs": [
+        "제37조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제37조",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제37조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.07154944473823376,
+      "search_group": [
+        "data/kb/policy/std_life_insurance.txt",
+        "",
+        "제37조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제41조",
+      "title": "제41조(소멸시효)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제41조(소멸시효)\n보험금 청구권, 만기환급금청구권, 보험료 반환청구권, 해약환급금청구권, 계약자적립액 반환청구권 및 배당금청구권은 3년간 행사하지 않으면 소멸시효가 완성됩니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제41조/0",
+      "parent_id": "std_silson_basic/공통/제41조",
+      "is_definition": false,
+      "refs": [
+        "제41조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제41조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제41조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06504494976203068,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제41조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "2장",
+      "title": "2. 공통 사항 (주계약 · 모든 특약)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 청구권 소멸시효 | 3년 | 생명보험 표준약관 제37조 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/2장/row5",
+      "parent_id": "00_product_summary/2장",
+      "is_definition": false,
+      "refs": [
+        "제37조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.06378472222222223,
+      "search_group": [
+        "data/kb/gaon/00_product_summary.md",
+        "",
+        "2장",
+        ""
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 1.0,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 '3년간 행사하지 않으면 소멸시효 완성'을 정확히 포함하고 있으며, 모순되는 내용이 없습니다. 표준약관 조항을 근거로 제시하여 요지를 충실히 충족했습니다. / 답변은 answer_gist의 핵심 사실인 '3년간 행사하지 않으면 소멸시효 완성'을 정확히 포함하고 있으며, 모순되는 내용이 없습니다. 생명보험 표준약관 제37조를 근거로 제시하여 답변의 신뢰성을 높였습니다. / 답변은 answer_gist의 핵심 사실인 '3년간 행사하지 않으면 소멸시효 완성'을 정확히 포함하고 있으며, 모순되는 내용이 없습니다. 생명보험 표준약관 제37조를 근거로 제시한 것은 관련 사실을 추가한 것으로 감점 사유가 되지 않습니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '3년간 행사하지 않으면 소멸시효 완성'을 정확히 포함하고 있으며, 모순되는 내용이 없습니다. 표준약관 조항을 근거로 제시하여 요지를 충실히 충족했습니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '3년간 행사하지 않으면 소멸시효 완성'을 정확히 포함하고 있으며, 모순되는 내용이 없습니다. 생명보험 표준약관 제37조를 근거로 제시하여 답변의 신뢰성을 높였습니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '3년간 행사하지 않으면 소멸시효 완성'을 정확히 포함하고 있으며, 모순되는 내용이 없습니다. 생명보험 표준약관 제37조를 근거로 제시한 것은 관련 사실을 추가한 것으로 감점 사유가 되지 않습니다."
+        }
+      ],
+      "unanimous": true
+    },
+    "tone": {
+      "score": 4,
+      "naturalness": 4,
+      "no_internal_terms": 4,
+      "conclusion_first": 5,
+      "reason": "첫 문장에서 소멸시효 3년이라는 결론을 명확히 제시하고 이유(표준약관 제37조)와 함께 해요체로 자연스럽게 설명했으나, '다음 행동(예: 청구 가능 여부 확인, 서류 준비 등)' 연결이 약해 자연스러움과 결론 먼저에서 각각 4점을 부여함. 내부 용어는 표준약관 조항 언급뿐이라 일상어 설명에 가까워 내부 용어 없음은 4점."
+    },
+    "tone_violations": [
+      "sentence_count"
+    ]
+  },
+  "tone_trace": {
+    "before": "보험금 청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 생명보험 표준약관 제37조에 따른 거예요.",
+    "initial_violations": [
+      "sentence_count"
+    ],
+    "attempts": [
+      {
+        "answer": "보험금 청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 생명보험 표준약관 제37조에 따른 거예요.",
+        "violations": [
+          "sentence_count"
+        ],
+        "fact_guard_pass": true
+      },
+      {
+        "answer": "보험금 청구권은 3년간 행사하지 않으면 소멸시효가 완성되어 소멸돼요. 이 내용은 생명보험 표준약관 제37조에 따른 거예요.",
+        "violations": [
+          "sentence_count"
+        ],
+        "fact_guard_pass": true
+      }
+    ],
+    "remaining_violations": [
+      "sentence_count"
+    ]
+  }
+}

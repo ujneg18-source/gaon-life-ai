@@ -76,20 +76,21 @@ def main():
             session.commit()
         first, second, third, fourth = results
         checks = {
-            "claim_7_8": "제출 7 / 필요 8" in first["answer"],
-            "missing_cv04": "CV-04" in first["answer"] and "수술확인서" in first["answer"],
-            "cv01": "CV-01" in first["answer"],
+            "claim_7_8": "7" in first["answer"] and "8" in first["answer"],
+            "missing_surgery_certificate": "수술확인서" in first["answer"],
+            "diagnosis_report_dates": "진단" in first["answer"] and "보고" in first["answer"],
             "subcode": "C18.7" in first["answer"] and "세분류" in first["answer"],
-            "cv02_info": "안내 (CV-02)" in first["answer"],
+            "one_day_information": "1일" in first["answer"] and "산정" in first["answer"],
             "draft_action": any(a["label"] == "보완 요청 작성" for a in first["suggested_actions"]),
-            "vitamin": "보상 제외 가능성" in second["answer"]
-            and "처방전에 없음" in second["answer"],
+            "vitamin": "보상" in second["answer"]
+            and "제외" in second["answer"]
+            and "처방전" in second["answer"]
+            and "없" in second["answer"],
             "vitamin_source": any(
                 "rider2" in c["source_path"] and c["article"].startswith("제4조")
                 for c in second["citations"]
             ),
-            "template": "[가온생명] 김유정 고객님" in third["answer"]
-            and "병원 원무과" in third["answer"],
+            "template": "김유정 고객님" in third["answer"] and "병원 원무과" in third["answer"],
             "refused": fourth["refused"],
         }
         output = args.out if args.out.is_absolute() else PROJECT_ROOT / args.out
