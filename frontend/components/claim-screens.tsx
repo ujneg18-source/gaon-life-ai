@@ -15,9 +15,8 @@ import {
   ZoomIn,
   ZoomOut,
   X,
-  Pencil,
-  Columns2,
   Check,
+  Send,
 } from "lucide-react";
 import {
   api,
@@ -27,9 +26,7 @@ import {
   typeLabels,
   display,
   label,
-  FieldRow,
   ComparisonCell,
-  confidencePercent,
 } from "@/lib/workspace";
 import { Original } from "./review-screen";
 import { workspacePages } from "@/lib/navigation";
@@ -430,6 +427,26 @@ export function ClaimDetail({
   }
   if (!c) return <LoadState error={error} />;
   const open = c.issues.filter((i) => i.status === "open" && i.kind !== "info");
+  // 엔진의 실제 미확인 결과만 요약하고, 약관상 가능성을 지급 판단으로 바꾸지 않는다.
+  const reviewIssues = c.display_issues.filter(
+    (i) => !["missing", "info", "excluded_item"].includes(i.kind),
+  );
+  const coverageIssues = c.display_issues.filter(
+    (i) => i.kind === "excluded_item",
+  );
+  const missingNames = [
+    ...new Set(
+      c.display_issues
+        .filter((i) => i.kind === "missing")
+        .map((i) => i.title.replace(/\s*(?:누락|미제출)$/, "")),
+    ),
+  ];
+  const summaryReady =
+    c.documents.length > 0 &&
+    c.documents.every((d) => d.status === "extracted");
+  const waitingLabel = c.documents.length ? "분석 대기" : "서류 접수 대기";
+  const issueHref = (id?: number) =>
+    `/workspace/review?claim=${c.id}${id ? `&issue=${id}` : ""}`;
   return (
     <>
       <PageTitle
@@ -725,165 +742,80 @@ export function ClaimDetail({
         </>
       )}
       {step === 2 && (
-        <div className="detail-results">
-          <section className="panel" data-tour="detail-fields">
-            <h2>
-              정규화 결과{" "}
-              <small>
-                {c.fields.filter((f) => !f.key.startsWith("items[")).length}개
-                항목
-              </small>
-            </h2>
-            <table className="work-table normalized-compact">
-              <thead>
-                <tr>
-                  <th>항목</th>
-                  <th>값</th>
-                  <th>출처</th>
-                  <th>신뢰도</th>
-                </tr>
-              </thead>
-              <tbody>
-                {c.fields
-                  .filter((f) => !f.key.startsWith("items["))
-                  .map((f) => (
-                    <NormalizedRow
-                      key={f.id}
-                      field={f}
-                      readOnly={readOnly}
-                      done={resource.reload}
-                      show={() => {
-                        setPreview({
-                          document_id: f.document_id,
-                          doc_name: docLabels[f.doc_type],
-                          key: f.key,
-                          value: display(f),
-                        });
-                        setZoom(100);
-                      }}
-                    />
-                  ))}
-              </tbody>
-            </table>
-            {c.documents.map((d) => {
-              const fields = c.fields.filter(
-                (f) => f.document_id === d.id && f.key.startsWith("items["),
-              );
-              const indexes = [
-                ...new Set(
-                  fields.map((f) => f.key.match(/items\[(\d+)\]/)?.[1]),
-                ),
-              ];
-              return (
-                indexes.length > 0 && (
-                  <div key={d.id} className="item-table">
-                    <h3>
-                      {docLabels[d.doc_type]} 품목 {indexes.length}건
-                    </h3>
-                    <table className="work-table normalized-compact">
-                      <thead>
-                        <tr>
-                          {[
-                            "품명",
-                            "1회량",
-                            "일일 횟수",
-                            "일수",
-                            "금액",
-                            "급여 구분",
-                          ].map((h) => (
-                            <th key={h}>{h}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {indexes.map((index) => (
-                          <tr key={index}>
-                            {[
-                              ["drug_name", "name"],
-                              ["dose"],
-                              ["per_day"],
-                              ["days"],
-                              ["amount"],
-                              ["covered"],
-                            ].map((keys, n) => (
-                              <td key={n}>
-                                {(() => {
-                                  const f = fields.find((f) =>
-                                    keys.some(
-                                      (key) =>
-                                        f.key === `items[${index}].${key}`,
-                                    ),
-                                  );
-                                  return f ? display(f) : "—";
-                                })()}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )
-              );
-            })}
-          </section>
-          <section className="panel" data-tour="detail-issues">
-            <h2>
-              확인 사항 <small>{c.display_issues.length}건</small>
-            </h2>
-            <ul className="compact-issues">
-              {c.display_issues.map((i) => (
-                <li key={i.id} id={`issue-${i.id}`}>
-                  <Info
-                    size={17}
-                    className={i.kind === "info" ? "muted" : "warning"}
-                  />
-                  <div>
-                    <strong title={i.title}>{i.title}</strong>
-                    <p title={formatDatesInText(i.detail)}>
-                      {formatDatesInText(i.detail)}
-                    </p>
-                  </div>
-                  <Link
-                    className="icon-button"
-                    title="원본 비교"
-                    aria-label={`${i.title} 원본 비교`}
-                    href={`/workspace/review?claim=${c.id}&issue=${i.id}`}
-                  >
-                    <Columns2 size={17} />
-                  </Link>
-                  {!readOnly && i.kind !== "missing" && (
-                    <button
-                      className="icon-button"
-                      title="확인"
-                      aria-label={`${i.title} 확인`}
-                      onClick={async () => {
-                        try {
-                          for (const id of [i.id, ...(i.related_ids ?? [])])
-                            await api(`/issues/${id}/resolve`, {
-                              method: "POST",
-                            });
-                          resource.reload();
-                        } catch (e) {
-                          setMessage((e as Error).message);
-                        }
-                      }}
-                    >
-                      <Check size={17} />
-                    </button>
-                  )}
-                </li>
-              ))}
+        <div className="review-summary-grid">
+          <section
+            className="panel review-summary-card"
+            data-tour="detail-summary"
+          >
+            <h2>검토 결과</h2>
+            {/* 같은 원인의 병합된 표시 이슈를 세어 상세 목록과 요약의 건수를 맞춘다. */}
+            <ul className="review-summary-list">
+              <li>
+                {reviewIssues.length ? (
+                  <TriangleAlert size={18} className="warn" />
+                ) : summaryReady ? (
+                  <CircleCheck size={18} className="ok" />
+                ) : (
+                  <Info size={18} className="muted" />
+                )}
+                <span>불일치 · 확인 필요</span>
+                <Link href={issueHref(reviewIssues[0]?.id)}>
+                  {summaryReady
+                    ? reviewIssues.length
+                      ? `${reviewIssues.length}건 남음`
+                      : "모두 확인"
+                    : waitingLabel}
+                </Link>
+              </li>
+              <li>
+                {missingNames.length ? (
+                  <CircleX size={18} className="bad" />
+                ) : summaryReady ? (
+                  <CircleCheck size={18} className="ok" />
+                ) : (
+                  <Info size={18} className="muted" />
+                )}
+                <span>누락 서류</span>
+                <Link
+                  className={missingNames.length ? "bad" : "muted"}
+                  href={`/workspace/supplement?claim=${c.id}`}
+                >
+                  {summaryReady
+                    ? missingNames.length
+                      ? `${missingNames.join(", ")} ${missingNames.length}건`
+                      : "없음"
+                    : waitingLabel}
+                </Link>
+              </li>
+              <li>
+                {coverageIssues.length ? (
+                  <TriangleAlert size={18} className="warn" />
+                ) : summaryReady ? (
+                  <CircleCheck size={18} className="ok" />
+                ) : (
+                  <Info size={18} className="muted" />
+                )}
+                <span>약관 대조</span>
+                <Link
+                  className={coverageIssues.length ? "warn" : "muted"}
+                  href={issueHref(coverageIssues[0]?.id)}
+                >
+                  {summaryReady
+                    ? coverageIssues.length
+                      ? `보상 제외 가능성 ${coverageIssues.length}건`
+                      : "제외 가능성 항목 없음"
+                    : waitingLabel}
+                </Link>
+              </li>
             </ul>
-            {!c.display_issues.length && (
-              <p className="good">추가로 확인할 사항이 없어요.</p>
-            )}
           </section>
           <section className="panel">
             <h2>담당자 메모</h2>
             <textarea
               className="work-textarea"
               aria-label="담당자 메모"
+              placeholder="판단 근거나 전달할 내용을 적어 주세요"
+              rows={6}
               value={note ?? c.review_note ?? ""}
               onChange={(e) => setNote(e.target.value)}
               readOnly={readOnly}
@@ -986,7 +918,9 @@ export function ClaimDetail({
           </p>
           <div className="row-actions">
             <Link className="btn" href={`/workspace/supplement?claim=${c.id}`}>
-              보완 요청 작성
+              <Send size={16} />
+              보완 요청 보내기
+              {missingNames.length > 0 ? ` (${missingNames.join(", ")})` : ""}
             </Link>
             <button
               className="btn primary"
@@ -1033,89 +967,5 @@ export function ClaimDetail({
         </button>
       </div>
     </>
-  );
-}
-
-function NormalizedRow({
-  field: f,
-  readOnly,
-  done,
-  show,
-}: {
-  field: FieldRow;
-  readOnly: boolean;
-  done: () => void;
-  show: () => void;
-}) {
-  const [editing, setEditing] = useState(false),
-    [value, setValue] = useState(f.display_value),
-    [error, setError] = useState("");
-  const needs = !f.confirmed_by && f.review_reasons.length > 0;
-  return (
-    <tr className={needs ? "review-needed" : ""}>
-      <td title={label(f.key)}>
-        <button className="field-link" onClick={show} title="원본 보기">
-          {label(f.key)}
-        </button>
-      </td>
-      <td title={display(f)}>
-        {editing ? (
-          <>
-            <input
-              aria-label={`${label(f.key)} 확정값`}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-            <button
-              onClick={async () => {
-                try {
-                  await api(`/fields/${f.id}`, {
-                    method: "PATCH",
-                    body: JSON.stringify({ confirmed_value: value }),
-                  });
-                  setEditing(false);
-                  done();
-                } catch (e) {
-                  setError((e as Error).message);
-                }
-              }}
-            >
-              저장
-            </button>
-            <button onClick={() => setEditing(false)}>취소</button>
-          </>
-        ) : (
-          <>
-            {display(f)}
-            {!readOnly && (
-              <button
-                className="icon-button field-edit"
-                aria-label={`${label(f.key)} 수정`}
-                title="수정"
-                onClick={() => setEditing(true)}
-              >
-                <Pencil size={13} />
-              </button>
-            )}
-          </>
-        )}
-        {error && <small role="alert">{error}</small>}
-      </td>
-      <td>
-        {f.method === "data" ? "실손24" : docLabels[f.doc_type]}
-        <small>
-          {f.method === "data" ? "" : f.method === "ocr" ? "OCR" : "Parse"}
-        </small>
-      </td>
-      <td
-        title={
-          f.extract_conf === "low"
-            ? "추출 신뢰도 낮음 · 숫자 점수 미제공"
-            : "숫자 점수 미제공"
-        }
-      >
-        {confidencePercent(f)}
-      </td>
-    </tr>
   );
 }

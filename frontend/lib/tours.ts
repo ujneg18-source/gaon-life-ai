@@ -61,13 +61,6 @@ export const tours: Record<string, TourStep[]> = {
       detailStep: 0,
     },
     {
-      target: "detail-fields",
-      title: "추출값과 확인 이유",
-      description:
-        "원문에서 읽은 값과 확인 이유를 함께 확인하세요. 위치 아이콘을 누르면 원본을 볼 수 있어요.",
-      detailStep: 2,
-    },
-    {
       target: "detail-compare",
       title: "서류 사이의 정보 대조",
       description:
@@ -75,10 +68,10 @@ export const tours: Record<string, TourStep[]> = {
       detailStep: 1,
     },
     {
-      target: "detail-issues",
-      title: "남은 확인 사항",
+      target: "detail-summary",
+      title: "검토 결과 요약",
       description:
-        "누락 서류는 보완 요청이 필요해요. 다른 항목은 원본을 검토한 뒤 확인 기록을 남기세요.",
+        "확인할 건수, 누락 서류, 약관 대조를 간단히 확인하세요. 각 요약을 누르면 자세한 검토 화면으로 이동해요.",
       detailStep: 2,
     },
   ],

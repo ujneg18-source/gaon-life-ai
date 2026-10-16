@@ -81,6 +81,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-19h | 중복 어시스턴트 링크 제거·공통 진입 유지 | lint/type·Webpack 통과. CUA 본문0개/공통 링크 청구 맥락 유지 | npm run lint/typecheck; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19i | 정보 대조 단계 표시·연결선·목업 표 스타일 | lint/type/format·Webpack 통과. CUA 완료1/연결3/현재2·네 열16행 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19j | 상세 일반 진입1단계·본문 복귀 링크 제거 | lint/type/format·Webpack 통과. CUA3단계→재진입1단계/본문링크0/메뉴1 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
+| T-19k | 세 줄 요약·메모 목업·동적 보완 문구·이슈 링크 유지 | lint/type/format·Webpack 통과. CUA 실제2/1/1 요약·issue6/3 이동 및 보완 버튼 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

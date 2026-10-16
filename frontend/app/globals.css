@@ -2587,3 +2587,64 @@ p {
     margin: 0 4px;
   }
 }
+
+/* 검토 결과는 목업의 2열 카드와 세 줄 요약만 남긴다. 세부 정보는 문서 검토에서 연다. */
+.review-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.review-summary-grid > .panel {
+  padding: 18px;
+  border-radius: 14px;
+}
+.review-summary-grid h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+.review-summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.review-summary-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  min-height: 42px;
+}
+.review-summary-list li > svg {
+  flex-shrink: 0;
+}
+.review-summary-list li > span {
+  white-space: nowrap;
+}
+.review-summary-list li > a {
+  margin-left: auto;
+  font-size: 12.5px;
+  text-align: right;
+}
+.review-summary-list li > a:hover {
+  text-decoration: underline;
+}
+.review-summary-grid .work-textarea {
+  width: 100%;
+  min-height: 160px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  resize: vertical;
+}
+@media (max-width: 900px) {
+  .review-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
