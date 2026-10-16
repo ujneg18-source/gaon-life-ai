@@ -93,6 +93,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-19t | 메인 소개 원문·3행 설명·왼쪽/오른쪽 말풍선 우선 배치 | lint/typecheck/Webpack 및 안내 격리·좌우 배치 검사 통과, CUA 메인 단계 확인 | npm run lint; npm run typecheck; next build --webpack; node scripts/check-onboarding.mjs; CUA | 2026-10-16 |
 | T-19u | 메인 첫 안내 비율 복원·짧은 소개·중앙 모달 | lint/typecheck/Webpack·안내 격리 검사 통과, CUA 원래 메인/안내 배경 크기 비교 | npm run lint; npm run typecheck; next build --webpack; node scripts/check-onboarding.mjs; CUA | 2026-10-16 |
 | T-19v | 도움말60px·출처 페이지·배지/메인 링크·안내 축소/중앙 모달/준비 후 표시·메인 확대 | lint/typecheck/format/Webpack·안내 격리·출처12개 검사 통과; CUA 2크기×62단계 겹침/경계0, 메뉴/본문/필터/390px 넘침0/채팅 입력 보존 확인 | npm run lint/typecheck/format:check; next build --webpack; node scripts/check-onboarding.mjs; node scripts/check-data-sources.mjs; CUA | 2026-10-16 |
+| T-19w | 메인 두 카드 문구·명시적 두 줄 구분 | lint/Webpack 통과, CUA 문구/줄 수 확인 | npm run lint; next build --webpack; CUA | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

@@ -25,9 +25,9 @@ export function HomeScreen() {
               <p className="door-kicker">궁금한 업무를, 대화로</p>
               <h2>업무 어시스턴트</h2>
               <p>
-                약관과 업무 기준을 찾아보고,
+                약관, 심사 기준, 업무 절차를 물어보면
                 <br />
-                필요한 안내 문구를 준비하세요.
+                관련된 근거 문서와 함께 답해 드려요
               </p>
             </div>
             <span className="door-go">
@@ -43,9 +43,9 @@ export function HomeScreen() {
               <p className="door-kicker">흩어진 서류를, 한눈에</p>
               <h2>보험금 지급 서류 검토</h2>
               <p>
-                청구별 서류와 정보를 모아 보고,
+                청구 서류 분석부터 누락 불일치 확인 보완요청까지
                 <br />
-                누락과 불일치를 확인하세요.
+                한곳에서 처리해요
               </p>
             </div>
             <span className="door-go">
