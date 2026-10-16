@@ -1,7 +1,9 @@
 """모델이 호출하는 읽기 도구. 모든 청구 ID마다 배정 권한을 검사하고 개인정보는 최소화한다."""
 
+import logging
 import re
 
+from fastapi import HTTPException
 from pydantic import Field
 from sqlmodel import select
 
@@ -172,7 +174,10 @@ class Tools:
 
     def draft_supplement(self, claim_id, doc_types):
         claim = self.claim(claim_id)
-        hits = self.kb.search("보완 요청 표준 문구 서류별 문구", "manual", limit=12)
+        if hasattr(self.kb, "lookup"):
+            hits = self.kb.lookup("11_supplement_templates.md", "2장")
+        else:
+            hits = self.kb.search("보완 요청 표준 문구 서류별 문구", "manual", limit=12)
         templates = [
             h
             for h in hits
@@ -220,3 +225,21 @@ class Tools:
             raise ValueError("허용되지 않은 도구")
         values = ARG_MODELS[name].model_validate(args).model_dump()
         return getattr(self, name)(**values)
+
+    def call_with_retry(self, name, args):
+        """Pydantic/일시 오류는 한 번만 재시도한다. 로그에는 입력·의료정보를 남기지 않는다."""
+        for attempt in range(2):
+            try:
+                return self.call(name, args)
+            except HTTPException as exc:
+                if exc.status_code == 403:
+                    raise  # 권한 거절을 일반 조회 실패로 감추지 않는다.
+                error = f"HTTP{exc.status_code}"
+            except (ValueError, TypeError, RuntimeError) as exc:
+                error = type(exc).__name__
+            logging.getLogger(__name__).warning(
+                "tool_failure tool=%s attempt=%s error=%s", name, attempt + 1, error
+            )
+            if hasattr(self, "tool_errors"):
+                self.tool_errors.append({"tool": name, "attempt": attempt + 1, "error": error})
+        raise RuntimeError("확인하지 못했어요")

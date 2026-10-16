@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import logging
 
 import httpx
 
@@ -49,7 +50,12 @@ class Solar:
                 )
                 response.raise_for_status()
                 return response.json()
-        except (httpx.HTTPError, ValueError):
+        except (httpx.HTTPError, ValueError) as exc:
+            # 상태/오류 클래스만 기록한다. 응답 본문·헤더·질문·키는 남기지 않는다.
+            status = exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else None
+            logging.getLogger(__name__).warning(
+                "solar_failure endpoint=%s status=%s error=%s", path, status, type(exc).__name__
+            )
             raise RuntimeError("AI 연결에 실패했어요. 잠시 후 다시 시도해 주세요.") from None
 
     def structured(self, messages, schema, name):
@@ -80,6 +86,8 @@ class Solar:
 
     def embed(self, texts, *, query=False):
         """내용+모델별로 저장해 배치 구성이 바뀌어도 이미 임베딩한 조각은 재과금하지 않는다."""
+        if any(not isinstance(text, str) or not text.strip() for text in texts):
+            raise ValueError("빈 텍스트는 임베딩할 수 없어요.")
         model = (
             self.config.SOLAR_EMBED_QUERY_MODEL if query else self.config.SOLAR_EMBED_PASSAGE_MODEL
         )

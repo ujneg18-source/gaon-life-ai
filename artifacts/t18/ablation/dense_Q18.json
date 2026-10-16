@@ -1,0 +1,92 @@
+{
+  "id": "Q18",
+  "question": "김유정 고객 보완 요청 보낼 거 있어?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "1장",
+      "title": "1. 작성 원칙",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "1. 작성 원칙\n1. 첫 줄에 회사 이름과 고객 이름을 씁니다: `[가온생명] {고객명} 고객님,`\n2. 무엇이 빠졌는지 서류 이름으로 정확히 씁니다. 내부 용어(CV-04, 누락 이슈 등)는 쓰지 않습니다.\n3. **발급처**와 **제출 방법**을 꼭 씁니다.\n4. 지급 여부나 금액을 말하지 않습니다. \"제출해 주시면 심사를 이어서 진행하겠습니다\"로 맺습니다.\n5. 알림톡은 5줄 이내, 문자는 3줄 이내로 씁니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "11_supplement_templates/1장/text1",
+      "parent_id": "11_supplement_templates/1장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "1장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보완 요청 표준 문구"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "11_supplement_templates/1장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.5610843300885398
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "7장",
+      "title": "7. 보완 요청",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "7. 보완 요청\n- 누락 서류가 있으면 보완 요청을 보냅니다. 문구는 `11_supplement_templates.md`를 따릅니다.\n- 요청에는 서류 이름, 발급처, 제출 방법을 꼭 넣습니다.\n- 보완 요청 후 회신이 오면 새 서류로 다시 자동 검토를 돌립니다.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/7장/text1",
+      "parent_id": "10_claims_manual/7장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "7장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/7장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.5362857023486289
+    },
+    {
+      "doc_name": "가온생명 보완 요청 표준 문구",
+      "edition": "2026.10 (가상)",
+      "article": "3장",
+      "title": "3. 문자(SMS) 짧은 문구",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/11_supplement_templates.md",
+      "chunk_text": "3. 문자(SMS) 짧은 문구\n[가온생명] {고객명} 고객님, 보험금 청구에 {서류명}이(가) 필요합니다. {발급처}에서 발급받아 앱 [서류 추가 제출]로 올려 주세요.",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "11_supplement_templates/3장/text1",
+      "parent_id": "11_supplement_templates/3장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "3장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보완 요청 표준 문구"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "11_supplement_templates/3장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.5155740371069062
+    }
+  ],
+  "trace": {}
+}

@@ -50,11 +50,13 @@ def prohibited(text):
     return [m.group() for p in patterns for m in re.finditer(p, text)]
 
 
-def source_pair(source, names):
+def source_pair(source, names, *, fine=False):
     path = source.get("source_path") or source.get("doc", "")
-    return source.get("doc_name") or names.get(path.removeprefix("data/kb/"), path), source[
-        "article"
-    ]
+    article = source.get("address") or source["article"]
+    if not fine:
+        match = re.search(r"제\d+조|\d+장", article)
+        article = match.group() if match else article
+    return source.get("doc_name") or names.get(path.removeprefix("data/kb/"), path), article
 
 
 def measure(question, answer, hits, names, judge):
@@ -62,7 +64,22 @@ def measure(question, answer, hits, names, judge):
     retrieved = {source_pair(s, names) for s in hits[:3]}
     citations = answer.get("citations", [])
     correct = sum(source_pair(c, names) in expected for c in citations)
+    fine_expected = {
+        source_pair({**s, "article": s["expected_address"]}, names, fine=True)
+        for s in question["expected_sources"]
+        if s.get("expected_address")
+    }
+    fine_retrieved = {source_pair(s, names, fine=True) for s in hits[:3]}
+    fine_citations = [
+        c for c in citations if source_pair(c, names)[0] in {p[0] for p in fine_expected}
+    ]
+    fine_correct = sum(source_pair(c, names, fine=True) in fine_expected for c in fine_citations)
     return {
+        "fine_recall_at_3": len(fine_expected & fine_retrieved) / len(fine_expected)
+        if fine_expected
+        else None,
+        "fine_citation_correct": fine_correct if fine_expected else 0,
+        "fine_citation_total": len(fine_citations) if fine_expected else 0,
         "intent_correct": answer.get("intent") == question["type"],
         "recall_at_3": len(expected & retrieved) / len(expected) if expected else None,
         "hit_at_3": bool(expected & retrieved) if expected else None,
@@ -84,6 +101,16 @@ def aggregate(rows):
     cited = sum(m["citation_total"] for m in ms)
     return {
         "questions": n,
+        "fine_recall_at_3": sum(
+            m["fine_recall_at_3"] for m in ms if m.get("fine_recall_at_3") is not None
+        )
+        / sum(m.get("fine_recall_at_3") is not None for m in ms)
+        if any(m.get("fine_recall_at_3") is not None for m in ms)
+        else None,
+        "fine_citation_precision": sum(m.get("fine_citation_correct", 0) for m in ms)
+        / sum(m.get("fine_citation_total", 0) for m in ms)
+        if sum(m.get("fine_citation_total", 0) for m in ms)
+        else None,
         "intent_accuracy": sum(m["intent_correct"] for m in ms) / n if n else None,
         "recall_at_3_macro": sum(recalls) / len(recalls) if recalls else None,
         "retrieval_questions": len(recalls),
@@ -224,7 +251,15 @@ def main():
                     raise SystemExit("정답 변경 후 새 폴더를 쓰세요.")
                 return row
             print(q["id"] + " 평가 시작", flush=True)
-            hits = kb.search(q["question"], limit=3)
+            retrieval_errors = []
+            hits = []
+            for attempt in range(2):
+                try:
+                    hits = kb.search(q["question"], limit=3)
+                    break
+                except (RuntimeError, ValueError, KeyError) as exc:
+                    retrieval_errors.append({"attempt": attempt + 1, "error": type(exc).__name__})
+                    print(q["id"] + " 검색 실패 " + type(exc).__name__, flush=True)
             with Session(engine, autoflush=False) as session:
                 user = session.exec(
                     select(User).where(User.email == config.DEMO_REVIEWER_EMAIL)
@@ -284,7 +319,9 @@ def main():
                     **q,
                     "dataset_sha256": payload["dataset_sha256"],
                     "response": response,
+                    "grounding_trace": getattr(agent, "grounding_trace", None),
                     "retrieval_top3": hits,
+                    "retrieval_errors": retrieval_errors,
                     "search_trace": trace,
                     "tool_errors": tools.tool_errors,
                     "error": error,

@@ -1,0 +1,113 @@
+{
+  "id": "Q17",
+  "question": "김유정 고객 진단일이랑 병리 보고일 왜 문제야?",
+  "recall": 0.5,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n③ 진단확정일은 제1항의 검사 결과 보고일(병리 보고일)을 기준으로 합니다. 진단서의 진단일과 병리 보고일이 다르면 담당자가 진료 기록으로 확인합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/3",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ③",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/3",
+      "embedding_version": "structure-v3",
+      "score": 0.7707043332459325
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n3. **조직검사 결과지** (병리 진단과 보고일이 적힌 것). 조직검사가 불가능했다면 제3조 제2항의 기록\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n2. **진단서** (병명과 질병분류기호가 적힌 것)\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n4. 신분증. 앱 청구는 앱 본인인증으로 대신합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "3",
+      "node_id": "01_cancer_rider/공통/제6조/0/3",
+      "parent_id": "01_cancer_rider/공통/제6조/0",
+      "is_definition": false,
+      "refs": [
+        "제6조",
+        "제3조 제2항"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.",
+      "address": "제6조 3호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제6조/0/3",
+      "embedding_version": "structure-v3",
+      "score": 0.6512681260797698
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n② 제1항의 검사가 불가능한 경우에 한하여, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 이를 진단확정으로 인정할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/2",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료",
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.6084166725345905
+    }
+  ],
+  "trace": {}
+}

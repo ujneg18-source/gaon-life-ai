@@ -1,0 +1,311 @@
+{
+  "id": "Q08",
+  "type": "policy_qa",
+  "question": "보험금은 서류 내고 며칠 안에 지급돼?",
+  "expected_sources": [
+    {
+      "doc": "policy/std_life_insurance.txt",
+      "article": "제8조"
+    },
+    {
+      "doc": "gaon/00_product_summary.md",
+      "article": "2장"
+    }
+  ],
+  "answer_gist": "접수 후 3영업일, 조사 필요 시 10영업일. 지연 시 지급예정일은 원칙적으로 30영업일 이내",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "01_cancer_rider/공통/제7조/0",
+      "std_life_insurance/공통/제8조/1"
+    ],
+    "answer": "가온생명 암진단특약 제7조에 따라 서류를 접수한 날부터 3영업일 이내에 보험금을 지급해요. 다만 진단확정 사실의 조사·확인이 필요하면 10영업일 이내에 지급하고, 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.\n\n생명보험 표준약관 제8조 ①도 서류를 접수한 날부터 3영업일 이내 지급을 원칙으로 하고, 조사나 확인이 필요하거나 지급기일 내에 지급하지 못할 것으로 예상되면 접수 후 10영업일 이내 지급을 기준으로 하며, 조사·확인이 길어질 때에는 구체적인 사유와 지급예정일, 최대 추정 보험금의 50% 이내 가지급제도를 안내합니다. 지급예정일은 예외가 아니면 서류 접수일부터 30영업일 이내에서 정해요.\n\n정확한 지급 절차는 접수한 청구 내용과 조사 상황에 따라 달라질 수 있으니, 담당자 안내를 확인하셔야 합니다.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 암진단특약 약관",
+        "article": "제7조",
+        "source_path": "data/kb/gaon/01_cancer_rider.md",
+        "is_mock": true,
+        "quote": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다."
+      },
+      {
+        "doc_name": "생명보험 표준약관",
+        "article": "제8조 ①",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "01_cancer_rider/공통/제7조/0",
+        "std_life_insurance/공통/제8조/1"
+      ],
+      "answer": "가온생명 암진단특약 제7조에 따라 서류를 접수한 날부터 3영업일 이내에 보험금을 지급해요. 다만 진단확정 사실의 조사·확인이 필요하면 10영업일 이내에 지급하고, 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.\n\n생명보험 표준약관 제8조 ①도 서류를 접수한 날부터 3영업일 이내 지급을 원칙으로 하고, 조사나 확인이 필요하거나 지급기일 내에 지급하지 못할 것으로 예상되면 접수 후 10영업일 이내 지급을 기준으로 하며, 조사·확인이 길어질 때에는 구체적인 사유와 지급예정일, 최대 추정 보험금의 50% 이내 가지급제도를 안내합니다. 지급예정일은 예외가 아니면 서류 접수일부터 30영업일 이내에서 정해요.\n\n정확한 지급 절차는 접수한 청구 내용과 조사 상황에 따라 달라질 수 있으니, 담당자 안내를 확인하셔야 합니다.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "01_cancer_rider/공통/제7조/0",
+        "node_id": "01_cancer_rider/공통/제7조/0",
+        "address": "제7조",
+        "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다."
+      },
+      {
+        "chunk_id": "01_cancer_rider/공통/제8조/0",
+        "node_id": "01_cancer_rider/공통/제8조/0",
+        "address": "제8조",
+        "chunk_text": "제8조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관(생명보험 표준약관 준용)을 따릅니다."
+      },
+      {
+        "chunk_id": "std_life_insurance/공통/제8조/3/6",
+        "node_id": "std_life_insurance/공통/제8조/3/6",
+        "address": "제8조 ③ 6호",
+        "chunk_text": "제8조(보험금의 지급절차)\n③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우"
+      },
+      {
+        "chunk_id": "std_illness_injury/공통/제8조/2/6",
+        "node_id": "std_illness_injury/공통/제8조/2/6",
+        "address": "제8조 ② 6호",
+        "chunk_text": "제8조(보험금의 지급절차)\n② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우"
+      },
+      {
+        "chunk_id": "std_life_insurance/공통/제8조/1",
+        "node_id": "std_life_insurance/공통/제8조/1",
+        "address": "제8조 ①",
+        "chunk_text": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제7조",
+      "title": "제7조(보험금의 지급절차)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제7조/0",
+      "parent_id": "01_cancer_rider/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제7조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.038131621810523465
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "6",
+      "node_id": "std_life_insurance/공통/제8조/3/6",
+      "parent_id": "std_life_insurance/공통/제8조/3",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조",
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.",
+      "address": "제8조 ③ 6호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제8조/3/6",
+      "embedding_version": "structure-v3",
+      "score": 0.06021517284082926
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "6",
+      "node_id": "std_illness_injury/공통/제8조/2/6",
+      "parent_id": "std_illness_injury/공통/제8조/2",
+      "is_definition": false,
+      "refs": [
+        "제8조",
+        "제7조",
+        "제4조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.",
+      "address": "제8조 ② 6호",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제8조/2/6",
+      "embedding_version": "structure-v3",
+      "score": 0.05412640335240955
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "보험금은 서류 내고 며칠 안에 지급돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 암진단특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제7조",
+          "title": "제7조(보험금의 지급절차)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/01_cancer_rider.md",
+          "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "01_cancer_rider/공통/제7조/0",
+          "parent_id": "01_cancer_rider/공통/제7조",
+          "is_definition": false,
+          "refs": [
+            "제7조",
+            "제8조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "",
+          "address": "제7조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 암진단특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "01_cancer_rider/공통/제7조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.038131621810523465
+        },
+        {
+          "doc_name": "생명보험 표준약관",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_life_insurance.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "③",
+          "item": "6",
+          "node_id": "std_life_insurance/공통/제8조/3/6",
+          "parent_id": "std_life_insurance/공통/제8조/3",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조",
+            "제4조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "③ 회사가 보험금 지급사유를 조사ㆍ확인하기 위하여 제1항의 지급기일 이내에 보험금을 지급하지 못할 것으로 예상되는 경우에는 그 구체적인 사유, 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지하여 드립니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.",
+          "address": "제8조 ③ 6호",
+          "authority_level": 1,
+          "governs": [
+            "생명보험 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_life_insurance/공통/제8조/3/6",
+          "embedding_version": "structure-v3",
+          "score": 0.06021517284082926
+        },
+        {
+          "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+          "edition": "2026.08.28",
+          "article": "제8조",
+          "title": "제8조(보험금의 지급절차)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_illness_injury.txt",
+          "chunk_text": "제8조(보험금의 지급절차)\n② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.\n6. 제4조(보험금 지급에 관한 세부규정) 제9항에 따라 보험금 지급사유에 대해 제3자의 의견에 따르기로 한 경우",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "②",
+          "item": "6",
+          "node_id": "std_illness_injury/공통/제8조/2/6",
+          "parent_id": "std_illness_injury/공통/제8조/2",
+          "is_definition": false,
+          "refs": [
+            "제8조",
+            "제7조",
+            "제4조"
+          ],
+          "defined_terms": [],
+          "paragraph_head": "② 회사가 보험금 지급사유를 조사ㆍ확인하기 위해 필요한 기간이 제1항의 지급기일을 초과할 것이 명백히 예상되는 경우에는 그 구체적인 사유와 지급예정일 및 보험금 가지급제도(회사가 추정하는 보험금의 50% 이내를 지급)에 대하여 피보험자 또는 보험수익자에게 즉시 통지합니다. 다만, 지급예정일은 다음 각 호의 어느 하나에 해당하는 경우를 제외하고는 제7조(보험금의 청구)에서 정한 서류를 접수한 날부터 30영업일 이내에서 정합니다.",
+          "address": "제8조 ② 6호",
+          "authority_level": 1,
+          "governs": [
+            "질병·상해보험 표준약관(손해보험 회사용)"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_illness_injury/공통/제8조/2/6",
+          "embedding_version": "structure-v3",
+          "score": 0.05412640335240955
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.5,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 2,
+    "citation_pass": false,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변 gist에 명시된 핵심 사실인 접수 후 3영업일(일반 지급), 조사 필요 시 10영업일, 지연 시 최대 30영업일 이내 지급예정일을 모두 포함하고 있으며, 관련 약관 근거를 덧붙여 설명하고 있어 모순이나 누락이 없습니다."
+    }
+  }
+}

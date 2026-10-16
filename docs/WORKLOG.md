@@ -1,3 +1,11 @@
+## 2026-10-16 · T-18 · 챗봇 품질 개선 2라운드
+- 관련 요구사항: FR-30~35, T-15~18
+- 한 일: 코드 수정 전에 실패24개를 검색/의도/생성/인용/도구/정답/채점으로 분류했다. 구조 트리·부모 JSON·정의/참조·규범 위계·준용, RRF/BM25/재작성/재정렬, 사용 ID 최대2개 인용을 구현했다.
+  지급 결정 선행 가드, 정상 조회 오거절 방지, Pydantic 도구 최대1회 재시도와 비밀값 없는 오류 로그, 진단명 원문 대조를 보완했다. Q20 및 원본에 있는 병리 한국어 병기 정답 오류는 CHANGELOG에 남기고 모든 이전 실행/실패를 보존했다.
+- 바뀐 파일: backend/app/agent/{kb,rag,graph,guardrails,tools,solar}.py, app/config.py, schemas/chat.py, services/{coverage,normalize,source_evidence}.py, scripts/{eval_chat,eval_retrieval,legacy_search,chunk_report,eval_extract,chat_smoke}.py, tests, .env.example, data/eval, 김유정 병리 정답/manifest, artifacts/t18, docs/06_eval_plan.md, deliverables/테스트결과보고서.md, implementation_objects.md, decisions.md, AGENTS.md, TODO.md
+- 확인 방법: pytest89 passed/live1 deselected·Ruff/포맷 통과. 실제 최종30문항: 의도100%, recall@3 89.58%, 인용75%, 거절100%, 요지83.33%; 금지표현0/호출오류0. 별도 동일 인덱스 ablation 청킹-only60.42/dense62.50/hybrid91.67%. 호 단위 recall/인용75/75 (4문항). 필수4질문 및 준용 인용 실측 통과. 추출 캐시64/65, 정밀도/재현율100/100이나 원본 정답 수정 효과로 구분. 프론트 lint/typecheck/format 통과.
+- 남은 문제 · 질문: 최종 미달14문항 원문/채점/사람 검토를 remaining_failures.md에 남겼다. 중간 요지93.33%보다 최종83.33%가 낮아졌으며 최고값을 최종으로 고르지 않았다. 프론트 배포 빌드는 Turbopack CSS 워커 소켓 EPERM으로 미확인. 계약별 보장종목/법률 충돌 쌍 holdout/독립 사람 평가가 필요하다. 일반적인 충돌 자동 판정기는 구현하지 않았다.
+
 # 작업 기록
 
 새 기록은 맨 위에 추가한다. 형식은 `AGENTS.md`의 "작업 기록" 참고.

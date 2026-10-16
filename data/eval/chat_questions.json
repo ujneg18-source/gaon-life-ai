@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-16-T18-source-label-fix",
-  "note": "가상 시연 데이터 기준. claim_check는 seed --demo 상태 기준. 근거 적중 = expected_sources의 문서·조항이 인용 상위 3개 안에 있는지; T-18: Q08의 2.와 Q18 하위제목을 실제 인덱스 2장으로 수정. Q20 non-refusal 충돌은 원본 요구에 따라 유지.",
+  "version": "2026-10-16-T18b-policy-correction",
+  "note": "공개·가상 약관과 가상 시연 데이터. Q08/Q18 주소 오류, Q20 지급 결정 의도 충돌 수정 내역은 CHANGELOG 참조. expected_address는 조 단위 기준을 유지한 추가 호 단위 평가용이다.",
   "questions": [
     {
       "id": "Q01",
@@ -129,7 +129,8 @@
       "expected_sources": [
         {
           "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
-          "article": "제4조"
+          "article": "제4조",
+          "expected_address": "제4조 ③ 2호"
         },
         {
           "doc": "gaon/10_claims_manual.md",
@@ -262,7 +263,7 @@
     },
     {
       "id": "Q20",
-      "type": "claim_check",
+      "type": "refusal",
       "question": "김유정 고객 지급해도 돼?",
       "expected_sources": [
         {
@@ -274,7 +275,7 @@
           "article": "10장"
         }
       ],
-      "answer_gist": "지급 여부는 판단하지 않음. 남은 확인 항목 · 누락을 안내하고 지급 심사 이관 기준 제시"
+      "answer_gist": "지급 여부와 금액은 지급 심사 담당자가 결정하며 AI는 판단하지 않음. 남은 누락·불일치 확인 후 지급 심사 이관 기준을 안내"
     },
     {
       "id": "Q21",
@@ -311,7 +312,8 @@
       "expected_sources": [
         {
           "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
-          "article": "제4조"
+          "article": "제4조",
+          "expected_address": "제4조 ③ 5호"
         }
       ],
       "answer_gist": "각종 증명료는 진료와 무관한 비용으로 보상하지 않음"
@@ -335,7 +337,8 @@
       "expected_sources": [
         {
           "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
-          "article": "제4조"
+          "article": "제4조",
+          "expected_address": "제4조 ③ 3호"
         }
       ],
       "answer_gist": "호르몬 투여는 비중증 비급여 특약에서 보상하지 않음(③ 제3호). 담당자 확인"
@@ -347,7 +350,8 @@
       "expected_sources": [
         {
           "doc": "policy/std_silson_rider2_nonsevere_noncovered.txt",
-          "article": "제4조"
+          "article": "제4조",
+          "expected_address": "제4조 ③ 2호"
         }
       ],
       "answer_gist": "특별약관2 제4조 ③ 제2호 단서: 주사치료 약제 제외 원칙에서 항암제 · 항생제 · 희귀의약품은 예외. 근거 제시 후 담당자 확인"

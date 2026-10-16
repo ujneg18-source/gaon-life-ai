@@ -1,7 +1,5 @@
 """LLM/임베딩 대역으로 권한·구조화·필수 시연과 실패 경로를 과금 없이 검증한다."""
 
-import json
-
 import pytest
 from sqlmodel import Session
 
@@ -117,7 +115,8 @@ def test_four_demo_answers(client):
     assert first["suggested_actions"][0]["label"] == "보완 요청 작성"
     assert "보상 제외 가능성" in second["answer"] and "처방전에 없음" in second["answer"]
     assert any(
-        "rider2" in c["source_path"] and c["article"] == "제4조" for c in second["citations"]
+        "rider2" in c["source_path"] and c["article"].startswith("제4조")
+        for c in second["citations"]
     )
     assert "김유정 고객님" in third["answer"] and "병원 원무과" in third["answer"]
     assert fourth["refused"]
@@ -180,46 +179,23 @@ def test_strict_schema_and_truncated_reply(client):
         solar.structured([], schema, "answer")
 
 
-def test_parallel_tools_all_executed(client):
+def test_intent_dispatch_reads_only_resolved_claim(client):
     setup_chat(client)
-
-    class Parallel(FakeSolar):
-        def post(self, path, body):
-            if any(m["role"] == "tool" for m in body["messages"]):
-                return super().post(path, body)
-            return {
-                "choices": [
-                    {
-                        "finish_reason": "tool_calls",
-                        "message": {
-                            "role": "assistant",
-                            "content": None,
-                            "tool_calls": [
-                                {
-                                    "id": str(i),
-                                    "type": "function",
-                                    "function": {
-                                        "name": "get_document_fields",
-                                        "arguments": json.dumps(
-                                            {"claim_id": "GA-2610-0482", "doc_type": d}
-                                        ),
-                                    },
-                                }
-                                for i, d in enumerate(["diagnosis", "prescription"])
-                            ],
-                        },
-                    }
-                ]
-            }
-
     with Session(client.app.state.engine) as s:
         from app.models import User
 
-        t = Tools(s, s.get(User, 1), client.app.state.settings, FakeKB())
-        result = ChatAgent(client.app.state.settings, Parallel(), t).graph.invoke(
-            {"message": QUESTIONS[0], "claim_id": "GA-2610-0482", "history": []}
-        )
-        assert len(result["evidence"]["get_document_fields"]) == 2
+        tools = Tools(s, s.get(User, 1), client.app.state.settings, FakeKB())
+        seen = []
+        original = tools.call
+
+        def record(name, args):
+            seen.append((name, args))
+            return original(name, args)
+
+        tools.call = record
+        ChatAgent(client.app.state.settings, FakeSolar(), tools).run(QUESTIONS[0], "GA-2610-0482")
+        assert {n for n, _ in seen} >= {"get_claim", "get_claim_issues"}
+        assert all(a.get("claim_id") in {None, "GA-2610-0482"} for _, a in seen)
 
 
 def test_no_evidence_and_chat_not_persisted(client, tmp_path):
@@ -326,19 +302,15 @@ def test_policy_ratios_and_whitespace_citations_but_no_payment_commitment():
         text = "가상 약관의 일반 기준은 20%예요. 개별 지급은 담당자가 결정해요."
 
         def structured(self, *args):
+            from app.agent.rag import chunk_id
+
             return {
                 "answer": self.text,
-                "intent": "policy_qa",
-                "citations": [
-                    {
-                        **{k: v for k, v in hit.items() if k != "chunk_text"},
-                        "quote": "일반 약관 기준 가입금액의 20%를 기준으로 검토한다.",
-                    }
-                ],
-                "claim_refs": [],
-                "suggested_actions": [],
-                "refused": False,
+                "used_chunk_ids": [chunk_id(hit)],
+                "quotes": [{"chunk_id": chunk_id(hit), "quote": self.quote}],
             }
+
+        quote = hit["chunk_text"]
 
     solar = PolicySolar()
     agent = ChatAgent(None, solar, None)
@@ -356,6 +328,9 @@ def test_policy_ratios_and_whitespace_citations_but_no_payment_commitment():
     }
     answer = agent.answer(state)["result"]
     assert "20%" in answer.answer and answer.citations[0].quote == hit["chunk_text"]
+    solar.quote = "일반 약관 기준 가입금액의 20%를 기준으로 검토한다."
+    assert not agent.answer(state)["result"].citations  # 개행도 원문과 다른 인용은 버린다.
+    solar.quote = hit["chunk_text"]
     solar.text = "보험금 20만원이 지급됩니다."
     assert agent.answer(state)["result"].answer == "관련 규정을 찾지 못했어요"
 

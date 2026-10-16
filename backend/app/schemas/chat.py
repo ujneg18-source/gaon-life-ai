@@ -12,6 +12,7 @@ class StrictModel(BaseModel):
 
 
 class Citation(StrictModel):
+    chunk_id: str = ""
     doc_name: str
     article: str
     source_path: str
@@ -30,6 +31,7 @@ class Action(StrictModel):
 
 
 class ChatAnswer(StrictModel):
+    used_chunk_ids: list[str] = Field(default_factory=list)
     answer: str
     intent: Intent
     citations: list[Citation]
@@ -56,3 +58,16 @@ class ChatRequest(StrictModel):
     message: str = Field(min_length=1, max_length=2000)
     claim_id: str | None = None
     history: list[History] = Field(default_factory=list, max_length=24)
+
+
+class UsedQuote(StrictModel):
+    chunk_id: str
+    quote: str
+
+
+class GroundedAnswer(StrictModel):
+    """모델은 사용한 주소·인용문만 제안한다. 출처 메타데이터는 서버가 만든다."""
+
+    used_chunk_ids: list[str]
+    answer: str
+    quotes: list[UsedQuote]

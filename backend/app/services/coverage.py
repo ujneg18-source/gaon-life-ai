@@ -2,13 +2,15 @@
 
 import re
 
+from app.agent.kb import chunk_id
 from app.schemas.chat import Citation
 
 
 def citation(hit):
     return Citation(
+        chunk_id=chunk_id(hit),
         doc_name=hit["doc_name"],
-        article=hit["article"],
+        article=hit.get("address") or hit["article"],
         source_path=hit["source_path"],
         is_mock=hit["is_mock"],
         quote=hit["chunk_text"],
@@ -29,15 +31,23 @@ def check_coverage(documents, item_name, kb):
         item.get("drug_name", "") for d in prescriptions for item in d.values.get("items", [])
     ]
     in_prescription = any(norm(item_name) == norm(name) for name in prescribed)
-    hits = kb.search("영양제 비타민제 보상하지 않는 사항 특별약관2 제4조", "policy", limit=12)
+    # 확정된 도메인 규칙은 직접 주소 조회한다. 검색 모델 실패가 DB 항목 대조를 막지 않게 한다.
+    if hasattr(kb, "lookup"):
+        hits = kb.lookup("std_silson_rider2_nonsevere_noncovered.txt", "제4조", "영양제")
+    else:
+        hits = kb.search("영양제 비타민제 보상하지 않는 사항 특별약관2 제4조", "policy", limit=12)
     rules = [
         h
         for h in hits
         if h["source_path"].endswith("std_silson_rider2_nonsevere_noncovered.txt")
         and h["article"] == "제4조"
         and "영양제" in h["chunk_text"]
+        and h.get("coverage_section", "질병비급여") == "질병비급여"
     ]
-    manual = kb.search("실손 비급여 처방전에 없는 일반의약품", "manual", limit=6)
+    if hasattr(kb, "lookup"):
+        manual = kb.lookup("10_claims_manual.md", "6장", "처방전에 없는")
+    else:
+        manual = kb.search("실손 비급여 처방전에 없는 일반의약품", "manual", limit=6)
     rules += [
         h
         for h in manual
@@ -99,6 +109,7 @@ def coverage_issues(claim, documents, config):
         if c.source_path.endswith("std_silson_rider2_nonsevere_noncovered.txt")
         and c.article == "제4조"
         and "영양제" in c.chunk_text
+        and c.coverage_section == "질병비급여"
     ]
     manual = [
         c for c in chunks if c.source_path.endswith("10_claims_manual.md") and c.article == "6장"
@@ -106,7 +117,7 @@ def coverage_issues(claim, documents, config):
     evidence = [
         {
             "source": c.doc_name,
-            "article": c.article,
+            "article": c.address or c.article,
             "text": c.chunk_text,
             "source_path": c.source_path,
             "is_mock": c.is_mock,

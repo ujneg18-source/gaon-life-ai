@@ -1,0 +1,48 @@
+{
+  "question": "질병수술비특약에 없는 청구권 소멸시효를 주계약 준용 기준으로 설명해줘",
+  "response": {
+    "used_chunk_ids": [
+      "03_surgery_rider/공통/제6조/0",
+      "00_product_summary/2장/row5"
+    ],
+    "answer": "질병수술비특약 제6조에 따르면 이 특약에서 정하지 않은 사항은 주계약 약관을 따르게 되어 있어요. 그래서 청구권 소멸시효처럼 특약에 따로 규정이 없는 부분은 주계약 기준을 따르게 되고, 그 결과 청구권 소멸시효는 3년이에요. 이 3년은 상품 개요상 공통 사항으로 정리되어 있고 생명보험 표준약관 제37조를 근거로 해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 질병수술비특약 약관",
+        "article": "제6조",
+        "source_path": "data/kb/gaon/03_surgery_rider.md",
+        "is_mock": true,
+        "quote": "제6조(준용규정)\n이 특약에서 정하지 않은 사항은 주계약 약관을 따릅니다."
+      },
+      {
+        "doc_name": "가온 건강플러스보험 상품 개요",
+        "article": "2장",
+        "source_path": "data/kb/gaon/00_product_summary.md",
+        "is_mock": true,
+        "quote": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 청구권 소멸시효 | 3년 | 생명보험 표준약관 제37조 |"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "context": [
+    {
+      "node_id": "03_surgery_rider/공통/제6조/0",
+      "authority_level": 3,
+      "via_fallback": null
+    },
+    {
+      "node_id": "00_product_summary/2장/row5",
+      "authority_level": 2,
+      "via_fallback": "03_surgery_rider/공통/제6조/0"
+    },
+    {
+      "node_id": "std_life_insurance/공통/제37조/0",
+      "authority_level": 1,
+      "via_fallback": "00_product_summary/2장/row5"
+    }
+  ],
+  "passed": true
+}

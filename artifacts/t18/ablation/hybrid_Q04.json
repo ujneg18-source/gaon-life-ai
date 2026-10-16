@@ -1,0 +1,143 @@
+{
+  "id": "Q04",
+  "question": "계약하고 두 달 만에 암 진단받으면 어떻게 돼?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n② **보장개시일**: 계약일부터 그날을 포함하여 90일이 지난 날의 다음 날을 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제2조/2",
+      "parent_id": "01_cancer_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제2조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제2조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.05296222236911688
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n② 보장개시일 전날 이전에 암으로 진단확정된 경우 암진단보험금은 지급하지 않으며, 계약자는 이 특약을 무효로 할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제5조/2",
+      "parent_id": "01_cancer_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제5조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.050296138355839855
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제4조",
+      "title": "제4조(보험금의 지급사유)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제4조(보험금의 지급사유)\n회사는 피보험자에게 다음 사유가 생기면 보험수익자에게 보험금을 지급합니다.\n\n| 지급사유 | 지급금액 |\n|---|---|\n| 보장개시일 이후 암으로 최초 진단확정 | 가입금액의 100% (계약일부터 1년 미만에 진단확정되면 50%) |\n| 계약일 이후 소액암으로 최초 진단확정 | 가입금액의 20% (소액암은 계약일부터 보장) |\n\n- 암진단보험금과 소액암진단보험금은 각각 최초 1회만 지급합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제4조/0",
+      "parent_id": "01_cancer_rider/공통/제4조",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "암",
+        "보장개시일",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "제4조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제4조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.07018332451965452
+    }
+  ],
+  "trace": {
+    "question": "계약하고 두 달 만에 암 진단받으면 어떻게 돼?",
+    "rewritten": "암 보장개시일 90일과 면책 및 소액암 예외",
+    "candidate_ids": [
+      "01_cancer_rider/공통/제4조/0",
+      "std_life_insurance/공통/제15조/0",
+      "10_claims_manual/2장/row1",
+      "01_cancer_rider/공통/제2조/2",
+      "01_cancer_rider/공통/제5조/2",
+      "01_cancer_rider/공통/제2조/1",
+      "std_silson_basic/공통/제15조/0",
+      "10_claims_manual/3장/text1",
+      "std_life_insurance/공통/제23조/2",
+      "std_life_insurance/공통/제16조/3"
+    ],
+    "ranked_ids": [
+      "01_cancer_rider/공통/제2조/2",
+      "01_cancer_rider/공통/제5조/2",
+      "01_cancer_rider/공통/제4조/0",
+      "01_cancer_rider/공통/제2조/1",
+      "10_claims_manual/2장/row1",
+      "10_claims_manual/3장/text1",
+      "std_life_insurance/공통/제23조/2",
+      "std_life_insurance/공통/제15조/0",
+      "std_silson_basic/공통/제15조/0",
+      "std_life_insurance/공통/제16조/3"
+    ]
+  }
+}

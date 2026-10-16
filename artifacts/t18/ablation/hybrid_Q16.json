@@ -1,0 +1,129 @@
+{
+  "id": "Q16",
+  "question": "김서연 고객 청구 확인해줘",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 사망 | 사망진단서(시체검안서), 가족관계증명서, 기본증명서 | 보험수익자 확인 | 생명보험 표준약관 제7조 · 제11조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row8",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제11조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row8",
+      "embedding_version": "structure-v3",
+      "score": 0.0618558587905096
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "2장",
+      "title": "2. 공통 사항 (주계약 · 모든 특약)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/2장/row1",
+      "parent_id": "00_product_summary/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/2장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.03819890157724616
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n3. 신분증(주민등록증이나 운전면허증 등 사진이 붙은 정부기관 발행 신분증, 본인이 아닌 경우에는 본인의 인감증명서, 본인서명사실확인서 또는 안전성과 신뢰성이 확보된 전자적 수단을 활용한 보험수익자 의사표시의 확인방법 포함) <개정 2018.3.2., 2024.12.20.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "3",
+      "node_id": "std_life_insurance/공통/제7조/1/3",
+      "parent_id": "std_life_insurance/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.",
+      "address": "제7조 ① 3호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제7조/1/3",
+      "embedding_version": "structure-v3",
+      "score": 0.04712227736421285
+    }
+  ],
+  "trace": {
+    "question": "김서연 고객 청구 확인해줘",
+    "rewritten": "보험 청구 확인",
+    "candidate_ids": [
+      "10_claims_manual/2장/row8",
+      "00_product_summary/3장/text1",
+      "11_supplement_templates/2장/text1",
+      "std_life_insurance/공통/제8조/1",
+      "std_life_insurance/공통/제7조/1/3",
+      "std_silson_basic/공통/제7조/1/3",
+      "std_illness_injury/공통/제7조/1/3",
+      "00_product_summary/2장/row1",
+      "11_supplement_templates/3장/text1",
+      "11_supplement_templates/1장/text1"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/2장/row8",
+      "00_product_summary/2장/row1",
+      "std_life_insurance/공통/제7조/1/3",
+      "00_product_summary/3장/text1",
+      "11_supplement_templates/2장/text1",
+      "std_silson_basic/공통/제7조/1/3",
+      "std_illness_injury/공통/제7조/1/3",
+      "11_supplement_templates/1장/text1",
+      "11_supplement_templates/3장/text1",
+      "std_life_insurance/공통/제8조/1"
+    ]
+  }
+}

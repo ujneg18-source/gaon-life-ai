@@ -1,0 +1,131 @@
+{
+  "id": "Q23",
+  "question": "진단서 발급비도 실손으로 청구돼?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 암 진단금 | 진단서, 조직검사 결과지 | 진단서에 질병분류기호(세분류까지). 소액암 여부 확인 | 암진단특약 제3조 · 제6조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row1",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제3조",
+        "제6조"
+      ],
+      "defined_terms": [
+        "암",
+        "소액암"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.032129032258064516
+    },
+    {
+      "doc_name": "가온생명 질병통원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/04_outpatient_rider.md",
+      "chunk_text": "제2조(보험금의 청구)\n\n2. **통원확인서** (병명 또는 질병분류기호, 통원일이 적힌 것). 통원일이 적힌 진단서 · 소견서나 진료비 계산서 · 영수증으로 대신할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "04_outpatient_rider/공통/제2조/0/2",
+      "parent_id": "04_outpatient_rider/공통/제2조/0",
+      "is_definition": false,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제2조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병통원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "04_outpatient_rider/공통/제2조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.03187301587301587
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제24조",
+      "title": "제24조(제1회 보험료 및 회사의 보장개시)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제24조(제1회 보험료 및 회사의 보장개시)\n③ 회사는 제2항에도 불구하고 다음의 어느 하나에 해당하는 경우에는 보장을 하지 않습니다. <개정 2015.11.30., 2021.7.1.>\n3. 진단계약에서 보험금 지급사유 발생 시까지 피보험자가 진단을 받지 않은 경우. 다만, 진단계약에서 진단을 받지 않은 경우라도 상해로 보험금 지급사유가 발생한 경우에는 보장을 해드립니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "③",
+      "item": "3",
+      "node_id": "std_silson_basic/공통/제24조/3/3",
+      "parent_id": "std_silson_basic/공통/제24조/3",
+      "is_definition": false,
+      "refs": [
+        "제24조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "③ 회사는 제2항에도 불구하고 다음의 어느 하나에 해당하는 경우에는 보장을 하지 않습니다. <개정 2015.11.30., 2021.7.1.>",
+      "address": "제24조 ③ 3호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제24조/3/3",
+      "embedding_version": "structure-v3",
+      "score": 0.03278688524590164
+    }
+  ],
+  "trace": {
+    "question": "진단서 발급비도 실손으로 청구돼?",
+    "rewritten": "실손의료보험 보험금 지급 대상에서 진단서 발급비 포함 여부 및 면책 사유(보장개시일·보험금 미지급 사유) 검토, 보완 필수서류·교차검증 기준",
+    "candidate_ids": [
+      "10_claims_manual/4장/row3",
+      "std_silson_basic/공통/제24조/3/3",
+      "11_supplement_templates/2장/text1",
+      "10_claims_manual/2장/row1",
+      "04_outpatient_rider/공통/제2조/0/2",
+      "10_claims_manual/3장/text1",
+      "01_cancer_rider/공통/제6조/0/2",
+      "00_product_summary/3장/text1",
+      "std_silson_basic/공통/제12조/0",
+      "00_product_summary/2장/row1"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/2장/row1",
+      "04_outpatient_rider/공통/제2조/0/2",
+      "std_silson_basic/공통/제24조/3/3",
+      "00_product_summary/2장/row1",
+      "10_claims_manual/4장/row3",
+      "10_claims_manual/3장/text1",
+      "11_supplement_templates/2장/text1",
+      "01_cancer_rider/공통/제6조/0/2",
+      "00_product_summary/3장/text1",
+      "std_silson_basic/공통/제12조/0"
+    ]
+  }
+}

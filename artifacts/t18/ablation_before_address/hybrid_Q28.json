@@ -1,0 +1,136 @@
+{
+  "id": "Q28",
+  "question": "자동차 사고 과실비율 어떻게 정해?",
+  "recall": null,
+  "hits": [
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n6. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (3)비급여자기공명영상진단 제1항부터 제6항에 따라 보상합니다.",
+      "collection": "policy",
+      "coverage_section": "비급여자기공명영상진단",
+      "paragraph": "④",
+      "item": "6",
+      "node_id": "rider2/비급여자기공명영상진단/제4조/4/6",
+      "parent_id": "rider2/비급여자기공명영상진단/제4조/4",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료",
+        "자기공명영상진단"
+      ],
+      "paragraph_head": "④ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ④ 6호",
+      "authority_level": 1,
+      "governs": [
+        "비급여자기공명영상진단"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/비급여자기공명영상진단/제4조/4/6",
+      "embedding_version": "structure-v3",
+      "score": 0.0690400124069479
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n6. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해비급여 제1항부터 제5항에 따라 보상합니다.\n   7.「국민건강보험법」 제42조의 요양기관이 아닌 외국에 있는 의료기관에서 발생한 의료비",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "6",
+      "node_id": "rider2/상해비급여/제4조/3/6",
+      "parent_id": "rider2/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조",
+        "제42조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 6호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/상해비급여/제4조/3/6",
+      "embedding_version": "structure-v3",
+      "score": 0.06718714121699197
+    },
+    {
+      "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n6. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해비급여 제1항부터 제7항에 따라 보상합니다.",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "6",
+      "node_id": "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/6",
+      "parent_id": "std_silson_rider1_severe_noncovered/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 6호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/6",
+      "embedding_version": "structure-v3",
+      "score": 0.06480532786885246
+    }
+  ],
+  "trace": {
+    "question": "자동차 사고 과실비율 어떻게 정해?",
+    "rewritten": "자동차 사고 과실비율 결정 기준",
+    "candidate_ids": [
+      "rider2/비급여자기공명영상진단/제4조/4/6",
+      "rider2/상해비급여/제4조/3/6",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/6",
+      "std_silson_basic/상해급여/제4조/3/3",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/4/6",
+      "std_silson_basic/공통/제13조/4",
+      "std_life_insurance/공통/<부표 3>장/0/3",
+      "rider2/상해비급여/제4조/2/2",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/2/2",
+      "std_illness_injury/공통/<부표 9>장/0/3"
+    ],
+    "ranked_ids": [
+      "rider2/비급여자기공명영상진단/제4조/4/6",
+      "rider2/상해비급여/제4조/3/6",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/6",
+      "std_silson_basic/상해급여/제4조/3/3",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/4/6",
+      "std_life_insurance/공통/<부표 3>장/0/3",
+      "rider2/상해비급여/제4조/2/2",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/2/2",
+      "std_illness_injury/공통/<부표 9>장/0/3",
+      "std_silson_basic/공통/제13조/4"
+    ]
+  }
+}

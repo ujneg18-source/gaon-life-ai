@@ -1,0 +1,103 @@
+{
+  "id": "Q23",
+  "question": "진단서 발급비도 실손으로 청구돼?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n② 제1항제2호의 사고증명서는 「의료법」 제3조(의료기관)에서 규정한 국내의 의료기관에서 발급한 것이어야 합니다. <개정 2015.11.30., 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제7조/2",
+      "parent_id": "std_silson_basic/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조 ②",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.7737324978622429
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n2. **진단서** (병명과 질병분류기호가 적힌 것)\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n3. **조직검사 결과지** (병리 진단과 보고일이 적힌 것). 조직검사가 불가능했다면 제3조 제2항의 기록\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n4. 신분증. 앱 청구는 앱 본인인증으로 대신합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "01_cancer_rider/공통/제6조/0/2",
+      "parent_id": "01_cancer_rider/공통/제6조/0",
+      "is_definition": false,
+      "refs": [
+        "제6조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.",
+      "address": "제6조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제6조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.7683700223642874
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제12조",
+      "title": "제12조(계약 전 알릴 의무)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제12조(계약 전 알릴 의무)\n계약자 또는 피보험자는 청약할 때(진단계약의 경우에는 건강진단을 할 때를 말합니다) 청약서에서 질문한 사항에 대하여 알고 있는 사실을 반드시 사실대로 알려야(상법에 따른\"고지의무\"와 같으며, 이하 \"계약 전 알릴 의무\"라 합니다) 합니다. 다만, 진단계약의 경우 「의료법」 제3조(의료기관)에 따른 종합병원이나 병원에서 직장 또는 개인이 실시한 건강진단서 사본 등 건강상태를 판단할 수 있는 자료로 건강진단을 대신할 수 있습니다. <개정 2015.11.30.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제12조/0",
+      "parent_id": "std_silson_basic/공통/제12조",
+      "is_definition": false,
+      "refs": [
+        "제12조",
+        "제3조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제12조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제12조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.766421821435964
+    }
+  ],
+  "trace": {}
+}

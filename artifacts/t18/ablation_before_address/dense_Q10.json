@@ -1,0 +1,103 @@
+{
+  "id": "Q10",
+  "question": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row5",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.6989679487869511
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_silson_basic/공통/제7조/1/2",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.6699049980899792
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제25조",
+      "title": "제25조(제2회 이후 보험료의 납입)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제25조(제2회 이후 보험료의 납입)\n계약자는 제2회부터의 보험료를 납입기일까지 납입하여야 하며, 계약자가 보험료를 납입한 경우 회사는 영수증을 발행하여 드립니다. 다만, 금융회사(우체국을 포함합니다)를 통하여 보험료를 납입한 경우에는 그 금융회사가 발행한 증명서류를 영수증으로 대신합니다. <개정 2015.11.30.>\n【납입기일】\n  계약자가 제2회부터의 보험료를 납입하기로 한 날을 말합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제25조/0",
+      "parent_id": "std_silson_basic/공통/제25조",
+      "is_definition": false,
+      "refs": [
+        "제25조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제25조",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제25조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.653791784904455
+    }
+  ],
+  "trace": {}
+}

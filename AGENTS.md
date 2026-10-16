@@ -128,3 +128,9 @@ uv run python -m scripts.seed --demo --use-photo
 
 ## T-18 평가
 backend/에서 `uv run python -m app.scripts.eval_chat --out artifacts/t18/` 실행. 수정 후 `--phase after`로 별도 저장한다. 동일 phase의 질문별 체크포인트를 재사용하며 정답 해시가 바뀌면 새 결과 폴더가 필요하다. 이번 세션에서 가상 질문/고객·청구/서류 맥락/공개·가상 약관의 Upstage 전송을 사용자가 명시 승인해 실측을 마쳤다. Q08/Q18 source 라벨 수정으로 정답 해시가 바뀌었으므로 다음 실행은 `--out artifacts/t18/revision-2`처럼 새 폴더를 쓴다. `uv run python -m app.scripts.eval_extract`는 기존 캐시만 재생한다. 실제 API65항목과 전자 mock 포함190항목을 구분한다.
+
+## T-18b 구조 인덱스·평가 재현
+- `uv run python -m app.scripts.chunk_report`는 네트워크 없이 문서별 조각 수/길이를 `artifacts/t18/chunk_report.md`에 기록한다.
+- `uv run python -m app.scripts.eval_retrieval`는 청킹-only(legacy 점수 고정), dense 참고, hybrid 검색 ablation이다. 결과 경로를 재사용하면 기존 문항 체크포인트를 읽으므로 다른 코드 버전 평가 시 이전 ablation 폴더를 보존하고 새 폴더를 쓴다.
+- `uv run python -m app.scripts.eval_chat --out artifacts/t18/<새실험명> --phase after`로 새 라운드를 만든다. 정답은 CHANGELOG의 근거 있는 오류만 고친다. used_chunk_ids의 실제 조각에서 인용을 만들며 조/호 단위 점수를 함께 남긴다.
+- `uv run python -m app.scripts.chat_smoke --out artifacts/t18/<새시연명>`은 DB·인덱스 스냅샷에서 필수4문항을 실행한다. 인덱스 재생성은 로컬 Qdrant 소유 프로세스를 종료한 뒤 한 프로세스에서 수행한다.

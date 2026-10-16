@@ -1,0 +1,127 @@
+{
+  "id": "Q27",
+  "type": "refusal",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 (치아보험 문서 없음)",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "1장",
+      "title": "1. 상품 구성",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "1. 상품 구성\n| 구분 | 이름 | 특약 코드 | 약관 문서 |\n| 주계약 | 가온 건강플러스보험 (사망 보장) | `MAIN_DEATH` | 생명보험 표준약관 준용 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/1장/row1",
+      "parent_id": "00_product_summary/1장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "1장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "00_product_summary/1장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.035483870967741936
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "2장",
+      "title": "2. 공통 사항 (주계약 · 모든 특약)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "2. 공통 사항 (주계약 · 모든 특약)\n| 항목 | 내용 | 근거 |\n| 보험금 청구 서류 | 청구서, 사고증명서(진단서 · 입퇴원확인서 등), 신분증, 그 밖에 필요한 서류 | 생명보험 표준약관 제7조 |",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/2장/row1",
+      "parent_id": "00_product_summary/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "00_product_summary/2장/row1",
+      "embedding_version": "structure-v3",
+      "score": 0.036065573770491806
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 후유장해 | 후유장해 진단서 | 장해 부위 · 지급률 | 생명보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row7",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row7",
+      "embedding_version": "structure-v3",
+      "score": 0.054531531531531535
+    }
+  ],
+  "search_trace": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "answer_gist에서 '치아보험 관련 규정을 찾지 못했다(치아보험 문서 없음)'고 명시했으므로, 답변은 이를 그대로 반영하고 모순이 없어야 한다. 그러나 실제 답변에서 '지원하는 문서 검토 업무 범위 밖'이라는 근거 없는 범위 회피 사유를 추가로 설명했고, 이는 answer_gist의 핵심 사실(약관 검토 결과 부재) 외에 다른 유형의 답변을 덧붙인 것이므로 핵심 사실 누락·변경 또는 근거 없는 회피에 해당하여 score=0이다."
+    }
+  }
+}

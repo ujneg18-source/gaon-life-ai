@@ -1,0 +1,139 @@
+{
+  "id": "Q28",
+  "type": "refusal",
+  "question": "자동차 사고 과실비율 어떻게 정해?",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 / 업무 범위 밖",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 급여의료비에 대해서는 보상하지 않습니다.\n3. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해급여 제1항, 제2항 및 제4항부터 제8항에 따라 보상합니다.",
+      "collection": "policy",
+      "coverage_section": "상해급여",
+      "paragraph": "③",
+      "item": "3",
+      "node_id": "std_silson_basic/상해급여/제4조/3/3",
+      "parent_id": "std_silson_basic/상해급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 급여의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 3호",
+      "authority_level": 1,
+      "governs": [
+        "상해급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/상해급여/제4조/3/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06376447436898257
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n6. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해비급여 제1항부터 제5항에 따라 보상합니다.\n   7.「국민건강보험법」 제42조의 요양기관이 아닌 외국에 있는 의료기관에서 발생한 의료비",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "6",
+      "node_id": "rider2/상해비급여/제4조/3/6",
+      "parent_id": "rider2/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조",
+        "제42조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 6호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/상해비급여/제4조/3/6",
+      "embedding_version": "structure-v3",
+      "score": 0.06743589743589744
+    },
+    {
+      "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n6. 자동차보험(공제를 포함합니다)에서 보상받는 치료관계비(과실상계 후 금액을 기준으로 합니다) 또는 산재보험에서 보상받는 의료비. 다만, 본인부담의료비(자동차보험 진료수가에 관한 기준 및 산재보험 요양급여 산정기준에 따라 발생한 실제 본인 부담의료비)는 제3조(보장종목별 보상내용) (1)상해비급여 제1항부터 제7항에 따라 보상합니다.",
+      "collection": "policy",
+      "coverage_section": "상해비급여",
+      "paragraph": "③",
+      "item": "6",
+      "node_id": "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/6",
+      "parent_id": "std_silson_rider1_severe_noncovered/상해비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조",
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 6호",
+      "authority_level": 1,
+      "governs": [
+        "상해비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/6",
+      "embedding_version": "structure-v3",
+      "score": 0.06530936012691697
+    }
+  ],
+  "search_trace": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "질문은 자동차 사고 과실비율 산정 기준을 묻고 있으나, answer_gist는 관련 규정 미확인 및 업무 범위 초과를 명시하고 있으며 answer 역시 이를 그대로 반복하고 있다. 이는 해당 질문이 문서 검토 지원 범위를 벗어남을 전달하는 거절/범위 안내 응답으로, answer_gist가 제시하려는 핵심 사실이나 요청 행동을 정확히 담고 있다. 그러나 채점 기준상 '없는 약관을 설명하면 0'이라는 조건은 본 사례에서 적용되지 않으며, 실제 필요한 정보(과실비율 결정 기준 등)에 대한 사실 제공이나 적절한 거절 취지도 답안에 포함되어 있지 않아 핵심 대응 측면에서 충족하지 못한 것으로 판단한다."
+    }
+  }
+}

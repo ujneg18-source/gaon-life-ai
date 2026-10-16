@@ -1,0 +1,128 @@
+{
+  "id": "Q10",
+  "question": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row5",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.08157377049180328
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_silson_basic/공통/제7조/1/2",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.0626238340123333
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-06 보장 기간 | 진료 · 진단 날짜가 계약의 보장 기간 안인지 | 기간 밖이면 해당 특약 보험금 대상이 아닙니다. 계약 정보를 다시 확인합니다 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row6",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row6",
+      "embedding_version": "structure-v3",
+      "score": 0.016129032258064516
+    }
+  ],
+  "trace": {
+    "question": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+    "rewritten": "(실손 청구 필수서류 진료비 납입확인서 인정 여부) AND (보장개시일 이후 면책 사유 해당 여부) AND (제출 서류 교차검증)",
+    "candidate_ids": [
+      "10_claims_manual/2장/row5",
+      "std_silson_basic/공통/제7조/1/2",
+      "00_product_summary/3장/text1",
+      "std_silson_basic/공통/제25조/0",
+      "10_claims_manual/4장/row6",
+      "04_outpatient_rider/공통/제2조/0/2",
+      "03_surgery_rider/공통/제5조/1",
+      "std_silson_basic/공통/제7조/2",
+      "03_surgery_rider/공통/제5조/2",
+      "std_silson_basic/공통/제44조/5"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/2장/row5",
+      "std_silson_basic/공통/제7조/1/2",
+      "10_claims_manual/4장/row6",
+      "00_product_summary/3장/text1",
+      "std_silson_basic/공통/제7조/2",
+      "04_outpatient_rider/공통/제2조/0/2",
+      "03_surgery_rider/공통/제5조/1",
+      "03_surgery_rider/공통/제5조/2",
+      "std_silson_basic/공통/제25조/0",
+      "std_silson_basic/공통/제44조/5"
+    ]
+  }
+}

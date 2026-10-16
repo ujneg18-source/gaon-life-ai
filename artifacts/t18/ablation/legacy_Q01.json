@@ -1,0 +1,111 @@
+{
+  "id": "Q01",
+  "question": "암 진단금 청구할 때 필수 서류가 뭐야?",
+  "recall": 0.5,
+  "hits": [
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제6조",
+      "title": "제6조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n2. **진단서** (병명과 질병분류기호가 적힌 것)\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n3. **조직검사 결과지** (병리 진단과 보고일이 적힌 것). 조직검사가 불가능했다면 제3조 제2항의 기록\n\n제6조(보험금의 청구)\n보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.\n4. 신분증. 앱 청구는 앱 본인인증으로 대신합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "01_cancer_rider/공통/제6조/0/2",
+      "parent_id": "01_cancer_rider/공통/제6조/0",
+      "is_definition": false,
+      "refs": [
+        "제6조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "보험수익자는 다음 서류를 제출하고 보험금을 청구합니다.",
+      "address": "제6조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제6조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.9916501128288026
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제3조",
+      "title": "제3조(암의 진단확정)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제3조(암의 진단확정)\n② 제1항의 검사가 불가능한 경우에 한하여, 피보험자가 암으로 진단 또는 치료를 받고 있다는 사실을 증명할 수 있는 문서화된 기록이나 증거가 있으면 이를 진단확정으로 인정할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "②",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제3조/2",
+      "parent_id": "01_cancer_rider/공통/제3조",
+      "is_definition": false,
+      "refs": [
+        "제3조"
+      ],
+      "defined_terms": [
+        "치료",
+        "암"
+      ],
+      "paragraph_head": "",
+      "address": "제3조 ②",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제3조/2",
+      "embedding_version": "structure-v3",
+      "score": 0.8754509338217022
+    },
+    {
+      "doc_name": "가온생명 암진단특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제7조",
+      "title": "제7조(보험금의 지급절차)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/01_cancer_rider.md",
+      "chunk_text": "제7조(보험금의 지급절차)\n서류를 접수한 날부터 3영업일 이내에 지급하며, 진단확정 사실의 조사 · 확인이 필요하면 10영업일 이내에 지급합니다. 그 밖의 사항은 생명보험 표준약관 제8조를 따릅니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "01_cancer_rider/공통/제7조/0",
+      "parent_id": "01_cancer_rider/공통/제7조",
+      "is_definition": false,
+      "refs": [
+        "제7조",
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제7조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 암진단특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "01_cancer_rider/공통/제7조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.8671290933506794
+    }
+  ],
+  "trace": {}
+}

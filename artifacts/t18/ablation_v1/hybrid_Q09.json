@@ -1,0 +1,134 @@
+{
+  "id": "Q09",
+  "question": "실손에서 영양제 비용도 보상돼?",
+  "recall": 1.0,
+  "hits": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "6장",
+      "title": "6. 실손 비급여 항목 확인",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "6. 실손 비급여 항목 확인\n| 항목 | 기준 | 근거 |\n| 영양제 · 비타민제 등 | 원칙적으로 보상하지 않음. 다만 보상하는 질병 치료에 허가 사항대로 쓰인 경우 등은 치료 목적으로 보아 보상 | 실손의료보험 특별약관1 · 2 제4조 ③ 제2호 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/6장/row2",
+      "parent_id": "10_claims_manual/6장",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "",
+      "address": "6장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/6장/row2",
+      "embedding_version": "structure-v3",
+      "score": 0.06557377049180328
+    },
+    {
+      "doc_name": "실손의료보험 특별약관1(중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider1_severe_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다.\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+      "collection": "policy",
+      "coverage_section": "질병비급여",
+      "paragraph": "③",
+      "item": "2",
+      "node_id": "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/2",
+      "parent_id": "std_silson_rider1_severe_noncovered/질병비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 2호",
+      "authority_level": 1,
+      "governs": [
+        "질병비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/2",
+      "embedding_version": "structure-v3",
+      "score": 0.06374807987711213
+    },
+    {
+      "doc_name": "실손의료보험 특별약관2(비중증 비급여 실손의료비)",
+      "edition": "2026.08.28",
+      "article": "제4조",
+      "title": "제4조(보상하지 않는 사항)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_rider2_nonsevere_noncovered.txt",
+      "chunk_text": "제4조(보상하지 않는 사항)\n③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.\n2. 영양제, 비타민제 등의 약제와 관련하여 소요된 비용. 다만 약관상 보상하는 질병을 치료함에 있어 아래 각 목에 해당하는 경우는 치료 목적으로 보아 보상합니다(다만, 항암제, 항생제, 희귀의약품을 제외한 주사치료시 사용된 행위, 약제 및 치료재료와 관련하여 소요된 비용은 보상하지 않습니다).\n    가. 약사법령에 의하여 약제별 허가사항 또는 신고된 사항(효능/효과 및 용법/용량 등)대로 사용된 경우\n    나. 요양급여 약제가 관련 법령 또는 고시 등에서 정한 별도의 적용기준대로 비급여 약제로 사용된 경우\n    다. 요양급여 약제가 관련 법령에 따라 별도의 비급여사용승인 절차를 거쳐 그 승인 내용대로 사용된 경우\n    라. 상기 가목부터 다목의 약제가 두 가지 이상 함께 사용된 경우(함께 사용된 약제중 어느 하나라도 상기 가목부터 다목에 해당하지 않는 경우 제외)",
+      "collection": "policy",
+      "coverage_section": "질병비급여",
+      "paragraph": "③",
+      "item": "2",
+      "node_id": "rider2/질병비급여/제4조/3/2",
+      "parent_id": "rider2/질병비급여/제4조/3",
+      "is_definition": false,
+      "refs": [
+        "제4조"
+      ],
+      "defined_terms": [
+        "치료",
+        "항암제",
+        "희귀의약품",
+        "암"
+      ],
+      "paragraph_head": "③ 회사는 다음의 비급여 의료비에 대해서는 보상하지 않습니다.",
+      "address": "제4조 ③ 2호",
+      "authority_level": 1,
+      "governs": [
+        "질병비급여"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "rider2/질병비급여/제4조/3/2",
+      "embedding_version": "structure-v3",
+      "score": 0.0606266282736871
+    }
+  ],
+  "trace": {
+    "question": "실손에서 영양제 비용도 보상돼?",
+    "rewritten": "실손의료비보험 보험금 지급 대상 영양제 비용 보상 여부",
+    "candidate_ids": [
+      "10_claims_manual/6장/row2",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/2",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/2",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/4/2",
+      "rider2/질병비급여/제4조/3/2",
+      "rider2/비급여자기공명영상진단/제4조/4/2",
+      "rider2/상해비급여/제4조/3/2",
+      "rider2/비급여자기공명영상진단/제3조/5",
+      "std_silson_basic/상해급여/제4조/2/2",
+      "std_silson_rider1_severe_noncovered/질병비급여/제3조/6/revision1"
+    ],
+    "ranked_ids": [
+      "10_claims_manual/6장/row2",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/3/2",
+      "rider2/질병비급여/제4조/3/2",
+      "std_silson_rider1_severe_noncovered/상해비급여/제4조/3/2",
+      "rider2/상해비급여/제4조/3/2",
+      "std_silson_rider1_severe_noncovered/질병비급여/제4조/4/2",
+      "rider2/비급여자기공명영상진단/제4조/4/2",
+      "rider2/비급여자기공명영상진단/제3조/5",
+      "std_silson_basic/상해급여/제4조/2/2",
+      "std_silson_rider1_severe_noncovered/질병비급여/제3조/6/revision1"
+    ]
+  }
+}

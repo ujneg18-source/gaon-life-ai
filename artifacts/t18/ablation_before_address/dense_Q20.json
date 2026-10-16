@@ -1,0 +1,98 @@
+{
+  "id": "Q20",
+  "question": "김유정 고객 지급해도 돼?",
+  "recall": 0.0,
+  "hits": [
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.\n2. 보험수익자가 고의로 피보험자를 해친 경우\n   다만, 그 보험수익자가 보험금의 일부 보험수익자인 경우에는 다른 보험수익자에 대한 보험금은 지급합니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "std_life_insurance/공통/제5조/0/2",
+      "parent_id": "std_life_insurance/공통/제5조/0",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.",
+      "address": "제5조 2호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제5조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.4554551225425583
+    },
+    {
+      "doc_name": "질병·상해보험 표준약관(손해보험 회사용)",
+      "edition": "2026.08.28",
+      "article": "제5조",
+      "title": "제5조(보험금을 지급하지 않는 사유)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_illness_injury.txt",
+      "chunk_text": "제5조(보험금을 지급하지 않는 사유)\n①회사는 다음 중 어느 한가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.\n2. 보험수익자가 고의로 피보험자를 해친 경우. 다만, 그 보험수익자가 보험금의 일부 보험수익자인 경우에는 다른 보험수익자에 대한 보험금은 지급합니다. <개정 2014.12.26.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_illness_injury/공통/제5조/1/2",
+      "parent_id": "std_illness_injury/공통/제5조/1",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "①회사는 다음 중 어느 한가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다.",
+      "address": "제5조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "질병·상해보험 표준약관(손해보험 회사용)"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_illness_injury/공통/제5조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.44896866106179445
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n⑩ 회사는 보험금 지급시 보험수익자에게 휴대전화 문자메시지, 전자우편 또는 이와 유사한 전자적 장치 등으로 다음 각 호의 사항을 안내하여 드리며, 보험수익자는 안내한 사항과 관련하여 구체적인 계산내역 등에 대하여 회사에 설명을 요청할 수 있습니다. <신설 2021.7.1.>\n4. 보험금을 감액하여 지급하거나 지급하지 아니하는 경우에는 그 사유 등",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "⑩",
+      "item": "4",
+      "node_id": "std_silson_basic/공통/제8조/10/4",
+      "parent_id": "std_silson_basic/공통/제8조/10",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "⑩ 회사는 보험금 지급시 보험수익자에게 휴대전화 문자메시지, 전자우편 또는 이와 유사한 전자적 장치 등으로 다음 각 호의 사항을 안내하여 드리며, 보험수익자는 안내한 사항과 관련하여 구체적인 계산내역 등에 대하여 회사에 설명을 요청할 수 있습니다. <신설 2021.7.1.>",
+      "address": "제8조 ⑩ 4호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/10/4",
+      "embedding_version": "structure-v3",
+      "score": 0.4475037867690103
+    }
+  ],
+  "trace": {}
+}

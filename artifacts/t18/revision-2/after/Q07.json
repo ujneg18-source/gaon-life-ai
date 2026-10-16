@@ -1,0 +1,263 @@
+{
+  "id": "Q07",
+  "type": "policy_qa",
+  "question": "수술비 특약에서 수술로 안 보는 게 뭐야?",
+  "expected_sources": [
+    {
+      "doc": "gaon/03_surgery_rider.md",
+      "article": "제2조"
+    }
+  ],
+  "answer_gist": "흡인, 천자 등의 조치와 신경 차단은 수술이 아님",
+  "dataset_sha256": "c36548081fa1f11195ec132ca47d1bd838b7f0621e46af64c1af2a873429c9e9",
+  "response": {
+    "used_chunk_ids": [
+      "03_surgery_rider/공통/제2조/0"
+    ],
+    "answer": "가온생명 질병수술비특약 약관 제2조 정의에 따르면, 수술에는 **흡인, 천자 등의 조치**와 **신경 차단**이 포함되지 않아요. 즉 이 조치들은 특약에서 '수술'으로 보지 않아요.\n\n참고로 진료비 세부내역서에 수술 행위가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청해요(같은 특약 제5조, 보상 매뉴얼 CV-04).\n\n실제 지급이 되려면 개별 접수 건을 담당자가 약관과 제출 서류 기준으로 최종 판단해야 해요. ",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "doc_name": "가온생명 질병수술비특약 약관",
+        "article": "제2조",
+        "source_path": "data/kb/gaon/03_surgery_rider.md",
+        "is_mock": true,
+        "quote": "흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(용어의 정의)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제2조(용어의 정의)\n**수술**: 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여, 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말합니다. 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제2조/0",
+      "parent_id": "03_surgery_rider/공통/제2조",
+      "is_definition": true,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [
+        "치료",
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제2조",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제2조/0",
+      "embedding_version": "structure-v3",
+      "score": 0.06409161100337571
+    },
+    {
+      "doc_name": "가온생명 질병수술비특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제5조",
+      "title": "제5조(수술 사실 확인 기준)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/03_surgery_rider.md",
+      "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "",
+      "node_id": "03_surgery_rider/공통/제5조/1",
+      "parent_id": "03_surgery_rider/공통/제5조",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "제5조 ①",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병수술비특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "03_surgery_rider/공통/제5조/1",
+      "embedding_version": "structure-v3",
+      "score": 0.06853484593163217
+    },
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "4장",
+      "title": "4. 서류 간 교차검증 기준",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-04 수술 기록과 수술확인서 | 세부내역서에 수술 행위가 있는데 수술확인서가 없으면 누락 | 수술비특약 가입 여부를 보고 보완을 요청합니다 (질병수술비특약 제5조) |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/4장/row4",
+      "parent_id": "10_claims_manual/4장",
+      "is_definition": false,
+      "refs": [
+        "제5조"
+      ],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "4장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/4장/row4",
+      "embedding_version": "structure-v3",
+      "score": 0.05987902407339748
+    }
+  ],
+  "search_trace": [
+    {
+      "query": "수술비 특약에서 수술로 안 보는 게 뭐야?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 질병수술비특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제2조",
+          "title": "제2조(용어의 정의)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/03_surgery_rider.md",
+          "chunk_text": "제2조(용어의 정의)\n**수술**: 의사가 질병 치료를 직접 목적으로 필요하다고 인정하여, 의료기관에서 의사의 관리 아래 의료기구를 사용해 생체에 절단, 절제 등의 조작을 하는 것을 말합니다. 흡인, 천자 등의 조치와 신경 차단은 수술에 포함하지 않습니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "03_surgery_rider/공통/제2조/0",
+          "parent_id": "03_surgery_rider/공통/제2조",
+          "is_definition": true,
+          "refs": [
+            "제2조"
+          ],
+          "defined_terms": [
+            "치료",
+            "수술"
+          ],
+          "paragraph_head": "",
+          "address": "제2조",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병수술비특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "03_surgery_rider/공통/제2조/0",
+          "embedding_version": "structure-v3",
+          "score": 0.06553914835164835
+        },
+        {
+          "doc_name": "가온생명 질병수술비특약 약관",
+          "edition": "2026.01 (가상)",
+          "article": "제5조",
+          "title": "제5조(수술 사실 확인 기준)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/03_surgery_rider.md",
+          "chunk_text": "제5조(수술 사실 확인 기준)\n① 진료비 세부내역서에 수술 행위(처치 및 수술료 항목의 수술)가 있는데 수술확인서가 없으면, 수술비특약 가입 고객에게 수술확인서를 보완 요청합니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "",
+          "node_id": "03_surgery_rider/공통/제5조/1",
+          "parent_id": "03_surgery_rider/공통/제5조",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "수술"
+          ],
+          "paragraph_head": "",
+          "address": "제5조 ①",
+          "authority_level": 3,
+          "governs": [
+            "가온생명 질병수술비특약 약관"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md"
+          ],
+          "chunk_id": "03_surgery_rider/공통/제5조/1",
+          "embedding_version": "structure-v3",
+          "score": 0.06938013281687808
+        },
+        {
+          "doc_name": "가온생명 보상 업무 매뉴얼",
+          "edition": "2026.10 (가상)",
+          "article": "4장",
+          "title": "4. 서류 간 교차검증 기준",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/10_claims_manual.md",
+          "chunk_text": "4. 서류 간 교차검증 기준\n| 규칙 | 내용 | 담당자 확인 방법 |\n| CV-04 수술 기록과 수술확인서 | 세부내역서에 수술 행위가 있는데 수술확인서가 없으면 누락 | 수술비특약 가입 여부를 보고 보완을 요청합니다 (질병수술비특약 제5조) |",
+          "collection": "manual",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "10_claims_manual/4장/row4",
+          "parent_id": "10_claims_manual/4장",
+          "is_definition": false,
+          "refs": [
+            "제5조"
+          ],
+          "defined_terms": [
+            "수술"
+          ],
+          "paragraph_head": "",
+          "address": "4장",
+          "authority_level": 4,
+          "governs": [
+            "가온생명 보상 업무 매뉴얼"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "10_claims_manual/4장/row4",
+          "embedding_version": "structure-v3",
+          "score": 0.06266303957480429
+        }
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 0,
+      "reason": "answer_gist의 핵심 내용(흡인, 천자 등의 조치와 신경 차단이 수술이 아님)은 답변에 포함되어 있으나, 답변 후반부의 '진료비 세부내역서 기재 시 수술확인서 보완 요청' 및 '개별 접수 건 담당자의 최종 판단 필요' 정보는 answer_gist에 없는 내용을 임의로 추가한 것이며, 일반 약관 정의 질문의 답변 범위를 벗어난다. 질문의 취지(수술에서 제외되는 행위 정의)에 집중하지 않고 관련 없는 실무적 절차·판단 유보 내용을 덧붙여 핵심에서 벗어났으므로 0점으로 평가한다."
+    }
+  }
+}

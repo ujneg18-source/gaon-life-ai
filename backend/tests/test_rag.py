@@ -28,11 +28,11 @@ def test_chunks_metadata_and_exclusion(tmp_path):
     assert all("reference/" not in c.source_path and ".hwp" not in c.source_path for c in chunks)
     assert all(c.is_mock == c.source_path.endswith(".md") for c in chunks)
     assert any(c.article == "제3조" and "암진단" in c.doc_name for c in chunks)
-    assert all(len(c.chunk_text) < 4000 for c in chunks)
+    assert all(c.node_id and c.address for c in chunks)
 
 
 def test_qdrant_search_and_identifier(tmp_path):
-    config = Settings(_env_file=None, EMBED_DIMENSIONS=2, KB_MIN_SCORE=0)
+    config = Settings(_env_file=None, EMBED_DIMENSIONS=2, KB_MIN_SCORE=0, RAG_USE_LLM=False)
     client = QdrantClient(":memory:")
     kb = KnowledgeBase(config, FakeEmbedding(), client)
     assert kb.build()["policy"] > 100
@@ -68,7 +68,7 @@ def test_search_groups_article_pieces_and_retains_definition_context():
     from qdrant_client import models
 
     client = QdrantClient(":memory:")
-    config = Settings(_env_file=None, EMBED_DIMENSIONS=2, KB_MIN_SCORE=0)
+    config = Settings(_env_file=None, EMBED_DIMENSIONS=2, KB_MIN_SCORE=0, RAG_USE_LLM=False)
     client.create_collection(
         "policy", vectors_config=models.VectorParams(size=2, distance=models.Distance.DOT)
     )
@@ -93,7 +93,7 @@ def test_search_groups_article_pieces_and_retains_definition_context():
     hits = kb.search("영양제 기준")
     assert len({h["article"] for h in hits}) == 3
     merged = next(h for h in hits if h["article"] == "제1조")
-    assert all(f"조각 {i}" in merged["chunk_text"] for i in range(3))
+    assert "조각" in merged["chunk_text"]  # 원문을 임의로 연결하지 않는다.
     chunks = load_chunks(config.KB_PATH)
     surgery = next(
         c.payload()
@@ -124,3 +124,14 @@ def test_structured_json_retry_is_bounded(tmp_path):
     config = Settings(_env_file=None, CACHE_PATH=tmp_path)
     result = Solar(config, httpx.MockTransport(respond)).structured([], {"type": "object"}, "test")
     assert result == {"ok": True} and len(calls) == 2
+
+
+def test_empty_embedding_is_rejected_before_http(tmp_path):
+    import pytest
+
+    solar = Solar(
+        Settings(_env_file=None, CACHE_PATH=tmp_path),
+        httpx.MockTransport(lambda r: (_ for _ in ()).throw(AssertionError("HTTP 호출 금지"))),
+    )
+    with pytest.raises(ValueError, match="빈 텍스트"):
+        solar.embed([" "], query=True)

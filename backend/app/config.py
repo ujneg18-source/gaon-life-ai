@@ -8,6 +8,10 @@ from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# BM25 표준 포화/길이 보정 계수와 동형 타 보험 중복을 줄이는 약한 출처 가중치다.
+BM25_K1 = 1.2
+BM25_B = 0.75
+RAG_PRIMARY_BOOST = 1.1
 
 
 class Settings(BaseSettings):
@@ -33,6 +37,21 @@ class Settings(BaseSettings):
     KB_PATH: Path = PROJECT_ROOT / "data/kb"
     KB_COLLECTIONS: tuple[str, ...] = ("policy", "manual")
     KB_CHUNK_MAX_CHARS: int = 1800
+    KB_STRUCTURE_PATH: Path = PROJECT_ROOT / "data/cache/kb_nodes.json"
+    KB_CONTEXT_LINKS: int = 2
+    RAG_DEFAULT_COVERAGE: str = "질병비급여"
+    RAG_MODE: str = "hybrid"
+    RAG_USE_LLM: bool = True
+    RAG_POOL_SIZE: int = 40
+    RAG_PRIMARY_SOURCES: tuple[str, ...] = (
+        "std_life_insurance.txt",
+        "std_silson_rider2_nonsevere_noncovered.txt",
+    )
+    RAG_CANDIDATES: int = 10
+    RAG_RRF_K: int = 60
+    RAG_EXACT_BOOST: float = 0.016
+    RAG_CACHE_SIZE: int = 256
+    RAG_DOCUMENT_TERMS: tuple[str, ...] = ("진단서", "처방전", "영수증", "수술확인서", "납입확인서")
     KB_TOP_K: int = 3
     KB_CANDIDATES: int = 12
     KB_KEYWORD_LIMIT: int = 512
