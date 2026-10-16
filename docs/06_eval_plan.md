@@ -69,7 +69,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-17 | 실제 질문4·근거/가상 표시·편집 초안·액션·청구 이슈 링크·맥락·로딩 | 통과: pytest55/live1 제외; 프론트 lint/type/format/date1/build, 브라우저 실제4질문·연결 검증 | pytest -q; ruff; npm run lint/typecheck/format:check/build; Node dates; CUA Playwright 캡처 artifacts/t17/ | 2026-10-16 |
 | T-05 | 수술확인서·회신 자동 검토·CV-04 해소·회신완료·확정값/중복 보존 | pytest56 통과/live1 제외; lint/typecheck 통과; 추가 API0 | pytest -q; npm run lint/typecheck; CUA A4 캡처 | 2026-10-16 |
 | T-06 | 고객10·청구13·서류29·4상태·동명이인·출처·사진 선택·90일 경계·폴더 검증·실측 | pytest62/live1 제외, Ruff/포맷·프론트 lint/type/format/build 통과; mock10/10, 신규실측74/74·3장9호출, 캐시0호출 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check/build; python -m verify_samples --folder … [--cached]; CUA 캡처 artifacts/t06/ | 2026-10-16 |
-| T-18 | 구조 트리·부모 JSON·보장종목·규범 준용·RRF ablation·안전 가드·실측30문항·필수4질문·추출 정답 감사 | T-18b pytest89/live1 제외·Ruff/포맷·프론트 lint/type/format 통과. 최종 의도100/recall89.58/인용75/거절100/요지83.33%. 배포 빌드 EPERM 미확인. 이전 기록 보존 | pytest -q; ruff check/format; python -m app.scripts.chunk_report; eval_retrieval; eval_chat --out artifacts/t18/final --phase after; chat_smoke --out artifacts/t18/final-smoke; eval_extract; npm run lint/typecheck/format:check | 2026-10-16 |
+| T-18 | T-18c 2×2·rubric 구/신 재채점·회귀·동결 홀드아웃16·필수5질문·카드·배포 빌드 | pytest94/live1 제외·Ruff/포맷·프론트 lint/type/format 통과. 개발 의도100/recall93.75/엄격인용92.11/거절100/요지96.67; 홀드아웃93.75/75/78.95/100/87.5. Webpack 빌드 성공. 호 집계 감사와 실패 원문 별도 | pytest -q; ruff check/format; eval_chat --questions data/eval/holdout_questions.json --out artifacts/t18/holdout/ --once --judge-repeats 3; regrade_t18c; npm run lint/typecheck/format:check; npx next build --webpack | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 
@@ -137,3 +137,57 @@ dense 참고를 청킹-only라고 보고하지 않는다. legacy는 기존 점�
 청구 조회 문항은 모든 셀에서 동일한 DB+규칙 근거 절차를 쓴다. 일반 정책/항목 질문에서 두 검색 방식이 다르다. 따라서 기존 T-18b 독립 원문 검색 점수와 이 표를 동일 실험으로 합산하지 않는다.
 
 구/신 rubric 재채점과 회귀 원문은 runs/2026-10-16/t18c/regrade/regression.md. 코드·허용 근거·질문 해시는 freeze_before_holdout.json으로 고정했다.
+
+
+
+## T-18c 최종 평가 · 1.5 채점 기준 보정
+
+일반 약관의 가입금액20% 같은 기준 안내는 허용하고 특정 고객의 지급 확정·금액 산정만 위반으로 수정했다. 구/신 rubric 원문과 문항별 acceptable_sources 근거는 data/eval/CHANGELOG.md에 있다. 엄격 expected_sources가 계속 주 지표다. Q26은 원문 확인 결과 질병 비급여 제4조③2호가 맞아 정답을 바꾸지 않고 검색을 보완했다. claim_check는 DB 조회와 실행 규칙의 특약/매뉴얼 근거만 사용한다.
+
+| 동일한 기존30답변 재채점 | 옛 rubric | 새 rubric |
+|---|---:|---:|
+| 요지 · 각각3회 다수결 | 29/30 · 96.67% | 28/30 · 93.33% |
+
+기준 보정 자체가 점수를 올리지 않았다. 과거83.33%는 단회/다른 설정이므로 위 통제 재채점과 구별한다. 새 rubric으로 기존 답변93.33% → 개선 답변96.67%(+1문항)다. 과거 중간93.33→최종83.33 회귀의1→0은 Q03/Q19/Q24/Q27; Q26은0→1. Q19/Q27은 동일 답변·맥락의 채점 흔들림, Q03도 흔들림 후보, Q24는 후속 대조 안내 누락으로 분류하고 개발 단계에서 보완했다. 두 답변·컨텍스트·3회 판정은 dated regrade/regression.md에 보존한다.
+
+# 개발 셋 vs 홀드아웃(1회)
+
+같은 snapshot 모델/요청 seed42/온도0/설정/동결 코드. 개발30/홀드아웃16, 개발 기대근거24/홀드아웃16. 주 지표는 엄격 expected_sources. 호 주소는 개발4문항·홀드아웃의 주소 지정 문항만 평가하며 세부 조각 주소의 정확 일치다. 인용 없는 답변은 인용 정밀도 분모에는 안 넣고 문항별 인용 통과에서 실패로 센다.
+
+| 지표 | 개발30 | 홀드아웃16 | 차이(hold-dev) | 판정 |
+|---|---:|---:|---:|---|
+| 의도 | 100.00% | 93.75% | -6.25%p | 10%p 미만 |
+| recall@3 (a) 서로 다른 조 | 93.75% | 75.00% | -18.75%p | 과적합 가능성(10%p 이상 차이) |
+| recall@3 (b) 조각 | 93.75% | 75.00% | -18.75%p | 과적합 가능성(10%p 이상 차이) |
+| 호 주소 recall | 100.00% | 80.00% | -20.00%p | 과적합 가능성(10%p 이상 차이) |
+| 인용 정밀도 · 엄격(주 지표) | 92.11% | 78.95% | -13.16%p | 과적합 가능성(10%p 이상 차이) |
+| 인용 정밀도 · 허용 | 92.11% | 78.95% | -13.16%p | 과적합 가능성(10%p 이상 차이) |
+| 호 인용 정밀도 · 동결 원점수 | 100.00% | 72.73% | -27.27%p | 집계 범위 오류 혼재 · 별도 검산 참고 |
+| 거절 정답률 | 100.00% | 100.00% | +0.00%p | 10%p 미만 |
+| 요지 ·3회 다수결 | 96.67% | 87.50% | -9.17%p | 10%p 미만 |
+| 필수 인용 문항 통과율 | 90.00% | 56.25% | -33.75%p | 과적합 가능성(10%p 이상 차이) |
+
+금지 표현: 개발0 / 홀드아웃0. 호출 오류: 개발0 / 홀드아웃0.
+
+차이는 과적합 가능성 신호이며 증명은 아니다. 16문항의 작은 표본/유형 분포와 DB 조회·개인정보 가드의 근거 카드 누락도 영향을 준다. 홀드아웃 결과를 보고 검색/프롬프트/부스트/청킹/rubric/허용 근거를 바꾸지 않았다. 개발과 홀드아웃에서 허용 점수는 엄격 점수와 같았다. 임의로 타 보험 표준약관/매뉴얼을 허용하지 않았기 때문이다.
+
+
+# 호 인용 집계 범위 사후 감사
+
+코드·rubric·정답·원시 점수는 동결 상태로 보존했다. API 재호출 없음. 아래는 집계 범위의 독립 검산이며 공식 원점수를 바꾸지 않는다.
+
+| 범위 | 동결 계산기 원점수 | 주소 지정 조만 보는 검산 |
+|---|---:|---:|
+| development | 100.00% | 4/4 · 100.00% |
+| holdout | 72.73% | 8/8 · 100.00% |
+
+기존 계산기는 doc_name만으로 호 평가 대상을 골라, H01의 기대 제2조③3호와 같은 문서의 제4조(호 주소 미지정)까지 오답 분모에 넣는다. H02/H05의 다른 조 인용도 같은 현상이다. H01은 기본 지표는 모두 통과하고 이 범위 문제로만 미달 표시됐다. 주 지표인 엄격 조 인용 정밀도78.95%는 변하지 않는다.
+
+호 인용 원점수의 개발-홀드아웃 차이만으로 과적합을 결론내리면 안 된다. 검색(a/b)·엄격 조 인용의 차이는 이 계산기 문제와 별개다. 이 실행에서는 원점수 유지와 검산 공개만 하고 계산기를 수정하거나 홀드아웃을 재실행하지 않았다.
+
+
+홀드아웃은8da75c9 동결 후16문항을1회 실행했다. 이후 런타임·rubric·정답·허용 근거 변경 없음. 문항별 요지3회 채점은 동일 생성 답변에 대한 채점이며 재생성 평가가 아니다. 원시 실패8문항(H02/H05/H08/H09/H11/H13/H15/H16)과 집계 범위 오류만 있는H01을 구별해 holdout_failures.md에 원문을 공개했다. 지급/개인정보 거절 자체는 유지됐고 금지 표현0·호출 오류0이다.
+
+필수4문항+영양제 답변과 근거 주소는 artifacts/t18/demo_answers.md, 실제 카드 캡처는 dated citation_cards.png. pytest94 passed/live1 deselected, Ruff/포맷 및 프론트 lint/type/format 통과, next build --webpack 성공. File Search 비교는 선택 항목으로 미실행.
+
+ADR-01과 전체 결과는 docs/decisions.md, docs/deliverables/테스트결과보고서.md. T18b 이전 보고서는 테스트결과보고서_T18b.md로 보존했다.

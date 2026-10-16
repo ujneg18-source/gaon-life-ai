@@ -1,0 +1,34 @@
+[
+  {
+    "dataset": "development",
+    "raw_fine_precision": 1.0,
+    "article_scoped_audit_correct": 4,
+    "article_scoped_audit_total": 4,
+    "article_scoped_audit_precision": 1.0,
+    "out_of_fine_scope": []
+  },
+  {
+    "dataset": "holdout",
+    "raw_fine_precision": 0.7272727272727273,
+    "article_scoped_audit_correct": 8,
+    "article_scoped_audit_total": 8,
+    "article_scoped_audit_precision": 1.0,
+    "out_of_fine_scope": [
+      {
+        "id": "H01",
+        "citation": "제4조",
+        "reason": "이 조에는 정답 호 주소가 지정되지 않음. 엄격 조 단위 평가는 그대로 유지"
+      },
+      {
+        "id": "H02",
+        "citation": "제4조",
+        "reason": "이 조에는 정답 호 주소가 지정되지 않음. 엄격 조 단위 평가는 그대로 유지"
+      },
+      {
+        "id": "H05",
+        "citation": "제5조 ①",
+        "reason": "이 조에는 정답 호 주소가 지정되지 않음. 엄격 조 단위 평가는 그대로 유지"
+      }
+    ]
+  }
+]

@@ -1,0 +1,70 @@
+{
+  "dataset_sha256": "bb419203bc930b7d74a3f0e8c957464bce3f12cfe1f0e29dd2efb6eb709f6feb",
+  "manifest": {
+    "settings": {
+      "SOLAR_CHAT_MODEL": "solar-pro4-260806",
+      "EVAL_SEED": 42,
+      "EVAL_TEMPERATURE": 0.0,
+      "EVAL_MODEL": "solar-pro4-260806",
+      "EVAL_OLD_REVISION": "6694f85",
+      "EVAL_SNAPSHOT_PATH": "/Users/yujin-yeong/Desktop/dvp/upstage_demo/data/cache/t18c-2026-10-16",
+      "SOLAR_SEED": 42,
+      "SOLAR_TEMPERATURE": 0.0,
+      "SOLAR_TOP_P": 1.0,
+      "EVAL_WORKERS": 3,
+      "EVAL_JUDGE_MODEL": "solar-pro4-260806",
+      "SOLAR_EMBED_QUERY_MODEL": "solar-embedding-2-query",
+      "SOLAR_EMBED_PASSAGE_MODEL": "solar-embedding-2-passage",
+      "KB_PATH": "/Users/yujin-yeong/Desktop/dvp/upstage_demo/data/kb",
+      "KB_COLLECTIONS": [
+        "policy",
+        "manual"
+      ],
+      "KB_CHUNK_MAX_CHARS": 1800,
+      "KB_CONTEXT_LINKS": 2,
+      "RAG_DEFAULT_COVERAGE": "질병비급여",
+      "RAG_MODE": "hybrid",
+      "RAG_USE_LLM": true,
+      "RAG_POOL_SIZE": 40,
+      "RAG_PRIMARY_SOURCES": [
+        "std_life_insurance.txt",
+        "std_silson_rider2_nonsevere_noncovered.txt"
+      ],
+      "RAG_CANDIDATES": 10,
+      "RAG_RRF_K": 60,
+      "RAG_EXACT_BOOST": 0.016,
+      "RAG_CACHE_SIZE": 256,
+      "RAG_DOCUMENT_TERMS": [
+        "진단서",
+        "처방전",
+        "영수증",
+        "수술확인서",
+        "납입확인서"
+      ],
+      "KB_TOP_K": 3,
+      "KB_CANDIDATES": 12,
+      "KB_KEYWORD_LIMIT": 512,
+      "KB_MIN_SCORE": 0.2,
+      "KB_LEXICAL_BOOST": 0.1,
+      "KB_CHUNKS_PER_ARTICLE": 3,
+      "KB_TITLE_BOOST": 0.12,
+      "KB_CONTEXT_ARTICLES": 12,
+      "KB_TERM_BOOST": 0.08,
+      "KB_IDENTIFIER_BOOST": 0.25,
+      "EMBED_BATCH_SIZE": 100,
+      "EMBED_DIMENSIONS": 1024,
+      "SOLAR_STRUCTURED_ATTEMPTS": 2,
+      "CHAT_MAX_TURNS": 12,
+      "CHAT_MAX_TOOL_ROUNDS": 4,
+      "CHAT_MAX_MESSAGE": 2000,
+      "SOLAR_CHAT_PATH": "/chat/completions",
+      "requested_seed": 42,
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "seed_server_support": "공식 API에 seed 명세 없음: 요청 고정/완전 결정성 보장 아님"
+    },
+    "settings_sha256": "82b4adc93c5e616e460b4cfb3c27d1f512a62f57b5cd45d84565699a4a343d3c",
+    "code_revision": "8da75c9055b459a3e7c02e5690a0cdaacd6c02a2",
+    "db_sha256": "36140f4e41eb38a095cf52808326bbaa2a9509fb08dd6decb263fb9a59e165ea"
+  }
+}
