@@ -7,6 +7,7 @@ export type FieldRow = {
   value: string;
   display_value: string;
   raw_value: string;
+  confidence_score?: number | null;
   extract_conf: "high" | "low" | null;
   source_found: boolean;
   review_reasons: string[];
@@ -214,4 +215,12 @@ export function ruleLabel(code: string) {
       } as Record<string, string>
     )[code] ?? (code.startsWith("FIELD-") ? label(code.slice(6)) : "검토 항목")
   );
+}
+
+/** 실제 숫자 점수만 백분율로 표시한다. high/low를 가짜 확률로 바꾸지 않는다. */
+export function confidencePercent(f: FieldRow): string {
+  if (f.method === "data" || f.confidence_score == null) return "—";
+  const score = f.confidence_score;
+  if (!Number.isFinite(score) || score < 0 || score > 100) return "—";
+  return `${Number((score <= 1 ? score * 100 : score).toFixed(1))}%`;
 }

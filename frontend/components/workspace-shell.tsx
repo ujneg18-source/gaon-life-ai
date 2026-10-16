@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import {
   ClipboardList,
   FileText,
@@ -11,7 +10,6 @@ import {
   Settings2,
   Search,
   MessageSquareText,
-  CircleHelp,
   ArrowLeft,
 } from "lucide-react";
 import { workspacePages } from "@/lib/navigation";
@@ -29,11 +27,14 @@ export function WorkspaceShell({
   const search = useSearchParams();
   const router = useRouter();
   const claim = search.get("claim");
-  const [help, setHelp] = useState(false);
 
   return (
     <div className="workspace-shell">
-      <aside className="sidebar" aria-label="워크스페이스 메뉴">
+      <aside
+        className="sidebar"
+        aria-label="워크스페이스 메뉴"
+        data-tour="workspace-navigation"
+      >
         <Link href="/" className="back-home">
           <ArrowLeft size={15} />
           메인으로
@@ -63,7 +64,7 @@ export function WorkspaceShell({
         </div>
       </aside>
       <div className="workspace-body">
-        <div className="searchbar">
+        <div className="searchbar" data-tour="workspace-search">
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -97,33 +98,8 @@ export function WorkspaceShell({
             <MessageSquareText size={18} />
             가온 AI에게 묻기
           </Link>
-          <button
-            className="btn help-button"
-            aria-label="메뉴 안내"
-            aria-expanded={help}
-            aria-controls="workspace-help"
-            onClick={() => setHelp(!help)}
-          >
-            <CircleHelp size={21} />
-          </button>
         </div>
       </div>
-      {help && (
-        <section
-          id="workspace-help"
-          className="help-panel"
-          aria-label="메뉴 안내"
-        >
-          <strong>워크스페이스 안내</strong>
-          <p>
-            왼쪽 메뉴에서 청구 검토·보완·이력을 선택하세요. 운영 관리는
-            관리자에게만 표시됩니다.
-          </p>
-          <button className="btn sm" onClick={() => setHelp(false)}>
-            닫기
-          </button>
-        </section>
-      )}
     </div>
   );
 }

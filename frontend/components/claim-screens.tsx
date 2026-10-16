@@ -15,7 +15,6 @@ import {
   ZoomOut,
   X,
   Pencil,
-  LocateFixed,
   Columns2,
   Check,
 } from "lucide-react";
@@ -29,6 +28,7 @@ import {
   label,
   FieldRow,
   ComparisonCell,
+  confidencePercent,
 } from "@/lib/workspace";
 import { Original } from "./review-screen";
 import { useResource, Status, PageTitle, LoadState } from "./workspace-ui";
@@ -702,10 +702,9 @@ export function ClaimDetail({
               <thead>
                 <tr>
                   <th>항목</th>
-                  <th>추출·확정값</th>
+                  <th>값</th>
                   <th>출처</th>
                   <th>신뢰도</th>
-                  <th>위치</th>
                 </tr>
               </thead>
               <tbody>
@@ -1021,7 +1020,11 @@ function NormalizedRow({
   const needs = !f.confirmed_by && f.review_reasons.length > 0;
   return (
     <tr className={needs ? "review-needed" : ""}>
-      <td title={label(f.key)}>{label(f.key)}</td>
+      <td title={label(f.key)}>
+        <button className="field-link" onClick={show} title="원본 보기">
+          {label(f.key)}
+        </button>
+      </td>
       <td title={display(f)}>
         {editing ? (
           <>
@@ -1071,36 +1074,14 @@ function NormalizedRow({
           {f.method === "data" ? "" : f.method === "ocr" ? "OCR" : "Parse"}
         </small>
       </td>
-      <td>
-        {f.method === "data"
-          ? "—"
-          : f.confirmed_by
-            ? "확정"
-            : needs
-              ? f.review_reasons.some(
-                  (r) => r.includes("원문과 다름") || r === "not_in_source",
-                )
-                ? "원문과 다름"
-                : f.extract_conf === "low"
-                  ? "신뢰도 낮음"
-                  : "대조 필요"
-              : f.extract_conf === "high"
-                ? "높음"
-                : f.extract_conf === "low"
-                  ? "낮음"
-                  : "—"}
-      </td>
-      <td>
-        {f.bbox && (
-          <button
-            className="icon-button"
-            aria-label={`${label(f.key)} 원본 위치 보기`}
-            title="원본 위치 보기"
-            onClick={show}
-          >
-            <LocateFixed size={16} />
-          </button>
-        )}
+      <td
+        title={
+          f.extract_conf === "low"
+            ? "추출 신뢰도 낮음 · 숫자 점수 미제공"
+            : "숫자 점수 미제공"
+        }
+      >
+        {confidencePercent(f)}
       </td>
     </tr>
   );

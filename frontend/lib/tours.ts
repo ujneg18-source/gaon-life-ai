@@ -8,10 +8,10 @@ export type TourStep = {
 export const tours: Record<string, TourStep[]> = {
   home: [
     {
-      target: "home-summary",
-      title: "오늘 확인할 청구",
+      target: "home-heading",
+      title: "업무 시작하기",
       description:
-        "현재 배정된 청구와 검토할 건수를 확인하세요. 실제 접수 데이터에서 집계합니다.",
+        "약관과 업무 기준은 어시스턴트에서, 청구 서류 검토는 워크스페이스에서 시작하세요.",
     },
     {
       target: "home-workspace",
@@ -80,6 +80,38 @@ export const tours: Record<string, TourStep[]> = {
       description:
         "누락 서류는 보완 요청이 필요해요. 다른 항목은 원본을 검토한 뒤 확인 기록을 남기세요.",
       detailStep: 2,
+    },
+  ],
+  workspace: [
+    {
+      target: "workspace-navigation",
+      title: "워크스페이스 메뉴",
+      description: "청구 검토, 보완 처리, 검토 이력을 선택하세요.",
+    },
+    {
+      target: "workspace-search",
+      title: "청구 찾기",
+      description: "고객 이름, 청구번호, 증권번호로 검색할 수 있어요.",
+    },
+  ],
+  review: [
+    {
+      target: "review-original",
+      title: "원본 확인",
+      description:
+        "서류를 선택하고 항목 위치를 확인하세요. 확대와 축소는 직접 조절할 수 있어요.",
+    },
+    {
+      target: "review-normalized",
+      title: "정규화 결과",
+      description:
+        "항목, 값, 출처, 신뢰도를 각각 확인하세요. 숫자 점수가 제공되지 않은 항목은 대시로 표시해요.",
+    },
+    {
+      target: "review-issues",
+      title: "확인 사항과 안내",
+      description:
+        "원본과 비교한 뒤 확인 기록을 남기세요. 빠진 서류는 보완 요청으로 진행하세요.",
     },
   ],
   assistant: [

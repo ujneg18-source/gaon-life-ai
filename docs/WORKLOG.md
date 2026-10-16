@@ -1,3 +1,12 @@
+## 2026-10-16 · T-19c · 원본 카드·표 복원과 수동 온보딩
+- 관련 요구사항: FR-18~20, SCR-02, SCR-11, SCR-12
+- 한 일: 문서 검토의 합쳐진 결과 영역을 정규화 표(위)와 확인 안내 카드(아래)로 분리하고 원본 gaon-ai.html의 테두리·간격·표 톤을 복원했다. 청구 상세도 동일한 네 열(항목/값/출처/신뢰도)로 정리했다.
+  메인·챗봇 디자인은 유지하고 메인 현황 한 줄만 제거했다. 자동 온보딩을 없애고 기존 우하단 물음표를 수동 투어로 통일했다. 메인·검토함·챗봇에서 자동 대화상자 0개/버튼 클릭 후 열림을 확인했고, 문서 검토에도 안내를 추가했다.
+  숫자 confidence가 없는 high/low를 임의 확률로 만들지 않는다. 숫자 점수가 제공되면 0~1은 백분율(0.7=70%), 1 초과~100은 점수 그대로 %로 표시하며 미제공/실손24는 —다.
+- 바뀐 파일: frontend/components/{claim-screens,review-screen,onboarding-tour,workspace-shell}.tsx, frontend/lib/{workspace,tours}.ts, frontend/app/globals.css, frontend/app/(protected)/page.tsx
+- 확인 방법: pytest 136 passed/1 live 제외, Ruff 통과. npm run lint/typecheck/format:check, next build --webpack 통과. CUA Playwright에서 실제 네 열·카드 순서·도움말 확인. 캡처 artifacts/ui-restore/{review,detail,home,tour-home,tour-workspace,tour-chat}.jpg.
+- 남은 문제 · 질문: 현재 추출 API는 숫자 confidence가 아닌 high/low만 제공하므로 실제 점수 칸은 —로 표시한다. 평가셋·안전 규칙·KB 원문은 수정하지 않았다.
+
 ## 2026-10-16 · T-19b · 전체 UX 검수 반영
 - 관련 요구사항: FR-20~35, NFR-08
 - 한 일: 수정 전 UX 보고서에13건을 기록하고 명확한11건을 수정했다. 내부 항목명·날짜·41px 필드표·56px 인박스·툴팁·원본 창 키보드·초안 조사/타이핑·발송 피드백·공유 이슈/이력 표시를 보완했다. 큰 구조 제안2건은 미적용으로 남겼다.

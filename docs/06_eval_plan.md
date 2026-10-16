@@ -73,6 +73,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 
 | T-19a | 상태 공통화·누락 확인 차단·청구 맥락/초안·대조/온보딩·인박스 | pytest129/live1 제외, Ruff·lint/type·Webpack 빌드 통과. 1차 UI 확인, UX 개선은 T-19b | pytest -q; ruff; npm run lint/typecheck; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19b | 전체 UX13건·11수정·2제안,135 단위검증·타이핑/모션·UI/역할/상태/복원 | pytest135/live1 제외·Ruff·lint/type/format·Webpack 통과. UI 흐름/모의 발송/39 PNG, 외부0회·추가$0 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check; node scripts/check-typing.mjs; next build --webpack; CUA Playwright | 2026-10-16 |
+| T-19c | 원본 두 카드 복원·네 열 표·메인 현황 제거·수동 온보딩 3화면 | pytest136/live1 제외, Ruff·lint/type/format·Webpack 통과. CUA 카드 순서·4열·수동 투어 확인; 숫자 신뢰도 미제공은 — | pytest -q; ruff check; npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

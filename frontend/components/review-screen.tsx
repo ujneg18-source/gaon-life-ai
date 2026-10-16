@@ -24,7 +24,7 @@ import {
   docLabels,
   display,
   label,
-  reason,
+  confidencePercent,
 } from "@/lib/workspace";
 import { useResource, LoadState, PageTitle } from "./workspace-ui";
 
@@ -265,7 +265,6 @@ function FieldCell({
         <button className="field-link" onClick={select}>
           {label(f.key)}
         </button>
-        <small>{f.bbox ? `p.${f.page} · 원문 위치` : "좌표 없음"}</small>
       </td>
       <td>
         {edit ? (
@@ -301,37 +300,19 @@ function FieldCell({
       </td>
       <td>
         <span className="field-source">
-          {f.provenance === "mock"
-            ? "모의 데이터"
-            : f.method === "data"
-              ? "실손24 데이터"
-              : f.parse_evidence
-                ? "Parse 표"
-                : f.method === "ocr"
-                  ? "OCR"
-                  : "Parse"}
+          {f.method === "data"
+            ? "실손24 데이터"
+            : `${docLabels[f.doc_type]} (${f.method === "ocr" ? "OCR" : "Parse"})`}
         </span>
-        <small
-          className={
-            f.confirmed_by ? "ok" : f.review_reasons.length ? "warn" : "muted"
-          }
-        >
-          {f.confirmed_by
-            ? "담당자 확정"
-            : f.extract_conf === "high"
-              ? "신뢰도 높음"
-              : f.extract_conf === "low"
-                ? "신뢰도 낮음"
-                : "신뢰도 해당 없음"}
-        </small>
-        {f.review_reasons.length > 0 && !f.confirmed_by && (
-          <small className="warn">
-            {f.review_reasons.map(reason).join(" · ")}
-          </small>
-        )}
-        {f.parse_evidence && (
-          <small title={f.parse_evidence.text}>구분 칸 원문으로 확인</small>
-        )}
+      </td>
+      <td
+        title={
+          f.extract_conf === "low"
+            ? "추출 신뢰도 낮음 · 숫자 점수 미제공"
+            : "숫자 점수 미제공"
+        }
+      >
+        {confidencePercent(f)}
       </td>
     </tr>
   );
@@ -408,7 +389,7 @@ export function ReviewScreen({
         </div>
       ) : (
         <div className="review-grid">
-          <section className="panel viewer-panel">
+          <section className="panel viewer-panel" data-tour="review-original">
             <div className="panel-heading">
               <h2>{comparing ? "원본 비교" : "원본 서류"}</h2>
               <div className="viewer-tools">
@@ -463,120 +444,131 @@ export function ReviewScreen({
               <span>항목을 누르면 원문 위치가 강조돼요.</span>
             </div>
           </section>
-          <section className="panel results-panel">
-            <div className="panel-heading">
-              <h2>
-                확인 사항 · 안내{" "}
-                <span className="muted">{allIssues.length}</span>
-              </h2>
-              <small>서류 간 교차검증 결과</small>
-            </div>
-            <div className="compact-issues">
-              {allIssues.map((i) => (
-                <div key={i.id} className="compact-issue">
-                  <span
-                    className={
-                      i.kind === "info"
-                        ? "muted"
-                        : i.kind === "missing"
-                          ? "bad"
-                          : "warn"
-                    }
-                  >
-                    {i.kind === "info" ? (
-                      <Info size={15} aria-label="안내" />
-                    ) : i.kind === "missing" ? (
-                      <CircleX size={15} />
-                    ) : (
-                      <TriangleAlert size={15} />
-                    )}
-                  </span>
-                  <div>
-                    <strong title={i.detail}>
-                      {i.kind === "info" && "안내 · "}
-                      {formatDatesInText(i.title).replace(
-                        /diagnosis_code/g,
-                        "질병분류기호",
-                      )}
-                    </strong>
-                    <small>
-                      {formatDatesInText(i.detail)
-                        .replace(/not_in_source/g, "원문 불일치")
-                        .replace(/surgery_cert/g, "수술확인서")}
-                    </small>
-                  </div>
-                  <div className="issue-actions">
-                    {i.kind === "missing" && (
-                      <Link href={`/workspace/supplement?claim=${claimId}`}>
-                        보완 요청
-                      </Link>
-                    )}
-                    {i.doc_ids.length === 2 && (
-                      <button
-                        onClick={() => {
-                          setCompare(i);
-                          setZoom(100);
-                        }}
-                        aria-label={`${i.title} 원본 비교`}
-                      >
-                        <Columns2 size={14} />
-                        원본 비교
-                      </button>
-                    )}
-                    {!readOnly && i.kind !== "missing" && (
-                      <button
-                        aria-label={`${i.title} 확인 완료`}
-                        onClick={() => resolve(i)}
-                      >
-                        <CircleCheck size={14} />
-                        확인
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-              {!allIssues.length && (
-                <p className="ok">열린 확인 사항이 없어요.</p>
-              )}
-            </div>
-            <div className="normalized-heading">
-              <h2>정규화 결과</h2>
-              <small>
-                {comparing ? "비교 중인 두 문서" : "선택 문서"} ·{" "}
-                {fields.length}개 항목
-              </small>
-            </div>
-            {/* 문서/비교 대상이 바뀌면 DOM 스크롤 컨테이너를 새로 만들어 항상 첫 행부터 보여준다. */}
-            <div
-              className="field-scroll"
-              key={
-                docs.map((d) => d.id).join("-") +
-                (comparing ? `-issue-${issue.id}` : "-single")
-              }
+          <div className="review-results-stack">
+            <section
+              className="panel results-panel normalization-card"
+              data-tour="review-normalized"
             >
-              <table className="work-table field-table">
-                <thead>
-                  <tr>
-                    <th>항목</th>
-                    <th>추출 · 확정값</th>
-                    <th>출처 · 신뢰도</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {fields.map((f) => (
-                    <FieldCell
-                      key={`${f.id}-${f.confirmed_value}`}
-                      f={f}
-                      readOnly={readOnly}
-                      done={resource.reload}
-                      select={() => setSelected(f.id)}
-                      active={selected === f.id}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
+              <div className="normalized-heading">
+                <h2>정규화 결과</h2>
+                <small>
+                  {comparing ? "비교 중인 두 문서" : "선택 문서"} ·{" "}
+                  {fields.length}개 항목
+                </small>
+              </div>
+              {/* 문서/비교 대상이 바뀌면 DOM 스크롤 컨테이너를 새로 만들어 항상 첫 행부터 보여준다. */}
+              <div
+                className="field-scroll"
+                key={
+                  docs.map((d) => d.id).join("-") +
+                  (comparing ? `-issue-${issue.id}` : "-single")
+                }
+              >
+                <table className="work-table field-table">
+                  <thead>
+                    <tr>
+                      <th>항목</th>
+                      <th>값</th>
+                      <th>출처</th>
+                      <th>신뢰도</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {fields.map((f) => (
+                      <FieldCell
+                        key={`${f.id}-${f.confirmed_value}`}
+                        f={f}
+                        readOnly={readOnly}
+                        done={resource.reload}
+                        select={() => setSelected(f.id)}
+                        active={selected === f.id}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section
+              className="panel review-issues-card"
+              data-tour="review-issues"
+            >
+              <div className="panel-heading">
+                <h2>
+                  확인 사항 · 안내{" "}
+                  <span className="muted">{allIssues.length}</span>
+                </h2>
+                <small>서류 간 교차검증 결과</small>
+              </div>
+              <div className="compact-issues">
+                {allIssues.map((i) => (
+                  <div key={i.id} className="compact-issue">
+                    <span
+                      className={
+                        i.kind === "info"
+                          ? "muted"
+                          : i.kind === "missing"
+                            ? "bad"
+                            : "warn"
+                      }
+                    >
+                      {i.kind === "info" ? (
+                        <Info size={15} aria-label="안내" />
+                      ) : i.kind === "missing" ? (
+                        <CircleX size={15} />
+                      ) : (
+                        <TriangleAlert size={15} />
+                      )}
+                    </span>
+                    <div>
+                      <strong title={i.detail}>
+                        {i.kind === "info" && "안내 · "}
+                        {formatDatesInText(i.title).replace(
+                          /diagnosis_code/g,
+                          "질병분류기호",
+                        )}
+                      </strong>
+                      <small>
+                        {formatDatesInText(i.detail)
+                          .replace(/not_in_source/g, "원문 불일치")
+                          .replace(/surgery_cert/g, "수술확인서")}
+                      </small>
+                    </div>
+                    <div className="issue-actions">
+                      {i.kind === "missing" && (
+                        <Link href={`/workspace/supplement?claim=${claimId}`}>
+                          보완 요청
+                        </Link>
+                      )}
+                      {i.doc_ids.length === 2 && (
+                        <button
+                          onClick={() => {
+                            setCompare(i);
+                            setZoom(100);
+                          }}
+                          aria-label={`${i.title} 원본 비교`}
+                        >
+                          <Columns2 size={14} />
+                          원본 비교
+                        </button>
+                      )}
+                      {!readOnly && i.kind !== "missing" && (
+                        <button
+                          aria-label={`${i.title} 확인 완료`}
+                          onClick={() => resolve(i)}
+                        >
+                          <CircleCheck size={14} />
+                          확인
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {!allIssues.length && (
+                  <p className="ok">열린 확인 사항이 없어요.</p>
+                )}
+              </div>
+            </section>
+          </div>
         </div>
       )}
       {message && <p role="status">{message}</p>}

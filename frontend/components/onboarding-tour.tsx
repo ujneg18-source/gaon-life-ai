@@ -3,7 +3,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CircleHelp, ArrowLeft, ArrowRight, X } from "lucide-react";
 import { tours } from "@/lib/tours";
-let seenInMemory = false;
 /** 외부 라이브러리 없이 스포트라이트와 키보드 탐색을 제공한다. 저장 실패는 업무를 막지 않는다. */
 export function OnboardingTour() {
   const path = usePathname();
@@ -16,7 +15,11 @@ export function OnboardingTour() {
           ? "inbox"
           : path === "/workspace/detail"
             ? "detail"
-            : "";
+            : path === "/workspace/review"
+              ? "review"
+              : path.startsWith("/workspace/")
+                ? "workspace"
+                : "";
   const [index, setIndex] = useState<number | null>(null);
   const [box, setBox] = useState({ x: 0, y: 0, w: 0, h: 0 });
   const [windowSize, setWindowSize] = useState({ w: 1280, h: 720 });
@@ -28,21 +31,7 @@ export function OnboardingTour() {
     setIndex(null);
     trigger.current?.focus();
   }
-  useEffect(() => {
-    if (key !== "home") return;
-    let seen = seenInMemory;
-    try {
-      seen ||= localStorage.getItem("gaon-tour-seen") === "1";
-    } catch {}
-    if (!seen) {
-      seenInMemory = true;
-      try {
-        localStorage.setItem("gaon-tour-seen", "1");
-      } catch {}
-      const id = requestAnimationFrame(() => setIndex(0));
-      return () => cancelAnimationFrame(id);
-    }
-  }, [key]);
+  // 사용자가 도움말을 요청할 때만 열어 업무 진입을 방해하지 않는다.
   useEffect(() => {
     if (!step) return;
     if (step.detailStep !== undefined)

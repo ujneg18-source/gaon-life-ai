@@ -1,4 +1,3 @@
-import { HomeSummary } from "@/components/home-summary";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -11,8 +10,7 @@ import {
 export default function HomePage() {
   return (
     <main id="main" className="hero">
-      <div className="hero-heading">
-        <HomeSummary />
+      <div className="hero-heading" data-tour="home-heading">
         <h1>오늘은 어떤 업무를 도와드릴까요?</h1>
         <p className="muted">보상 담당자를 위한 가온생명 AI</p>
       </div>
