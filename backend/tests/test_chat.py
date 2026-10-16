@@ -265,3 +265,21 @@ def test_no_evidence_and_chat_not_persisted(client, tmp_path):
     )
     answer = client.post("/api/chat", json={"message": "없는 규정 알려줘"}).json()
     assert answer["answer"] == "관련 규정을 찾지 못했어요" and not answer["citations"]
+
+
+def test_missing_prescription_does_not_assert_absence(client):
+    from app.services.coverage import check_coverage
+    from app.services.rules import ReviewDocument
+
+    docs = [
+        ReviewDocument(
+            1,
+            "pharmacy_receipt",
+            {"items": [{"drug_name": "종합비타민정 (일반의약품)", "covered": False}]},
+            [],
+        )
+    ]
+    result = check_coverage(docs, "종합비타민정", FakeKB())
+    assert result["status"] == "확인 필요"
+    assert not result["prescription_available"]
+    assert result["reason"] != "처방전에 없음"

@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · T-17 · 챗봇 화면과 청구 맥락 연결
+- 관련 요구사항: FR-28~34
+- 한 일: polish 토큰으로 대화 목록·질문 바로가기·중앙 대화·입력창·근거 패널을 연결했다. 답변 아래 문서명/조항/인용문·가상 표시, 청구별 이슈 상세 앵커, 자동 claim_id, 생성 단계 안내, 편집/복사 가능한 보완 초안과 액션을 제공한다. CV-02 안내를 차단 이슈와 구분해 표시한다. 처방전 자체가 없으면 약품 부재를 단정하지 않도록 대조 경계를 보완하고 모델/스키마 오류는 안전한 503으로 처리한다.
+- 바뀐 파일: frontend/components/chat-screen.tsx, claim-screens.tsx, review-screen.tsx, workspace-shell.tsx, frontend/app/(protected)/chat/page.tsx, globals.css, backend/app/{routers/chat.py,services/coverage.py}, backend/tests/test_chat.py, TODO.md, docs/06_eval_plan.md, docs/deliverables/T15-T17_챗봇검증.md, artifacts/t17/
+- 확인 방법: pytest55 passed/live1 제외, Ruff·포맷 통과. 프론트 lint/typecheck/format/date1/build 통과. CUA Playwright로 필수 질문1~4 실제 실행/캡처, 초안 수정·복사 버튼 성공·액션·이슈1 상세 이동·청구 맥락 자동 전달·가로 넘침 없음 확인. 실제 policy_qa도 암진단특약 제3조를 인용해 응답했다. 프로토타입 SCR-20의 3열·대화/근거 구조와 현재 polish 색/글꼴을 유지하고, pill 대신 아이콘/글자로 가상 여부·안내를 표시했다.
+- 남은 문제 · 질문: 서버형 Qdrant 실제 접속과 평가30문항 전체 점수는 미검증(T-18). 대화 기록은 현재 화면 메모리이며 새로고침/재진입 시 사라진다. JSON 응답 방식은 이번 사용자 명세를 따른다.
+
 ## 2026-10-16 · T-16 · LangGraph 도구와 근거 답변
 - 관련 요구사항: FR-15, FR-28~33
 - 한 일: Solar strict 의도 5종→검증된 도구 호출→근거 답변 그래프와 JSON POST /api/chat을 추가했다. 읽기 도구 6종은 배정 권한을 재검사하고 조회 이력만 남긴다. 약품명 괄호 설명을 정규화해 실제 영수증 항목과 처방전을 대조하며 지급 판단은 거절한다. 근거 없는 질문은 지정 문구로 응답하고 표준 보완 문구에만 고객명을 채운다. 임베딩 외 대화 응답은 디스크에 보존하지 않는다.

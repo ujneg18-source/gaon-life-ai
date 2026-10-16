@@ -1,0 +1,11 @@
+{
+  "requiredQuestions": 4,
+  "allVisibleAnswers": true,
+  "editableDraft": true,
+  "copyButtonConfirmed": true,
+  "draftActionConfirmed": true,
+  "claimRef": "detail?claim=GA-2610-0482&issue=1#issue-1",
+  "automaticContext": "chat?claim=GA-2610-0482",
+  "horizontalOverflow": false,
+  "notes": "최종 프로덕션 빌드에서 실행. 새로고침 후 대화 소멸도 확인."
+}

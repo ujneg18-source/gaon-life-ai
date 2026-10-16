@@ -47,6 +47,7 @@ def check_coverage(documents, item_name, kb):
     vitamin = any(word in norm(item_name) for word in ("비타민", "영양제"))
     excluded = bool(
         matches
+        and bool(prescriptions)
         and any(item.get("covered") is False for item in matches)
         and not in_prescription
         and vitamin

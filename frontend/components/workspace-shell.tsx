@@ -90,7 +90,10 @@ export function WorkspaceShell({
           {children}
         </main>
         <div className="workspace-actions">
-          <Link href="/chat" className="btn primary">
+          <Link
+            href={claim ? `/chat?claim=${encodeURIComponent(claim)}` : "/chat"}
+            className="btn primary"
+          >
             <MessageSquareText size={18} />
             가온 AI에게 묻기
           </Link>

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { formatDate, formatDateTime } from "@/lib/dates";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CircleCheck,
   CircleX,
@@ -168,13 +168,22 @@ export function ClaimDetail({
   claimId: string;
   readOnly: boolean;
 }) {
+  const params = useSearchParams();
+  const requestedIssue = params.get("issue");
   const resource = useResource<Claim>("/claims/" + claimId);
   const { data: c, error } = resource;
   const [localStep, setStep] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [note, setNote] = useState<string | null>(null);
-  const step = localStep ?? c?.step ?? 0;
+  const step = localStep ?? (requestedIssue ? 2 : (c?.step ?? 0));
+  useEffect(() => {
+    // 챗봇 근거에서 이동한 이슈만 데이터 로드 후 화면 가운데로 보여준다.
+    if (c && requestedIssue)
+      document
+        .getElementById(`issue-${requestedIssue}`)
+        ?.scrollIntoView({ block: "center" });
+  }, [c, requestedIssue]);
   async function move(value: number) {
     setMessage("");
     if (!readOnly) {
@@ -221,7 +230,10 @@ export function ClaimDetail({
     }
   }
   if (!c) return <LoadState error={error} />;
-  const open = c.issues.filter((i) => i.status === "open");
+  const open = c.issues.filter((i) => i.status === "open" && i.kind !== "info");
+  const notices = c.issues.filter(
+    (i) => i.status === "open" && i.kind === "info",
+  );
   return (
     <>
       <PageTitle
@@ -421,7 +433,11 @@ export function ClaimDetail({
             </thead>
             <tbody>
               {c.issues
-                .filter((i) => i.kind === "mismatch")
+                .filter(
+                  (i) =>
+                    i.status === "open" &&
+                    ["mismatch", "info"].includes(i.kind),
+                )
                 .map((i) => (
                   <tr key={i.id}>
                     <td>{i.title}</td>
@@ -474,7 +490,7 @@ export function ClaimDetail({
             <h2>남은 확인 사항 {open.length}건</h2>
             <ul className="issue-summary">
               {open.map((i) => (
-                <li key={i.id}>
+                <li key={i.id} id={`issue-${i.id}`}>
                   <strong>{i.title}</strong>
                   <p>{i.detail}</p>
                   <Link
@@ -487,6 +503,12 @@ export function ClaimDetail({
               ))}
             </ul>
             {!open.length && <p className="good">열린 이슈가 없어요.</p>}
+            {notices.map((i) => (
+              <div key={i.id} id={`issue-${i.id}`} className="info-notice">
+                <strong>ⓘ 안내 · {i.title}</strong>
+                <p>{i.detail}</p>
+              </div>
+            ))}
           </section>
           <section className="panel">
             <h2>담당자 메모</h2>

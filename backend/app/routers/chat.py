@@ -38,7 +38,7 @@ def chat(payload: ChatRequest, user: CurrentUser, session: SessionDep, request: 
         )
         session.commit()
         return result
-    except RuntimeError:
+    except (RuntimeError, ValueError, KeyError, TypeError):
         # HTTP 응답/키/모델 원문 오류는 숨기고 사용자용 오류만 전달한다.
         raise HTTPException(
             503, "업무 어시스턴트 연결을 확인해 주세요. 캐시 또는 AI 연결이 준비되지 않았어요."
