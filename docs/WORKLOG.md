@@ -1,3 +1,10 @@
+## 2026-10-16 · T-18 · 시연 답변 형식과 문단 표시 마무리
+- 관련 요구사항: FR-28~35, NFR-08
+- 한 일: 청구 검토 합쇼체·실데이터 기반 결론/누락/번호 항목/제안, 코드 원인 병합과 우선순위, 안내 명시를 구현했다. 다른 의도는 기본 용어를 살리고 내부 용어·문장 중간의 명사형 종결을 검사한다. 지급/개인정보 거절은 직접 근거1개와 대안/남은 항목을 제시한다. 기본 비활성의 가상 평가 응답 캐시와 호출/토큰 장부를 추가했다. React 안전한 문단·굵은 제목·연한 근거를 적용했다.
+- 바뀐 파일: backend/app/agent/{claim_answer,graph,tone,solar}.py, config.py, scripts/{eval_presentation,report_solar_usage}.py, tests/{test_chat,test_tone}.py, .env.example, frontend/components/chat-screen.tsx, frontend/app/globals.css, artifacts/t18/presentation/와시연PNG/원문, docs/{06_eval_plan,decisions,implementation_objects,WORKLOG}.md, docs/deliverables/테스트결과보고서.md, TODO.md
+- 확인 방법: pytest113 passed/live1 제외·Ruff/포맷·프론트 lint/type·Webpack 빌드 통과. 관련21문항 동일 rubric 각1회: 거절100/요지100 유지, 잔존 패턴0/21. CUA Playwright로 시연4개 실제실행·4장+하단/초안 추가 캡처, DOM8문단/제목5개/10px/근거 색 확인. HTTP48(성공47·중단1), 로컬 캐시18, 정가 추정$0.011188. 추가 문서API0페이지. 홀드아웃 미사용.
+- 남은 문제 · 질문: 엄격 인용86.36→81.82%로 무하락 목표는 미달이다. 새 매뉴얼9장 필수 인용과 Q29 빈 정답의 충돌, 지급 근거2→1개 제한 영향을 그대로 공개했다. Q08/Q26은 기존 실행의 생성 변동을 기록만 했다. 요지 단회는 비용 절약 선택이며 과거3회 점수와 혼동하지 않는다. 중단1회 비용은 평균 추정, 실제 콘솔 차감액 미확인. 긴 답변은 화면 스크롤이 필요하며 하단 추가 캡처를 남겼다.
+
 ## 2026-10-16 · T-18 · 자연스러운 해요체와 말투 회귀 검증
 - 관련 요구사항: FR-28~35, NFR-08
 - 한 일: 사실/근거 확정 뒤 본문만 문장화하는 tone 노드, 독립 예시3쌍, 패턴 검사/1회 재생성/잔존 유형 로그를 추가했다. 숫자 소실·새 지급 확정은 되돌리고 인용·의도·거절·버튼은 보존한다. Solar1~5점 문체 평가와 개발30/시연4의 전후 원문, 같은 실행 초안의 대응 채점도 보존했다. 정답/요지 rubric/검색/안전 가드는 변경하지 않았고 홀드아웃은 재실행하지 않았다.

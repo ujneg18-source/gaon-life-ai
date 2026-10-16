@@ -1,0 +1,27 @@
+{
+  "events": {
+    "api_call": 47,
+    "api_interrupted": 1,
+    "cache_hit": 18
+  },
+  "actual_http_attempts": 48,
+  "api_calls_by_kind": {
+    "gist_grade": 38,
+    "intent": 3,
+    "rewrite": 2,
+    "embedding": 1,
+    "rerank": 2,
+    "tone_answer": 1
+  },
+  "prompt_tokens_received": 22348,
+  "completion_tokens_received": 3569,
+  "list_price_usd_per_million": {
+    "input": 0.3,
+    "output": 1.2
+  },
+  "observed_token_cost_usd": 0.0109774,
+  "estimated_interrupted_cost_usd": 0.00021070263157894737,
+  "total_estimate_usd": 0.011188102631578947,
+  "pricing_source": "https://www.upstage.ai/pricing/api",
+  "limitations": "정가 기준 추정이며 프로모션/서버 캐시 할인/VAT/실제 콘솔 차감액은 미확인. 중단1회는 토큰을 못 받아 같은 채점 호출 평균 비용으로 추정. 로컬 캐시 hit는 새 API 과금이 아님."
+}

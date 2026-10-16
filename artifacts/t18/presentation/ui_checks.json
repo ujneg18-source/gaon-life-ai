@@ -1,0 +1,15 @@
+{
+  "claim_blocks": 8,
+  "bold_headings": 5,
+  "block_gap_px": 10,
+  "body_color": "rgb(29,26,43)",
+  "law_color": "rgb(98,93,124)",
+  "screenshots": [
+    "claim_answer.png",
+    "demo_answer_2.png",
+    "demo_answer_3.png",
+    "demo_answer_4.png"
+  ],
+  "demo_count": 4,
+  "claims_use_real_db": true
+}

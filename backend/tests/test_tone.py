@@ -33,7 +33,7 @@ def test_kcd_legal_addresses_and_sentences_are_not_internal_codes():
 def result(text):
     return ChatAnswer(
         answer=text,
-        intent="claim_check",
+        intent="policy_qa",
         citations=[
             Citation(
                 doc_name="업무 매뉴얼",
@@ -142,3 +142,53 @@ def test_tone_metric_does_not_change_existing_quality_scores():
     assert new["gist_accuracy"] == old["gist_accuracy"] == 1
     assert new["refusal_accuracy"] == old["refusal_accuracy"] == 1
     assert new["citation_precision_micro"] == old["citation_precision_micro"]
+
+
+def test_document_heading_dot_exception_is_scoped_and_business_terms_allowed():
+    assert "middle_dot_list" not in violations(
+        "① 진단서 · 조직검사 결과지: 날짜 확인\n원본을 확인해 주세요.", "claim_check"
+    )
+    assert "middle_dot_list" in violations(
+        "① 지급 · 금액: 판단\n원본을 확인해 주세요.", "claim_check"
+    )
+    assert "middle_dot_list" in violations(
+        "① 진단서 · 조직검사 결과지: 날짜 확인\n원본을 확인해 주세요.", "policy_qa"
+    )
+    assert "noun_ending" not in violations("이관")
+    assert "internal_term" in violations("FIELD-diagnosis-code 확인")
+
+
+def test_opt_in_solar_cache_prevents_second_request_and_records_cost(client, tmp_path):
+    import httpx
+
+    from app.agent.solar import Solar
+
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        return httpx.Response(
+            200,
+            json={
+                "model": "solar-pro4",
+                "usage": {"prompt_tokens": 10, "completion_tokens": 2},
+                "choices": [{"finish_reason": "stop", "message": {"content": "{}"}}],
+            },
+        )
+
+    config = client.app.state.settings.model_copy(
+        update={
+            "CACHE_PATH": tmp_path,
+            "SOLAR_RESPONSE_CACHE": True,
+            "SOLAR_USAGE_PATH": tmp_path / "usage.jsonl",
+        }
+    )
+    solar = Solar(config, httpx.MockTransport(respond))
+    assert solar.post(config.SOLAR_CHAT_PATH, {"model": "solar-pro4"}) == solar.post(
+        config.SOLAR_CHAT_PATH, {"model": "solar-pro4"}
+    )
+    assert len(calls) == 1
+    rows = [json.loads(line) for line in config.SOLAR_USAGE_PATH.read_text().splitlines()]
+    assert [r["event"] for r in rows] == ["api_call", "cache_hit"]
+    assert "Authorization" not in config.SOLAR_USAGE_PATH.read_text()
+    assert config.__class__(SOLAR_USAGE_PATH="").SOLAR_USAGE_PATH is None

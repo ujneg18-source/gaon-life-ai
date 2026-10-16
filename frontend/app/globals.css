@@ -2017,3 +2017,16 @@ p {
     font-size: 26px;
   }
 }
+
+/* 답변 블록은 문단 간격과 근거 주소의 시각적 위계를 유지한다. */
+.assistant-answer-text .answer-block + .answer-block {
+  margin-top: 10px;
+}
+.assistant-answer-text .answer-block strong {
+  font-weight: 650;
+  color: var(--ink);
+}
+.assistant-answer-text .answer-law {
+  color: var(--muted);
+  font-size: 0.94em;
+}

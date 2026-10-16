@@ -64,6 +64,50 @@ function quoteText(text: string) {
     .trim();
 }
 
+/** 본문을 안전한 React 텍스트 노드로 렌더링한다. HTML이나 원문 속 명령은 실행하지 않는다. */
+function AnswerText({ text }: { text: string }) {
+  function inline(line: string) {
+    return line
+      .split(/(\([^()\n]*(?:제\d+조|\d+장)[^()\n]*\))/g)
+      .map((part, i) =>
+        /^\(.*(?:제\d+조|\d+장)/.test(part) ? (
+          <span key={i} className="answer-law">
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      );
+  }
+  return (
+    <div className="assistant-answer-text" data-testid="answer-body">
+      {formatDatesInText(text)
+        .split(/\n\s*\n/)
+        .map((block, n) => {
+          const [title, ...rest] = block.split("\n");
+          const headed = /^(추가 서류:|[①-⑳] )/.test(title);
+          return (
+            <div className="answer-block" key={n}>
+              {headed ? (
+                <>
+                  <strong>{title}</strong>
+                  {rest.length > 0 && (
+                    <>
+                      <br />
+                      {inline(rest.join("\n"))}
+                    </>
+                  )}
+                </>
+              ) : (
+                inline(block)
+              )}
+            </div>
+          );
+        })}
+    </div>
+  );
+}
+
 export function ChatScreen() {
   const params = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([
@@ -261,9 +305,7 @@ export function ChatScreen() {
                           <span className="muted">판단 범위 안내</span>
                         )}
                       </div>
-                      <p className="assistant-answer-text">
-                        {formatDatesInText(t.result.answer)}
-                      </p>
+                      <AnswerText text={t.result.answer} />
                       {t.result.citations.length > 0 && (
                         <div className="answer-citations">
                           {t.result.citations.map((c, n) => (
@@ -298,7 +340,19 @@ export function ChatScreen() {
                         ))}
                       </div>
                       {t.result.suggested_actions.map((a) =>
-                        a.action.startsWith("open_supplement:") ? (
+                        a.action.startsWith("open_claim:") ? (
+                          <Link
+                            key={a.action}
+                            className="btn"
+                            href={
+                              a.action.slice("open_claim:".length)
+                                ? `/workspace/detail?claim=${encodeURIComponent(a.action.slice("open_claim:".length))}`
+                                : "/workspace"
+                            }
+                          >
+                            {a.label}
+                          </Link>
+                        ) : a.action.startsWith("open_supplement:") ? (
                           <Link
                             key={a.action}
                             className="btn"

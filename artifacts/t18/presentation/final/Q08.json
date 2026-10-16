@@ -1,0 +1,103 @@
+{
+  "id": "Q08",
+  "question": "보험금은 서류 내고 며칠 안에 지급돼?",
+  "before": {
+    "used_chunk_ids": [
+      "std_life_insurance/공통/제8조/1"
+    ],
+    "answer": "서류를 접수하면 원칙적으로 접수일부터 3영업일 안에 보험금을 지급해요. 다만 보험금 지급사유의 조사나 확인이 필요한 경우에는 접수 후 10영업일 이내에 지급해요. 만약 조사·확인 때문에 그 기일 안에 지급이 어려울 것으로 예상되면 구체적인 사유와 지급예정일, 추정 보험금의 50% 이내 가지급 제도를 바로 알려드리고, 지급예정일은 소송제기·분쟁조정신청·수사기관 조사·해외 사고 조사·계약자 등의 책임 있는 사유로 지연된 경우 같은 예외를 제외하고는 서류 접수일부터 30영업일 이내에서 정해요. 실제 지급일은 가입하신 특약과 사고 내용에 따라 달라질 수 있어서 최종 판단은 담당자가 해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 1,
+        "chunk_id": "std_life_insurance/공통/제8조/1",
+        "doc_name": "생명보험 표준약관",
+        "article": "제8조 ①",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "after": {
+    "used_chunk_ids": [
+      "std_life_insurance/공통/제8조/1"
+    ],
+    "answer": "서류를 접수하면 원칙적으로 접수일부터 3영업일 안에 보험금을 지급해요. 다만 보험금 지급사유의 조사나 확인이 필요한 경우에는 접수 후 10영업일 이내에 지급해요. 만약 조사 및 확인 때문에 그 기일 안에 지급이 어려울 것으로 예상되면 구체적인 사유와 지급예정일, 추정 보험금의 50% 이내 가지급 제도를 바로 알려드리고, 지급예정일은 소송제기 및 분쟁조정신청 및 수사기관 조사 및 해외 사고 조사 및 계약자 등의 책임 있는 사유로 지연된 경우 같은 예외를 제외하고는 서류 접수일부터 30영업일 이내에서 정해요. 실제 지급일은 가입하신 특약과 사고 내용에 따라 달라질 수 있어서 최종 판단은 담당자가 해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 1,
+        "chunk_id": "std_life_insurance/공통/제8조/1",
+        "doc_name": "생명보험 표준약관",
+        "article": "제8조 ①",
+        "source_path": "data/kb/policy/std_life_insurance.txt",
+        "is_mock": false,
+        "quote": "제8조(보험금의 지급절차)\n① 회사는 제7조(보험금의 청구)에서 정한 서류를 접수한 때에는 접수증을 드리고 휴대전화 문자메시지 또는 전자우편 등으로도 송부하며, 그 서류를 접수한 날부터 3영업일 이내에 보험금을 지급합니다. 다만, 보험금 지급사유의 조사나 확인이 필요한 때에는 접수 후 10영업일 이내에 지급합니다."
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "before_metrics": {
+    "recall_article_at_3": 0.5,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.5,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 접수 후 3영업일, 조사 필요 시 10영업일, 지연 시 지급예정일 30영업일 이내라는 기준을 모두 포함하고 있으며 모순이 없습니다. 가지급 제도나 예외 사유 등 관련 세부 정보를 추가로 설명했으나, 이는 특정 고객 건의 지급 여부 확정이나 금액 산정이 아닌 일반 기준 안내에 해당하므로 감점 사유가 아닙니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 접수 후 3영업일, 조사 필요 시 10영업일, 지연 시 지급예정일 30영업일 이내라는 기준을 모두 포함하고 있으며 모순이 없습니다. 가지급 제도나 예외 사유 등 관련 세부 정보를 추가로 설명했으나, 이는 특정 고객 건의 지급 여부 확정이나 금액 산정이 아닌 일반 기준 안내에 해당하므로 감점 사유가 아닙니다."
+        }
+      ],
+      "unanimous": true
+    }
+  },
+  "after_metrics": {
+    "recall_article_at_3": 0.5,
+    "citation_correct_acceptable": 1,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 0.5,
+    "hit_at_3": true,
+    "citation_correct": 1,
+    "citation_total": 1,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실인 접수 후 3영업일, 조사 필요 시 10영업일, 지연 시 지급예정일이 원칙적으로 30영업일 이내라는 내용을 모두 포함하고 있으며 모순이 없습니다. 가지급 제도나 예외 사유 등 관련 사실을 추가로 설명했으나 이는 감점 사유가 아니며, 특정 고객 건의 지급 여부 확정이나 금액 산정을 하지 않았으므로 기준을 충족합니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 접수 후 3영업일, 조사 필요 시 10영업일, 지연 시 지급예정일이 원칙적으로 30영업일 이내라는 내용을 모두 포함하고 있으며 모순이 없습니다. 가지급 제도나 예외 사유 등 관련 사실을 추가로 설명했으나 이는 감점 사유가 아니며, 특정 고객 건의 지급 여부 확정이나 금액 산정을 하지 않았으므로 기준을 충족합니다."
+        }
+      ],
+      "unanimous": true
+    }
+  },
+  "patterns": []
+}

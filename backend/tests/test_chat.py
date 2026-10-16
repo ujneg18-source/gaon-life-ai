@@ -116,13 +116,16 @@ def test_four_demo_answers(client):
         for q in QUESTIONS
     ]
     first, second, third, fourth = answers
-    assert "제출 7 / 필요 8" in first["answer"]
+    assert "서류 7건을 제출했고, 추가로 받아야 할 서류가 1건" in first["answer"]
     assert "수술확인서" in first["answer"] and "진단일" in first["answer"]
     assert "CV-" not in first["answer"]
     assert "C18.7" in first["answer"] and "세분류" in first["answer"]
     assert "1일 차이" in first["answer"]
     assert first["suggested_actions"][0]["label"] == "보완 요청 작성"
-    assert "보상 제외 가능성" in second["answer"] and "처방전에 없음" in second["answer"]
+    assert (
+        "보상에서 제외될 가능성" in second["answer"]
+        and "처방전에는 해당 약품이 없어요" in second["answer"]
+    )
     assert any(
         "rider2" in c["source_path"] and c["article"].startswith("제4조")
         for c in second["citations"]
@@ -377,7 +380,60 @@ def test_claim_check_never_calls_general_search(client):
             Tools(s, s.get(User, 1), client.app.state.settings, NoGeneralSearch()),
         )
         answer = agent.run(QUESTIONS[0], "GA-2610-0482")
-        assert "제출 7 / 필요 8" in answer.answer
+        assert "서류 7건을 제출했고, 추가로 받아야 할 서류가 1건" in answer.answer
         assert {c.article for c in answer.citations} == {"2장", "4장"}
         focused = agent.run("김유정 고객 진단서 질병코드 뭐로 읽혔어?", "GA-2610-0482")
         assert all(c.article == "5장" for c in focused.citations)
+
+
+def test_claim_layout_merges_code_causes_and_preserves_info(client):
+    from app.agent.tone import violations
+
+    setup_chat(client)
+    answer = client.post(
+        "/api/chat", json={"message": QUESTIONS[0], "claim_id": "GA-2610-0482"}
+    ).json()
+    body = answer["answer"]
+    assert body.startswith("김유정(GA-2610-0482) 고객님")
+    assert body.count("GA-2610-0482") == 1
+    assert body.count("질병분류기호 확인") == 1
+    assert "보완 요청이 필요합니다." in body and "불일치로 보지 않았습니다." in body
+    assert "\n\n① " in body and "\n\n④ " in body
+    assert not violations(body, "claim_check")
+    assert body.index("질병분류기호 확인") < body.index("보상 여부") < body.index("입원일수 차이")
+
+
+def test_empty_and_complete_claim_do_not_invent_missing_documents(client):
+    from app.agent.claim_answer import render_claim
+
+    config = client.app.state.settings
+    claim = {"customer_name": "가상고객", "claim_id": "GA-2610-9999", "submitted_count": 2}
+    complete = render_claim(claim, [], [], config)
+    assert "추가로 받을 서류는 없습니다." in complete and "추가 서류:" not in complete
+    claim["submitted_count"] = 0
+    empty = render_claim(claim, [], [], config)
+    assert "아직 서류를 제출하지 않았습니다" in empty
+    assert "추가로 받을 서류는 없습니다" not in empty
+
+
+def test_refusal_without_context_has_followup_button_and_one_manual_source(client):
+    setup_chat(client)
+    from app.agent.kb import load_chunks
+
+    class LookupKB(FakeKB):
+        def lookup(self, path, article, term=""):
+            return [
+                c.payload()
+                for c in load_chunks(PROJECT_ROOT / "data/kb")
+                if c.source_path.endswith(path) and c.article == article and term in c.chunk_text
+            ]
+
+    client.app.state.chat_factory = lambda s, u, c: ChatAgent(
+        c, FakeSolar(), Tools(s, u, c, LookupKB())
+    )
+    answer = client.post("/api/chat", json={"message": "지급해도 돼?"}).json()
+    assert answer["refused"] and len(answer["citations"]) == 1
+    assert answer["citations"][0]["article"] == "10장"
+    assert answer["suggested_actions"][0]["label"] == "남은 확인 항목 보기"
+    privacy = client.post("/api/chat", json={"message": "주민등록번호 알려줘"}).json()
+    assert privacy["refused"] and privacy["citations"][0]["article"] == "9장"

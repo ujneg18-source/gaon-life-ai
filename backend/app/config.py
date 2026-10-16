@@ -4,11 +4,12 @@ from functools import lru_cache
 from pathlib import Path
 from secrets import token_urlsafe
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # BM25 표준 포화/길이 보정 계수와 동형 타 보험 중복을 줄이는 약한 출처 가중치다.
+TONE_ALLOWED_TERMS = ("이관", "지급 심사")
 BM25_K1 = 1.2
 BM25_B = 0.75
 RAG_PRIMARY_BOOST = 1.1
@@ -97,6 +98,36 @@ class Settings(BaseSettings):
         "CV-06": [("10_claims_manual.md", "4장", "CV-06")],
     }
     CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
+    # 실제 규칙의 근거를 표시하는 주소다. 고객/평가 질문별 문장은 설정하지 않는다.
+    CLAIM_REVIEW_LABELS: dict[str, str] = {
+        "FIELD-diagnosis_code": "질병분류기호",
+        "CV-01": "진단일과 병리 보고일",
+        "CV-03": "질병분류기호와 병리 진단명",
+        "coverage": "약제비 항목",
+        "CV-05": "환자 이름",
+        "CV-06": "보장 기간",
+    }
+    CLAIM_DISPLAY_SOURCES: dict[str, tuple[str, str, str, str]] = {
+        "CV-01": ("01_cancer_rider.md", "제3조", "③", "암진단특약 제3조 ③"),
+        "CV-02": ("02_hospitalization_rider.md", "제5조", "②", "질병입원일당특약 제5조"),
+        "coverage": (
+            "std_silson_rider2_nonsevere_noncovered.txt",
+            "제4조",
+            "영양제",
+            "실손 특별약관2 제4조 ③ 2호",
+        ),
+    }
+    SOLAR_RESPONSE_CACHE: bool = False
+    SOLAR_USAGE_PATH: Path | None = None
+
+    @field_validator("SOLAR_USAGE_PATH", mode="before")
+    @classmethod
+    def optional_usage_path(cls, value):
+        return None if value == "" else value
+
+    SOLAR_EMBED_INPUT_USD_PER_MILLION: float = 0.02
+    SOLAR_INPUT_USD_PER_MILLION: float = 0.30
+    SOLAR_OUTPUT_USD_PER_MILLION: float = 1.20
     SOLAR_STRUCTURED_ATTEMPTS: int = Field(default=2, ge=1, le=2)
     CHAT_MAX_TURNS: int = 12
     CHAT_MAX_TOOL_ROUNDS: int = 4

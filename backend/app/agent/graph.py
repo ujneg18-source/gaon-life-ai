@@ -7,6 +7,7 @@ from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
+from app.agent.claim_answer import render_claim
 from app.agent.guardrails import refusal_reason
 from app.agent.rag import chunk_id
 from app.agent.tone import TONE_PROMPT, ToneAnswer, payment_assertion, protected_numbers, violations
@@ -153,6 +154,8 @@ class ChatAgent:
     def gather(self, state):
         route = state["route"]
         if route.intent == "refusal":
+            if state.get("claim_id") and refusal_reason(state["message"]) == "payment":
+                return {"evidence": {"issues": self.tools.get_claim_issues(state["claim_id"])}}
             return {"evidence": {}}
         evidence = {}
         if (
@@ -236,23 +239,63 @@ class ChatAgent:
             message = state["message"]
             text = "이 질문은 제가 도와드릴 수 있는 문서 검토 업무 범위 밖이에요. 관련 규정도 찾지 못했어요. 보험 청구 서류나 약관에 관한 질문을 주시면 확인해 드릴게요."
             if re.search(r"주민|계좌|개인정보|연락처", message):
-                text = "민감한 개인정보를 모아서 제공해 드릴 수는 없어요. 개인정보는 권한이 있는 업무 화면에서 필요한 범위만 확인해야 해요. 대신 청구번호를 알려 주시면 필요한 서류 정보를 확인해 드릴게요."
+                text = "민감한 개인정보를 모아서 제공해 드릴 수는 없어요. 개인정보는 권한이 있는 업무 화면에서 필요한 범위만 확인해야 해요. 대신 청구번호를 알려 주시면 필요한 서류 정보를 확인할 수 있어요."
             elif re.search(r"사기", message):
-                text = "보험사기 여부는 제가 판단할 수 없어요. 담당자가 사실관계와 근거를 확인해야 하는 부분이에요. 대신 서류에서 서로 맞지 않는 부분과 그 근거를 정리해 드릴게요."
+                text = "보험사기 여부는 제가 판단할 수 없어요. 담당자가 사실관계와 근거를 확인해야 하는 부분이에요. 서류에서 서로 맞지 않는 부분과 그 근거는 청구 상세에서 확인할 수 있어요."
             elif re.search(r"지급|금액|얼마", message):
                 text = "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요. 대신 아직 남은 확인 항목을 정리해 드릴게요."
             sources = []
             kb = getattr(self.tools, "kb", None)
             if refusal_reason(message) == "payment" and kb and hasattr(kb, "lookup"):
-                sources = (
-                    kb.lookup("10_claims_manual.md", "8장")[:1]
-                    + kb.lookup("10_claims_manual.md", "10장")[:1]
-                )
+                sources = kb.lookup("10_claims_manual.md", "10장")[:1]
+            if re.search(r"주민|계좌|개인정보|연락처", message) and kb and hasattr(kb, "lookup"):
+                sources = kb.lookup("10_claims_manual.md", "9장")[:1]
+            actions = []
+            if re.search(r"지급|금액|얼마", message):
+                if e.get("issues"):
+                    from app.agent.claim_answer import clean
+
+                    pending = e["issues"]
+                    missing = list(
+                        dict.fromkeys(
+                            clean(i["title"]).replace(" 미제출", "")
+                            for i in pending
+                            if i["kind"] == "missing"
+                        )
+                    )
+                    labels = list(
+                        dict.fromkeys(
+                            self.config.CLAIM_REVIEW_LABELS.get(i["rule_id"], clean(i["title"]))
+                            for i in pending
+                            if i["kind"] not in {"missing", "info"}
+                            and not (
+                                i["rule_id"] == "CV-03"
+                                and any(j["rule_id"] == "FIELD-diagnosis_code" for j in pending)
+                            )
+                        )
+                    )
+                    text = "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요. "
+                    if missing:
+                        text += ", ".join(missing) + " 보완 요청이 필요해요. "
+                    if labels:
+                        text += ", ".join(labels) + "을 확인해야 해요. "
+                    if any(i["kind"] == "info" for i in pending):
+                        text += "참고할 안내 사항도 함께 확인해 주세요. "
+                    text += "필요하시다면 이 항목들을 정리한 뒤 지급 심사로 이관해 주세요."
+                else:
+                    text = "지급 여부와 금액은 제가 판단할 수 없어요. 지급 심사 담당자가 결정하는 부분이에요. 청구 건을 선택하시면 남은 확인 항목을 확인할 수 있어요."
+                    actions = [
+                        Action(
+                            label="남은 확인 항목 보기",
+                            action="open_claim:" + (state.get("claim_id") or ""),
+                        )
+                    ]
             return {
                 "result": ChatAnswer(
                     **{
                         **base,
                         "answer": text,
+                        "suggested_actions": actions,
                         "refused": True,
                         "citations": [citation(h) for h in sources],
                         "used_chunk_ids": [chunk_id(h) for h in sources],
@@ -370,62 +413,20 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
             hits = e.get("hits", [])
             if not hits:
                 return done("관련 규정을 찾지 못했어요", claim_refs=refs)
-            rows = [
-                f"{cid} · {claim['customer_name']} 고객은 제출 {claim['submitted_count']} / 필요 {claim['required_count']}건이에요."
-            ]
-            names = {
-                "missing": "누락",
-                "mismatch": "불일치",
-                "info": "안내",
-                "low_conf": "확인 필요",
-                "format": "확인 필요",
-                "excluded_item": "약관 대조",
-            }
-            for issue in e["issues"]:
-                rows.append(
-                    f"• {names.get(issue['kind'], '확인 필요')} ({issue['rule_id']}): {issue['title']} · {issue['detail']}"
-                )
-            # 원문에서 확인되는 세분류를 그대로 제시한다. 정답 JSON이나 고정 샘플 코드는 읽지 않는다.
-            codes = sorted(
-                set(
-                    re.findall(
-                        r"\b[A-Z]\d{2}\.\d+\b",
-                        " ".join(d.source_text for d in self.tools.documents(cid)),
-                    )
-                )
-            )
-            if codes and any(i["rule_id"] == "FIELD-diagnosis_code" for i in e["issues"]):
-                rows.append("원문 질병분류기호 " + ", ".join(codes) + "의 세분류를 확인해 주세요.")
-            if re.search(r"질병코드.*(?:읽|추출)", state["message"]):
-                fields = self.tools.get_document_fields(cid, "diagnosis")
-                value = fields[0]["values"].get("diagnosis_code") if fields else "미확인"
-                rows.append(
-                    f"진단서 추출 질병코드는 {value}이에요. 원본 위치를 열어 확인해 주세요."
-                )
-            if re.search(r"수술확인서.*왜", state["message"]):
-                names = [
-                    item.get("name", "")
-                    for d in self.tools.documents(cid)
-                    if d.doc_type == "medical_detail"
-                    for item in d.values.get("items", [])
-                    if item.get("category") == "surgery"
-                ]
-                rows.append("세부내역서 수술 항목: " + ", ".join(names))
-            if re.search(r"진단일.*(?:보고일|문제)", state["message"]):
-                rows.append(
-                    "진단확정일은 병리 보고일을 기준으로 하므로 진료 기록으로 진단 경위를 확인해 주세요."
-                )
+            rows = [render_claim(claim, e["issues"], self.tools.documents(cid), self.config)]
             actions = (
                 [Action(label="보완 요청 작성", action="draft_supplement:" + cid)]
                 if any(i["kind"] == "missing" for i in e["issues"])
                 else []
             )
             if e.get("draft"):
-                rows = [e["draft"]["message"]]
-                rows.append("보완 처리 화면에서 요청 내용을 확인해 주세요.")
+                # 기존 보완 초안 기능도 구조화된 검토 답변 뒤에 보존한다.
+                rows[0] = rows[0].rsplit("\n\n", 1)[0]
+                rows.append("보완 요청 초안\n" + e["draft"]["message"])
+                rows.append("필요하시다면 보완 처리 화면에서 초안을 확인해 주세요.")
                 hits = []
                 return done(
-                    "\n".join(rows),
+                    "\n\n".join(rows),
                     citations=e["draft"]["citations"],
                     claim_refs=refs,
                     suggested_actions=[Action(label="보완 처리", action="open_supplement:" + cid)],
@@ -466,7 +467,17 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
                     citations=check["citations"],
                     claim_refs=refs,
                 )
-            text = f"{check['item_name']}: {check['status']}이에요. {check['reason']}. 특별약관2 제4조③2호와 비급여 확인 기준에 따라 치료 목적 등의 예외를 담당자가 확인해야 해요. 지급 여부와 금액은 지급 심사 담당자가 결정합니다."
+            status = {
+                "보상 제외 가능성": "보상에서 제외될 가능성이 있어요",
+                "대상 가능": "보상 대상일 가능성이 있어요",
+                "확인 필요": "보상 기준을 더 확인해야 해요",
+            }.get(check["status"], "담당자의 확인이 필요해요")
+            reason = (
+                "제출된 처방전에는 해당 약품이 없어요."
+                if check["reason"] == "처방전에 없음"
+                else check["reason"].rstrip(".") + "."
+            )
+            text = f"{check['item_name']}은 {status}. {reason} 특별약관2 제4조 ③항 2호에 따라 치료 목적 같은 예외는 담당자가 확인해야 해요. 필요하시다면 처방전과 진료 기록을 확인한 내용을 지급 심사로 이관할 때 메모로 남겨 주세요. 지급 여부와 금액은 지급 심사 담당자가 결정해요."
             return done(text, citations=check["citations"], claim_refs=refs)
         draft = e["draft"]
         return done(
@@ -479,10 +490,37 @@ context_text는 부모 항의 설명이며 인용문은 선택한 chunk_text 안
         """사실 답변을 읽기 쉬운 문장으로 렌더링하되 메타데이터/안전 결정은 보존한다."""
         original = state["result"]
         text = original.answer
+        # 청구 검토는 DB 기반 구조 템플릿이므로 불필요한 LLM 문장화를 하지 않는다.
+        if original.intent == "claim_check" and text.startswith(
+            tuple(c["customer_name"] + "(" for c in state.get("evidence", {}).get("claims", []))
+        ):
+            self.tone_trace = {
+                "before": text,
+                "initial_violations": violations(text, "claim_check"),
+                "attempts": [],
+                "remaining_violations": violations(text, "claim_check"),
+            }
+            return {"result": original}
+        if original.intent == "claim_check":
+            text = (
+                text.replace("·", ", ")
+                .replace("이에요", "입니다")
+                .replace("있어요", "있습니다")
+                .replace("찾지 못했어요", "찾지 못했습니다")
+            )
+            self.tone_trace = {
+                "before": original.answer,
+                "attempts": [],
+                "remaining_violations": violations(text, "claim_check"),
+            }
+            return {"result": original.model_copy(update={"answer": text})}
+        text = text.replace("·", " 및 ")
+        if len(re.findall(r"[.!?](?!\d)", text)) == 2 and not original.refused:
+            text += " 필요하시다면 담당자에게 적용 기준을 다시 확인해 주세요."
         initial = violations(text)
         self.tone_trace = {"before": text, "initial_violations": initial, "attempts": []}
         # 사실과 인용을 확정한 뒤 본문만 생성한다. 고정 DB/템플릿 답변도 같은 규칙으로 쓴다.
-        render = not original.refused
+        render = not original.refused and bool(initial)
         attempts = 1 + int(render) if render else int(bool(initial))
         for attempt in range(attempts):
             if attempt and not violations(text):
