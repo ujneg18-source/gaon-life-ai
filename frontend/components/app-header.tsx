@@ -10,11 +10,23 @@ export function AppHeader({ user }: { user: User }) {
   const path = usePathname(),
     query = useSearchParams();
   const chat = path === "/chat" || path === "/guide/assistant";
+  const workspace =
+    path === "/workspace" ||
+    path.startsWith("/workspace/") ||
+    /^\/guide\/(inbox|detail|review|supplement|history)$/.test(path);
   const claim = query.get("claim");
   return (
     <header className="topbar" data-tour={chat ? "assistant-intro" : undefined}>
       <div className="brand-help">
-        <Brand badge={chat ? "업무 어시스턴트" : "AI"} />
+        <Brand
+          badge={
+            chat
+              ? "업무 어시스턴트"
+              : workspace
+                ? "서류 검토 워크스페이스"
+                : "AI"
+          }
+        />
         <OnboardingTour />
       </div>
       {chat ? (

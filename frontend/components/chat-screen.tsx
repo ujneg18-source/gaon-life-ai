@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Plus,
   ArrowUp,
+  ArrowLeft,
   BookOpen,
   Clipboard,
   FileText,
@@ -154,7 +155,7 @@ function AnswerText({
             <div
               className="answer-block"
               key={n}
-              data-tour={n < 2 ? "assistant-answer-summary" : undefined}
+              data-tour={n < 4 ? "assistant-answer-summary" : undefined}
             >
               {headed ? (
                 <>
@@ -350,6 +351,10 @@ export function ChatScreen({
     <main id="main" className="assistant-page">
       <div className="assistant-layout">
         <aside className="assistant-history" aria-label="대화 목록">
+          <Link href="/" className="back-home">
+            <ArrowLeft size={15} />
+            메인으로
+          </Link>
           <button
             data-tour="assistant-new-chat"
             className="btn"
@@ -514,7 +519,10 @@ export function ChatScreen({
                       data-tour="assistant-answer"
                       data-testid={`answer-${t.id}`}
                     >
-                      <div className="assistant-answer-label">
+                      <div
+                        className="assistant-answer-label"
+                        data-tour="assistant-answer-summary"
+                      >
                         <ShieldCheck size={17} />
                         가온 AI
                         {t.result.refused && (

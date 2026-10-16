@@ -13,7 +13,7 @@ export const tours: Record<string, TourStep[]> = {
     {
       target: "home-overview",
       title: "안녕하세요. 가온생명 AI입니다",
-      description: "보상담당자의 청구업무를 돕는 가온 Ai입니다.",
+      description: "보상 담당자의 청구 서류 대조·검토 업무를 지원합니다.",
       details: [
         {
           label: "주요기능",
@@ -152,7 +152,7 @@ export const tours: Record<string, TourStep[]> = {
         },
         {
           label: "업무 연결",
-          text: "항목 링크를 누르면 해당 청구의 검토 화면으로 이동합니다.",
+          text: "항목을 누르면 해당 청구의 검토 화면으로 이동해요.",
         },
       ],
       stage: "answer",

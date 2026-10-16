@@ -37,6 +37,7 @@ export function GuidePlayer({
   initialTime: string;
 }) {
   const [index, setIndex] = useState(0);
+  const [layoutReady, setLayoutReady] = useState(false);
   const steps = tours[screen],
     step = steps[index],
     stage = step.stage ?? "";
@@ -104,12 +105,17 @@ export function GuidePlayer({
         /^(inbox-heading-|review-field-(values|sources))/.test(step.target)
       )
         targets = targets.slice(0, 6);
+      if (innerWidth <= 850 && step.target === "assistant-answer-summary")
+        targets = targets.slice(0, 4);
       if (!targets.length) {
         if (retries++ < 30) frame = requestAnimationFrame(update);
         return;
       }
       // 첫 소개는 전체 서비스 설명이다. 화면을 축소하거나 이동하지 않고 중앙 모달로 안내한다.
-      if (step.target === "home-overview") {
+      if (
+        step.target === "home-overview" ||
+        step.target === "assistant-intro"
+      ) {
         setBox({ x: 0, y: 0, w: 0, h: 0 });
         setPosition({
           left: Math.max(
@@ -124,6 +130,7 @@ export function GuidePlayer({
           arrow: 0,
           separate: true,
         });
+        setLayoutReady(true);
         return;
       }
       const first = targets[0].getBoundingClientRect();
@@ -185,6 +192,7 @@ export function GuidePlayer({
         return;
       }
       setPosition(placement);
+      setLayoutReady(true);
     };
     frame = requestAnimationFrame(() => {
       update();
@@ -193,6 +201,7 @@ export function GuidePlayer({
     const observer = new ResizeObserver(update),
       main = document.querySelector("main");
     if (main) observer.observe(main);
+    if (card.current) observer.observe(card.current);
     const keys = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -244,6 +253,22 @@ export function GuidePlayer({
     // 단계가 바뀔 때만 안내 전용 화면과 초점을 이동한다.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, steps.length]);
+  useEffect(() => {
+    if (!layoutReady || window.parent === window) return;
+    let active = true;
+    // 글꼴 로딩과 실제 배치가 반영된 뒤에만 부모가 iframe을 보여주도록 한다.
+    document.fonts.ready.then(() => {
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (active)
+            window.parent.postMessage("gaon-guide-ready", location.origin);
+        }),
+      );
+    });
+    return () => {
+      active = false;
+    };
+  }, [layoutReady]);
   let content;
   if (screen === "home") content = <HomeScreen />;
   else if (screen === "assistant")

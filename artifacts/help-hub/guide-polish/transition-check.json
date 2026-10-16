@@ -1,0 +1,17 @@
+{
+  "firstReady": {
+    "opacity": "1",
+    "ready": "true"
+  },
+  "finalReady": {
+    "animation": "0.16s",
+    "ariaBusy": "false",
+    "opacity": "1",
+    "ready": "true",
+    "transition": "0.18s"
+  },
+  "inputState": {
+    "iframeCount": 0,
+    "value": "안내 전 작성 중인 문구"
+  }
+}
