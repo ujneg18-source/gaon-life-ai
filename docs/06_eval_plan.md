@@ -78,6 +78,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-19e | 원본 검색창·고객 이름/ID/청구번호 검색·권한 유지 | pytest137/live1 제외, 회귀18개·Ruff·lint/type/format·Webpack 통과. CUA C001 검색→김유정 한 건 | pytest -q; pytest -q tests/test_demo_polish.py; ruff check; npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19f | 4개 개별 업무 검색 전 빈 화면·검색 후 선택·업무 경로 유지 | lint/type/format·Webpack 통과. CUA 4화면 고객 링크0개→검색 결과1개→해당 업무 이동 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
 | T-19g | 원본/안내 하단 정렬·이슈별 문서 이동·배율 유지 | lint/type/format·Webpack 통과. CUA 하단 차이0px, 단일/비교 위치·보완 경로 및120% 유지 확인 | npm run lint/typecheck/format:check; next build --webpack; CUA Playwright | 2026-10-16 |
+| T-19h | 중복 어시스턴트 링크 제거·공통 진입 유지 | lint/type·Webpack 통과. CUA 본문0개/공통 링크 청구 맥락 유지 | npm run lint/typecheck; next build --webpack; CUA Playwright | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 

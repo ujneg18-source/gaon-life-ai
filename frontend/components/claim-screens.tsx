@@ -998,9 +998,6 @@ export function ClaimDetail({
           )}
         </section>
       )}
-      <Link className="btn" href={`/chat?claim=${c.id}`}>
-        업무 어시스턴트에게 묻기
-      </Link>
       <div className="step-actions">
         <button
           className="btn"
