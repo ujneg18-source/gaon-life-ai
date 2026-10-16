@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19y · 메인 투어 동작 설명 추가와 원격 main 반영 전 점검
+- 관련 요구사항: FR-04~05, NFR-10
+- 한 일: home 첫 단계 바로 뒤에 요청한 Upstage 문서 읽기/규칙 대조/Solar 근거 안내 1개만 추가했다. 기존 투어 전체를 새 단계 제거 후 원본과 비교해 동일함을 확인했다. 기존 검사와 리허설의 단계 수/인덱스만 5단계에 맞췄다.
+  .env·키·DB·백업·캐시 제외와 전체 이력 비밀값 검사를 진행했다. 로컬 배포 도구/로그/검사 생성물 gitignore와 frontend의 Vercel 개발·검증 파일 제외 규칙을 추가했다. 평가/시연 기록은 보존했다.
+- 바뀐 파일: frontend/lib/tours.ts, frontend/scripts/check-onboarding.mjs, frontend/e2e/demo.spec.ts, artifacts/demo/tour_home_2.png, .gitignore, frontend/.vercelignore
+- 확인 방법: lint/typecheck/format·기존 check-onboarding·Webpack 빌드 통과. 실제 가이드라인에서 1/5→2/5→3/5→4/5→5/5 및 종료 확인. 요청 문구와 2단계 스크린샷 저장. 새 단계를 제외한 모든 투어 동일, CSS/컴포넌트 변경 없음. 실제 Upstage 호출0회.
+- 남은 문제 · 질문: 호스팅 배포는 별도이며, Git에서 제외한 DB/캐시/Qdrant를 Render에 별도로 준비해야 한다. 기존 평가/시연 기록78.8MB는 보존했다.
+
 ## 2026-10-16 · T-19x · 브랜치 병합과 캐시 기반 시연 리허설
 - 관련 요구사항: FR-01~05, FR-07, FR-13~15, FR-18~27, FR-28~34, NFR-06~07, NFR-10
 - 한 일: PR #1과 feat/demo-polish를 main에 순서대로 병합(충돌 없음)하고 feat/demo-ready를 만들었다. DB 백업 후 시드·회신 상태 복원/인덱스·캐시 존재 검사 CLI와 관리자 확인 버튼을 추가했다. 프론트 revision으로 채팅/안내 상태를 초기화한다.

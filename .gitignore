@@ -26,3 +26,13 @@ data/kb/reference/
 
 data/backup/
 data/demo-state.json
+
+# 로컬 배포 도구·임시 검사 산출물
+.vercel/
+.turbo/
+.cache/
+*.log
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/

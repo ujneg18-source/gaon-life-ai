@@ -30,6 +30,25 @@ export const tours: Record<string, TourStep[]> = {
       ],
     },
     {
+      target: "home-overview",
+      title: "이렇게 동작합니다",
+      description: "Upstage의 문서 AI와 언어 모델을 조합해 구성했습니다.",
+      details: [
+        {
+          label: "서류 읽기",
+          text: "Upstage Document Parse와 Information Extract가 서류의 항목과 위치를 읽어 옵니다.",
+        },
+        {
+          label: "서류 대조",
+          text: "규칙 엔진이 서류 간 값을 비교하고, 추출값을 원문과 다시 대조합니다.",
+        },
+        {
+          label: "근거 안내",
+          text: "Solar Embedding 2로 약관과 업무 기준을 검색하고, Solar Pro 4가 관련 조항을 근거로 설명합니다.",
+        },
+      ],
+    },
+    {
       target: "home-assistant",
       placement: "left",
       title: "궁금한 업무는 대화로 물어보세요",

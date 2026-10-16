@@ -335,3 +335,5 @@ HTTP 요청 48회: 성공 응답 47회, 중단 1회. 로컬 응답 캐시 18회 
 usage_summary.json/usage.jsonl에 토큰과 분류별 호출을 보존한다. 정상 서비스에서는 캐시/장부를 기본으로 켜지 않으며, 이번 실행 서버만 가상 시연 설정을 사용했다.
 
 | T-19x | DB 백업/초기화·캐시 보존·3초 경계·관리자 확인·촬영 동선 | pytest147/live1 제외·Ruff·lint/type/format/Webpack 통과, E2E2/콘솔0·Upstage0, 캐시2040 보존, reset30초 이내 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check; next build --webpack; playwright test --reporter=line | 2026-10-16 |
+
+| T-19y | 메인 투어 신규2단계·기존 단계 동일성·Git 비밀값 제외 | lint/type/format/check-onboarding/Webpack 통과; CUA1/5~5/5 및 종료·PNG 저장; 기존 투어 동일 | npm run lint/typecheck/format:check; node scripts/check-onboarding.mjs; next build --webpack; CUA; security audit | 2026-10-16 |

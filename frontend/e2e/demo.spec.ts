@@ -59,14 +59,14 @@ test("촬영 동선 전체 리허설", async ({ page }) => {
       await expect(
         page.locator('.guide-frame[data-ready="true"]'),
       ).toBeVisible();
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5; i++) {
         await guide
           .locator('[role="dialog"]')
           .screenshot({ path: path.join(output, `onboarding-${i + 1}.png`) });
         screenshots.push(`onboarding-${i + 1}.png`);
         await guide
           .getByRole("button", {
-            name: i === 3 ? "안내 마침" : "다음 안내",
+            name: i === 4 ? "안내 마침" : "다음 안내",
             exact: true,
           })
           .click();

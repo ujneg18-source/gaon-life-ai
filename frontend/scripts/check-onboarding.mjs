@@ -60,8 +60,8 @@ for (const [key, steps] of Object.entries(tours)) {
   assert.equal(steps.at(-1).details, undefined, "마무리는 한 줄 안내 유지");
 }
 assert.deepEqual(Array.from(tours.review.slice(0, 7), s => s.target), ["page-title", "review-overview", "review-original", "review-normalized", "review-field-values", "review-field-sources", "review-issues"]);
-assert.equal(tours.home[1].placement, "left");
-assert.equal(tours.home[2].placement, "right");
+assert.equal(tours.home[2].placement, "left");
+assert.equal(tours.home[3].placement, "right");
 console.log("PASS: 기능별 설명 행·빈 예시 메모·문서 검토 안내 순서·메인 말풍선 방향");
 
 const leftIntro=placeGuide({x:520,y:200,w:400,h:300},{w:460,h:350},{w:1280,h:720},"left");
