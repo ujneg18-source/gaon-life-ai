@@ -31,6 +31,7 @@ import {
   confidencePercent,
 } from "@/lib/workspace";
 import { Original } from "./review-screen";
+import { workspacePages } from "@/lib/navigation";
 import { useResource, Status, PageTitle, LoadState } from "./workspace-ui";
 
 export function Inbox() {
@@ -233,18 +234,42 @@ export function Inbox() {
   );
 }
 
+/** 청구를 지정하지 않은 업무 화면은 검색 전 목록/API 조회를 만들지 않는다. */
 export function ClaimPicker({ section }: { section: string }) {
-  const { data, error } = useResource<ClaimList>("/claims");
+  const q = (useSearchParams().get("q") ?? "").trim();
+  const title =
+    workspacePages.find((page) => page.slug === section)?.title ?? "청구 검색";
   return (
     <>
       <PageTitle
-        title="검토할 청구 선택"
-        description="고객과 청구번호를 확인한 뒤 업무를 이어가세요."
+        title={title}
+        description="고객 이름, 고객 ID 또는 청구번호로 검색해 주세요."
       />
+      {q ? (
+        <ClaimSearchResults section={section} q={q} />
+      ) : (
+        <div className="panel empty-message">
+          검색한 뒤 청구를 선택하면 업무를 시작할 수 있어요.
+        </div>
+      )}
+    </>
+  );
+}
+
+/** 검색어가 있을 때만 마운트해 미검색 상태에서 고객 목록을 불러오지 않는다. */
+function ClaimSearchResults({ section, q }: { section: string; q: string }) {
+  const { data, error } = useResource<ClaimList>(
+    `/claims?q=${encodeURIComponent(q)}`,
+  );
+  return (
+    <>
       {!data ? (
         <LoadState error={error} />
       ) : (
         <div className="panel">
+          {!data.items.length && (
+            <p className="empty-message">검색 조건에 맞는 청구가 없어요.</p>
+          )}
           <ul className="claim-picker">
             {data.items.map((c) => (
               <li key={c.id}>

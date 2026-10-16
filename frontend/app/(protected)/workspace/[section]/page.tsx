@@ -36,12 +36,14 @@ export default async function SectionPage({
       <ClaimPicker section={section} />
     );
   if (section === "supplement")
-    return (
+    return query.claim ? (
       <SupplementScreen
         key={query.claim ?? "all"}
         claimId={query.claim}
         readOnly={user.role === "admin"}
       />
+    ) : (
+      <ClaimPicker section={section} />
     );
   if (section === "history")
     return query.claim ? (

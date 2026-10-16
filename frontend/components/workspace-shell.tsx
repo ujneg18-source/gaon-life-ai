@@ -70,7 +70,16 @@ export function WorkspaceShell({
               event.preventDefault();
               const form = new FormData(event.currentTarget);
               router.push(
-                "/workspace?" +
+                // 개별 업무의 검색 결과를 현재 화면에 표시해 선택한 업무 흐름을 유지한다.
+                ([
+                  "/workspace/detail",
+                  "/workspace/review",
+                  "/workspace/supplement",
+                  "/workspace/history",
+                ].includes(pathname)
+                  ? pathname
+                  : "/workspace") +
+                  "?" +
                   new URLSearchParams({ q: String(form.get("q") ?? "") }),
               );
             }}
@@ -79,6 +88,7 @@ export function WorkspaceShell({
               <Search size={18} aria-hidden="true" />
             </button>
             <input
+              key={`${pathname}-${search.get("q") ?? ""}`}
               name="q"
               type="search"
               defaultValue={search.get("q") ?? ""}

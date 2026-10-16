@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19f · 개별 업무 화면을 검색 후 선택으로 시작
+- 관련 요구사항: FR-05, FR-18~20
+- 한 일: 청구 상세/문서 분석/보완 처리/검토 이력은 청구 ID 없이 들어오면 고객 목록을 조회하지 않고 안내만 보여준다. 검색어를 제출한 뒤에만 결과를 조회한다.
+  상단 검색이 현재 업무 경로를 유지하도록 바꿔 검색 결과 선택 시 해당 업무의 청구 화면으로 연결한다. 기존 검토함에서 청구를 선택하거나 청구 ID로 직접 이동하는 흐름은 유지한다.
+- 바뀐 파일: frontend/components/{claim-screens,workspace-shell}.tsx, frontend/app/(protected)/workspace/[section]/page.tsx
+- 확인 방법: lint/type/format 및 next build --webpack 통과. CUA로 4개 경로 모두 초기 고객 링크 0개, C001 검색 후 결과 1개와 동일 업무 경로의 claim 링크를 확인하고 클릭했다. artifacts/search-first/{detail,review,supplement,history}-empty.jpg 및 checks.json. 백엔드 변경 없음(직전 전체137개 통과).
+- 남은 문제 · 질문: 없음. 실제 Upstage 호출 없음.
+
 ## 2026-10-16 · T-19e · 원본 검색창과 고객 ID 검색
 - 관련 요구사항: FR-05 (사용자 변경 지시)
 - 한 일: 원본 HTML의 배경·620px 독립 검색 상자·44px 높이·12px 모서리·돋보기 구성을 복원했다. 검색 안내와 실제 API 검색 대상을 고객 이름/고객 ID/청구번호로 통일하고 증권번호·생년월일 검색을 제거했다. 담당자 배정 권한 범위는 유지했다.
