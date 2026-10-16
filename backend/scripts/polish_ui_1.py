@@ -12,7 +12,10 @@ from app.services.rules import review_from_db
 
 
 def apply_polish(engine, config):
-    fixture = json.loads(config.DEMO_SEED_PATH.read_text())
+    fixture = {
+        **json.loads(config.DEMO_SEED_PATH.read_text()),
+        **json.loads(config.DEMO_CUSTOMERS_PATH.read_text()),
+    }
     if not fixture.get("is_mock"):
         raise ValueError("가상 시드만 보정할 수 있습니다.")
     with Session(engine) as session:

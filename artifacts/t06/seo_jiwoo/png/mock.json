@@ -1,0 +1,19 @@
+{
+  "customer": "서지우",
+  "sample_id": "seo_jiwoo",
+  "claim_id": "GA-2610-0433",
+  "mode": "mock",
+  "variant": "png",
+  "photo_count": 0,
+  "status": "pending",
+  "expected": [],
+  "actual": [],
+  "passed": true,
+  "optional_model_issues": 0,
+  "missing_issues": [],
+  "unexpected_issues": [],
+  "calls": 0,
+  "field_matches": 0,
+  "field_total": 0,
+  "field_mismatches": []
+}

@@ -43,6 +43,13 @@ class Settings(BaseSettings):
     QDRANT_PATH: Path = PROJECT_ROOT / "data/qdrant"
     DEMO_SAMPLE_MOCKS: bool = True
     SHOW_DEVELOPMENT_BADGES: bool = True
+    SAMPLES_ROOT: Path = PROJECT_ROOT / "data/samples"
+    DEMO_CUSTOMERS_PATH: Path = PROJECT_ROOT / "data/samples/customers.json"
+    DEMO_RESULTS_PATH: Path = PROJECT_ROOT / "data/cache/demo-results"
+    CANCER_WAIT_DAYS: int = 90
+    SMALL_CANCER_CODES: tuple[str, ...] = ("C73",)
+    SMALL_CANCER_RATE: int = 20
+    OTC_MARKERS: tuple[str, ...] = ("일반의약품", "비타민", "영양제")
     DEMO_SEED_PATH: Path = PROJECT_ROOT / "data/seed/demo.json"
     DATA_PATH: Path = PROJECT_ROOT / "data"
     MOCK_SILSON24_PATH: Path = PROJECT_ROOT / "data/mock_silson24"
@@ -103,7 +110,11 @@ class Settings(BaseSettings):
         "other": "다른 유형에 속하지 않는 문서",
     }
     KCD_PATHOLOGY_HINTS: dict[str, dict[str, list[str]]] = {
-        "C18.7": {"result": ["adenocarcinoma", "선암", "악성"], "specimen": ["sigmoid", "구불결장"]}
+        "C18.7": {
+            "result": ["adenocarcinoma", "선암", "악성"],
+            "specimen": ["sigmoid", "구불결장"],
+        },
+        "C73": {"result": ["papillary", "carcinoma"], "specimen": ["thyroid", "갑상선"]},
     }
     CLAIM_TYPE_LABELS: dict[str, str] = {
         "cancer_diagnosis": "암 진단금",
@@ -147,7 +158,12 @@ class Settings(BaseSettings):
         "days": "일수",
         "per_day": "일일 횟수",
     }
-    KCD_DEMO_CODES: dict[str, str] = {"C18.7": "구불결장의 악성 신생물"}
+    KCD_DEMO_CODES: dict[str, str] = {
+        "C18.7": "구불결장의 악성 신생물",
+        "C73": "갑상선의 악성 신생물",
+        "K35.8": "기타 급성 충수염",
+        "J18.9": "상세불명 폐렴",
+    }
     AUTO_PASS_THRESHOLD: float = Field(default=0.90, ge=0, le=1)
     USE_CACHED_RESULTS: bool = False
     POLL_INTERVAL_SEC: float = Field(default=2, gt=0)

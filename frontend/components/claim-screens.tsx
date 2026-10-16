@@ -100,6 +100,11 @@ export function Inbox() {
                   <td>
                     <strong>{c.customer_name}</strong>
                     <small>{formatDate(c.customer?.birth_date)}</small>
+                    {c.development_origin && (
+                      <small className="development-origin">
+                        개발 검증 · {c.development_origin}
+                      </small>
+                    )}
                   </td>
                   <td>
                     {c.claim_types.map((t) => typeLabels[t] ?? t).join(" · ")}
@@ -114,7 +119,11 @@ export function Inbox() {
                     {c.open_issue_count
                       ? `확인할 사항 ${c.open_issue_count}건`
                       : c.submitted_count
-                        ? "열린 이슈 없음"
+                        ? c.issues.some(
+                            (i) => i.status === "open" && i.kind === "info",
+                          )
+                          ? "서류 확인 완료 · 안내 확인"
+                          : "지급 심사 이관 가능"
                         : "서류 접수 대기"}
                   </td>
                 </tr>
@@ -269,6 +278,14 @@ export function ClaimDetail({
         description={`${c.id}  ·  첨부 서류 ${c.submitted_count}개  ·  ${formatDate(c.customer?.birth_date)}`}
       />
       <div className="detail-meta">
+        {c.policy?.contract_date && (
+          <span>계약일 {formatDate(c.policy.contract_date)}</span>
+        )}
+        {c.development_origin && (
+          <span className="development-origin">
+            개발 검증 · {c.development_origin}
+          </span>
+        )}
         <Status status={c.status} />
         <span>{c.policy?.product_name}</span>
         <span>

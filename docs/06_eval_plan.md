@@ -64,7 +64,7 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 | T-15 | 조·항/절 분할·payload·reference 제외·임베딩 캐시·CV-02 4경계·실제 top-3 | 통과: 규칙/RAG 7개, 실제 2질문 2/2 적중; policy479/manual13 | pytest tests/test_rag.py tests/test_rules.py -q; uv run python -m app.scripts.build_index; retrieval.json | 2026-10-16 |
 | T-16 | LangGraph·strict·6도구 권한·병렬 호출·대조·초안·거절·근거 없음 | 전체 pytest54 통과/live1 제외; 실제 필수4질문·기대10항목 통과 | pytest -q; ruff check; uv run python -m app.scripts.chat_smoke | 2026-10-16 |
 | T-17 | 실제 질문4·근거/가상 표시·편집 초안·액션·청구 이슈 링크·맥락·로딩 | 통과: pytest55/live1 제외; 프론트 lint/type/format/date1/build, 브라우저 실제4질문·연결 검증 | pytest -q; ruff; npm run lint/typecheck/format:check/build; Node dates; CUA Playwright 캡처 artifacts/t17/ | 2026-10-16 |
-
 | T-05 | 수술확인서·회신 자동 검토·CV-04 해소·회신완료·확정값/중복 보존 | pytest56 통과/live1 제외; lint/typecheck 통과; 추가 API0 | pytest -q; npm run lint/typecheck; CUA A4 캡처 | 2026-10-16 |
+| T-06 | 고객10·청구13·서류29·4상태·동명이인·출처·사진 선택·90일 경계·폴더 검증·실측 | pytest62/live1 제외, Ruff/포맷·프론트 lint/type/format/build 통과; mock10/10, 신규실측74/74·3장9호출, 캐시0호출 | pytest -q; ruff check/format --check; npm run lint/typecheck/format:check/build; python -m verify_samples --folder … [--cached]; CUA 캡처 artifacts/t06/ | 2026-10-16 |
 
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.

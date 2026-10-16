@@ -141,6 +141,7 @@ class Policy(SQLModel, table=True):
     customer_id: str = Field(foreign_key="customers.id", index=True)
     product_name: str
     riders: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))
+    contract_date: date | None = None
     coverage_start: date
     coverage_end: date
     is_mock: bool = True
@@ -174,6 +175,7 @@ class Document(SQLModel, table=True):
     doc_type: DocumentType = DocumentType.OTHER
     source: DocumentSource = DocumentSource.IMAGE
     file_path: str
+    provenance: str = "unprocessed"
     classify_conf: float | None = Field(default=None, ge=0, le=1)
     page_size: dict[str, int] = Field(default_factory=dict, sa_column=Column(JSON))
     status: DocumentStatus = DocumentStatus.UPLOADED

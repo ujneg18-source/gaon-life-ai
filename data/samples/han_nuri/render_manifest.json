@@ -1,0 +1,22 @@
+{
+  "07_pharmacy_receipt": {
+    "html_sha256": "c27fe5cd4112c2fca4142a33c2e6edafdc86b52232c96e13653d9b31bd28af00",
+    "png_sha256": "11692a3982623e8101c8b167bf6c0235ff4b7109d494d3ed287c41ec613cbc00",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "06_prescription": {
+    "html_sha256": "55e209577a684eb1c0b7a934eccdb10672963fd8cae4941fd4a5d4ee093878eb",
+    "png_sha256": "ad6d28070f6f0ad61b1dccc726800ca7e3f4d4d7def4facc199f88dea0c624c8",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "05_medical_detail": {
+    "html_sha256": "60ee08bac500d31cb2282613f98cf5fd3336f030a1ff1547e80190d3b8665cbf",
+    "png_sha256": "45adef02d070032d25c0f0431c6240880a333ebfd191ab86721a05f539599f4c",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "04_medical_receipt": {
+    "html_sha256": "fde013c6c1edb7c64b1ed4eec688b5bf8106cafab8e54ef11f725f4e8ef1707d",
+    "png_sha256": "6eb4433d0e59cd42f755ab6a312c6666f09d05977664c3b9def728ae3bd9653a",
+    "renderer": "CUA browser A4 1240x1754"
+  }
+}

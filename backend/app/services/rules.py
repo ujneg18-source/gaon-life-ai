@@ -38,6 +38,7 @@ class ReviewDocument:
     fields: list[ExtractedField]
     status: DocumentStatus = DocumentStatus.EXTRACTED
     source_text: str = ""
+    source: str | None = None
 
 
 @dataclass
@@ -58,10 +59,17 @@ def required_documents(claim, required_rules, by_type, *, is_proxy=False):
             continue
         if conditions.get("is_proxy") and not is_proxy:
             continue
-        if conditions.get("has_pharmacy_claim") and not (
-            by_type.get("pharmacy_receipt") or by_type.get("prescription")
-        ):
-            continue
+        if conditions.get("has_pharmacy_claim"):
+            has_pharmacy = bool(by_type.get("pharmacy_receipt") or by_type.get("prescription"))
+            # 실손24의 통합 약제비가 진료 영수증/내역+처방전 3종으로 온 데모 경로만 예외다.
+            digital_only = bool(by_type) and all(
+                d.source == "silson24" for ds in by_type.values() for d in ds
+            )
+            if digital_only and by_type.get("prescription") and not by_type.get("pharmacy_receipt"):
+                required["prescription"] = rule.id
+                continue
+            if not has_pharmacy:
+                continue
         for code in rule.doc_types:
             required[code] = rule.id
     return required
@@ -216,7 +224,7 @@ def evaluate_claim(
                         [diagnosis, pathology],
                         ["diagnosis_date", "report_date"],
                     )
-            if "CV-03" in enabled:
+            if "CV-03" in enabled and a.get("diagnosis_code"):
                 hints = config.KCD_PATHOLOGY_HINTS.get(a.get("diagnosis_code", ""))
                 text = str(b.get("pathology_result", "")).casefold()
                 specimen = str(b.get("specimen", "")).casefold()
@@ -325,6 +333,52 @@ def evaluate_claim(
                             [doc],
                             ["period_start", "period_end", "admit_date", "discharge_date"],
                         )
+    # 약관의 안내/확인 과제만 만든다. 20%나 면책 표시는 실제 지급 결정이 아니다.
+    if "cancer_diagnosis" in claim.claim_types:
+        for diagnosis in by_type.get("diagnosis", []):
+            code = diagnosis.values.get("diagnosis_code")
+            if not code:
+                issue(
+                    IssueKind.MISSING,
+                    "REQ-diagnosis-code",
+                    "질병분류기호가 적힌 진단서 보완 필요",
+                    "발급 의료기관에서 질병분류기호가 적힌 진단서를 받아 주세요.",
+                    [diagnosis],
+                    ["diagnosis_code"],
+                )
+            if code in config.SMALL_CANCER_CODES:
+                issue(
+                    IssueKind.INFO,
+                    "POLICY-C73",
+                    f"소액암 {config.SMALL_CANCER_RATE}% 기준 안내",
+                    "가온 암진단특약 제2조·제4조 기준입니다. 실제 지급 여부와 금액은 지급 심사 담당자가 결정합니다.",
+                    [diagnosis],
+                    ["diagnosis_code"],
+                )
+            if policy and policy.contract_date and diagnosis.values.get("diagnosis_date"):
+                try:
+                    elapsed = (
+                        date.fromisoformat(diagnosis.values["diagnosis_date"])
+                        - policy.contract_date
+                    ).days
+                    waiting = (
+                        0 <= elapsed < config.CANCER_WAIT_DAYS
+                        and code not in config.SMALL_CANCER_CODES
+                    )
+                except (ValueError, TypeError):
+                    waiting = False
+                if waiting:
+                    issue(
+                        IssueKind.INFO,
+                        "CV-06-WAIT",
+                        f"암 보장개시 전({config.CANCER_WAIT_DAYS}일 면책) 확인 안내",
+                        "가온 암진단특약 제5조에 따라 계약일·진단확정일·보장개시일을 지급 심사 담당자가 확인해 주세요.",
+                        [diagnosis],
+                        ["diagnosis_date"],
+                    )
+    from app.services.coverage import coverage_issues
+
+    issues.extend(coverage_issues(claim, docs, config))
     if not review_settings.review_on_format:
         issues = [item for item in issues if item.kind != IssueKind.FORMAT]
     status = ClaimStatus.AUTO_PASS
@@ -374,6 +428,7 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
             " ".join(
                 element_text(el) for el in doc.raw_result.get("parse", {}).get("elements", [])
             ),
+            doc.source,
         )
         for doc in docs
     ]
@@ -416,7 +471,9 @@ def review_from_db(session: Session, claim: Claim, config: Settings) -> ReviewRe
             old[fp].title = item.title
             session.add(old[fp])
     for fp, item in old.items():
-        if fp not in current and item.rule_id.startswith(("CV-", "REQ-", "FIELD-", "PIPELINE")):
+        if fp not in current and item.rule_id.startswith(
+            ("CV-", "REQ-", "FIELD-", "PIPELINE", "POLICY-", "coverage")
+        ):
             item.status = IssueStatus.RESOLVED
             session.add(item)
     for doc in inputs:

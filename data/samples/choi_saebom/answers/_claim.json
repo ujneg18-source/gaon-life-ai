@@ -1,0 +1,9 @@
+{
+  "claim_id": "GA-2610-0466",
+  "expected_issues": [
+    {
+      "rule": "CV-06-WAIT",
+      "kind": "info"
+    }
+  ]
+}

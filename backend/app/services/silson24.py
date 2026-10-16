@@ -16,7 +16,7 @@ def attach_silson24(
 ) -> list[Document]:
     """가상 표시와 청구 ID가 맞는 데이터만 연결하며 재요청에서도 중복 생성하지 않는다."""
     payloads = []
-    for path in sorted(settings.MOCK_SILSON24_PATH.glob("*.json")):
+    for path in sorted(settings.MOCK_SILSON24_PATH.rglob("*.json")):
         data = json.loads(path.read_text())
         if data.get("claim_id") == claim.id and data.get("is_mock") is True:
             payloads.append((path, data))

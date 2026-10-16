@@ -53,10 +53,15 @@ def test_answers_match_expected_issues_without_api(client):
     expected = {
         (i["kind"], i["rule"])
         for i in expected["expected_issues"]
-        if i["kind"] in {"missing", "mismatch", "info"}
+        if i["kind"] in {"missing", "mismatch", "info", "excluded_item"}
     }
     assert {(i.kind.value, i.rule_id) for i in report.issues} == expected
-    assert Counter(i.kind.value for i in report.issues) == {"missing": 1, "mismatch": 1, "info": 1}
+    assert Counter(i.kind.value for i in report.issues) == {
+        "missing": 1,
+        "mismatch": 1,
+        "info": 1,
+        "excluded_item": 1,
+    }
     assert len(report.required) == 8 and report.status == ClaimStatus.SUPPLEMENT
     assert (
         "cross_check" in next(f for f in docs[0].fields if f.key == "diagnosis_date").review_reasons
@@ -70,6 +75,7 @@ def test_answers_match_expected_issues_without_api(client):
         "mismatch": 1,
         "info": 1,
         "low_conf": 1,
+        "excluded_item": 1,
     }
 
 
@@ -87,6 +93,7 @@ def test_normal_auto_pass_and_format_still_routes_with_switches_off(client):
     docs[0].values["diagnosis_date"] = "2026-09-21"
     docs[2].values["stay_days"] = 8
     docs[4].values["items"] = [{"category": "exam", "name": "검사", "amount": 100}]
+    docs[6].values["items"] = [i for i in docs[6].values["items"] if i.get("covered")]
     report = evaluate(client, docs)
     assert not report.issues and report.status == ClaimStatus.AUTO_PASS
     field = docs[0].fields[0]
@@ -118,6 +125,7 @@ def test_info_alone_does_not_route_to_review(client):
     docs = inputs()
     docs[0].values["diagnosis_date"] = "2026-09-21"
     docs[4].values["items"] = [{"category": "exam", "name": "검사", "amount": 100}]
+    docs[6].values["items"] = [i for i in docs[6].values["items"] if i.get("covered")]
     report = evaluate(client, docs)
     assert [i.kind.value for i in report.issues] == ["info"]
     assert report.status == ClaimStatus.AUTO_PASS

@@ -45,6 +45,7 @@ settings (1행) · required_doc_rules · cross_check_rules · kcd_codes · drug_
 | customer_id | FK customers.id | 계약 고객 |
 | product_name | str | 가상 상품명 |
 | riders | JSON list | 가입 특약 코드 목록 |
+| contract_date | date 또는 null | 실제 계약일. 90일 면책 비교의 기준이며 보장 기간과 분리 |
 | coverage_start / coverage_end | date | 보장 시작·종료일, 양 끝 날짜 포함 |
 | is_mock | bool | 가상 계약 표시 |
 
@@ -59,7 +60,7 @@ settings (1행) · required_doc_rules · cross_check_rules · kcd_codes · drug_
 | received_at | datetime | 접수 일시 |
 | reported_start / reported_end | date 또는 null | 앱 접수 진료 기간. 문서 기간이 아직 없을 때 CV-06의 선언된 입력으로 사용 |
 | channel | json list | `app` · `silson24` |
-| status | enum | `processing` · `auto_pass` · `needs_review` · `supplement` · `to_payment_review` |
+| status | enum | `pending` · `processing` · `auto_pass` · `needs_review` · `supplement` · `to_payment_review` |
 | assignee_id | int FK users | 배정 담당자 |
 | step | int | 상세 화면 진행 단계 0~3 |
 
@@ -74,6 +75,7 @@ settings (1행) · required_doc_rules · cross_check_rules · kcd_codes · drug_
 | classify_conf | float | 분류 신뢰도 |
 | page_size | json | 원본 이미지 크기 (하이라이트 좌표 계산용) |
 | status | enum | `uploaded` · `parsed` · `extracted` · `failed` |
+| provenance | str | `upstage` · `mock` · `silson24` · `unprocessed`. 검증 방식이며 인물/계약이 실제라는 뜻이 아님 |
 | raw_result | json | Upstage 응답 원본 (디버깅용) |
 
 ### fields (추출 항목)
@@ -98,7 +100,7 @@ settings (1행) · required_doc_rules · cross_check_rules · kcd_codes · drug_
 |---|---|---|
 | id | int PK | |
 | claim_id | str FK | |
-| kind | enum | `missing` (누락) · `mismatch` (불일치) · `low_conf` (확인 필요) · `excluded_item` (보상 제외 가능성) · `format` (형식 오류) |
+| kind | enum | `info` (안내, 차단하지 않음) · `missing` (누락) · `mismatch` (불일치) · `low_conf` (확인 필요) · `excluded_item` (보상 제외 가능성) · `format` (형식 오류) |
 | rule_id | str | 발생시킨 규칙 ID (예: `CV-01`) |
 | title | str | 화면 제목 |
 | detail | str | 설명 한 줄 |
@@ -217,7 +219,7 @@ class DiagnosisDoc(BaseModel):
 | ID | 규칙 | 비교 | 이슈 |
 |---|---|---|---|
 | CV-01 | 진단일 ≥ 병리 보고일 | 진단서 `diagnosis_date` ↔ 결과지 `report_date` | mismatch |
-| CV-02 | 입원 기간 일치 | 입퇴원확인서 `stay_days` ↔ 세부내역서 `inpatient_days` | mismatch |
+| CV-02 | 입원 기간 일치 | 일수 1일 차이는 info, 2일 이상/명시 입퇴원일 차이는 mismatch. 진료비 산정 기간과 입퇴원일은 구분 | info / mismatch |
 | CV-03 | 질병코드와 병리 진단 부합 | 진단서 `diagnosis_code` ↔ 결과지 `pathology_result` (KCD 명칭 비교) | mismatch |
 | CV-04 | 수술 행위 → 수술확인서 필요 | 세부내역서 `items[].category == surgery` | missing |
 | CV-05 | 환자 이름 일치 | 모든 서류 `patient_name` | mismatch |
@@ -275,3 +277,18 @@ class DiagnosisDoc(BaseModel):
 - GA-2610-0433은 수술비 청구에 surgery 특약이 없어 POLICY-RIDER 확인 필요를 만든다. 지급 거절을 자동 결정하지 않는다.
 - CV-06은 진료 시작이 보장 시작 전이거나 종료가 보장 종료 후일 때 mismatch를 남긴다. 동일 시작·종료일은 범위 안이다. 형식 오류는 별도 format 규칙에 맡긴다.
 - SQLite 기존 claims는 트랜잭션 안에서 FK를 추가해 재구성하며 자식 문서·이력 ID를 보존하고 foreign_key_check를 수행한다. 기본 시드는 증분이며 --demo에서만 초기화한다.
+
+## T-05~T-06 고객별 서류 세트 (2026-10-16)
+- 단일 원본: `data/samples/customers.json`. 고객10명·계약10개·청구13건(대표10건+기존 복수청구3건), 원본 입력·검증 허용 방식·기대 이슈를 함께 관리한다. `data/seed/demo.json`은 규칙만 보관한다.
+- `gen_claim --customer <id>`는 공통 A4 HTML/정답을 생성하고 변경된 HTML만 PNG로 렌더링한다. 기존 김유정7장은 해시/좌표 보존을 위해 재캡처하지 않는다. `gen_kim_yujeong.py`는 호환 진입점이다.
+- `seed --demo`는 기존 행을 초기화하고 29장과 실제 규칙 결과를 적재한다. 상태 고정값은 사용하지 않는다. 기본 seed는 기존 데이터 보존용 고객·규칙 시드이며 새 API 호출은 없다.
+- 이가온(C002), 한누리(C006)는 새 실제 검증 허용 대상이다. 김유정(C001)은 기존 캐시만 재사용한다. 캐시 없는 환경에서는 모의 입력으로 대체하고 실제 API로 표기하지 않는다. 나머지 고객은 정답 기반 mock, 실손24는 구조화 모의 JSON이다.
+- 화면의 `development_origin`은 SHOW_DEVELOPMENT_BADGES 설정으로 숨길 수 있다. DB provenance는 유지하고 mock 필드의 출처를 실제 OCR/실손24로 꾸미지 않는다.
+- 소액암 C73: 가상 암진단특약 제2조·제4조의 20% 기준을 `POLICY-C73` info로 안내한다. 지급액 계산은 하지 않는다.
+- 계약일+90일 전 암 진단: `CV-06-WAIT` info, C73 소액암은 해당 특약 예외. 날짜는 `contract_date`로만 계산하고 정보가 없으면 추정하지 않는다. 보장 기간 밖 진료의 CV-06 mismatch는 그대로다.
+- 진단서 질병분류기호 누락: format+REQ-diagnosis-code missing으로 보완 요청한다. 코드가 없는 상태에서 CV-03 부합 여부는 추정하지 않는다.
+- 처방전에 없는 비급여 일반의약품: 제출된 처방전과 명칭/분류를 대조하고 동일 KB 원문의 제4조·매뉴얼6장 근거를 `coverage` excluded_item에 저장한다. 처방전이 없으면 부재를 단정하지 않는다.
+- 전자 통합 약제비 3종 경로: 실손24 영수증·세부내역·처방전이 모두 전자로 들어오고 별도 약제비 영수증이 없는 데모 경로는 처방전만 필수에 추가한다. 앱 업로드 약제비에는 기존 영수증+처방전 규칙을 유지한다. 본인인증 후 앱 접수라는 가정이다.
+- `info`만 있는 청구는 서류 확인 완료 상태다. 실제 지급 심사는 별도이며, 인박스에서는 안내 확인과 이관 가능(열린 이슈 없음)을 구분한다.
+- 수술확인서는 `kim_yujeong/supplement/`의 별도 회신용이다. 업로드 시 기존 추출/확정값을 보존하고 신규 서류만 처리한다. CV-04 해소 후 보완 요청은 received, 남은 과제가 있으면 needs_review다.
+- `--use-photo`는 존재하는 사진만 골라 쓰고 없는 장은 PNG로 돌아간다. 사진이 같은 stem에 두 개면 중단한다. 결과는 png/photo별로 분리하고 실제 photo_count를 기록한다.

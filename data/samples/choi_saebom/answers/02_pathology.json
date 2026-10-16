@@ -1,0 +1,9 @@
+{
+  "doc_type": "pathology",
+  "patient_name": "최새봄",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "pathology_result": "Adenocarcinoma",
+  "specimen": "Sigmoid colon",
+  "report_date": "2026-09-20"
+}

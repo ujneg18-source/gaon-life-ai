@@ -1,0 +1,9 @@
+{
+  "claim_id": "GA-2610-0438",
+  "expected_issues": [
+    {
+      "rule": "CV-02",
+      "kind": "mismatch"
+    }
+  ]
+}

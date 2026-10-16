@@ -1,0 +1,22 @@
+{
+  "03_admission": {
+    "html_sha256": "c41b2d385b5c19db5c3dc89c9bb325fdd9cfb62bbb4455d49af219c7186ee332",
+    "png_sha256": "74be02e7c9990096f2df3640a313a2c9d18d59bcdabd20734026bcc4afa1aed8",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "08_surgery_cert": {
+    "html_sha256": "053ea3e998ad27d720ec93b939d610883779b7130720f1c6718ebe8927d14917",
+    "png_sha256": "3de87e9f49e027646320ddc1d2924221b1835c7cb565aec52b2dd92b9a9c4f90",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "05_medical_detail": {
+    "html_sha256": "4cf6f0df8976f442e5ce1501e4535db411b86960ac2602c17ec2dc2e3dc08e9c",
+    "png_sha256": "4ac1f93292f9304c4c13bc34f9f1a933880c09faf8a7c294183860186333c10c",
+    "renderer": "CUA browser A4 1240x1754"
+  },
+  "04_medical_receipt": {
+    "html_sha256": "951111e280d45af5883d43c227945f434ff06f5bc15d4a6e957823ba05664b0a",
+    "png_sha256": "0fd6b409cf0e85e53e4637b72379fe18b509e07d1da4fb4afda65b47d53d53e5",
+    "renderer": "CUA browser A4 1240x1754"
+  }
+}

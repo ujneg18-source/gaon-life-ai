@@ -114,6 +114,9 @@ class Tools:
                     "birth_date": str(customer.birth_date) if customer else None,
                     "policy": {
                         "product_name": policy.product_name,
+                        "contract_date": str(policy.contract_date)
+                        if policy.contract_date
+                        else None,
                         "riders": policy.riders,
                         "coverage_start": str(policy.coverage_start),
                         "coverage_end": str(policy.coverage_end),

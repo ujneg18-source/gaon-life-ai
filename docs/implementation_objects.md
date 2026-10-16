@@ -80,3 +80,14 @@
 - `Tools`: 고객·계약·청구/이슈/서류를 읽는다. 동명이인·여러 청구는 선택을 요청한다. 주민번호/계좌/연락처는 LLM에 전달하지 않는다. 약제비 대조는 정규화/확정값을 처방전과 비교하고 비급여 기준을 읽어 가능성만 반환한다.
 - `ChatAnswer`: answer/intent/citations/claim_refs/suggested_actions/refused 모두 필수. issue_id는 null 허용. API는 이번 확정 요청에 따라 JSON 응답이며 SSE·DB 대화 목록은 사용하지 않는다.
 - `ChatScreen`: 대화 목록/질문 바로가기/근거 패널/편집 초안은 React 메모리다. 새로고침하면 지워지고 localStorage·DB에 저장하지 않는다.
+
+## T-05~06 시연 데이터 객체와 경로
+- `customers.json`: 고객10명·계약·청구13건·대표사례·서류 입력과 기대 이슈의 단일 원본. 상태 값은 넣지 않으며 기대 이슈는 평가에만 사용한다.
+- `Policy.contract_date`: 계약일. 보장 기간과 분리해 90일 경계를 계산한다. 알 수 없으면 null이며 추정하지 않는다.
+- `Document.provenance`: upstage/mock/silson24/unprocessed. 실제 검증 API 호출 여부와 가상 고객 여부는 별개다. UI 개발 표시는 설정으로 숨겨도 DB 출처는 보존한다.
+- `gen_claim.generate`: 공통 HTML/정답을 만들고 `render_folder`는 HTML·PNG 해시가 달라진 문서만 재캡처한다. 김유정 기존7장은 고정 기준 자산이다.
+- `prepared_rows`: mock은 정답을 명시적으로 입력하고, live/cached는 Upstage 응답에서 값을 읽는다. 정답으로 실제 모델 값을 덮어쓰지 않는다.
+- `verify_samples`: 동일 규칙 엔진 결과와 기대 이슈/정규화 항목을 비교한다. 김유정 기존 세분류 오독/CV-03만 명시적 optional로 허용하고 새 예상 밖 이슈는 실패한다. png/photo 결과와 실제 photo_count를 분리한다.
+- `seed_samples`: API 신규 호출 없이 성공 캐시를 재생하고, 없으면 mock으로 표시해 적재한다. 기존 문서가 있으면 증분 적재를 건너뛰고 --demo에서만 초기화한다.
+- `sample_input`: 고객과 제공 파일의 정확한 해시가 맞는 데모 mock만 허용한다. 알 수 없는 파일/실측 고객 원본을 mock으로 바꾸지 않는다.
+- 회신 처리: 기존 EXTRACTED 원본·확정값을 건드리지 않고 새 서류를 읽어 재검토한다. 요청 유형이 정상 제출되고 누락 과제가 해소돼야 보완 요청을 received로 바꾼다.

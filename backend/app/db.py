@@ -48,6 +48,18 @@ def create_tables(engine: Engine) -> None:
                 if name not in columns:
                     connection.execute(text(f"ALTER TABLE claims ADD COLUMN {name} {kind}"))
 
+        if "contract_date" not in {col["name"] for col in inspect(engine).get_columns("policies")}:
+            with engine.begin() as connection:
+                connection.execute(text("ALTER TABLE policies ADD COLUMN contract_date DATE"))
+
+        if "provenance" not in {col["name"] for col in inspect(engine).get_columns("documents")}:
+            with engine.begin() as connection:
+                connection.execute(
+                    text(
+                        "ALTER TABLE documents ADD COLUMN provenance VARCHAR NOT NULL DEFAULT 'unprocessed'"
+                    )
+                )
+
         if "review_on_format" not in {
             col["name"] for col in inspect(engine).get_columns("settings")
         }:

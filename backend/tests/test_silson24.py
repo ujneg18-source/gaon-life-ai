@@ -44,6 +44,6 @@ def test_attach_three_documents_idempotently(client):
 
 def test_no_fixture_and_admin_read_only(client):
     client.post("/api/auth/demo-login", json={"role": "reviewer"})
-    assert client.post("/api/claims/GA-2610-0477/silson24").status_code == 404
+    assert client.post("/api/claims/GA-2610-0433/silson24").status_code == 404
     client.post("/api/auth/demo-login", json={"role": "admin"})
     assert client.post("/api/claims/GA-2610-0482/silson24").status_code == 403

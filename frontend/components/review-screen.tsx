@@ -292,13 +292,15 @@ function FieldCell({
       </td>
       <td>
         <span className="field-source">
-          {f.method === "data"
-            ? "실손24 데이터"
-            : f.parse_evidence
-              ? "Parse 표"
-              : f.method === "ocr"
-                ? "OCR"
-                : "Parse"}
+          {f.provenance === "mock"
+            ? "모의 데이터"
+            : f.method === "data"
+              ? "실손24 데이터"
+              : f.parse_evidence
+                ? "Parse 표"
+                : f.method === "ocr"
+                  ? "OCR"
+                  : "Parse"}
         </span>
         <small
           className={

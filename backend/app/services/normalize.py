@@ -11,7 +11,7 @@ from typing import Any
 from pydantic import ValidationError
 from sqlmodel import Session
 
-from app.models import ExtractedField, FieldMethod, KcdCode
+from app.models import Confidence, ExtractedField, FieldMethod, KcdCode
 from app.schemas.documents import DOCUMENT_SCHEMAS, CommonDoc
 from app.services.source_evidence import longer_code, pharmacy_evidence
 
@@ -301,7 +301,7 @@ def normalize_document(
                 if not isinstance(value, str)
                 else value,
                 raw_value="" if raw_value is None else str(raw_value),
-                extract_conf=confidence,
+                extract_conf=Confidence(confidence) if confidence else None,
                 source_found=found,
                 review_reasons=reasons,
                 method=FieldMethod.DATA if is_data else FieldMethod.PARSE,

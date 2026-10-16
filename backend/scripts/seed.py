@@ -1,7 +1,8 @@
 """데모 계정·청구·규칙 시드. 기본 실행은 비어 있는 DB만 채우고 --demo만 초기화한다.
 
 실행: cd backend && .venv/bin/python -m scripts.seed --demo
-실손24의 실제 수신·문서 처리·의료 판단은 이 명령에서 수행하지 않는다.
+기본 실행은 고객·계약·규칙만 채운다. --demo는 가상 서류와 캐시/모의 엔진 결과도 적재한다.
+외부 Upstage 호출이나 실제 수신·의료 판단은 하지 않는다.
 """
 
 import argparse
@@ -31,6 +32,8 @@ def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) ->
     fixture = json.loads(settings.DEMO_SEED_PATH.read_text())
     if fixture.get("is_mock") is not True:
         raise ValueError("가상 데이터 표시가 없는 시드는 사용할 수 없습니다.")
+    profiles = json.loads(settings.DEMO_CUSTOMERS_PATH.read_text())
+    fixture = {**fixture, **profiles}
     create_tables(engine)
     with Session(engine) as session:
         if reset:
@@ -65,6 +68,9 @@ def seed_database(engine: Engine, settings: Settings, *, reset: bool = False) ->
             policy = session.get(Policy, item["policy_no"])
             values = {
                 **item,
+                "contract_date": date.fromisoformat(item["contract_date"])
+                if item.get("contract_date")
+                else None,
                 "coverage_start": date.fromisoformat(item["coverage_start"]),
                 "coverage_end": date.fromisoformat(item["coverage_end"]),
             }
@@ -124,11 +130,19 @@ def main() -> None:
     """--demo는 명시적인 개발 초기화 옵션이며 실제 보험사 데이터에는 사용하지 않는다."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--demo", action="store_true", help="데모 DB 행을 초기화하고 다시 적재")
+    parser.add_argument(
+        "--use-photo", action="store_true", help="앱 원본 대신 photo/를 사용(없으면 오류)"
+    )
     args = parser.parse_args()
     settings = get_settings()
     engine = build_engine(settings.DB_URL)
     try:
-        print(json.dumps(seed_database(engine, settings, reset=args.demo), ensure_ascii=False))
+        result = seed_database(engine, settings, reset=args.demo)
+        if args.demo:
+            from scripts.samples.seed_samples import seed_samples
+
+            result["documents"] = seed_samples(engine, settings, use_photo=args.use_photo)
+        print(json.dumps(result, ensure_ascii=False))
     finally:
         engine.dispose()
 

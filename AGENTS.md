@@ -100,7 +100,7 @@ npm run start
 .venv/bin/python -m pytest -m live tests/test_live_engine.py -q
 ```
 
-이번 묶음의 API 입력 페이지 예약 합계는 12/30이다. `data/cache/_budget.json`과 `.pending`은 중복 과금 방지 상태이므로 임의로 지우지 않는다. 결과는 `data/evaluations/<입력폴더>/<내용지문>/`에 보관한다.
+T-11 당시 API 입력 페이지 예약은 12/30이었고, T-06 신규 실측 후 현재 합계는 21/30이다. `data/cache/_budget.json`과 `.pending`은 중복 과금 방지 상태이므로 임의로 지우지 않는다. 결과는 `data/evaluations/<입력폴더>/<내용지문>/`에 보관한다.
 
 ## 챗봇·지식 인덱스 명령 (T-15~17)
 backend/에서 실행한다. 실제 회사 약관 data/kb/reference/는 커밋·인덱싱 금지. HWP Parse 없음.
@@ -112,3 +112,16 @@ uv run python -m app.scripts.build_index --rebuild
 uv run python -m app.scripts.chat_smoke
 ```
 일반 pytest는 LLM/임베딩 mock이며 실제 HTTP를 금지한다. 로컬 Qdrant는 프로세스 하나만 열 수 있다. 실제 챗봇 검증에는 USE_CACHED_RESULTS=false와 설정된 키가 필요하다. 대화 기록은 메모리만 사용하며 실제 smoke 평가 원문은 명시적 산출물 artifacts/t16/에 저장한다.
+
+## 고객별 시연 데이터 (T-05~06)
+고객/계약/청구는 data/samples/customers.json만 수정한다. data/seed/demo.json은 규칙 전용이다.
+```bash
+cd backend
+uv run python -m scripts.samples.gen_claim --customer all
+uv run python -m verify_samples --folder data/samples/lee_gaon
+uv run python -m verify_samples --folder data/samples/han_nuri --cached
+uv run python -m scripts.seed --demo
+# 사진이 있는 앱 서류만 교체:
+uv run python -m scripts.seed --demo --use-photo
+```
+공통 생성기 PNG 재렌더링에는 `uv run playwright install chromium`이 필요하다. 기존 파일 해시가 맞으면 재캡처하지 않는다. 이번 신규 실제 호출은 C002/C006에만 수행했고 김유정은 캐시 재생했다. 기본 verify는 정답 기반 mock이며 OCR 정확도 실측으로 보고하면 안 된다. --live는 실제 호출, --cached는 네트워크 금지다. SHOW_DEVELOPMENT_BADGES=false면 화면 개발 표시는 숨기되 DB provenance는 보존한다.

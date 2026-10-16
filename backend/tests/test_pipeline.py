@@ -24,7 +24,7 @@ def test_complete_pipeline_idempotent_retry_and_audit(client):
     assert first.status_code == 202
     status = client.get(URL + "/process/status", params={"job_id": first.json()["job_id"]}).json()
     assert status["state"] == "done" and status["progress"] == 100
-    assert status["result"]["claim_status"] == "supplement" and status["result"]["issue_count"] == 3
+    assert status["result"]["claim_status"] == "supplement" and status["result"]["issue_count"] == 4
     assert len(calls) == 12
     with Session(client.app.state.engine) as session:
         assert len(session.exec(select(Document)).all()) == 7

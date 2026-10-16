@@ -51,14 +51,22 @@ def document_info(doc_id: int, user: CurrentUser, session: SessionDep, request: 
 @router.get("/documents/{doc_id}/image")
 def document_image(doc_id: int, user: CurrentUser, session: SessionDep, request: Request):
     doc = session.get(Document, doc_id)
-    access(doc, user, session)
+    claim = access(doc, user, session)
     config = request.app.state.settings
     path = Path(doc.file_path).resolve()
     if doc.source == DocumentSource.SILSON24:
         # 전자 수신의 원본은 JSON이다. 대응하는 가상 서식 이미지만 표시하고 화면에 이를 명시한다.
         if not path.is_relative_to(config.MOCK_SILSON24_PATH.resolve()):
             raise HTTPException(404, "가상 원본이 없습니다.")
-        path = config.SAMPLE_PATH / "png" / (path.stem + ".png")
+        import json
+
+        manifest = json.loads(config.DEMO_CUSTOMERS_PATH.read_text())
+        customer = next(
+            (c for c in manifest["customers"] if c["id"] == claim.customer_id),
+            None,
+        )
+        folder = config.SAMPLES_ROOT / customer["sample_id"] if customer else config.SAMPLE_PATH
+        path = folder / "png" / (path.stem + ".png")
     elif not path.is_relative_to(config.UPLOAD_PATH.resolve()):
         raise HTTPException(404, "허용된 원본이 아닙니다.")
     if not path.is_file():

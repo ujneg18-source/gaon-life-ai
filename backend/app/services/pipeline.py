@@ -152,16 +152,17 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                     try:
                         from pathlib import Path
 
-                        from app.services.demo_samples import supplement_input
+                        from app.services.demo_samples import sample_input
 
                         claim = session.get(Claim, job.claim_id)
                         mock = (
-                            supplement_input(settings, claim, Path(doc.file_path))
+                            sample_input(settings, claim, Path(doc.file_path))
                             if doc.source == DocumentSource.IMAGE
                             else None
                         )
                         if mock:
                             doc.doc_type = mock["doc_type"]
+                            doc.provenance = "mock"
                             doc.raw_result = {
                                 **doc.raw_result,
                                 "provenance": "mock",
@@ -169,6 +170,7 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                             }
 
                         if doc.source == DocumentSource.SILSON24 or mock:
+                            doc.provenance = "mock" if mock else "silson24"
                             values = mock or doc.raw_result["data"]
                             extras = {}
                             parsed = {}
@@ -179,6 +181,7 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                             path = Path(doc.file_path)
                             stage("classify")
                             classified = client.classify(path)
+                            doc.provenance = "upstage"
                             doc.doc_type, doc.classify_conf = classified_type(classified)
                             doc.raw_result = {**doc.raw_result, "classify": classified}
                             session.add(doc)
@@ -255,7 +258,9 @@ def run_job(engine: Engine, settings: Settings, job_id: str, client_factory=Upst
                         SupplementRequest.status == SupplementStatus.SENT_MOCK,
                     )
                 ).all():
-                    if set(request.doc_types) <= submitted:
+                    if set(request.doc_types) <= submitted and not any(
+                        i.kind.value == "missing" for i in report.issues
+                    ):
                         request.status = SupplementStatus.RECEIVED
                         session.add(request)
                         session.add(

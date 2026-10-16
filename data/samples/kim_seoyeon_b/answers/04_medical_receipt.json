@@ -1,0 +1,14 @@
+{
+  "doc_type": "medical_receipt",
+  "patient_name": "가상 타인",
+  "issuer": "하람대학교병원",
+  "issued_date": "2026-10-12",
+  "period_start": "2026-10-06",
+  "period_end": "2026-10-08",
+  "inpatient_days": 3,
+  "covered_copay": 30000,
+  "non_covered": 0,
+  "patient_total": 30000,
+  "total": 30000,
+  "items": []
+}

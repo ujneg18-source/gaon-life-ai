@@ -1,0 +1,22 @@
+{
+  "doc_type": "pharmacy_receipt",
+  "patient_name": "한누리",
+  "issuer": "새솔약국",
+  "issued_date": "2026-10-12",
+  "covered_copay": 3000,
+  "non_covered": 15000,
+  "items": [
+    {
+      "drug_name": "가상치료정 10mg",
+      "days": 3,
+      "amount": 3000,
+      "covered": true
+    },
+    {
+      "drug_name": "종합비타민정 (일반의약품)",
+      "days": 30,
+      "amount": 15000,
+      "covered": false
+    }
+  ]
+}

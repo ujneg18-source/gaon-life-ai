@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · T-06 · 고객 10명 시연 세트와 출처 검증
+- 관련 요구사항: FR-05, FR-06, FR-14, FR-15
+- 한 일: customers.json 단일 원본·공통 HTML/PNG/정답 생성기·10고객/13청구/29서류 시드·폴더별 검증 CLI를 구현했다. 상태를 엔진에서 계산하고 C73/90일 안내·코드 미기재 보완·처방 없는 OTC 대조를 추가했다. 계약일과 보장일을 분리하고 실제/mock 출처와 숨김 설정, 고객별 원본 연결, 사진 선택/fallback을 제공했다. 김유정 기존7장·동명이인·복수청구는 보존했다.
+- 바뀐 파일: backend/scripts/samples/{gen_claim,render,seed_samples,verify_samples}.py, scripts/seed.py, backend/app/{models,db,config}.py, services/{rules,coverage,workspace,normalize,silson24}.py, routers/{review,supplements}.py, tests/test_demo_samples.py, data/samples/, data/mock_silson24/, frontend/components/{claim-screens,review-screen}.tsx, frontend/lib/workspace.ts, docs/03_data_design.md, docs/prompts/gpt_image_photo.md, docs/deliverables/T05-T06_시연데이터검증.md, TODO.md, artifacts/t06/
+- 확인 방법: 백엔드62 passed/live1 제외·Ruff/포맷, 프론트 lint/typecheck/format/build 통과. 10고객 mock 기대 이슈10/10; 신규 실제 C002/C006 3장·9호출, 전체 정규화74/74. 김유정 캐시114/116·알려진추가2이슈 명시; 재생 전부0호출. CUA 신규22장 A4 캡처·인박스4상태·원본 비교100%와 두 이미지 로딩 확인. 생성기 direct/module 및 변경 없는 재실행 확인.
+- 남은 문제 · 질문: GPT 사진4장은 사용자 제작 예정이며 사진 OCR 실측은 미진행. 신규 API 비용 추정 $0.162~0.282(VAT 별도), 실제 콘솔 차감액 미확인. 실측값·정답 mock을 혼동하지 않도록 보고서에 분리했다.
+
 ## 2026-10-16 · T-05 · 수술확인서와 보완 회신 흐름
 - 관련 요구사항: FR-06, FR-13, FR-25
 - 한 일: 기존 A4 HTML 토큰을 공통 모듈로 분리하고 보완 회신용 수술확인서 HTML/PNG/정답 JSON을 supplement/에 만들었다. 최초 김유정 7장에는 추가하지 않았다. 회신 업로드 시 새 서류만 처리하고 기존 원본/확정값은 보존하며 CV-04 해소·회신 완료·이력을 연결했다. 데모 모의 입력은 제공 파일의 정확한 해시와 고객 일치 시만 허용하고 표시/모드 설정을 추가했다.
