@@ -101,3 +101,14 @@ npm run start
 ```
 
 이번 묶음의 API 입력 페이지 예약 합계는 12/30이다. `data/cache/_budget.json`과 `.pending`은 중복 과금 방지 상태이므로 임의로 지우지 않는다. 결과는 `data/evaluations/<입력폴더>/<내용지문>/`에 보관한다.
+
+## 챗봇·지식 인덱스 명령 (T-15~17)
+backend/에서 실행한다. 실제 회사 약관 data/kb/reference/는 커밋·인덱싱 금지. HWP Parse 없음.
+```bash
+uv run python -m app.scripts.build_index
+# 원문 변경 후 로컬 Qdrant 서버를 종료한 상태에서 컬렉션을 다시 만들 때만:
+uv run python -m app.scripts.build_index --rebuild
+# 실제 Solar 호출 검증 (일반 pytest와 분리):
+uv run python -m app.scripts.chat_smoke
+```
+일반 pytest는 LLM/임베딩 mock이며 실제 HTTP를 금지한다. 로컬 Qdrant는 프로세스 하나만 열 수 있다. 실제 챗봇 검증에는 USE_CACHED_RESULTS=false와 설정된 키가 필요하다. 대화 기록은 메모리만 사용하며 실제 smoke 평가 원문은 명시적 산출물 artifacts/t16/에 저장한다.

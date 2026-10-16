@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-16 · T-16 · LangGraph 도구와 근거 답변
+- 관련 요구사항: FR-15, FR-28~33
+- 한 일: Solar strict 의도 5종→검증된 도구 호출→근거 답변 그래프와 JSON POST /api/chat을 추가했다. 읽기 도구 6종은 배정 권한을 재검사하고 조회 이력만 남긴다. 약품명 괄호 설명을 정규화해 실제 영수증 항목과 처방전을 대조하며 지급 판단은 거절한다. 근거 없는 질문은 지정 문구로 응답하고 표준 보완 문구에만 고객명을 채운다. 임베딩 외 대화 응답은 디스크에 보존하지 않는다.
+- 바뀐 파일: backend/app/agent/{graph,tools,solar}.py, app/schemas/{chat,to_upstage}.py, app/services/coverage.py, app/routers/chat.py, app/main.py, app/scripts/chat_smoke.py, tests/test_chat.py, tests/test_rules.py, docs/implementation_objects.md, AGENTS.md
+- 확인 방법: 전체 pytest 54 passed/live1 제외. 실제 chat_smoke 4질문과 기대10항목 모두 통과(7/8, CV-04/CV-01/세분류/CV-02 안내/액션/비타민 근거/초안/거절). artifacts/t16/chat_smoke.json에 실제 원문. 병렬 도구 전부 실행·권한·extra 인자·잘린 JSON·근거 없음·대화 미저장도 mock 테스트.
+- 남은 문제 · 질문: 자동 청구 저장 이슈와 별개로 약관 대조 도구는 현재 입력의 규정 근거와 가능성만 반환한다. 실제 지급 판단은 범위 밖. T-17 화면 검증 진행.
+
 ## 2026-10-16 · T-15 · 조항 인덱싱과 CV-02 안내 분리
 - 관련 요구사항: FR-14, FR-28
 - 한 일: 허용 목록의 TXT/가상 MD만 조·항/매뉴얼 절로 분할하고 payload 전체를 보존했다. Solar passage/query 구분·100개 배치·내용 캐시, Qdrant 서버/로컬 설정, CLI를 구현했다. CV-02 1일 차이는 info로 분리해 차단하지 않고 2일 이상/실제 입퇴원일 차이는 불일치로 유지했다. 기대값·평가 질문을 동기화했다.

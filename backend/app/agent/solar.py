@@ -14,33 +14,43 @@ class Solar:
 
     def post(self, path, body):
         config = self.config
+        # 대화 응답은 디스크에 저장하지 않는다. 임베딩만 내용 캐시를 쓴다.
+        if path != "/embeddings":
+            if config.USE_CACHED_RESULTS:
+                raise RuntimeError("챗봇은 캐시 전용 모드에서 실제 LLM을 호출하지 않아요.")
+            return self._request(path, body)
         fingerprint = hashlib.sha256(
             json.dumps(body, ensure_ascii=False, sort_keys=True).encode()
         ).hexdigest()
-        cache = config.CACHE_PATH / "chat" / (fingerprint + ".json")
+        cache = config.CACHE_PATH / "embedding_batches" / (fingerprint + ".json")
         cache.parent.mkdir(parents=True, exist_ok=True)
         with locked(cache.with_suffix(".lock")):
             if cache.exists():
                 return json.loads(cache.read_text())
             if config.USE_CACHED_RESULTS:
-                raise RuntimeError("저장된 챗봇 응답이 없어요. 캐시 전용 모드예요.")
-            try:
-                with httpx.Client(
-                    timeout=config.UPSTAGE_TIMEOUT_SEC, transport=self.transport
-                ) as client:
-                    response = client.post(
-                        config.UPSTAGE_BASE_URL.rstrip("/") + path,
-                        headers={
-                            "Authorization": "Bearer " + config.UPSTAGE_API_KEY.get_secret_value()
-                        },
-                        json=body,
-                    )
-                    response.raise_for_status()
-                    result = response.json()
-            except (httpx.HTTPError, ValueError):
-                raise RuntimeError("AI 연결에 실패했어요. 잠시 후 다시 시도해 주세요.") from None
+                raise RuntimeError("저장된 임베딩이 없어요.")
+            result = self._request(path, body)
             cache.write_text(json.dumps(result, ensure_ascii=False))
             return result
+
+    def _request(self, path, body):
+        """인증 헤더·실패 본문은 예외와 로그에 섞지 않는다."""
+        config = self.config
+        try:
+            with httpx.Client(
+                timeout=config.UPSTAGE_TIMEOUT_SEC, transport=self.transport
+            ) as client:
+                response = client.post(
+                    config.UPSTAGE_BASE_URL.rstrip("/") + path,
+                    headers={
+                        "Authorization": "Bearer " + config.UPSTAGE_API_KEY.get_secret_value()
+                    },
+                    json=body,
+                )
+                response.raise_for_status()
+                return response.json()
+        except (httpx.HTTPError, ValueError):
+            raise RuntimeError("AI 연결에 실패했어요. 잠시 후 다시 시도해 주세요.") from None
 
     def structured(self, messages, schema, name):
         result = self.post(

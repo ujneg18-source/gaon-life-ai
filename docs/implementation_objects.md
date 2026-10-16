@@ -71,3 +71,12 @@
 - `RequiredDocRule`: 필수서류 목록과 기존 조건을 분리한다. 화면의 서류 목록 편집은 조건을 유지한다.
 - `Original`: 원본 이미지와 정규화된 실제 추출 좌표를 같은 비율로 표시한다. 좌표가 없는 실손24 데이터에는 좌표를 생성하지 않고 대응 가상 서식임을 표시한다.
 - `useResource`: 요청 URL별 응답·오류를 관리해 검색이 바뀌었을 때 이전 검색 결과를 새 결과로 보여주지 않는다.
+
+## T-15~17 검색·챗봇 객체
+- `Chunk`: 허용 목록의 조·항/절 원문과 문서명·판본·가상 여부를 보존하는 Qdrant payload다. reference/HWP는 읽지 않는다.
+- `Solar`: Settings의 비밀키로만 HTTP를 호출한다. 임베딩은 모델+내용별 캐시, 대화 응답은 디스크에 저장하지 않는다. `USE_CACHED_RESULTS=true`에서는 새 LLM 호출을 막고 사용자용 오류를 반환한다.
+- `KnowledgeBase`: policy/manual 컬렉션을 만들고 dense 검색 후보에 일반 단어·명시 식별자 가중치를 더한다. CLI는 연결을 닫고, 서버는 프로세스당 클라이언트 하나를 수명 종료 시 닫는다. 로컬 Qdrant 사용 중 재인덱싱은 서버 종료 후 실행한다. 서버형 Qdrant는 QDRANT_URL/키로 전환한다.
+- `ChatAgent`: LangGraph classify→tools→answer 세 노드. Solar strict 의도 분류, 허용 도구 호출/Pydantic 인자 검증, 배정 권한, 원문 인용 검증을 거친다. 청구 요약/대조/초안은 결정적 출력으로 사실을 바꾸지 않는다. 도구 조회는 감사 이력에 남기되 대화 원문은 넣지 않는다.
+- `Tools`: 고객·계약·청구/이슈/서류를 읽는다. 동명이인·여러 청구는 선택을 요청한다. 주민번호/계좌/연락처는 LLM에 전달하지 않는다. 약제비 대조는 정규화/확정값을 처방전과 비교하고 비급여 기준을 읽어 가능성만 반환한다.
+- `ChatAnswer`: answer/intent/citations/claim_refs/suggested_actions/refused 모두 필수. issue_id는 null 허용. API는 이번 확정 요청에 따라 JSON 응답이며 SSE·DB 대화 목록은 사용하지 않는다.
+- `ChatScreen`: 대화 목록/질문 바로가기/근거 패널/편집 초안은 React 메모리다. 새로고침하면 지워지고 localStorage·DB에 저장하지 않는다.

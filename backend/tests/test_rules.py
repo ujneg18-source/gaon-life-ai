@@ -112,3 +112,12 @@ def test_cv02_zero_one_two_and_dates(client):
     docs = inputs()
     docs[4].values["admit_date"] = "2026-09-23"
     assert next(i for i in evaluate(client, docs).issues if i.rule_id == "CV-02").kind == "mismatch"
+
+
+def test_info_alone_does_not_route_to_review(client):
+    docs = inputs()
+    docs[0].values["diagnosis_date"] = "2026-09-21"
+    docs[4].values["items"] = [{"category": "exam", "name": "검사", "amount": 100}]
+    report = evaluate(client, docs)
+    assert [i.kind.value for i in report.issues] == ["info"]
+    assert report.status == ClaimStatus.AUTO_PASS

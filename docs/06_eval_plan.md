@@ -76,3 +76,5 @@ T-01~T-04는 WORKLOG의 당시 실행 결과를 옮겼다. 이후에는 티켓 �
 참고: 당시 TestClient의 httpx deprecation warning 1건이 있었으며 테스트 실패는 아니다. 개발 도구 의존성 감사 결과는 WORKLOG에 별도 기록했다.
 
 | T-15 | 조·항/절 분할·payload·reference 제외·임베딩 캐시·CV-02 4경계·실제 top-3 | 통과: 규칙/RAG 7개, 실제 2질문 2/2 적중; policy479/manual13 | pytest tests/test_rag.py tests/test_rules.py -q; uv run python -m app.scripts.build_index; retrieval.json | 2026-10-16 |
+
+| T-16 | LangGraph·strict·6도구 권한·병렬 호출·대조·초안·거절·근거 없음 | 전체 pytest54 통과/live1 제외; 실제 필수4질문·기대10항목 통과 | pytest -q; ruff check; uv run python -m app.scripts.chat_smoke | 2026-10-16 |
