@@ -1,0 +1,39 @@
+{
+  "buttonEntry": {
+    "highlights": 2,
+    "images": [
+      {
+        "h": 303,
+        "naturalRatio": 0.7069555302166477,
+        "renderRatio": 0.7062706270627063,
+        "w": 214
+      },
+      {
+        "h": 303,
+        "naturalRatio": 0.7069555302166477,
+        "renderRatio": 0.7062706270627063,
+        "w": 214
+      }
+    ],
+    "panes": [
+      {
+        "left": 0,
+        "top": 0
+      },
+      {
+        "left": 0,
+        "top": 0
+      }
+    ],
+    "zoom": "100%"
+  },
+  "directEntry": {
+    "highlights": 2,
+    "images": [
+      "100%",
+      "100%"
+    ],
+    "zoom": "100%"
+  },
+  "manualZoom": "100→120→100; 두 서류 width 120% 확인"
+}

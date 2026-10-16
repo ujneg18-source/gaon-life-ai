@@ -334,9 +334,10 @@ export function ReviewScreen({
   const params = useSearchParams();
   const resource = useResource<Claim>(`/claims/${claimId}`),
     { data: c, error } = resource;
+  // 비교 진입도 기존 맞춤 비율(100%)로 시작한다. 대상 이동·강조와 수동 확대는 유지한다.
   const [docId, setDoc] = useState<number | null>(null),
     [selected, setSelected] = useState<number | null>(null),
-    [zoom, setZoom] = useState(params.get("issue") ? 300 : 100),
+    [zoom, setZoom] = useState(100),
     [compare, setCompare] = useState<Issue | null>(null),
     [message, setMessage] = useState("");
   if (!c) return <LoadState error={error} />;
@@ -490,7 +491,7 @@ export function ReviewScreen({
                       <button
                         onClick={() => {
                           setCompare(i);
-                          setZoom(300);
+                          setZoom(100);
                         }}
                         aria-label={`${i.rule_id} 원본 비교`}
                       >
