@@ -25,6 +25,14 @@ class Settings(BaseSettings):
     UPSTAGE_BASE_URL: str = "https://api.upstage.ai/v1"
     UPSTAGE_AGENT_ID: str = ""
     SOLAR_CHAT_MODEL: str = "solar-pro4"
+    EVAL_SEED: int = 42
+    EVAL_TEMPERATURE: float = 0.0
+    EVAL_MODEL: str = "solar-pro4-260806"
+    EVAL_OLD_REVISION: str = "6694f85"
+    EVAL_SNAPSHOT_PATH: Path = PROJECT_ROOT / "data/cache/t18c-2026-10-16"
+    SOLAR_SEED: int | None = None
+    SOLAR_TEMPERATURE: float | None = None
+    SOLAR_TOP_P: float | None = None
     EVAL_WORKERS: int = Field(default=3, ge=1, le=3)
     EVAL_JUDGE_MODEL: str = "solar-pro4"
     EVAL_QUESTIONS_PATH: Path = PROJECT_ROOT / "data/eval/chat_questions.json"
@@ -64,6 +72,30 @@ class Settings(BaseSettings):
     KB_IDENTIFIER_BOOST: float = 0.25
     EMBED_BATCH_SIZE: int = Field(default=100, ge=1, le=100)
     EMBED_DIMENSIONS: int = 1024
+    CLAIM_FOCUS_PATTERNS: dict[str, str] = {
+        "code": r"질병코드|분류기호|세분류|뭐로.*읽",
+        "date": r"진단일.*보고일|진단일.*문제|병리.*날짜",
+        "stay": r"입원.*일수|하루.*차이",
+        "surgery": r"수술확인서.*왜|수술확인서.*필요",
+    }
+    CLAIM_FOCUS_RULES: dict[str, list[str]] = {
+        "code": ["FIELD-diagnosis_code"],
+        "date": ["CV-01"],
+        "stay": ["CV-02"],
+        "surgery": ["CV-04"],
+    }
+    CLAIM_RULE_SOURCES: dict[str, list[tuple[str, str, str]]] = {
+        "FIELD-diagnosis_code": [("10_claims_manual.md", "5장", "원문과 다름")],
+        "CV-01": [("01_cancer_rider.md", "제3조", "③"), ("10_claims_manual.md", "4장", "CV-01")],
+        "CV-02": [
+            ("02_hospitalization_rider.md", "제5조", "②"),
+            ("10_claims_manual.md", "4장", "CV-02"),
+        ],
+        "CV-03": [("10_claims_manual.md", "4장", "CV-03")],
+        "CV-04": [("03_surgery_rider.md", "제5조", "①")],
+        "CV-05": [("10_claims_manual.md", "4장", "CV-05")],
+        "CV-06": [("10_claims_manual.md", "4장", "CV-06")],
+    }
     CLAIM_ID_PATTERN: str = r"GA-\d{4}-\d{4}"
     SOLAR_STRUCTURED_ATTEMPTS: int = Field(default=2, ge=1, le=2)
     CHAT_MAX_TURNS: int = 12

@@ -15,6 +15,15 @@ class Solar:
 
     def post(self, path, body):
         config = self.config
+        if path == config.SOLAR_CHAT_PATH:
+            body = dict(body)
+            for key, value in [
+                ("seed", config.SOLAR_SEED),
+                ("temperature", config.SOLAR_TEMPERATURE),
+                ("top_p", config.SOLAR_TOP_P),
+            ]:
+                if value is not None:
+                    body[key] = value
         # 대화 응답은 디스크에 저장하지 않는다. 임베딩만 내용 캐시를 쓴다.
         if path != "/embeddings":
             if config.USE_CACHED_RESULTS:
@@ -49,7 +58,11 @@ class Solar:
                     json=body,
                 )
                 response.raise_for_status()
-                return response.json()
+                result = response.json()
+                self.last_response_meta = {
+                    k: result.get(k) for k in ("model", "system_fingerprint", "usage")
+                }
+                return result
         except (httpx.HTTPError, ValueError) as exc:
             # 상태/오류 클래스만 기록한다. 응답 본문·헤더·질문·키는 남기지 않는다.
             status = exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else None

@@ -350,3 +350,25 @@ def test_workload_counts_only_assigned_claims(client):
         session.commit()
         tool = Tools(session, session.get(User, 1), client.app.state.settings, FakeKB())
         assert tool.get_workload() == {"needs_review": 1, "supplement": 1, "total": 2}
+
+
+def test_claim_check_never_calls_general_search(client):
+    setup_chat(client)
+
+    class NoGeneralSearch(FakeKB):
+        def search(self, *args, **kwargs):
+            raise AssertionError("청구 조회에 일반 검색 금지")
+
+    with Session(client.app.state.engine) as s:
+        from app.models import User
+
+        agent = ChatAgent(
+            client.app.state.settings,
+            FakeSolar(),
+            Tools(s, s.get(User, 1), client.app.state.settings, NoGeneralSearch()),
+        )
+        answer = agent.run(QUESTIONS[0], "GA-2610-0482")
+        assert "제출 7 / 필요 8" in answer.answer
+        assert {c.article for c in answer.citations} == {"2장", "4장"}
+        focused = agent.run("김유정 고객 진단서 질병코드 뭐로 읽혔어?", "GA-2610-0482")
+        assert all(c.article == "5장" for c in focused.citations)

@@ -287,7 +287,12 @@ class KnowledgeBase:
             ):
                 fused[identifier] *= RAG_PRIMARY_BOOST
         identifiers = re.findall(r"제\s*\d+\s*조|CV-\d+", query)
-        doc_names = [label for label in self.config.RAG_DOCUMENT_TERMS if label in query]
+        # 발급비 같은 비용 질의에서 '진단서'라는 서류명만으로 제출서류 행을 띄우지 않는다.
+        doc_names = (
+            []
+            if re.search(r"발급비|증명료", query)
+            else [label for label in self.config.RAG_DOCUMENT_TERMS if label in query]
+        )
         for identifier, h in corpus.items():
             exact = sum(
                 re.sub(r"\s", "", tag) in re.sub(r"\s", "", h["article"] + " " + h["chunk_text"])
@@ -306,10 +311,12 @@ class KnowledgeBase:
                 h["article"],
                 h.get("paragraph", ""),
             )
-            if article in seen:
+            # 부모 항은 컨텍스트에서 묶는다. 후보 단계에서 같은 항의 다른 호를 버리면
+            # Q26의 16호가 2호(예외/단서 포함)를 가려 재정렬조차 할 수 없다.
+            if h["chunk_id"] in seen:
                 continue
-            seen.add(article)
-            candidates.append({**h, "score": score})
+            seen.add(h["chunk_id"])
+            candidates.append({**h, "score": score, "search_group": article})
             if len(candidates) >= self.config.RAG_CANDIDATES:
                 break
         order = [h["chunk_id"] for h in candidates]
@@ -356,12 +363,14 @@ class KnowledgeBase:
                 i for i in order if i not in result["ranked_ids"]
             ]
         by_id = {h["chunk_id"]: h for h in candidates}
+        order, subsumed = prefer_full_provisos(order, by_id)
         result = [by_id[i] for i in order[: limit or self.config.KB_TOP_K]]
         self.last_trace = {
             "question": query,
             "rewritten": rewritten,
             "candidate_ids": [h["chunk_id"] for h in candidates],
             "ranked_ids": order,
+            "subsumed_ids": subsumed,
         }
         if len(self._cache) >= self.config.RAG_CACHE_SIZE:
             self._cache.clear()
@@ -483,3 +492,40 @@ class KnowledgeBase:
         # 출처 계층 숫자와 적용 순서는 다르다. 적용 특약을 먼저, 매뉴얼은 마지막에 둔다.
         order = {3: 0, 2: 1, 1: 2, 4: 3}
         return sorted(expanded, key=lambda h: order.get(h.get("authority_level", 1), 2))
+
+
+def prefer_full_provisos(order, by_id):
+    """같은 항에서 반복된 제외 문장이 단서 포함 호 안에 있으면 완전한 단서를 우선한다.
+
+    평가 주소를 지정하지 않는다. 문자 포함과 동일 문서/종목/조/항 관계로만 연결한다.
+    """
+
+    def body(h):
+        marker = "\n" + str(h.get("item", "")) + "."
+        return h["chunk_text"].split(marker, 1)[-1].strip() if h.get("item") else ""
+
+    compact = lambda text: re.sub(r"[^가-힣A-Za-z0-9]", "", text)
+    result = []
+    replacements = {}
+    for identifier in order:
+        h = by_id[identifier]
+        raw = body(h)
+        core = compact(raw)
+        if h.get("item") and core and "다만" not in raw:
+            scope = (h["source_path"], h.get("coverage_section"), h["article"], h.get("paragraph"))
+            matches = [
+                i
+                for i, p in by_id.items()
+                if i != identifier
+                and p.get("item")
+                and (p["source_path"], p.get("coverage_section"), p["article"], p.get("paragraph"))
+                == scope
+                and "다만" in body(p)
+                and core in compact(body(p))
+            ]
+            if matches:
+                replacements[identifier] = matches[0]
+                identifier = matches[0]
+        if identifier not in result:
+            result.append(identifier)
+    return result, replacements

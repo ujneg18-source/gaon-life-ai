@@ -243,3 +243,44 @@ class Tools:
             if hasattr(self, "tool_errors"):
                 self.tool_errors.append({"tool": name, "attempt": attempt + 1, "error": error})
         raise RuntimeError("확인하지 못했어요")
+
+    def claim_evidence(self, message, issues):
+        """청구 사실은 DB에서, 판단 근거는 실행된 규칙 주소에서만 읽는다. 일반 RAG는 금지다."""
+        from app.agent.kb import load_chunks
+
+        chunks = [c.payload() for c in load_chunks(self.config.KB_PATH)]
+
+        def lookup(path, article, term=""):
+            matches = [
+                h
+                for h in chunks
+                if h["source_path"].endswith(path)
+                and h["article"] == article
+                and term in h["chunk_text"]
+            ]
+            return matches[:1]
+
+        focus = None
+        for name, pattern in self.config.CLAIM_FOCUS_PATTERNS.items():
+            if re.search(pattern, message):
+                focus = name
+                break
+        active = {i["rule_id"] for i in issues}
+        focus_rules = self.config.CLAIM_FOCUS_RULES.get(focus, [])
+        if focus_rules:
+            active &= set(focus_rules)
+        hits = []
+        if focus:
+            for rule in focus_rules:
+                if rule in active:
+                    for path, article, term in self.config.CLAIM_RULE_SOURCES.get(rule, []):
+                        hits += lookup(path, article, term)
+        else:
+            # 전체 검토는 필수서류/교차검증을 먼저 제시한다. 청구 지급 심사를 새로 하지 않는다.
+            if any(i["kind"] == "missing" for i in issues):
+                hits += lookup("10_claims_manual.md", "2장", "수술비" if "CV-04" in active else "")
+            hits += lookup("10_claims_manual.md", "4장", "CV-01" if "CV-01" in active else "")
+            for rule in sorted(active):
+                for path, article, term in self.config.CLAIM_RULE_SOURCES.get(rule, []):
+                    hits += lookup(path, article, term)
+        return list({h["node_id"]: h for h in hits}.values())

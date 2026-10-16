@@ -135,3 +135,95 @@ def test_empty_embedding_is_rejected_before_http(tmp_path):
     )
     with pytest.raises(ValueError, match="빈 텍스트"):
         solar.embed([" "], query=True)
+
+
+def test_sibling_items_remain_rerank_candidates(tmp_path):
+    from qdrant_client import models
+
+    from app.agent.kb import load_structure
+
+    config = Settings(_env_file=None, EMBED_DIMENSIONS=2, RAG_USE_LLM=False)
+    client = QdrantClient(":memory:")
+    client.create_collection(
+        "policy", vectors_config=models.VectorParams(size=2, distance=models.Distance.DOT)
+    )
+    chunks = [
+        c
+        for c in load_structure(config.KB_PATH).chunks
+        if c.node_id in {"rider2/질병비급여/제4조/3/2", "rider2/질병비급여/제4조/3/16"}
+    ]
+    client.upsert(
+        "policy",
+        points=[
+            models.PointStruct(id=i, vector=[1, 0], payload=c.payload())
+            for i, c in enumerate(chunks)
+        ],
+    )
+    kb = KnowledgeBase(config, FakeEmbedding(), client)
+    hits = kb.search("항암 주사에 쓴 비급여 약제는?", limit=10)
+    assert set(kb.last_trace["candidate_ids"]) == {
+        "rider2/질병비급여/제4조/3/2",
+        "rider2/질병비급여/제4조/3/16",
+    }
+    # 두 호를 재정렬에 보낸 뒤, 반복 문장의 완전한 단서가 있는 실제2호를 선택한다.
+    assert {h["item"] for h in hits} == {"2"}
+    assert kb.last_trace["subsumed_ids"] == {
+        "rider2/질병비급여/제4조/3/16": "rider2/질병비급여/제4조/3/2"
+    }
+    client.close()
+
+
+def test_fixed_sampling_params_are_sent_to_solar(tmp_path):
+    observed = []
+
+    def respond(request):
+        observed.append(json.loads(request.content))
+        return httpx.Response(
+            200,
+            json={
+                "model": "solar-pro4-260806",
+                "choices": [{"finish_reason": "stop", "message": {"content": '{"ok":true}'}}],
+            },
+        )
+
+    config = Settings(
+        _env_file=None,
+        CACHE_PATH=tmp_path,
+        SOLAR_CHAT_MODEL="solar-pro4-260806",
+        SOLAR_SEED=42,
+        SOLAR_TEMPERATURE=0,
+        SOLAR_TOP_P=1,
+    )
+    solar = Solar(config, httpx.MockTransport(respond))
+    solar.structured([], {"type": "object"}, "test")
+    assert (
+        observed[0]["seed"] == 42 and observed[0]["temperature"] == 0 and observed[0]["top_p"] == 1
+    )
+    assert solar.last_response_meta["model"] == "solar-pro4-260806"
+
+
+def test_repeated_exclusion_prefers_same_scope_full_proviso():
+    from app.agent.rag import prefer_full_provisos
+
+    common = {
+        "source_path": "rider2",
+        "coverage_section": "질병비급여",
+        "article": "제4조",
+        "paragraph": "③",
+    }
+    hits = {
+        "short": {
+            **common,
+            "item": "16",
+            "chunk_text": "제4조\n머리\n16. 항암제를 제외한 주사치료 비용",
+        },
+        "full": {
+            **common,
+            "item": "2",
+            "chunk_text": "제4조\n머리\n2. 영양제 비용. 다만, 항암제를 제외한 주사치료 비용은 제외합니다.",
+        },
+    }
+    order, replacements = prefer_full_provisos(["short", "full"], hits)
+    assert order == ["full"] and replacements == {"short": "full"}
+    hits["full"]["coverage_section"] = "상해비급여"
+    assert prefer_full_provisos(["short", "full"], hits)[0] == ["short", "full"]

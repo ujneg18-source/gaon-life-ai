@@ -70,3 +70,25 @@ def test_extract_confusion_counts_wrong_values_not_business_issues():
     assert m["precision"] == m["recall"] == m["accuracy"] == 0.5
     m = confusion([{"wrong": False, "flagged": False}])
     assert m["precision"] is None and m["recall"] is None
+
+
+def test_distinct_articles_and_acceptable_do_not_relax_strict_score():
+    q = {
+        "type": "policy_qa",
+        "expected_sources": [{"doc": "a", "article": "제1조"}, {"doc": "a", "article": "제2조"}],
+        "acceptable_sources": [
+            {"doc": "a", "article": "제1조"},
+            {"doc": "a", "article": "제2조"},
+            {"doc": "b", "article": "제7조"},
+        ],
+    }
+    hits = [{"doc_name": "A", "article": a} for a in ["제1조 ①", "제1조 ②", "제1조 ③", "제2조"]]
+    answer = {
+        "intent": "policy_qa",
+        "refused": False,
+        "answer": "기준 안내",
+        "citations": [{"doc_name": "B", "article": "제7조"}],
+    }
+    m = measure(q, answer, hits, {"a": "A", "b": "B"}, {"score": 1, "reason": "test"})
+    assert m["recall_at_3"] == 0.5 and m["recall_article_at_3"] == 1
+    assert m["citation_correct"] == 0 and m["citation_correct_acceptable"] == 1

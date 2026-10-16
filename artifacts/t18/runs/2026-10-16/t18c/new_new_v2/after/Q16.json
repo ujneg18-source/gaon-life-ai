@@ -1,0 +1,72 @@
+{
+  "id": "Q16",
+  "type": "claim_check",
+  "question": "김서연 고객 청구 확인해줘",
+  "expected_sources": [],
+  "answer_gist": "동명이인 2명 → 생년월일 · 청구번호 목록을 보여주고 선택 요청 (needs_choice)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "같은 이름의 청구가 여러 건이에요. 청구번호를 선택해 주세요.\nGA-2610-0449 · 김서연 · 생년월일 1987-04-12\nGA-2610-0444 · 김서연 · 생년월일 1988-08-26\nGA-2610-0418 · 김서연 · 생년월일 1987-04-12",
+    "intent": "claim_check",
+    "citations": [],
+    "claim_refs": [
+      {
+        "claim_id": "GA-2610-0449",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0444",
+        "issue_id": null
+      },
+      {
+        "claim_id": "GA-2610-0418",
+        "issue_id": null
+      }
+    ],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "동명이인 2명 존재 사실을 명시하고, 생년월일 및 청구번호 목록을 모두 제시하여 선택을 요청하는 핵심 요지를 정확히 충족함. 답변에 모순이나 누락이 없음. / 동명이인 2명 이상 존재 시 생년월일과 청구번호 목록을 제시하고 선택을 요청해야 한다는 answer_gist의 핵심 요지를 모두 충족함. 답변에 두 명의 생년월일(1987-04-12, 1988-08-26)과 해당 청구번호 3건이 정확히 나열되어 있으며, 선택을 유도하는 안내도 포함되어 있어 모순이나 누락이 없음. / 답변은 동명이인 2명(또는 3건)의 청구 건이 존재함을 명시하고, 생년월일 및 청구번호 목록을 제시한 뒤 선택을 요청하고 있어 answer_gist의 핵심 사실(동명이인 존재, 목록 제시, 선택 요청)을 모두 충족하며 모순이 없습니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "동명이인 2명 존재 사실을 명시하고, 생년월일 및 청구번호 목록을 모두 제시하여 선택을 요청하는 핵심 요지를 정확히 충족함. 답변에 모순이나 누락이 없음."
+        },
+        {
+          "score": 1,
+          "reason": "동명이인 2명 이상 존재 시 생년월일과 청구번호 목록을 제시하고 선택을 요청해야 한다는 answer_gist의 핵심 요지를 모두 충족함. 답변에 두 명의 생년월일(1987-04-12, 1988-08-26)과 해당 청구번호 3건이 정확히 나열되어 있으며, 선택을 유도하는 안내도 포함되어 있어 모순이나 누락이 없음."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 동명이인 2명(또는 3건)의 청구 건이 존재함을 명시하고, 생년월일 및 청구번호 목록을 제시한 뒤 선택을 요청하고 있어 answer_gist의 핵심 사실(동명이인 존재, 목록 제시, 선택 요청)을 모두 충족하며 모순이 없습니다."
+        }
+      ],
+      "unanimous": true
+    }
+  }
+}

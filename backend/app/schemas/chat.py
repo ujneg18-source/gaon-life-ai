@@ -12,6 +12,9 @@ class StrictModel(BaseModel):
 
 
 class Citation(StrictModel):
+    source_kind: str = "약관"
+    coverage_section: str = ""
+    authority_level: int = 1
     chunk_id: str = ""
     doc_name: str
     article: str

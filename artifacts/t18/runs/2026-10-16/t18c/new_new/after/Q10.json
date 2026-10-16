@@ -1,0 +1,758 @@
+{
+  "id": "Q10",
+  "type": "policy_qa",
+  "question": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+  "expected_sources": [
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "2장"
+    },
+    {
+      "doc": "policy/std_silson_basic.txt",
+      "article": "제7조"
+    }
+  ],
+  "answer_gist": "항목 구분이 되는 법정 서식 진료비 계산서 · 영수증이 필요. 납입확인서는 받지 않음",
+  "acceptable_sources": [
+    {
+      "doc": "gaon/10_claims_manual.md",
+      "article": "2장"
+    },
+    {
+      "doc": "policy/std_silson_basic.txt",
+      "article": "제7조"
+    }
+  ],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [
+      "10_claims_manual/2장/row5",
+      "std_silson_basic/공통/제7조/1/2"
+    ],
+    "answer": "실손 청구하실 때 진료비 납입확인서는 받지 않아요. 기본형 실손의료보험 표준약관 제7조에는 진료비 계산서·영수증과 진료비 세부산정내역 같은 사고증명서를 내도록 되어 있고, 가온생명 보상 업무 매뉴얼에서도 항목 구분이 되는 법정 서식 영수증이어야 하며 진료비 납입확인서는 받지 않는다고 안내하고 있어요. 그래서 진료비 납입확인서 대신 진료비 계산서·영수증과 진료비 세부산정내역을 제출하시면 되고, 최종 서류 판단은 담당자가 해요.",
+    "intent": "policy_qa",
+    "citations": [
+      {
+        "source_kind": "업무 기준",
+        "coverage_section": "",
+        "authority_level": 4,
+        "chunk_id": "10_claims_manual/2장/row5",
+        "doc_name": "가온생명 보상 업무 매뉴얼",
+        "article": "2장",
+        "source_path": "data/kb/gaon/10_claims_manual.md",
+        "is_mock": true,
+        "quote": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |"
+      },
+      {
+        "source_kind": "약관",
+        "coverage_section": "",
+        "authority_level": 1,
+        "chunk_id": "std_silson_basic/공통/제7조/1/2",
+        "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+        "article": "제7조 ① 2호",
+        "source_path": "data/kb/policy/std_silson_basic.txt",
+        "is_mock": false,
+        "quote": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>"
+      }
+    ],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": false
+  },
+  "grounding_trace": {
+    "generated": {
+      "used_chunk_ids": [
+        "10_claims_manual/2장/row5",
+        "std_silson_basic/공통/제7조/1/2"
+      ],
+      "answer": "실손 청구하실 때 진료비 납입확인서는 받지 않아요. 기본형 실손의료보험 표준약관 제7조에는 진료비 계산서·영수증과 진료비 세부산정내역 같은 사고증명서를 내도록 되어 있고, 가온생명 보상 업무 매뉴얼에서도 항목 구분이 되는 법정 서식 영수증이어야 하며 진료비 납입확인서는 받지 않는다고 안내하고 있어요. 그래서 진료비 납입확인서 대신 진료비 계산서·영수증과 진료비 세부산정내역을 제출하시면 되고, 최종 서류 판단은 담당자가 해요.",
+      "quotes": []
+    },
+    "sources": [
+      {
+        "chunk_id": "02_hospitalization_rider/공통/제2조/1",
+        "node_id": "02_hospitalization_rider/공통/제2조/1",
+        "address": "제2조 ①",
+        "chunk_text": "제2조(용어의 정의)\n① **입원**: 의사가 피보험자의 질병 치료가 필요하다고 인정한 경우로서, 자택 등에서 치료가 곤란하여 의료법에 따른 병원 · 의원 또는 이와 같다고 인정되는 의료기관에 들어가 의사의 관리를 받으며 치료에 전념하는 것을 말합니다."
+      },
+      {
+        "chunk_id": "00_product_summary/3장/text1",
+        "node_id": "00_product_summary/3장/text1",
+        "address": "3장",
+        "chunk_text": "3. 가온생명 앱 청구 (가상 운영 규칙)\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다."
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/1/2",
+        "node_id": "std_silson_basic/공통/제7조/1/2",
+        "address": "제7조 ① 2호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>"
+      },
+      {
+        "chunk_id": "std_silson_basic/공통/제7조/1/1",
+        "node_id": "std_silson_basic/공통/제7조/1/1",
+        "address": "제7조 ① 1호",
+        "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n1. 청구서 (회사 양식)"
+      },
+      {
+        "chunk_id": "10_claims_manual/2장/row5",
+        "node_id": "10_claims_manual/2장/row5",
+        "address": "2장",
+        "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |"
+      }
+    ]
+  },
+  "retrieval_top3": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row5",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.08813114754098361,
+      "search_group": [
+        "data/kb/gaon/10_claims_manual.md",
+        "",
+        "2장",
+        ""
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_silson_basic/공통/제7조/1/2",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.06426011264720942,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "3장",
+      "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "3. 가온생명 앱 청구 (가상 운영 규칙)\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/3장/text1",
+      "parent_id": "00_product_summary/3장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "3장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/3장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.06876678876678877,
+      "search_group": [
+        "data/kb/gaon/00_product_summary.md",
+        "",
+        "3장",
+        ""
+      ]
+    },
+    {
+      "doc_name": "가온생명 질병통원일당특약 약관",
+      "edition": "2026.01 (가상)",
+      "article": "제2조",
+      "title": "제2조(보험금의 청구)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/04_outpatient_rider.md",
+      "chunk_text": "제2조(보험금의 청구)\n\n2. **통원확인서** (병명 또는 질병분류기호, 통원일이 적힌 것). 통원일이 적힌 진단서 · 소견서나 진료비 계산서 · 영수증으로 대신할 수 있습니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "2",
+      "node_id": "04_outpatient_rider/공통/제2조/0/2",
+      "parent_id": "04_outpatient_rider/공통/제2조/0",
+      "is_definition": false,
+      "refs": [
+        "제2조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제2조 2호",
+      "authority_level": 3,
+      "governs": [
+        "가온생명 질병통원일당특약 약관"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md"
+      ],
+      "chunk_id": "04_outpatient_rider/공통/제2조/0/2",
+      "embedding_version": "structure-v3",
+      "score": 0.05770833333333334,
+      "search_group": [
+        "data/kb/gaon/04_outpatient_rider.md",
+        "",
+        "제2조",
+        ""
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제8조",
+      "title": "제8조(보험금의 지급절차)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제8조(보험금의 지급절차)\n⑨ 회사는 보험금 지급금액 결정을 위해 확인이 필요한 경우 계약자, 피보험자 또는 보험수익자에게 건강보험심사평가원의 진료비확인요청제도를 활용할 수 있도록 동의해 줄 것을 요청할 수 있으며, 진료비확인요청제도를 활용할 경우 회사는 이를 활용한 사례를 집적하고 먼저 유사 사례가 있는지를 확인하고 이용합니다. <신설 2015.11.30., 2021.7.1.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "⑨",
+      "item": "",
+      "node_id": "std_silson_basic/공통/제8조/9",
+      "parent_id": "std_silson_basic/공통/제8조",
+      "is_definition": false,
+      "refs": [
+        "제8조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "",
+      "address": "제8조 ⑨",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제8조/9",
+      "embedding_version": "structure-v3",
+      "score": 0.047605326277725,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제8조",
+        "⑨"
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n1. 청구서 (회사 양식)",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "1",
+      "node_id": "std_silson_basic/공통/제7조/1/1",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 1호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/1",
+      "embedding_version": "structure-v3",
+      "score": 0.04235074626865672,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n4. 그 밖에 보험수익자가 보험금 수령에 필요하여 제출하는 서류",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "4",
+      "node_id": "std_silson_basic/공통/제7조/1/4",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 4호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/4",
+      "embedding_version": "structure-v3",
+      "score": 0.042302496622804824,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n3. 신분증(주민등록증이나 운전면허증 등 본인임을 확인할 수 있는 사진이 붙은 정부기관에서 발행한 신분증, 본인이 아닌 경우에는 본인의 인감증명서, 본인서명사실확인서 또는 안전성과 신뢰성이 확보된 전자적 수단을 활용한 보험수익자 의사표시의 확인방법 포함) <개정 2018.3.2., 2024.12.20.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "3",
+      "node_id": "std_silson_basic/공통/제7조/1/3",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 3호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/3",
+      "embedding_version": "structure-v3",
+      "score": 0.06059681937291045,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n2. 사고증명서(사망진단서, 장해진단서, 입원치료확인서 등)",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_life_insurance/공통/제7조/1/2",
+      "parent_id": "std_life_insurance/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.",
+      "address": "제7조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제7조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.04004691123761332,
+      "search_group": [
+        "data/kb/policy/std_life_insurance.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "생명보험 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_life_insurance.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.\n3. 신분증(주민등록증이나 운전면허증 등 사진이 붙은 정부기관 발행 신분증, 본인이 아닌 경우에는 본인의 인감증명서, 본인서명사실확인서 또는 안전성과 신뢰성이 확보된 전자적 수단을 활용한 보험수익자 의사표시의 확인방법 포함) <개정 2018.3.2., 2024.12.20.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "3",
+      "node_id": "std_life_insurance/공통/제7조/1/3",
+      "parent_id": "std_life_insurance/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다.",
+      "address": "제7조 ① 3호",
+      "authority_level": 1,
+      "governs": [
+        "생명보험 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_life_insurance/공통/제7조/1/3",
+      "embedding_version": "structure-v3",
+      "score": 0.04238621952346158,
+      "search_group": [
+        "data/kb/policy/std_life_insurance.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    }
+  ],
+  "retrieval_errors": [],
+  "search_trace": [
+    {
+      "query": "실손 청구할 때 진료비 납입확인서 내도 돼?",
+      "collection": null,
+      "hits": [
+        {
+          "doc_name": "가온생명 보상 업무 매뉴얼",
+          "edition": "2026.10 (가상)",
+          "article": "2장",
+          "title": "2. 청구 유형별 필수 서류",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/10_claims_manual.md",
+          "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+          "collection": "manual",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "10_claims_manual/2장/row5",
+          "parent_id": "10_claims_manual/2장",
+          "is_definition": false,
+          "refs": [
+            "제7조"
+          ],
+          "defined_terms": [
+            "입원"
+          ],
+          "paragraph_head": "",
+          "address": "2장",
+          "authority_level": 4,
+          "governs": [
+            "가온생명 보상 업무 매뉴얼"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "10_claims_manual/2장/row5",
+          "embedding_version": "structure-v3",
+          "score": 0.08813114754098361,
+          "search_group": [
+            "data/kb/gaon/10_claims_manual.md",
+            "",
+            "2장",
+            ""
+          ]
+        },
+        {
+          "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+          "edition": "2026.08.28",
+          "article": "제7조",
+          "title": "제7조(보험금의 청구)",
+          "is_mock": false,
+          "source_path": "data/kb/policy/std_silson_basic.txt",
+          "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "①",
+          "item": "2",
+          "node_id": "std_silson_basic/공통/제7조/1/2",
+          "parent_id": "std_silson_basic/공통/제7조/1",
+          "is_definition": false,
+          "refs": [
+            "제7조"
+          ],
+          "defined_terms": [
+            "치료",
+            "입원"
+          ],
+          "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+          "address": "제7조 ① 2호",
+          "authority_level": 1,
+          "governs": [
+            "기본형 실손의료보험(급여 실손의료비) 표준약관"
+          ],
+          "falls_back_to": [],
+          "chunk_id": "std_silson_basic/공통/제7조/1/2",
+          "embedding_version": "structure-v3",
+          "score": 0.06426011264720942,
+          "search_group": [
+            "data/kb/policy/std_silson_basic.txt",
+            "",
+            "제7조",
+            "①"
+          ]
+        },
+        {
+          "doc_name": "가온 건강플러스보험 상품 개요",
+          "edition": "2026.01 (가상)",
+          "article": "3장",
+          "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+          "is_mock": true,
+          "source_path": "data/kb/gaon/00_product_summary.md",
+          "chunk_text": "3. 가온생명 앱 청구 (가상 운영 규칙)\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+          "collection": "policy",
+          "coverage_section": "",
+          "paragraph": "",
+          "item": "",
+          "node_id": "00_product_summary/3장/text1",
+          "parent_id": "00_product_summary/3장",
+          "is_definition": false,
+          "refs": [],
+          "defined_terms": [
+            "수술"
+          ],
+          "paragraph_head": "",
+          "address": "3장",
+          "authority_level": 2,
+          "governs": [
+            "가온 건강플러스보험 상품 개요"
+          ],
+          "falls_back_to": [
+            "data/kb/gaon/00_product_summary.md",
+            "data/kb/policy/std_life_insurance.txt"
+          ],
+          "chunk_id": "00_product_summary/3장/text1",
+          "embedding_version": "structure-v3",
+          "score": 0.06876678876678877,
+          "search_group": [
+            "data/kb/gaon/00_product_summary.md",
+            "",
+            "3장",
+            ""
+          ]
+        }
+      ]
+    }
+  ],
+  "context": [
+    {
+      "doc_name": "가온생명 보상 업무 매뉴얼",
+      "edition": "2026.10 (가상)",
+      "article": "2장",
+      "title": "2. 청구 유형별 필수 서류",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/10_claims_manual.md",
+      "chunk_text": "2. 청구 유형별 필수 서류\n| 청구 유형 | 필수 서류 | 함께 확인할 점 | 근거 |\n| 실손 (입원 · 통원) | 진료비 계산서 · 영수증, 진료비 세부산정내역 | 항목 구분이 되는 **법정 서식 영수증**이어야 함. 진료비 납입확인서는 받지 않음 | 기본형 실손의료보험 표준약관 제7조 |",
+      "collection": "manual",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "10_claims_manual/2장/row5",
+      "parent_id": "10_claims_manual/2장",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "입원"
+      ],
+      "paragraph_head": "",
+      "address": "2장",
+      "authority_level": 4,
+      "governs": [
+        "가온생명 보상 업무 매뉴얼"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "10_claims_manual/2장/row5",
+      "embedding_version": "structure-v3",
+      "score": 0.08813114754098361,
+      "search_group": [
+        "data/kb/gaon/10_claims_manual.md",
+        "",
+        "2장",
+        ""
+      ]
+    },
+    {
+      "doc_name": "기본형 실손의료보험(급여 실손의료비) 표준약관",
+      "edition": "2026.08.28",
+      "article": "제7조",
+      "title": "제7조(보험금의 청구)",
+      "is_mock": false,
+      "source_path": "data/kb/policy/std_silson_basic.txt",
+      "chunk_text": "제7조(보험금의 청구)\n① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>\n2. 사고증명서[진료비 계산서·영수증, 진료비 세부산정내역, 한방진료비 계산서·영수증, 한방진료비 세부산정내역, 약제비 계산서·영수증, 약제비 세부산정내역, 입원치료확인서, 의사처방전(처방조제비)] 등 <개정 2026.5.6.>",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "①",
+      "item": "2",
+      "node_id": "std_silson_basic/공통/제7조/1/2",
+      "parent_id": "std_silson_basic/공통/제7조/1",
+      "is_definition": false,
+      "refs": [
+        "제7조"
+      ],
+      "defined_terms": [
+        "치료",
+        "입원"
+      ],
+      "paragraph_head": "① 보험수익자는 다음의 서류를 제출하고 보험금을 청구하여야 합니다. <개정 2015.11.30.>",
+      "address": "제7조 ① 2호",
+      "authority_level": 1,
+      "governs": [
+        "기본형 실손의료보험(급여 실손의료비) 표준약관"
+      ],
+      "falls_back_to": [],
+      "chunk_id": "std_silson_basic/공통/제7조/1/2",
+      "embedding_version": "structure-v3",
+      "score": 0.06426011264720942,
+      "search_group": [
+        "data/kb/policy/std_silson_basic.txt",
+        "",
+        "제7조",
+        "①"
+      ]
+    },
+    {
+      "doc_name": "가온 건강플러스보험 상품 개요",
+      "edition": "2026.01 (가상)",
+      "article": "3장",
+      "title": "3. 가온생명 앱 청구 (가상 운영 규칙)",
+      "is_mock": true,
+      "source_path": "data/kb/gaon/00_product_summary.md",
+      "chunk_text": "3. 가온생명 앱 청구 (가상 운영 규칙)\n- 앱으로 청구하면 앱 입력 내용이 보험금 청구서를, 앱 본인인증이 신분증 확인을 대신합니다.\n- 실손의료보험은 실손24로 병원이 보낸 진료비 영수증 · 세부내역서 · 처방전을 자동으로 연결합니다.\n- 실손24로 오지 않는 서류(진단서, 조직검사 결과지, 입퇴원확인서, 수술확인서 등)는 사진이나 PDF로 올립니다.",
+      "collection": "policy",
+      "coverage_section": "",
+      "paragraph": "",
+      "item": "",
+      "node_id": "00_product_summary/3장/text1",
+      "parent_id": "00_product_summary/3장",
+      "is_definition": false,
+      "refs": [],
+      "defined_terms": [
+        "수술"
+      ],
+      "paragraph_head": "",
+      "address": "3장",
+      "authority_level": 2,
+      "governs": [
+        "가온 건강플러스보험 상품 개요"
+      ],
+      "falls_back_to": [
+        "data/kb/gaon/00_product_summary.md",
+        "data/kb/policy/std_life_insurance.txt"
+      ],
+      "chunk_id": "00_product_summary/3장/text1",
+      "embedding_version": "structure-v3",
+      "score": 0.06876678876678877,
+      "search_group": [
+        "data/kb/gaon/00_product_summary.md",
+        "",
+        "3장",
+        ""
+      ]
+    }
+  ],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": 1.0,
+    "citation_correct_acceptable": 2,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": 1.0,
+    "hit_at_3": true,
+    "citation_correct": 2,
+    "citation_total": 2,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변은 answer_gist의 핵심 사실(항목 구분이 되는 법정 서식 진료비 계산서·영수증 필요, 납입확인서는 받지 않음)을 모두 포함하고 있으며, 표준약관 및 보상 매뉴얼 근거를 들어 모순 없이 설명하고 있습니다. 납입확인서 대신 제출할 서류와 담당자 최종 판단 안내도 gist의 취지에 부합합니다. / 답변은 answer_gist의 핵심 사실(항목 구분이 되는 법정 서식 진료비 계산서·영수증 필요, 납입확인서는 받지 않음)을 모두 포함하고 있으며, 표준약관 및 보상 매뉴얼 근거를 제시하여 모순이 없음. / 답변은 answer_gist의 핵심 사실인 '항목 구분이 되는 법정 서식 진료비 계산서·영수증 필요'와 '납입확인서는 받지 않음'을 모두 포함하고 있으며, 표준약관 및 보상 매뉴얼 근거를 제시하여 모순 없이 요지를 충족함.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실(항목 구분이 되는 법정 서식 진료비 계산서·영수증 필요, 납입확인서는 받지 않음)을 모두 포함하고 있으며, 표준약관 및 보상 매뉴얼 근거를 들어 모순 없이 설명하고 있습니다. 납입확인서 대신 제출할 서류와 담당자 최종 판단 안내도 gist의 취지에 부합합니다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실(항목 구분이 되는 법정 서식 진료비 계산서·영수증 필요, 납입확인서는 받지 않음)을 모두 포함하고 있으며, 표준약관 및 보상 매뉴얼 근거를 제시하여 모순이 없음."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 사실인 '항목 구분이 되는 법정 서식 진료비 계산서·영수증 필요'와 '납입확인서는 받지 않음'을 모두 포함하고 있으며, 표준약관 및 보상 매뉴얼 근거를 제시하여 모순 없이 요지를 충족함."
+        }
+      ],
+      "unanimous": true
+    }
+  }
+}

@@ -8,6 +8,11 @@ from app.schemas.chat import Citation
 
 def citation(hit):
     return Citation(
+        source_kind="업무 기준"
+        if hit.get("collection") == "manual" or re.search(r"/(?:10|11)_", hit["source_path"])
+        else "약관",
+        coverage_section=hit.get("coverage_section", ""),
+        authority_level=hit.get("authority_level", 1),
         chunk_id=chunk_id(hit),
         doc_name=hit["doc_name"],
         article=hit.get("address") or hit["article"],

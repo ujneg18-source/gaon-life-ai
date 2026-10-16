@@ -1,0 +1,13 @@
+{
+  "model": "solar-pro4-260806",
+  "requested_seed": 42,
+  "temperature": 0,
+  "top_p": 1,
+  "judge_repeats": 3,
+  "seed_guarantee": "공식 문서에 seed 지원 명세 없음. 요청은 고정하되 서버 적용/완전 결정성은 보장하지 않음",
+  "holdout_runs": 1,
+  "holdout_sha256": "3fc63956347f6141033fdd3ab8c04a0345e9b7dc3bd524651b7c837524dc2450",
+  "production_index": "읽기 스냅샷만 사용",
+  "old_parser_revision": "6694f85",
+  "baseline_revision": "8139999"
+}

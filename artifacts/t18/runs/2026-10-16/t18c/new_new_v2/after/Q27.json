@@ -1,0 +1,59 @@
+{
+  "id": "Q27",
+  "type": "refusal",
+  "question": "가온생명 치아보험 보장 내용 알려줘",
+  "expected_sources": [],
+  "answer_gist": "관련 규정을 찾지 못했어요 (치아보험 문서 없음)",
+  "acceptable_sources": [],
+  "dataset_sha256": "1b88a544781c2f02be7936781f133e41598097e1d72096f559777c3fadd32cad",
+  "response": {
+    "used_chunk_ids": [],
+    "answer": "관련 규정을 찾지 못했어요. 이 질문은 지원하는 문서 검토 업무 범위 밖이에요.",
+    "intent": "refusal",
+    "citations": [],
+    "claim_refs": [],
+    "suggested_actions": [],
+    "refused": true
+  },
+  "grounding_trace": null,
+  "retrieval_top3": [],
+  "retrieval_errors": [],
+  "search_trace": [],
+  "context": [],
+  "tool_errors": [],
+  "error": null,
+  "metrics": {
+    "recall_article_at_3": null,
+    "citation_correct_acceptable": 0,
+    "fine_recall_at_3": null,
+    "fine_citation_correct": 0,
+    "fine_citation_total": 0,
+    "intent_correct": true,
+    "recall_at_3": null,
+    "hit_at_3": null,
+    "citation_correct": 0,
+    "citation_total": 0,
+    "citation_pass": true,
+    "refusal_correct": true,
+    "prohibited": [],
+    "gist": {
+      "score": 1,
+      "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 요지를 그대로 반영하고, 모순되는 추가 정보나 사실 오류 없이 지원 범위 밖임을 명확히 안내했으므로 요지 충족 기준을 만족한다. / 답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 추가로 안내했을 뿐 모순이나 사실 오류가 없습니다. 특정 고객 건의 지급 여부 확정이나 금액 산정을 하지 않았고, 없는 약관을 임의로 설명하지도 않았으므로 요지 충족 기준을 만족합니다. / 질문은 특정 보험사(가온생명)의 치아보험 보장 내용을 요구하고 있으나, 답변 요지는 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실만 전달합니다. 실제 답변은 '지원하는 문서 검토 업무 범위 밖'이라는 추가 사유를 덧붙였는데, 이는 요지에 없는 내용이며 질문의 핵심(보장 내용 안내 또는 문서 부재에 따른 명확한 한계 설명)을 정확히 반영하지 못했습니다. 요지가 명시한 '문서 없음'이라는 사실 외에 업무 범위 밖이라는 판단을 추가한 점에서 요지 충족으로 보기 어렵습니다.",
+      "votes": [
+        {
+          "score": 1,
+          "reason": "답변이 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 요지를 그대로 반영하고, 모순되는 추가 정보나 사실 오류 없이 지원 범위 밖임을 명확히 안내했으므로 요지 충족 기준을 만족한다."
+        },
+        {
+          "score": 1,
+          "reason": "답변은 answer_gist의 핵심 내용인 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실을 그대로 반영하고, 지원 문서 범위 밖이라는 점을 추가로 안내했을 뿐 모순이나 사실 오류가 없습니다. 특정 고객 건의 지급 여부 확정이나 금액 산정을 하지 않았고, 없는 약관을 임의로 설명하지도 않았으므로 요지 충족 기준을 만족합니다."
+        },
+        {
+          "score": 0,
+          "reason": "질문은 특정 보험사(가온생명)의 치아보험 보장 내용을 요구하고 있으나, 답변 요지는 '관련 규정을 찾지 못했으며 치아보험 문서가 없다'는 사실만 전달합니다. 실제 답변은 '지원하는 문서 검토 업무 범위 밖'이라는 추가 사유를 덧붙였는데, 이는 요지에 없는 내용이며 질문의 핵심(보장 내용 안내 또는 문서 부재에 따른 명확한 한계 설명)을 정확히 반영하지 못했습니다. 요지가 명시한 '문서 없음'이라는 사실 외에 업무 범위 밖이라는 판단을 추가한 점에서 요지 충족으로 보기 어렵습니다."
+        }
+      ],
+      "unanimous": false
+    }
+  }
+}

@@ -1,3 +1,11 @@
+## 2026-10-16 · T-18 · 통제 평가·채점 보정과 홀드아웃 전 동결
+- 관련 요구사항: FR-28~35, NFR-08, T-18c
+- 한 일: 사용자 홀드아웃16문항을 먼저1f55549로 커밋했다. 구/신 rubric 원문과 제한적 acceptable_sources의 문항별 근거를 CHANGELOG에 보존했고 엄격 기준은 유지했다. 기존30답변을 같은 모델/요청 seed/설정으로 구·신 rubric 각각3회 재채점, 1→0 네 문항의 두 답변/컨텍스트/판정 사유를 분석했다.
+  청구 조회는 DB+실행 규칙 근거로 고정하고 일반 RAG를 제거했다. Q24 후속 행동 누락, Q26 항 중복 제거/단서 소실 및 발급비 서류명 오부스트를 개발 셋에서 보완했다. 옛 kb.py의 별도492조각 컬렉션과 현재1005조각을 복제 인덱스에서2×2 평가했다. 카드 출처 종류/보장종목·호 주소도 표시했다.
+- 바뀐 파일: backend/app/agent, schemas/chat.py, services/coverage.py, scripts/eval_chat.py·eval_protocol.py·regrade_t18c.py, config.py, tests, frontend/components/chat-screen.tsx, data/eval, .env.example, artifacts/t18/runs/2026-10-16/t18c
+- 확인 방법: pytest94 passed/live1 deselected, Ruff·포맷·프론트 lint/type/format 통과. next build --webpack 성공. 개발30문항 의도100/recall(a,b)93.75/엄격 인용92.11/거절100/요지96.67%, 호 recall/인용100/100(4문항). 필수4+영양제 질문 검증 통과. 모든 새 실행의 모델/요청 seed42/온도0 동일; 공식 API의 seed 적용 보장은 미확인이라 완전 결정성을 주장하지 않는다.
+- 남은 문제 · 질문: freeze_before_holdout.json으로 코드/정답 해시를 고정했다. 홀드아웃은 다음 단계에서1회만 실행하며 그 결과로 코드·rubric·허용 근거를 변경하지 않는다. 과거 무seed 점수와 통제 재채점 차이를 알고리즘 효과로 혼동하지 않는다.
+
 ## 2026-10-16 · T-18 · 챗봇 품질 개선 2라운드
 - 관련 요구사항: FR-30~35, T-15~18
 - 한 일: 코드 수정 전에 실패24개를 검색/의도/생성/인용/도구/정답/채점으로 분류했다. 구조 트리·부모 JSON·정의/참조·규범 위계·준용, RRF/BM25/재작성/재정렬, 사용 ID 최대2개 인용을 구현했다.

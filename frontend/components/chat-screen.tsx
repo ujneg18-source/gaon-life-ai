@@ -17,12 +17,27 @@ import { formatDatesInText } from "@/lib/dates";
 
 /** API 계약만 화면에 전달한다. 대화는 이 컴포넌트의 세션 메모리에만 보관한다. */
 type Citation = {
+  source_kind?: string;
+  coverage_section?: string;
   doc_name: string;
   article: string;
   source_path: string;
   is_mock: boolean;
   quote: string;
 };
+// 보장종목이 같아야 같은 조 번호를 인용할 수 있다. 원래 주소는 API 그대로 보존한다.
+function citationAddress(c: Citation): string {
+  const coverage = c.coverage_section
+    ?.replace("질병비급여", "질병 비급여")
+    .replace("상해비급여", "상해 비급여");
+  const rider = c.source_path.includes("rider2_") ? "특약2 " : "";
+  return `${rider}${coverage ? coverage + " " : ""}${c.article}`;
+}
+function citationKind(c: Citation): string {
+  const kind =
+    c.source_kind ?? (/\/(10|11)_/.test(c.source_path) ? "업무 기준" : "약관");
+  return `${kind}${c.is_mock ? " · 가상 문서" : " · 공개 문서"}`;
+}
 type Answer = {
   answer: string;
   intent: string;
@@ -259,11 +274,9 @@ export function ChatScreen() {
                             >
                               <BookOpen size={14} />
                               <strong>
-                                {c.doc_name} · {c.article}
+                                {c.doc_name} · {citationAddress(c)}
                               </strong>
-                              <small>
-                                {c.is_mock ? "가상 문서" : "공개 표준약관"}
-                              </small>
+                              <small>{citationKind(c)}</small>
                               <blockquote>{quoteText(c.quote)}</blockquote>
                             </button>
                           ))}
@@ -421,10 +434,10 @@ export function ChatScreen() {
           {sources.map((c, n) => (
             <section key={n} className="assistant-source">
               <small>
-                {n + 1} · {c.is_mock ? "가상 문서" : "공개 표준약관"}
+                {n + 1} · {citationKind(c)}
               </small>
               <h3>{c.doc_name}</h3>
-              <strong>{c.article}</strong>
+              <strong>{citationAddress(c)}</strong>
               <blockquote>{quoteText(c.quote)}</blockquote>
               <span>{c.source_path}</span>
             </section>
