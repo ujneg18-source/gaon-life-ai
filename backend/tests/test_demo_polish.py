@@ -173,3 +173,14 @@ def test_processing_is_preserved_only_while_documents_are_unprocessed():
         claim_status(claim, [SimpleNamespace(status="extracted")], [], [object()])
         == ClaimStatus.SUPPLEMENT
     )
+
+
+def test_search_customer_name_id_and_claim_number(client):
+    """안내된 세 검색 기준이 실제 데이터와 연결되며 계약번호를 오인하지 않는다."""
+    setup_chat(client)
+    claim = client.get("/api/claims/GA-2610-0482").json()
+    for query in [claim["customer_name"], claim["customer"]["id"].lower(), claim["id"]]:
+        response = client.get("/api/claims", params={"q": query})
+        assert response.status_code == 200
+        assert claim["id"] in {row["id"] for row in response.json()["items"]}
+    assert client.get("/api/claims", params={"q": claim["policy_no"]}).json()["items"] == []

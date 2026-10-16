@@ -1,3 +1,11 @@
+## 2026-10-16 · T-19e · 원본 검색창과 고객 ID 검색
+- 관련 요구사항: FR-05 (사용자 변경 지시)
+- 한 일: 원본 HTML의 배경·620px 독립 검색 상자·44px 높이·12px 모서리·돋보기 구성을 복원했다. 검색 안내와 실제 API 검색 대상을 고객 이름/고객 ID/청구번호로 통일하고 증권번호·생년월일 검색을 제거했다. 담당자 배정 권한 범위는 유지했다.
+  메인과 챗봇 디자인은 유지했다. 우하단 도움말과 업무 버튼이 겹치지 않도록 업무 버튼의 오른쪽 여백을 확보했다.
+- 바뀐 파일: backend/app/routers/claims.py, backend/tests/test_demo_polish.py, frontend/components/workspace-shell.tsx, frontend/app/globals.css
+- 확인 방법: 전체 pytest137 passed/1 live 제외, 검색 포함 회귀18개 통과, Ruff·lint·typecheck·format 및 Webpack 빌드 통과. 실제 UI에서 C001 검색→김유정 GA-2610-0482 한 건을 확인했다. artifacts/ui-restore/search-customer-id.jpg. 외부 호출 없음.
+- 남은 문제 · 질문: 없음. 기존 FR-05 문서의 증권번호 검색 명세보다 최신 사용자 요청을 우선했다.
+
 ## 2026-10-16 · T-19d · 고객별 업무 목록 예시 질문 연결
 - 관련 요구사항: FR-22~24, SCR-20
 - 한 일: 입원일수 예시 질문을 현재 조회 가능한 고객의 업무 목록 질문으로 교체했다. 청구 상세에서 진입하면 선택 고객을 사용하고 일반 화면에서는 담당자에게 배정된 첫 청구의 이름과 ID를 사용한다. 고객명과 답변은 하드코딩하지 않는다.

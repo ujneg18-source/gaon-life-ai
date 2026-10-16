@@ -75,16 +75,16 @@ export function WorkspaceShell({
               );
             }}
           >
-            <Search size={18} aria-hidden="true" />
+            <button className="search-submit" type="submit" aria-label="검색">
+              <Search size={18} aria-hidden="true" />
+            </button>
             <input
               name="q"
+              type="search"
               defaultValue={search.get("q") ?? ""}
-              aria-label="고객 이름 · 청구번호 · 증권번호로 검색"
-              placeholder="고객 이름 · 청구번호 · 증권번호로 검색"
+              aria-label="고객 이름 · 고객 ID · 청구번호로 검색"
+              placeholder="고객 이름 · 고객 ID · 청구번호로 검색"
             />
-            <button className="btn sm" type="submit">
-              검색
-            </button>
           </form>
         </div>
         <main id="main" className="workspace-content">

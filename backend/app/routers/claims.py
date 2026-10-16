@@ -10,7 +10,6 @@ from app.models import (
     AuditLog,
     Claim,
     ClaimStatus,
-    Customer,
     Document,
     DocumentStatus,
     Issue,
@@ -143,11 +142,11 @@ def list_claims(
         query = query.where(Claim.assignee_id == user.id)
     rows = list(session.exec(query).all())
     if q:
+        # 화면에 안내한 세 식별자만 검색하고 담당자 배정 필터는 그대로 유지한다.
         rows = [
             c
             for c in rows
-            if q.casefold()
-            in f"{c.id} {c.customer_name} {c.policy_no} {session.get(Customer, c.customer_id).birth_date if c.customer_id else ''}".casefold()
+            if q.casefold() in f"{c.id} {c.customer_name} {c.customer_id or ''}".casefold()
         ]
     views = [detail(session, c, request.app.state.settings) for c in rows]
     counts = {s.value: sum(c["status"] == s for c in views) for s in ClaimStatus}
