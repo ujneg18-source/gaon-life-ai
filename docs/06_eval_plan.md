@@ -339,3 +339,5 @@ usage_summary.json/usage.jsonl에 토큰과 분류별 호출을 보존한다. �
 | T-19y | 메인 투어 신규2단계·기존 단계 동일성·Git 비밀값 제외 | lint/type/format/check-onboarding/Webpack 통과; CUA1/5~5/5 및 종료·PNG 저장; 기존 투어 동일 | npm run lint/typecheck/format:check; node scripts/check-onboarding.mjs; next build --webpack; CUA; security audit | 2026-10-16 |
 
 | T-19z | 무료 배포 자산·빈 디스크 복원·HTTPS 인증·맥락4문항·재시작·키 제외 | pytest150/live1제외; 지정Ruff·수정파일format·frontend lint/type/format/Webpack 통과; 복원0.430초/reset0.251초; 캐시2040 보존/API0; Docker/호스팅 미실행 | pytest -q; ruff check app tests scripts/seed.py scripts/validate_engine.py; npm run lint/typecheck/format:check; next build --webpack; history/payload secret scan | 2026-10-19 |
+
+| T-19aa | 목록 경량 조회·상세 공통값 동일성·상태/필터/배정 권한 회귀 | pytest151/live1제외·Ruff·frontend lint/type/format/Webpack 통과; 로컬178021B→23339B/0.632초→0.135~0.193초; AI0 | pytest -q; ruff check app tests scripts/seed.py scripts/validate_engine.py; npm run lint/typecheck/format:check; next build --webpack | 2026-10-19 |

@@ -136,6 +136,7 @@ def list_claims(
     request: Request,
     q: str = Query(default="", max_length=120),
     status: ClaimStatus | None = None,
+    summary: bool = False,
 ):
     query = select(Claim).order_by(Claim.received_at.desc(), Claim.id.desc())
     if user.role == Role.REVIEWER:
@@ -148,7 +149,7 @@ def list_claims(
             for c in rows
             if q.casefold() in f"{c.id} {c.customer_name} {c.customer_id or ''}".casefold()
         ]
-    views = [detail(session, c, request.app.state.settings) for c in rows]
+    views = [detail(session, c, request.app.state.settings, summary=summary) for c in rows]
     counts = {s.value: sum(c["status"] == s for c in views) for s in ClaimStatus}
     counts["total"] = len(views)
     selected = [c for c in views if status is None or c["status"] == status]

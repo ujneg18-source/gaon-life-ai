@@ -1,3 +1,10 @@
+## 2026-10-19 · T-19aa · 청구 검토함 상세 계산 지연 제거
+- 관련 요구사항: FR-04~05, NFR-06~07
+- 한 일: 실제 배포 목록 조회를 직접/프록시 각2회 측정해 10.960~11.793초/178021B 지연을 확인했다. 목록·검색·홈 현황·채팅 예시 고객 조회에 summary=true를 적용해 상세 필드/표/설명 생성을 건너뛴다. 기존 규칙 계산·상태·건수·검색/정렬·배정 범위는 그대로 사용하며 기본 API와 상세 화면 응답은 유지했다. 디자인과 문구는 변경하지 않았다.
+- 바뀐 파일: backend/app/routers/claims.py, backend/app/services/workspace.py, backend/tests/test_claim_list_summary.py, frontend/components/claim-screens.tsx, frontend/components/chat-screen.tsx, frontend/components/home-summary.tsx, frontend/lib/workspace.ts
+- 확인 방법: pytest151/live1제외·Ruff/수정파일format·frontend lint/type/format/Webpack 통과. 요약/상세 공통값 동일성, 검색/필터, 누락 이슈 확인 후 실제 누락 우선, 담당자 범위, 상세 설명/비교표 미실행을 검증했다. 로컬 임시 배포 DB 동일조건에서 0.632초/178021B→0.135~0.193초/23339B. 외부 AI 호출0, 실제 로컬 DB 변경 없음, 평가/안전/홀드아웃 수정 없음.
+- 남은 문제 · 질문: 무료 Render의 휴면·공유 CPU 지연은 별개다. 배포 반영 후 실제 서버에서 재측정한다.
+
 ## 2026-10-19 · T-19z · Vercel·무료 Render 배포 준비
 - 관련 요구사항: FR-01, FR-04, FR-07~15, FR-28~35, NFR-06~07, NFR-10
 - 한 일: 무료 Render용 Docker/Blueprint와 임시 디스크 부트스트랩을 추가했다. 실제 DB 대신 가상 고객 시드와 원본 대응 성공 캐시42개·Qdrant2개·구조 인덱스·기존 호출 예산 장부만 3.7MB 자산으로 묶고 SHA256 검증 후 복원한다. DB가 있으면 먼저 백업하며 캐시/기존 상태를 덮어쓰지 않는다.

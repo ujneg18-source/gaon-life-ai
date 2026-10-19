@@ -78,7 +78,7 @@ def field_confidences(raw):
         return {}
 
 
-def detail(session: Session, claim: Claim, config):
+def detail(session: Session, claim: Claim, config, *, summary: bool = False):
     docs = list(
         session.exec(
             select(Document).where(Document.claim_id == claim.id).order_by(Document.id)
@@ -107,6 +107,49 @@ def detail(session: Session, claim: Claim, config):
     issues = list(
         session.exec(select(Issue).where(Issue.claim_id == claim.id).order_by(Issue.id)).all()
     )
+    result = {
+        **claim.model_dump(mode="json"),
+        "status": claim_status(
+            claim, docs, issues, [i for i in report.issues if i.kind == IssueKind.MISSING]
+        ),
+        "customer": customer.model_dump(mode="json") if customer else None,
+        "policy": policy.model_dump(mode="json") if policy else None,
+        "development_origin": (
+            "실제 API + mock"
+            if any(d.provenance == "upstage" for d in docs)
+            and any(d.provenance == "mock" for d in docs)
+            else "실제 API"
+            if any(d.provenance == "upstage" for d in docs)
+            else "mock"
+            if any(d.provenance == "mock" for d in docs)
+            else "실손24 모의"
+            if docs and all(d.provenance == "silson24" for d in docs)
+            else "미처리"
+        )
+        if config.SHOW_DEV_BADGE and not config.DEMO_MODE
+        else None,
+        "submitted_count": len(docs),
+        "required_count": len(report.required),
+        "required": report.required,
+        "documents": [
+            {
+                "id": d.id,
+                "doc_type": d.doc_type,
+                "source": d.source,
+                "provenance": d.provenance,
+                "status": d.status,
+                "page_size": d.page_size,
+            }
+            for d in docs
+        ],
+        "issues": [i.model_dump(mode="json") for i in issues],
+        "open_issue_count": sum(
+            i.status == IssueStatus.OPEN and i.kind != IssueKind.INFO for i in issues
+        ),
+    }
+    if summary:
+        return result
+
     fields = []
     for doc in docs:
         scores = field_confidences(doc.raw_result)
@@ -142,11 +185,8 @@ def detail(session: Session, claim: Claim, config):
         as_rows=True,
     )
     return {
+        **result,
         "display_issues": display_issues,
-        **claim.model_dump(mode="json"),
-        "status": claim_status(
-            claim, docs, issues, [i for i in report.issues if i.kind == IssueKind.MISSING]
-        ),
         "comparisons": comparisons(
             claim,
             [review_input(session, d) for d in docs],
@@ -155,41 +195,7 @@ def detail(session: Session, claim: Claim, config):
             config,
             {rule.id for rule in cross_rules if rule.enabled},
         ),
-        "customer": customer.model_dump(mode="json") if customer else None,
-        "policy": policy.model_dump(mode="json") if policy else None,
-        "development_origin": (
-            "실제 API + mock"
-            if any(d.provenance == "upstage" for d in docs)
-            and any(d.provenance == "mock" for d in docs)
-            else "실제 API"
-            if any(d.provenance == "upstage" for d in docs)
-            else "mock"
-            if any(d.provenance == "mock" for d in docs)
-            else "실손24 모의"
-            if docs and all(d.provenance == "silson24" for d in docs)
-            else "미처리"
-        )
-        if config.SHOW_DEV_BADGE and not config.DEMO_MODE
-        else None,
-        "submitted_count": len(docs),
-        "required_count": len(report.required),
-        "required": report.required,
-        "documents": [
-            {
-                "id": d.id,
-                "doc_type": d.doc_type,
-                "source": d.source,
-                "provenance": d.provenance,
-                "status": d.status,
-                "page_size": d.page_size,
-            }
-            for d in docs
-        ],
-        "issues": [i.model_dump(mode="json") for i in issues],
         "fields": fields,
-        "open_issue_count": sum(
-            i.status == IssueStatus.OPEN and i.kind != IssueKind.INFO for i in issues
-        ),
     }
 
 

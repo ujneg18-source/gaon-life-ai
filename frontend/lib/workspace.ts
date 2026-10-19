@@ -85,7 +85,14 @@ export type Claim = {
   fields: FieldRow[];
   open_issue_count: number;
 };
-export type ClaimList = { items: Claim[]; counts: Record<string, number> };
+export type ClaimSummary = Omit<
+  Claim,
+  "fields" | "comparisons" | "display_issues"
+>;
+export type ClaimList = {
+  items: ClaimSummary[];
+  counts: Record<string, number>;
+};
 export const docLabels: Record<string, string> = {
   diagnosis: "진단서",
   pathology: "조직검사 결과지",

@@ -2,7 +2,7 @@
 import { useResource } from "./workspace-ui";
 import { ClaimList } from "@/lib/workspace";
 export function HomeSummary() {
-  const { data, error } = useResource<ClaimList>("/claims");
+  const { data, error } = useResource<ClaimList>("/claims?summary=true");
   return (
     <p data-tour="home-summary" className="home-summary">
       {data

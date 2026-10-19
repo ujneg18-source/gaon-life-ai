@@ -41,7 +41,11 @@ export function Inbox() {
   const filter = params.get("status") ?? "";
   const resource = useResource<ClaimList>(
     "/claims?" +
-      new URLSearchParams({ q, ...(filter ? { status: filter } : {}) }),
+      new URLSearchParams({
+        q,
+        summary: "true",
+        ...(filter ? { status: filter } : {}),
+      }),
   );
   const { data, error } = resource;
   const page = Math.max(1, Number(params.get("page") ?? 1));
@@ -298,7 +302,7 @@ export function ClaimPicker({ section }: { section: string }) {
 /** 검색어가 있을 때만 마운트해 미검색 상태에서 고객 목록을 불러오지 않는다. */
 function ClaimSearchResults({ section, q }: { section: string; q: string }) {
   const { data, error } = useResource<ClaimList>(
-    `/claims?q=${encodeURIComponent(q)}`,
+    `/claims?q=${encodeURIComponent(q)}&summary=true`,
   );
   return (
     <>

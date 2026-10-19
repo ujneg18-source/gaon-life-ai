@@ -222,7 +222,9 @@ export function ChatScreen({
   const nextId = useRef(2);
   const [historyTime, setHistoryTime] = useState(initialTime);
   const [navQuestion, setNavQuestion] = useState<number | null>(null);
-  const [exampleClaim, setExampleClaim] = useState<Claim | null>(null);
+  const [exampleClaim, setExampleClaim] = useState<
+    ClaimList["items"][number] | null
+  >(null);
   const [context, setContext] = useState<Claim | null>(null);
   const [draftTarget, setDraftTarget] = useState("");
   const draftTyping = useTyping(draftTarget);
@@ -251,7 +253,7 @@ export function ChatScreen({
   useEffect(() => {
     if (preview) return;
     let live = true;
-    api<ClaimList>("/claims")
+    api<ClaimList>("/claims?summary=true")
       .then((result) => {
         if (live) setExampleClaim(result.items[0] ?? null);
       })
