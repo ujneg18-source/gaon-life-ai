@@ -28,17 +28,15 @@
 
 ## 1. 프로젝트 소개
 
-<div align="center">
-
-| <h3>유진영</h3> | <h3>AI 코딩 에이전트</h3> |
-| :---: | :---: |
-| **PM · 설계 · 평가** | **구현** |
-| <sub>문제 정의 · 시장 조사</sub><br/><sub>요구사항 · 데이터 · 화면 설계</sub><br/><sub>평가 설계 · 검증 · 시연</sub> | <sub>작업 티켓 단위 구현</sub><br/><sub>테스트 · 배포 구성</sub><br/><sub>(GPT-Codex)</sub> |
-
-</div>
+| 항목 | 내용 |
+| --- | --- |
+| **만든 사람** | 유진영 (개인 프로젝트) |
+| **담당** | 문제 정의 · 시장 조사 · 요구사항 · 데이터 · 화면 설계 · 구현 · 평가 · 시연 |
+| **기간** | 2026.10 |
+| **개발 도구** | GPT-Codex, Claude |
 
 - **가상의 생명보험사 가온생명**이 Upstage Document AI를 도입한다고 가정하고 만든 PoC입니다.
-- 기획과 설계, 평가 기준은 직접 정하고, 구현은 AI 코딩 에이전트에게 티켓 단위로 맡겼습니다. 결정 기록은 [`docs/decisions.md`](docs/decisions.md), 작업 기록은 [`docs/WORKLOG.md`](docs/WORKLOG.md)에 남겼습니다.
+- 결정 기록은 [`docs/decisions.md`](docs/decisions.md), 작업 기록은 [`docs/WORKLOG.md`](docs/WORKLOG.md)에 남겼습니다.
 
 <br/>
 
