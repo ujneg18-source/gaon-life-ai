@@ -33,7 +33,7 @@
 | **만든 사람** | 유진영 (개인 프로젝트) |
 | **담당** | 문제 정의 · 시장 조사 · 요구사항 · 데이터 · 화면 설계 · 구현 · 평가 · 시연 |
 | **기간** | 2026.10 |
-| **개발 도구** | GPT-Codex, Claude |
+| **기술 스택** | Python · FastAPI · LangGraph · Qdrant · Next.js · TypeScript · Docker · Render · Vercel |
 
 - **가상의 생명보험사 가온생명**이 Upstage Document AI를 도입한다고 가정하고 만든 PoC입니다.
 - 결정 기록은 [`docs/decisions.md`](docs/decisions.md), 작업 기록은 [`docs/WORKLOG.md`](docs/WORKLOG.md)에 남겼습니다.
@@ -166,7 +166,7 @@ flowchart LR
 | 분류 | 기술 |
 | --- | --- |
 | **Frontend** | Next.js, React, TypeScript, Tailwind CSS, Vercel |
-| **Backend** | FastAPI, SQLModel · SQLite, Docker, Render |
+| **Backend** | Python 3.13, FastAPI, SQLModel · SQLite, Docker, Render |
 | **Document AI** | Upstage Document Parse, Information Extract |
 | **LLM · 검색** | Upstage Solar Pro 4, Solar Embedding 2, LangGraph, Qdrant |
 | **테스트** | pytest, Ruff, Playwright |
