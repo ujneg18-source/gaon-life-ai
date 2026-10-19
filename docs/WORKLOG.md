@@ -1,3 +1,11 @@
+## 2026-10-19 · T-19z · Vercel·무료 Render 배포 준비
+- 관련 요구사항: FR-01, FR-04, FR-07~15, FR-28~35, NFR-06~07, NFR-10
+- 한 일: 무료 Render용 Docker/Blueprint와 임시 디스크 부트스트랩을 추가했다. 실제 DB 대신 가상 고객 시드와 원본 대응 성공 캐시42개·Qdrant2개·구조 인덱스·기존 호출 예산 장부만 3.7MB 자산으로 묶고 SHA256 검증 후 복원한다. DB가 있으면 먼저 백업하며 캐시/기존 상태를 덮어쓰지 않는다.
+  Vercel 서버 함수에서 출처 본문 외부 파일 경로가 누락되는 문제를 서버 전용 허용 목록12종으로 해결하고 Webpack 빌드를 명시했다. 디자인/문구·평가/홀드아웃/안전·기존 KB는 변경하지 않았다. 키·실제 DB/백업·개인 경로·HWP·평가 자료는 컨테이너에서 제외했다. 저장소는 비공개를 유지한다.
+- 바뀐 파일: Dockerfile, .dockerignore, render.yaml, deploy/runtime-assets.*, backend/app/config.py, backend/app/scripts/deploy_start.py, backend/tests/test_deploy.py, frontend/server-data/source-texts.json, frontend/app/(protected)/data-sources/[source]/page.tsx, frontend/vercel.json, .env.example, docs/deployment.md
+- 확인 방법: pytest150/live1제외, 프로젝트 지정 Ruff 범위·수정 파일 format, frontend lint/typecheck/format/Webpack 통과. HTTPS 로그인·청구 맥락4문항·초기화·재시작·자산 변조 거절·본문 동일성 검증. 빈 디스크 복원0.430초/reset0.251초, API0회. 전체 이력 키 검사·배포 묶음 키/개인 경로 검사 통과, 캐시2040개 변경/삭제0. 로컬 data/gaon.db는 건드리지 않았다.
+- 남은 문제 · 질문: Docker 실행 도구가 없어 실제 Linux 이미지 빌드/호스팅 검증은 Render 배포 시 필요하다. Vercel/Render 계정 연결·실제 URL·서버 환경 변수 입력은 남아 있다. 일반 새 질문은 Render의 Upstage 키가 필요하고 호출 비용이 발생할 수 있다. 무료 Vercel Cron은 하루1회라 5~10분 핑은 외부 모니터가 필요하며 아직 생성하지 않았다. 기존 Git 이력의 작성자 메타데이터는 재작성하지 않았다. scripts 전체 Ruff 확장 검사에서는 기존 scripts/test_upstage.py의2건이 남아 있어 지정 검증 범위로 구분했다.
+
 ## 2026-10-16 · T-19y · 메인 투어 동작 설명 추가와 원격 main 반영 전 점검
 - 관련 요구사항: FR-04~05, NFR-10
 - 한 일: home 첫 단계 바로 뒤에 요청한 Upstage 문서 읽기/규칙 대조/Solar 근거 안내 1개만 추가했다. 기존 투어 전체를 새 단계 제거 후 원본과 비교해 동일함을 확인했다. 기존 검사와 리허설의 단계 수/인덱스만 5단계에 맞췄다.

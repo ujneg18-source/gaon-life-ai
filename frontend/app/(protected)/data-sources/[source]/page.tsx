@@ -1,5 +1,5 @@
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import "server-only";
+import sourceTexts from "@/server-data/source-texts.json";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpen } from "lucide-react";
@@ -14,7 +14,7 @@ export default async function SourcePage({
   const source = dataSources.find((s) => s.id === id);
   if (!source) notFound();
   const text = source.file
-    ? await readFile(resolve(process.cwd(), "..", source.file), "utf8")
+    ? sourceTexts[source.file as keyof typeof sourceTexts]
     : source.body;
   return (
     <main id="main" className="data-sources-page source-detail-page">

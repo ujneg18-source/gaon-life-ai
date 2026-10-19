@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: gaon-life-api
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: DEPLOY_RUNTIME_DIR
+        value: /tmp/gaon-demo
+      - key: DEMO_MODE
+        value: "true"
+      - key: SESSION_HTTPS_ONLY
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
+      - key: UPSTAGE_API_KEY
+        sync: false
+      - key: SOLAR_RESPONSE_CACHE
+        value: "true"
+      - key: USE_CACHED_RESULTS
+        value: "false"

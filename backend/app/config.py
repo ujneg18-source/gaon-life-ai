@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from secrets import token_urlsafe
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -20,6 +20,27 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=PROJECT_ROOT / ".env", extra="ignore")
     APP_NAME: str = "가온생명 AI"
+    DEPLOY_RUNTIME_DIR: Path | None = None
+    DEPLOY_ASSETS_PATH: Path = PROJECT_ROOT / "deploy/runtime-assets.tar.gz"
+    DEPLOY_MANIFEST_PATH: Path = PROJECT_ROOT / "deploy/runtime-assets.json"
+    PORT: int = Field(default=8000, ge=1, le=65535)
+
+    @model_validator(mode="after")
+    def deployment_paths(self):
+        """명시적 배포 모드만 임시 디스크에 격리한다. 로컬 기본 경로는 보존한다."""
+        if self.DEPLOY_RUNTIME_DIR is not None:
+            root = self.DEPLOY_RUNTIME_DIR.resolve()
+            self.DATA_PATH = root
+            self.DB_URL = f"sqlite:///{root / 'gaon.db'}"
+            self.CACHE_PATH = root / "cache"
+            self.QDRANT_PATH = root / "qdrant"
+            self.KB_STRUCTURE_PATH = root / "cache/kb_nodes.json"
+            self.UPLOAD_PATH = root / "uploads"
+            self.MOCK_SILSON24_PATH = root / "mock_silson24"
+            self.DEMO_RESULTS_PATH = root / "cache/demo-results"
+            self.DEMO_CALL_LOG = root / "upstage-calls.jsonl"
+        return self
+
     API_PREFIX: str = "/api"
     # T-01~04는 외부 호출이 없으므로 키 없이도 로컬 기반을 검증할 수 있어야 한다.
     UPSTAGE_API_KEY: SecretStr = SecretStr("")
