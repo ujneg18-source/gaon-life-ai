@@ -75,7 +75,7 @@
 ### 2.3 시연 영상
 
 <!-- GitHub 웹 편집 화면에서 가온생명AI_시연_최종.mp4 를 이 줄 자리에 끌어다 놓으면 재생 플레이어가 생깁니다. -->
-시연 영상 (4분 13초) 자리
+https://github.com/user-attachments/assets/10dab33b-5f51-4c41-bfdf-8954a3f1d271
 
 <br/>
 
