@@ -794,7 +794,7 @@ a{color:inherit;text-decoration:none}
   </div>
   <div class="dvr">
     <div class="dlab">이 파트의 장표</div>
-    <ol class="dlist"><li><b>13</b><span>Upstage 제품 위에, 고객사의 업무 기준을 얹습니다</span></li><li><b>14</b><span>서류를 읽고 근거를 찾는 네 가지 제품</span></li><li><b>15</b><span>Parse와 Extract로 함께 확인한 질병코드 C18 → C18.7</span></li><li><b>16</b><span>서류를 검토하고, 업무를 질문하는 화면</span></li><li><b>17</b><span>서류의 값을 읽고, 필요한 약관을 찾는지 확인했습니다</span></li><li><b>18</b><span>업무 적용 관점에서 본 강점과 한계</span></li></ol>
+    <ol class="dlist"><li><b>13</b><span>Upstage 제품 위에, 고객사의 업무 기준을 얹습니다</span></li><li><b>14</b><span>서류를 읽고 근거를 찾는 다섯 가지 제품</span></li><li><b>15</b><span>Parse와 Extract로 함께 확인한 질병코드 C18 → C18.7</span></li><li><b>16</b><span>서류를 검토하고, 업무를 질문하는 화면</span></li><li><b>17</b><span>서류의 값을 읽고, 필요한 약관을 찾는지 확인했습니다</span></li><li><b>18</b><span>업무 적용 관점에서 본 강점과 한계</span></li></ol>
   </div>
   <div class="dprog"><div class="dp done"><b>01</b><span>제품 · 고객 이해</span></div><div class="dp done"><b>02</b><span>업무와 적용 지점</span></div><div class="dp on"><b>03</b><span>구현 · 검증 경험</span></div><div class="dp "><b>04</b><span>전략 · 기여 방향</span></div></div>
   <div class="pg"><b>12</b> / 25</div>
@@ -826,15 +826,16 @@ a{color:inherit;text-decoration:none}
 <section class="page ed">
   <div class="head"><div>
     <div class="eyebrow"><b>09</b> &nbsp;·&nbsp; HOW IT WORKS</div>
-    <div class="display">서류를 읽고 근거를 찾는 네 가지 제품</div>
+    <div class="display">서류를 읽고 근거를 찾는 다섯 가지 제품</div>
     <div class="kr">서류 분석 결과를 담당자가 확인할 수 있도록 연결했습니다</div>
   </div><div class="pg"><b>14</b> / 25</div></div>
   <div class="rule">처리 흐름</div>
-  <div class="pipe">
-    <div class="node"><div class="n">01 · READ</div><h3>Document Parse</h3><div class="role">원문과 위치</div><p>사진과 스캔본의 표 구조, 글자 위치를 읽습니다. 화면에서 값을 누르면 원본의 해당 위치를 보여 줍니다.</p></div>
-    <div class="node"><div class="n">02 · EXTRACT</div><h3>Information Extract</h3><div class="role">필드 추출</div><p>서류별 스키마를 정해 환자명, 진단일, 질병분류기호, 금액을 항목별로 추출합니다.</p></div>
-    <div class="node"><div class="n">03 · SEARCH</div><h3>Solar Embedding 2</h3><div class="role">약관 검색</div><p>약관을 조·항·호·목 단위로 나눕니다. 벡터 검색과 키워드 검색을 함께 사용해 관련 조항을 찾습니다.</p></div>
-    <div class="node"><div class="n">04 · EXPLAIN</div><h3>Solar Pro 4</h3><div class="role">답변 문장</div><p>규칙 엔진의 확인 항목과 검색한 약관 조항을 바탕으로, 담당자의 질문에 답합니다.</p></div>
+  <div class="pipe" style="grid-template-columns:repeat(5,1fr)">
+    <div class="node"><div class="n">01 · CLASSIFY</div><h3>Document Classify</h3><div class="role">문서 분류</div><p>진단서·영수증 등 서류 종류를 나누고, 종류에 맞는 추출 스키마를 고릅니다.</p></div>
+    <div class="node"><div class="n">02 · READ</div><h3>Document Parse</h3><div class="role">원문과 위치</div><p>사진과 스캔본의 표 구조, 글자 위치를 읽습니다. 화면에서 값을 누르면 원본의 해당 위치를 보여 줍니다.</p></div>
+    <div class="node"><div class="n">03 · EXTRACT</div><h3>Information Extract</h3><div class="role">필드 추출</div><p>서류별 스키마를 정해 환자명, 진단일, 질병분류기호, 금액을 항목별로 추출합니다.</p></div>
+    <div class="node"><div class="n">04 · SEARCH</div><h3>Solar Embedding 2</h3><div class="role">약관 검색</div><p>약관을 조·항·호·목 단위로 나눕니다. 벡터 검색과 키워드 검색을 함께 사용해 관련 조항을 찾습니다.</p></div>
+    <div class="node"><div class="n">05 · EXPLAIN</div><h3>Solar Pro 4</h3><div class="role">답변 문장</div><p>규칙 엔진의 확인 항목과 검색한 약관 조항을 바탕으로, 담당자의 질문에 답합니다.</p></div>
   </div>
   <div class="guard">
     <div><h4>교차 검증 · Parse × Extract</h4><p><b>Extract의 추출값을 Parse 원문과 비교</b>하고, <b>다른 서류의 같은 항목</b>도 대조합니다. 서로 다른 부분은 담당자가 원본을 확인할 수 있도록 표시합니다.</p></div>
